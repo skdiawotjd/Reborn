@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitoalizeInven();
+        InitializeInven();
         gameObject.GetComponentInParent<PlayerController>().EventInven.AddListener(() => { VisibleInven(); });
     }
 
@@ -28,12 +28,12 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            InitoalizeInven();
+            InitializeInven();
             VisibleInven();
         }
     }
 
-    private void InitoalizeInven()
+    private void InitializeInven()
     {
         Inven = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Image>();
     }

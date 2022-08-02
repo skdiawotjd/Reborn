@@ -15,6 +15,13 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent EventInven;
 
+    public Collider2D InterActiveCollider;
+    private bool IsInterActing;
+
+    Coroutine AttackCorutine;
+    private Vector3 Arrow;
+    private Vector2 Offset;
+
     /*private bool _MoveAni;
 
     public bool MoveAni
@@ -37,8 +44,6 @@ public class PlayerController : MonoBehaviour
         }
     }*/
 
-    private bool TemBool = true;
-
     void Start()
     {
         Self = gameObject.GetComponent<SPUM_Prefabs>();
@@ -48,9 +53,9 @@ public class PlayerController : MonoBehaviour
 
         CharacterControllable = true;
         UIControllable = true;
-
-
-        //StartCoroutine("Tem");
+        IsInterActing = false;
+        Arrow = new Vector3(1.0f, 1.0f, 1.0f);
+        Offset = new Vector2(0.08f, 0.34f);
     }
 
     void Update()
@@ -60,29 +65,30 @@ public class PlayerController : MonoBehaviour
             // 움직임
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                RotationObject.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                Arrow.x = -1.0f;
+                Offset.x = 0.08f;
+                RotationObject.transform.localScale = Arrow;
+                InterActiveCollider.offset = Offset;
+                
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                RotationObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                Arrow.x = 1.0f;
+                Offset.x = -0.08f;
+                RotationObject.transform.localScale = Arrow;
+                InterActiveCollider.offset = Offset;
             }
             Move();
 
             // 공격
             if (Input.GetKey(KeyCode.X))
             {
-                //Self._anim.Play("2_Attack_Normal_0", 0);
-                if (Self._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
+                if (IsInterActing == false)
                 {
-                    if (!Self._anim.GetBool("IsAttack"))
-                    {
-                        Self._anim.SetBool("IsAttack", true);
-                        Self._anim.SetTrigger("Attack");
-                        StartCoroutine(CoroutineAttack());
-                    }
+                    IsInterActing = true;
+                    InterActiveCollider.enabled = true;
+                    Invoke("DisableCollider", 0.1f);
                 }
-                //Self._anim.SetBool("AttackEnd", true);
-                //TemBool = !TemBool;
             }
         }
 
@@ -117,52 +123,61 @@ public class PlayerController : MonoBehaviour
         transform.position += moveVelocity;
     }
 
+    private void AttackProcess()
+    {
+        if (!Self._anim.GetBool("IsAttack") && Self._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
+        {
+            if (AttackCorutine != null)
+            {
+                StopCoroutine(AttackCorutine);
+            }
+
+            Self._anim.SetBool("IsAttack", true);
+            Self._anim.SetTrigger("Attack");
+            AttackCorutine = StartCoroutine(CoroutineAttack());
+        }
+    }
+
     IEnumerator CoroutineAttack()
     {
         while (Self._anim.GetBool("IsAttack"))
         {
-            if (Self._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState"))
+            if (Self._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Self._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             {
-                yield return Self._anim.GetCurrentAnimatorStateInfo(0).length;
-
                 Self._anim.SetBool("IsAttack", false);
+                IsInterActing = false;
             }
             else
             {
-                yield return 0.01f;
+                yield return 0.1f;
             }
         }
     }
-    
-/*    private void SetAnimation(int Type)
+
+    private void DisableCollider()
     {
-        switch(Type)
+        InterActiveCollider.enabled = false;
+        IsInterActing = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        CancelInvoke("DisableCollider");
+        IsInterActing = true;
+        InterActiveCollider.enabled = false;
+
+
+        switch (collision.gameObject.tag)
         {
-            case 0:
-                //Self.PlayAnimation("0_idle");
-                
+            case "Attackable":
+                Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
+                AttackProcess();
                 break;
-            case 1:
-                //Self.PlayAnimation("1_Run");
-                break;
-            case 2:
-                //Self._anim.Play("2_Attack_Normal_0", 0);
-                //Self.PlayAnimation("2_Attack_Normal_0");
-                
+            case "Conversationable":
+                Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
                 break;
         }
     }
-
-    IEnumerator Tem()
-    {
-        while(TemBool)
-        {
-            yield return new WaitForSeconds(2.0f);
-            SetAnimation(2);
-            Self._anim.SetBool("AttackEnd", true);
-        }
-        
-    }*/
 }
 
 

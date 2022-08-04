@@ -14,7 +14,11 @@ public class Inventory : MonoBehaviour
         gameObject.GetComponentInParent<PlayerController>().EventInven.AddListener(() => { VisibleInven(); });
     }
 
-    // Update is called once per frame
+    private void InitializeInven()
+    {
+        Inven = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Image>();
+    }
+
     void Update()
     {
 
@@ -31,10 +35,5 @@ public class Inventory : MonoBehaviour
             InitializeInven();
             VisibleInven();
         }
-    }
-
-    private void InitializeInven()
-    {
-        Inven = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Image>();
     }
 }

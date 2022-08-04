@@ -15,10 +15,10 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent EventInven;
 
-    public Collider2D InterActiveCollider;
+    private Collider2D InterActiveCollider;
     private bool IsInterActing;
 
-    Coroutine AttackCorutine;
+    private Coroutine AttackCorutine;
     private Vector3 Arrow;
     private Vector2 Offset;
 
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         Self = gameObject.GetComponent<SPUM_Prefabs>();
         RotationObject = gameObject.transform.GetChild(0).gameObject;
+        InterActiveCollider = gameObject.GetComponent<Collider2D>();
 
         moveSpeed = 5.0f;
 

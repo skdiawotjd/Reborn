@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent EventInven;
 
-    private Collider2D InterActiveCollider;
-    private bool IsInterActing;
+    private Collider2D BodyCollider;
+    private Collider2D InterActionCollider;
 
     private Coroutine AttackCorutine;
     private Vector3 Arrow;
@@ -48,15 +48,17 @@ public class PlayerController : MonoBehaviour
     {
         Self = gameObject.GetComponent<SPUM_Prefabs>();
         RotationObject = gameObject.transform.GetChild(0).gameObject;
-        InterActiveCollider = gameObject.GetComponent<Collider2D>();
+        BodyCollider = gameObject.GetComponent<Collider2D>();
+        InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();
 
         moveSpeed = 5.0f;
 
         CharacterControllable = true;
         UIControllable = true;
-        IsInterActing = false;
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
-        Offset = new Vector2(0.08f, 0.34f);
+        Offset = new Vector2(0.02f, 0.34f);
+
+        DontDestroyOnLoad(this);
     }
 
     void Update()
@@ -67,27 +69,26 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 Arrow.x = -1.0f;
-                Offset.x = 0.08f;
+                Offset.x = 0.02f;
                 RotationObject.transform.localScale = Arrow;
-                InterActiveCollider.offset = Offset;
+                BodyCollider.offset = Offset;
                 
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 Arrow.x = 1.0f;
-                Offset.x = -0.08f;
+                Offset.x = -0.02f;
                 RotationObject.transform.localScale = Arrow;
-                InterActiveCollider.offset = Offset;
+                BodyCollider.offset = Offset;
             }
-            Move();
 
             // АјАн
             if (Input.GetKey(KeyCode.X))
             {
-                if (IsInterActing == false)
+                if (!Self._anim.GetBool("IsAttack"))
                 {
-                    IsInterActing = true;
-                    InterActiveCollider.enabled = true;
+                    BodyCollider.enabled = false;
+                    InterActionCollider.enabled = true;
                     Invoke("DisableCollider", 0.1f);
                 }
             }
@@ -103,6 +104,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     private void Move()
@@ -146,7 +152,6 @@ public class PlayerController : MonoBehaviour
             if (Self._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Self._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             {
                 Self._anim.SetBool("IsAttack", false);
-                IsInterActing = false;
             }
             else
             {
@@ -157,16 +162,15 @@ public class PlayerController : MonoBehaviour
 
     private void DisableCollider()
     {
-        InterActiveCollider.enabled = false;
-        IsInterActing = false;
+        InterActionCollider.enabled = false;
+        BodyCollider.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CancelInvoke("DisableCollider");
-        IsInterActing = true;
-        InterActiveCollider.enabled = false;
-
+        InterActionCollider.enabled = false;
+        BodyCollider.enabled = true;
 
         switch (collision.gameObject.tag)
         {

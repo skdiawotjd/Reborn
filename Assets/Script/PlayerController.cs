@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
         Offset = new Vector2(0.02f, 0.34f);
 
-        DontDestroyOnLoad(this);
     }
 
     void Update()
@@ -87,7 +86,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (!Self._anim.GetBool("IsAttack"))
                 {
-                    BodyCollider.enabled = false;
+                    //BodyCollider.enabled = false;
                     InterActionCollider.enabled = true;
                     Invoke("DisableCollider", 0.1f);
                 }
@@ -163,14 +162,14 @@ public class PlayerController : MonoBehaviour
     private void DisableCollider()
     {
         InterActionCollider.enabled = false;
-        BodyCollider.enabled = true;
+        //BodyCollider.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CancelInvoke("DisableCollider");
         InterActionCollider.enabled = false;
-        BodyCollider.enabled = true;
+        //BodyCollider.enabled = true;
 
         switch (collision.gameObject.tag)
         {

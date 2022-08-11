@@ -29,7 +29,7 @@ public class TemPortal : MonoBehaviour
         switch (SceneType)
         {
             case 2:
-                UnityEngine.SceneManagement.SceneManager.LoadScene("TestScene");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGameDdr");
                 break;
         }
     }

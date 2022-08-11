@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D BodyCollider;
     private Collider2D InterActionCollider;
 
-    private Coroutine AttackCorutine;
+    private Coroutine AttackCoroutine;
     private Vector3 Arrow;
     private Vector2 Offset;
 
@@ -107,7 +107,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (CharacterControllable)
+        {
+            Move();
+        }
     }
 
     private void Move()
@@ -133,14 +136,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!Self._anim.GetBool("IsAttack") && Self._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
         {
-            if (AttackCorutine != null)
+            if (AttackCoroutine != null)
             {
-                StopCoroutine(AttackCorutine);
+                StopCoroutine(AttackCoroutine);
             }
 
             Self._anim.SetBool("IsAttack", true);
             Self._anim.SetTrigger("Attack");
-            AttackCorutine = StartCoroutine(CoroutineAttack());
+            AttackCoroutine = StartCoroutine(CoroutineAttack());
         }
     }
 
@@ -182,6 +185,12 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
+
+    public void SetInput(bool CharacterInput, bool UIInput)
+    {
+        CharacterControllable = CharacterInput;
+        UIControllable = UIInput;
+}
 }
 
 

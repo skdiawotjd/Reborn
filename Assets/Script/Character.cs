@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    enum SocialClass { Slayer, Commons, Nobility, King }
+    enum SocialClass { Slayer, Commons, SemiNoble, Noble, King }
     enum Job { Slayer, Smith, Bania, MasterSmith, Merchant,
+        Knight, Scholar, Masterknight, Alchemist,
         Baron, Viscount, Earl, Marquess, Duke, GrandDuke, 
-        Knight, Scholar , Masterknight, Alchemist, 
         King }
 
     private string MyName;
@@ -20,6 +20,7 @@ public class Character : MonoBehaviour
     private float MyWorkSpeed;
     private Inventory MyInven;
 
+    private PlayerController MyPlayerController;
     public static Character instance = null;
 
     private void Awake()
@@ -54,6 +55,7 @@ public class Character : MonoBehaviour
         }
         MyWorkSpeed = 1.0f;
         MyInven = gameObject.GetComponent<Inventory>();
+        MyPlayerController = gameObject.GetComponent<PlayerController>();
 
     }
 
@@ -61,5 +63,10 @@ public class Character : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetCharacterInput(bool CharacterInput, bool UIInput)
+    {
+        MyPlayerController.SetInput(CharacterInput, UIInput);
     }
 }

@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
 
     private void InitializeInven()
     {
-        Inven = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Image>();
+        Inven = GameObject.Find("Canvas").transform.GetChild(0).GetComponent<Image>();
     }
 
     void Update()

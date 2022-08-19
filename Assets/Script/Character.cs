@@ -20,7 +20,7 @@ public class Character : MonoBehaviour
     private float MyWorkSpeed;
     private Inventory MyInven;
 
-    private PlayerController MyPlayerController;
+    public PlayerController MyPlayerController;
     public static Character instance = null;
 
     private void Awake()
@@ -55,7 +55,7 @@ public class Character : MonoBehaviour
         }
         MyWorkSpeed = 1.0f;
         MyInven = gameObject.GetComponent<Inventory>();
-        MyPlayerController = gameObject.GetComponent<PlayerController>();
+        //MyPlayerController = gameObject.GetComponent<PlayerController>();
 
     }
 

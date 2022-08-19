@@ -1777,7 +1777,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5127632831829948452}
   m_LocalRotation: {x: 0, y: 0.008726558, z: 0, w: 0.999962}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00015256465}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 2802266510184321087}
@@ -1802,6 +1802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e1dc711dbea44ba7f49fc5537535d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyPlayerController: {fileID: 4001189032874473893}
 --- !u!114 &4001189032874473893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1814,7 +1815,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec894b05ce555d45823342914befbfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConversationNext: 0
   EventInven:
+    m_PersistentCalls:
+      m_Calls: []
+  EventConversation:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &3868824026026870322

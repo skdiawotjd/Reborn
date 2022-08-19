@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
     private GameObject RotationObject;
     private bool CharacterControllable;
     private bool UIControllable;
+    public bool ConversationNext;
     private float moveSpeed;
     private float InputX;
     private float InputY;
 
     public UnityEvent EventInven;
+    public UnityEvent EventConversation;
 
     private Collider2D BodyCollider;
     private Collider2D InterActionCollider;
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
         CharacterControllable = true;
         UIControllable = true;
+        ConversationNext = false;
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
         Offset = new Vector2(0.02f, 0.34f);
 
@@ -69,7 +72,10 @@ public class PlayerController : MonoBehaviour
             {
                 Arrow.x = -1.0f;
                 Offset.x = 0.02f;
-                RotationObject.transform.localScale = Arrow;
+                if(RotationObject.transform.localScale.x != Arrow.x)
+                {
+                    RotationObject.transform.localScale = Arrow;
+                }
                 BodyCollider.offset = Offset;
                 
             }
@@ -77,18 +83,36 @@ public class PlayerController : MonoBehaviour
             {
                 Arrow.x = 1.0f;
                 Offset.x = -0.02f;
-                RotationObject.transform.localScale = Arrow;
+                if (RotationObject.transform.localScale.x != Arrow.x)
+                {
+                    RotationObject.transform.localScale = Arrow;
+                }
                 BodyCollider.offset = Offset;
             }
 
             // 공격
             if (Input.GetKey(KeyCode.X))
             {
-                if (!Self._anim.GetBool("IsAttack"))
+                if (!Self._anim.GetBool("IsAttack") && !ConversationNext)
                 {
                     //BodyCollider.enabled = false;
                     InterActionCollider.enabled = true;
                     Invoke("DisableCollider", 0.1f);
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                if (ConversationNext)
+                {
+                    Debug.Log("x키 클릭으로 대사 넘기기");
+                    if (EventConversation != null)
+                    {
+                        ConversationNext = false;
+                        EventConversation.Invoke();
+                    }
                 }
             }
         }
@@ -170,8 +194,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CancelInvoke("DisableCollider");
         InterActionCollider.enabled = false;
+        CancelInvoke("DisableCollider");
         //BodyCollider.enabled = true;
 
         switch (collision.gameObject.tag)
@@ -182,6 +206,14 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Conversationable":
                 Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
+                Debug.Log("대사 시작 1 - 콜리전 충돌(캐릭터)");
+                CharacterControllable = false;
+                if (EventConversation != null)
+                {
+                    Self._anim.SetBool("Run", false);
+                    Self._anim.SetFloat("RunState", 0.0f);
+                    EventConversation.Invoke();
+                }
                 break;
         }
     }

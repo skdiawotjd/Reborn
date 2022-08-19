@@ -18,11 +18,12 @@ public class TemNpc : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Npc에서 충돌체크 " + collision.gameObject.name);
-        /*if (collision.gameObject.name == "")
+        //Debug.Log("Npc에서 충돌체크 " + collision.gameObject.name);
+        if (collision.gameObject.name == "R_Weapon")
         {
-            SetCharacterInterActionCollider(false);
-        }*/
+            GameObject.Find("Canvas").transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+            Debug.Log("대사 시작 2 - 콜리전 충돌(NPC)");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

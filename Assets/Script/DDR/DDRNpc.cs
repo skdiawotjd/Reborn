@@ -22,7 +22,8 @@ public class DDRNpc : MonoBehaviour
         {
             Debug.Log("asd");
             Character.instance.SetCharacterInput(false, false);
-            DDRManager.gameStart();
+            //DDRManager.DdrStart();
+            DDRManager.TimingStart();
         }
     }
 }

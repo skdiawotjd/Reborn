@@ -262,7 +262,7 @@ public class MiniGameManager : MonoBehaviour
             }
         }
     }
-    IEnumerator WatingTime(float delayTime) // 일정 시간 대기
+    IEnumerator WaitingTime(float delayTime) // 일정 시간 대기
     {
         yield return new WaitForSeconds(delayTime);
     }

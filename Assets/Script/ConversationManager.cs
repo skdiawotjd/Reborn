@@ -10,22 +10,20 @@ public class ConversationManager : MonoBehaviour
 
     private int ConversationCount;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         ConversationPanel = gameObject.transform.GetChild(0).gameObject;
         NameText = ConversationPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         ContentText = ConversationPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
-        Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
-
+        NameText.text = "admin";
         ConversationCount = 3;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void Start()
     {
-
+        Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
     }
 
     private void NextConversation()

@@ -688,7 +688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036ff67b8b6f2634aaf481f904a09d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inven: {fileID: 0}
 --- !u!1 &1973752813266507344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,7 +1801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e1dc711dbea44ba7f49fc5537535d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyPlayerController: {fileID: 4001189032874473893}
+  MyPlayerController: {fileID: 0}
 --- !u!114 &4001189032874473893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,10 +1815,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConversationNext: 0
-  EventInven:
+  EventConversation:
     m_PersistentCalls:
       m_Calls: []
-  EventConversation:
+  EventUIInput:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &3868824026026870322

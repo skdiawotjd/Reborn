@@ -37,11 +37,7 @@ public class Character : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         MyName = "Admin";
         MySocialClass = SocialClass.Slayer;
         MyJob = Job.Slayer;
@@ -55,7 +51,12 @@ public class Character : MonoBehaviour
         }
         MyWorkSpeed = 1.0f;
         MyInven = gameObject.GetComponent<Inventory>();
-        //MyPlayerController = gameObject.GetComponent<PlayerController>();
+        MyPlayerController = gameObject.GetComponent<PlayerController>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
 
     }
 
@@ -68,5 +69,30 @@ public class Character : MonoBehaviour
     public void SetCharacterInput(bool CharacterInput, bool UIInput)
     {
         MyPlayerController.SetInput(CharacterInput, UIInput);
+    }
+
+    public void SetCharacterStat<T>(int Type, T Value)
+    {
+        switch(Type)
+        {
+            // MySocialClass
+            case 1:
+                break;
+            // MyJob
+            case 2:
+                break;
+            // MyAge
+            case 3:
+                break;
+            // MyRound
+            case 4:
+                break;
+            // TodoProgress
+            case 5:
+                break;
+            // MyStackByJob
+            case 6:
+                break;
+        }
     }
 }

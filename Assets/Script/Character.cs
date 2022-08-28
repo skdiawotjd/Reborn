@@ -20,6 +20,8 @@ public class Character : MonoBehaviour
     private float MyWorkSpeed;
     private Inventory MyInven;
 
+    
+
     public PlayerController MyPlayerController;
     public static Character instance = null;
 
@@ -71,6 +73,9 @@ public class Character : MonoBehaviour
         MyPlayerController.SetInput(CharacterInput, UIInput);
     }
 
+    /// <summary>
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - MyRound, 5 - TodoProgress, 6 - MyStackByJob
+    /// </summary> 
     public void SetCharacterStat<T>(int Type, T Value)
     {
         switch(Type)
@@ -89,6 +94,7 @@ public class Character : MonoBehaviour
                 break;
             // TodoProgress
             case 5:
+                //TodoProgress = Value;
                 break;
             // MyStackByJob
             case 6:

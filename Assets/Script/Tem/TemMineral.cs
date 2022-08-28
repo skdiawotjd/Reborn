@@ -19,6 +19,7 @@ public class TemMineral : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Mineral에서 충돌체크 " + collision.gameObject.name);
+        Character.instance.SetCharacterStat(5, 12);
         /*if (collision.gameObject.name == "")
         {
             SetCharacterInterActionCollider(false);

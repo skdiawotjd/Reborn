@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public Image Inven;
+    //public Image Inven;
 
     // Start is called before the first frame update
     void Start()
     {
-        InitializeInven();
-        gameObject.GetComponentInParent<PlayerController>().EventInven.AddListener(() => { VisibleInven(); });
+        //InitializeInven();
+        //gameObject.GetComponentInParent<PlayerController>().EventInven.AddListener(() => { VisibleInven(); });
     }
 
     private void InitializeInven()
     {
-        Inven = GameObject.Find("Canvas").transform.GetChild(0).GetComponent<Image>();
+        //Inven = GameObject.Find("Canvas").transform.GetChild(0).GetComponent<Image>();
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
 
     private void VisibleInven()
     {
-        if (Inven)
+        /*if (Inven)
         {
             Inven.gameObject.SetActive(!Inven.gameObject.activeSelf);
         }
@@ -34,6 +34,6 @@ public class Inventory : MonoBehaviour
         {
             InitializeInven();
             VisibleInven();
-        }
+        }*/
     }
 }

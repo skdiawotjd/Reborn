@@ -21,7 +21,7 @@ public class TemNpc : MonoBehaviour
         //Debug.Log("Npc에서 충돌체크 " + collision.gameObject.name);
         if (collision.gameObject.name == "R_Weapon")
         {
-            GameObject.Find("Canvas").transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.GetChild(0).GetChild(1).GetChild(0).gameObject.SetActive(true);
             Debug.Log("대사 시작 2 - 콜리전 충돌(NPC)");
         }
     }

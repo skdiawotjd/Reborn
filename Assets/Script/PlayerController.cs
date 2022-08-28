@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     private float InputX;
     private float InputY;
 
-    public UnityEvent EventInven;
     public UnityEvent EventConversation;
+    public UnityEvent<int> EventUIInput;
 
     private Collider2D BodyCollider;
     private Collider2D InterActionCollider;
@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
         }
     }*/
 
-    void Start()
+
+    private void Awake()
     {
         Self = gameObject.GetComponent<SPUM_Prefabs>();
         RotationObject = gameObject.transform.GetChild(0).gameObject;
@@ -60,6 +61,9 @@ public class PlayerController : MonoBehaviour
         ConversationNext = false;
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
         Offset = new Vector2(0.02f, 0.34f);
+    }
+    void Start()
+    {
 
     }
 
@@ -103,6 +107,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // 대사 넘기기
             if (Input.GetKeyDown(KeyCode.X))
             {
                 if (ConversationNext)
@@ -119,11 +124,27 @@ public class PlayerController : MonoBehaviour
 
         if (UIControllable)
         {
+            // 인벤토리
             if (Input.GetKeyDown(KeyCode.I))
             {
-                if(EventInven != null)
+                if(EventUIInput != null)
                 {
-                    EventInven.Invoke();
+                    EventUIInput.Invoke(2);
+                }
+            }
+            // 미니맵
+            else if (Input.GetKeyDown(KeyCode.M))
+            {
+                if (EventUIInput != null)
+                {
+                    EventUIInput.Invoke(3);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (EventUIInput != null)
+                {
+                    EventUIInput.Invoke(4);
                 }
             }
         }
@@ -135,10 +156,51 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
+        //Move();
     }
 
     private void Move()
     {
+        /*if (CharacterControllable)
+        {
+            InputX = Input.GetAxisRaw("Horizontal");
+            InputY = Input.GetAxisRaw("Vertical");
+
+            if (InputX == 0 && InputY == 0)
+            {
+                Self._anim.SetBool("Run", false);
+                Self._anim.SetFloat("RunState", 0.0f);
+            }
+            else
+            {
+                if (InputX == 1)
+                {
+                    Arrow.x = -1.0f;
+                    Offset.x = 0.02f;
+                    if (RotationObject.transform.localScale.x != Arrow.x)
+                    {
+                        RotationObject.transform.localScale = Arrow;
+                    }
+                    BodyCollider.offset = Offset;
+                }
+                else if (InputX == -1)
+                {
+                    Arrow.x = 1.0f;
+                    Offset.x = -0.02f;
+                    if (RotationObject.transform.localScale.x != Arrow.x)
+                    {
+                        RotationObject.transform.localScale = Arrow;
+                    }
+                    BodyCollider.offset = Offset;
+                }
+                Self._anim.SetBool("Run", true);
+                Self._anim.SetFloat("RunState", 0.5f);
+            }
+
+            Vector3 moveVelocity = new Vector3(InputX, InputY, 0) * moveSpeed * Time.deltaTime;
+            transform.position += moveVelocity;
+        }*/
+
         InputX = Input.GetAxisRaw("Horizontal");
         InputY = Input.GetAxisRaw("Vertical");
 
@@ -149,9 +211,30 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            /*if (InputX == 1)
+            {
+                Arrow.x = -1.0f;
+                Offset.x = 0.02f;
+                if (RotationObject.transform.localScale.x != Arrow.x)
+                {
+                    RotationObject.transform.localScale = Arrow;
+                }
+                BodyCollider.offset = Offset;
+            }
+            else if (InputX == -1)
+            {
+                Arrow.x = 1.0f;
+                Offset.x = -0.02f;
+                if (RotationObject.transform.localScale.x != Arrow.x)
+                {
+                    RotationObject.transform.localScale = Arrow;
+                }
+                BodyCollider.offset = Offset;
+            }*/
             Self._anim.SetBool("Run", true);
             Self._anim.SetFloat("RunState", 0.5f);
         }
+        
         Vector3 moveVelocity = new Vector3(InputX, InputY, 0) * moveSpeed * Time.deltaTime;
         transform.position += moveVelocity;
     }
@@ -177,7 +260,9 @@ public class PlayerController : MonoBehaviour
         {
             if (Self._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Self._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             {
+                yield return 0.016f;
                 Self._anim.SetBool("IsAttack", false);
+                //CharacterControllable = true;
             }
             else
             {
@@ -202,6 +287,7 @@ public class PlayerController : MonoBehaviour
         {
             case "Attackable":
                 Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
+                //CharacterControllable = false;
                 AttackProcess();
                 break;
             case "Conversationable":

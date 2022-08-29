@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
     private float _playTime;
     private float _totalPlayTime;
     private bool _gameStart;
+    private bool _newGame;
+    
+    
+
 
     public float PlayTime
     {
@@ -27,6 +31,13 @@ public class GameManager : MonoBehaviour
         get
         {
             return _gameStart;
+        }
+    }
+    public bool NewGame
+    {
+        get
+        {
+            return _newGame;
         }
     }
 
@@ -52,6 +63,7 @@ public class GameManager : MonoBehaviour
         _playTime = 0f;
         _totalPlayTime = 60f;
         _gameStart = true;
+        _newGame = true;
     }
 
     // Start is called before the first frame update

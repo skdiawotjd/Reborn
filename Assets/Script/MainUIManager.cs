@@ -21,29 +21,52 @@ public class MainUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Character.instance.EventUIChange.AddListener(CheckChangeUI);
+
         StartCoroutine(Timer());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     IEnumerator Timer()
     {
-        while(GameManager.instance.GameStart)
+        while (GameManager.instance.GameStart)
         {
             DayImage.fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
 
 
             yield return Time.deltaTime;
         }
-        
+
     }
 
-    public void ChangeTodoProgressImage(int TodoProgress)
+    private void CheckChangeUI(int Type)
     {
-        TodoProgressImage.fillAmount = (float)TodoProgress;
+        switch(Type)
+        {
+            // MySocialClass
+            case 1:
+                break;
+            // MyJob
+            case 2:
+                break;
+            // MyAge
+            case 3:
+                break;
+            // MyRound
+            case 4:
+                break;
+            // TodoProgress
+            case 5:
+                TodoProgressImage.fillAmount = Character.instance.TodoProgress / 100f;
+                break;
+            // MyStackByJob
+            case 6:
+                break;
+        }
     }
 }

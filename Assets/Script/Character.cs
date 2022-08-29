@@ -1,57 +1,90 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
-    enum SocialClass { Slayer, Commons, SemiNoble, Noble, King }
-    enum Job { Slayer, Smith, Bania, MasterSmith, Merchant,
-        Knight, Scholar, Masterknight, Alchemist,
-        Baron, Viscount, Earl, Marquess, Duke, GrandDuke, 
-        King }
-
-    private string MyName;
-    private SocialClass MySocialClass;
-    private Job MyJob;
-    private int MyAge;
-    private int MyRound;
-    private int TodoProgress;
-    private int[] MyStackByJob;
+    private string _myName;
+    private SocialClass _mySocialClass;
+    private Job _myJob;
+    private int _myAge;
+    private int _myRound;
+    private int _todoProgress;
+    private int[] _myStackByJob;
     private float MyWorkSpeed;
     private Inventory MyInven;
+    public string MyName
+    {
+        get
+        {
+            return _myName;
+        }
+    }
+    public int MySocialClass
+    {
+        get
+        {
+            return (int)_mySocialClass;
+        }
+    }
+    public int MyJob
+    {
+        get
+        {
+            return (int)_myJob;
+        }
+    }
+    public int MyAge
+    {
+        get
+        {
+            return _myAge;
+        }
+    }
+    public int MyRound
+    {
+        get
+        {
+            return _myRound;
+        }
+    }
+    public float TodoProgress
+    {
+        get
+        {
+            return _todoProgress;
+        }
+    }
+    public int[] MyStackByJob
+    {
+        get
+        {
+            return _myStackByJob;
+        }
+    }
 
-    
+    public UnityEvent<int> EventUIChange;
+
 
     public PlayerController MyPlayerController;
     public static Character instance = null;
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(this);
         }
         else
         {
-            if(instance != this)
+            if (instance != this)
             {
                 Destroy(this.gameObject);
             }
         }
 
-        MyName = "Admin";
-        MySocialClass = SocialClass.Slayer;
-        MyJob = Job.Slayer;
-        MyAge = 10;
-        MyRound = 1;
-        TodoProgress = 0;
-        MyStackByJob = new int[16];
-        for (int i = 0; i < MyStackByJob.Length; i++)
-        {
-            MyStackByJob[i] = 0;
-        }
-        MyWorkSpeed = 1.0f;
         MyInven = gameObject.GetComponent<Inventory>();
         MyPlayerController = gameObject.GetComponent<PlayerController>();
     }
@@ -59,13 +92,13 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        CharacterStatSetting();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetCharacterInput(bool CharacterInput, bool UIInput)
@@ -76,9 +109,9 @@ public class Character : MonoBehaviour
     /// <summary>
     /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - MyRound, 5 - TodoProgress, 6 - MyStackByJob
     /// </summary> 
-    public void SetCharacterStat<T>(int Type, T Value)
+    public void SetCharacterStat<T>(int Type, T value)
     {
-        switch(Type)
+        switch (Type)
         {
             // MySocialClass
             case 1:
@@ -94,11 +127,44 @@ public class Character : MonoBehaviour
                 break;
             // TodoProgress
             case 5:
-                //TodoProgress = Value;
+                _todoProgress += (int)(object)value;
                 break;
             // MyStackByJob
             case 6:
                 break;
+        }
+
+        EventUIChange.Invoke(Type);
+    }
+
+    private void CharacterStatSetting()
+    {
+        if(GameManager.instance.NewGame)
+        {
+            // 새로 시작
+            // 1. 이름 설정
+            _myName = "Admin";
+            // 2. 계급/직업 설정
+            _mySocialClass = SocialClass.Slayer;
+            _myJob = Job.Slayer;
+            // 3. 나이 설정
+            _myAge = 10;
+            // 4. 라운드 설정
+            _myRound = 1;
+            // 5. 진행도 설정
+            _todoProgress = 0;
+            // 6. 스택 설정
+            _myStackByJob = new int[16];
+            for (int i = 0; i < MyStackByJob.Length; i++)
+            {
+                MyStackByJob[i] = 0;
+            }
+            // 7. 작업 속도 설정
+            MyWorkSpeed = 1.0f;
+        }
+        else
+        {
+            // 이어 하기
         }
     }
 }

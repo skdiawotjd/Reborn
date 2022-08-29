@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    private SPUM_Prefabs Self;
+    private SPUM_Prefabs Spum;
     private GameObject RotationObject;
     private bool CharacterControllable;
     private bool UIControllable;
@@ -24,38 +24,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 Arrow;
     private Vector2 Offset;
 
-    /*private bool _MoveAni;
-
-    public bool MoveAni
-    {
-        get 
-        { 
-            return _MoveAni;
-        }
-        set 
-        {
-            _MoveAni = value;
-            if (_MoveAni)
-            {
-                SetAnimation(1);
-            }
-            else
-            {
-                SetAnimation(0);
-            }
-        }
-    }*/
-
-
     private void Awake()
     {
-        Self = gameObject.GetComponent<SPUM_Prefabs>();
+        Spum = gameObject.GetComponent<SPUM_Prefabs>();
         RotationObject = gameObject.transform.GetChild(0).gameObject;
         BodyCollider = gameObject.GetComponent<Collider2D>();
         InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();
 
-        moveSpeed = 5.0f;
-
+        moveSpeed = 4.0f;
         CharacterControllable = true;
         UIControllable = true;
         ConversationNext = false;
@@ -97,7 +73,7 @@ public class PlayerController : MonoBehaviour
             // 공격
             if (Input.GetKey(KeyCode.X))
             {
-                if (!Self._anim.GetBool("IsAttack") && !ConversationNext)
+                if (!Spum._anim.GetBool("IsAttack") && !ConversationNext)
                 {
                     //BodyCollider.enabled = false;
                     InterActionCollider.enabled = true;
@@ -206,8 +182,8 @@ public class PlayerController : MonoBehaviour
 
         if (InputX == 0 && InputY == 0)
         {
-            Self._anim.SetBool("Run", false);
-            Self._anim.SetFloat("RunState", 0.0f);
+            Spum._anim.SetBool("Run", false);
+            Spum._anim.SetFloat("RunState", 0.0f);
         }
         else
         {
@@ -231,8 +207,8 @@ public class PlayerController : MonoBehaviour
                 }
                 BodyCollider.offset = Offset;
             }*/
-            Self._anim.SetBool("Run", true);
-            Self._anim.SetFloat("RunState", 0.5f);
+            Spum._anim.SetBool("Run", true);
+            Spum._anim.SetFloat("RunState", 0.5f);
         }
         
         Vector3 moveVelocity = new Vector3(InputX, InputY, 0) * moveSpeed * Time.deltaTime;
@@ -241,28 +217,28 @@ public class PlayerController : MonoBehaviour
 
     private void AttackProcess()
     {
-        if (!Self._anim.GetBool("IsAttack") && Self._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
+        if (!Spum._anim.GetBool("IsAttack") && Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
         {
             if (AttackCoroutine != null)
             {
                 StopCoroutine(AttackCoroutine);
             }
 
-            Self._anim.SetBool("IsAttack", true);
-            Self._anim.SetTrigger("Attack");
+            Spum._anim.SetBool("IsAttack", true);
+            Spum._anim.SetTrigger("Attack");
             AttackCoroutine = StartCoroutine(CoroutineAttack());
         }
     }
 
     IEnumerator CoroutineAttack()
     {
-        while (Self._anim.GetBool("IsAttack"))
+        while (Spum._anim.GetBool("IsAttack"))
         {
-            if (Self._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Self._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+            if (Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Spum._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             {
                 yield return 0.016f;
-                Self._anim.SetBool("IsAttack", false);
-                //CharacterControllable = true;
+                Spum._anim.SetBool("IsAttack", false);
+                CharacterControllable = true;
             }
             else
             {
@@ -287,7 +263,7 @@ public class PlayerController : MonoBehaviour
         {
             case "Attackable":
                 Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
-                //CharacterControllable = false;
+                CharacterControllable = false;
                 AttackProcess();
                 break;
             case "Conversationable":
@@ -296,8 +272,8 @@ public class PlayerController : MonoBehaviour
                 CharacterControllable = false;
                 if (EventConversation != null)
                 {
-                    Self._anim.SetBool("Run", false);
-                    Self._anim.SetFloat("RunState", 0.0f);
+                    Spum._anim.SetBool("Run", false);
+                    Spum._anim.SetFloat("RunState", 0.0f);
                     EventConversation.Invoke();
                 }
                 break;

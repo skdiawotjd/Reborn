@@ -111,26 +111,48 @@ public class Character : MonoBehaviour
     /// </summary> 
     public void SetCharacterStat<T>(int Type, T value)
     {
+        int StatType = (int)(object)value;
+
         switch (Type)
         {
             // MySocialClass
             case 1:
+                _mySocialClass = (SocialClass)StatType;
                 break;
             // MyJob
             case 2:
+                _myJob = (Job)StatType;
                 break;
             // MyAge
             case 3:
+                _myAge = StatType;
                 break;
             // MyRound
             case 4:
+                _myRound = StatType;
                 break;
             // TodoProgress
             case 5:
-                _todoProgress += (int)(object)value;
+                _todoProgress += StatType;
                 break;
             // MyStackByJob
             case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+                _myStackByJob[Type - 6] += StatType;
                 break;
         }
 

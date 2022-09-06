@@ -21,7 +21,7 @@ public class MainUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Character.instance.EventUIChange.AddListener(CheckChangeUI);
+        Character.instance.EventUIChange.AddListener(CheckChangeMainUI);
 
         StartCoroutine(Timer());
     }
@@ -44,7 +44,7 @@ public class MainUIManager : MonoBehaviour
 
     }
 
-    private void CheckChangeUI(int Type)
+    private void CheckChangeMainUI(int Type)
     {
         switch(Type)
         {

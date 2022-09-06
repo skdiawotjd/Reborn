@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class PopUpUIManager : MonoBehaviour
 {
     private GameObject InvenPanel;
     private GameObject MiniMapPanel;
@@ -19,10 +19,10 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Character.instance.MyPlayerController.EventUIInput.AddListener(CheckUI);
+        Character.instance.MyPlayerController.EventUIInput.AddListener(VisibleUI);
     }
 
-    public void CheckUI(int Type)
+    public void VisibleUI(int Type)
     {
         switch(Type)
         {

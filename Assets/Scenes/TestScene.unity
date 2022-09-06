@@ -348,9 +348,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1938233400519889789, guid: 6fb28e17f34e28249a4cacc88150f50b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5127632831829948452, guid: 6fb28e17f34e28249a4cacc88150f50b, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127632831829948452, guid: 6fb28e17f34e28249a4cacc88150f50b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fb28e17f34e28249a4cacc88150f50b, type: 3}
@@ -1566,6 +1574,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1581,6 +1590,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a611f57b7e2a0a243b922585667690bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraSpeed: 5
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1969,8 +1991,9 @@ GameObject:
   m_Component:
   - component: {fileID: 764252761}
   - component: {fileID: 764252763}
+  - component: {fileID: 764252762}
   m_Layer: 5
-  m_Name: Inven
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1996,6 +2019,18 @@ RectTransform:
   m_AnchoredPosition: {x: 360, y: 0}
   m_SizeDelta: {x: 1000, y: 580}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &764252762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764252760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036ff67b8b6f2634aaf481f904a09d6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &764252763
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5228,8 +5263,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1946472666}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CheckUI
+        m_TargetAssemblyTypeName: PopUpUIManager, Assembly-CSharp
+        m_MethodName: VisibleUI
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

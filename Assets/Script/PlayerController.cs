@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
+    enum Direction { Left = 1, Right = -1}
+
     private SPUM_Prefabs Spum;
     private GameObject RotationObject;
     private bool CharacterControllable;
@@ -116,6 +118,7 @@ public class PlayerController : MonoBehaviour
                     EventUIInput.Invoke(3);
                 }
             }
+            // ¼³Á¤
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (EventUIInput != null)
@@ -132,51 +135,10 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
-        //Move();
     }
 
     private void Move()
     {
-        /*if (CharacterControllable)
-        {
-            InputX = Input.GetAxisRaw("Horizontal");
-            InputY = Input.GetAxisRaw("Vertical");
-
-            if (InputX == 0 && InputY == 0)
-            {
-                Self._anim.SetBool("Run", false);
-                Self._anim.SetFloat("RunState", 0.0f);
-            }
-            else
-            {
-                if (InputX == 1)
-                {
-                    Arrow.x = -1.0f;
-                    Offset.x = 0.02f;
-                    if (RotationObject.transform.localScale.x != Arrow.x)
-                    {
-                        RotationObject.transform.localScale = Arrow;
-                    }
-                    BodyCollider.offset = Offset;
-                }
-                else if (InputX == -1)
-                {
-                    Arrow.x = 1.0f;
-                    Offset.x = -0.02f;
-                    if (RotationObject.transform.localScale.x != Arrow.x)
-                    {
-                        RotationObject.transform.localScale = Arrow;
-                    }
-                    BodyCollider.offset = Offset;
-                }
-                Self._anim.SetBool("Run", true);
-                Self._anim.SetFloat("RunState", 0.5f);
-            }
-
-            Vector3 moveVelocity = new Vector3(InputX, InputY, 0) * moveSpeed * Time.deltaTime;
-            transform.position += moveVelocity;
-        }*/
-
         InputX = Input.GetAxisRaw("Horizontal");
         InputY = Input.GetAxisRaw("Vertical");
 
@@ -187,26 +149,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            /*if (InputX == 1)
-            {
-                Arrow.x = -1.0f;
-                Offset.x = 0.02f;
-                if (RotationObject.transform.localScale.x != Arrow.x)
-                {
-                    RotationObject.transform.localScale = Arrow;
-                }
-                BodyCollider.offset = Offset;
-            }
-            else if (InputX == -1)
-            {
-                Arrow.x = 1.0f;
-                Offset.x = -0.02f;
-                if (RotationObject.transform.localScale.x != Arrow.x)
-                {
-                    RotationObject.transform.localScale = Arrow;
-                }
-                BodyCollider.offset = Offset;
-            }*/
             Spum._anim.SetBool("Run", true);
             Spum._anim.SetFloat("RunState", 0.5f);
         }
@@ -250,14 +192,12 @@ public class PlayerController : MonoBehaviour
     private void DisableCollider()
     {
         InterActionCollider.enabled = false;
-        //BodyCollider.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         InterActionCollider.enabled = false;
         CancelInvoke("DisableCollider");
-        //BodyCollider.enabled = true;
 
         switch (collision.gameObject.tag)
         {

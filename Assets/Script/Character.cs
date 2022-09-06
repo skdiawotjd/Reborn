@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
     private int _todoProgress;
     private int[] _myStackByJob;
     private float MyWorkSpeed;
-    private Inventory MyInven;
+    private InventoryManager MyInven;
     public string MyName
     {
         get
@@ -21,18 +21,18 @@ public class Character : MonoBehaviour
             return _myName;
         }
     }
-    public int MySocialClass
+    public SocialClass MySocialClass
     {
         get
         {
-            return (int)_mySocialClass;
+            return _mySocialClass;
         }
     }
-    public int MyJob
+    public Job MyJob
     {
         get
         {
-            return (int)_myJob;
+            return _myJob;
         }
     }
     public int MyAge
@@ -85,7 +85,7 @@ public class Character : MonoBehaviour
             }
         }
 
-        MyInven = gameObject.GetComponent<Inventory>();
+        MyInven = gameObject.GetComponent<InventoryManager>();
         MyPlayerController = gameObject.GetComponent<PlayerController>();
     }
 
@@ -161,7 +161,7 @@ public class Character : MonoBehaviour
 
     private void CharacterStatSetting()
     {
-        if(GameManager.instance.NewGame)
+        if (GameManager.instance.NewGame)
         {
             // 새로 시작
             // 1. 이름 설정

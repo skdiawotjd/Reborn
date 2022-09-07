@@ -48,7 +48,8 @@ public class MiniGameManager : MonoBehaviour
     private TextMeshProUGUI quizText;
     private TextMeshProUGUI contextText;
     private Image[] answerPanel;
-    private TextMeshProUGUI[] answerText;    
+    private TextMeshProUGUI[] answerText;
+
 
     void Start()
     {
@@ -276,59 +277,60 @@ public class MiniGameManager : MonoBehaviour
         {
             switch (key)
             {
-                case 0: 
-                    if(answerChoiceNumber == 2 || answerChoiceNumber == 3)
+                case 0:
+                    if (answerChoiceNumber == 2 || answerChoiceNumber == 3)
                     {
-                        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
-                        temColor.a = 0.4f; // 임시 컬러의 알파값을 0.4f, 즉 100 정도로 만든다
-                        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
-                        answerChoiceNumber -= 2; // 선택된 넘버를 변경
-                        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
-                        temColor.a = 1f; // 임시 컬러의 알파값을 1f, 즉 255로 만든다 (불투명 - 선택됨)
-                        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+                        SelectedChange(0);
                     }
                     break;
                 case 1:
                     if (answerChoiceNumber == 1 || answerChoiceNumber == 3)
                     {
-                        temColor = answerPanel[answerChoiceNumber].color;
-                        temColor.a = 0.4f;
-                        answerPanel[answerChoiceNumber].color = temColor;
-                        answerChoiceNumber -= 1;
-                        temColor = answerPanel[answerChoiceNumber].color;
-                        temColor.a = 1f;
-                        answerPanel[answerChoiceNumber].color = temColor;
+                        SelectedChange(1);
                     }
                     break;
                 case 2:
                     if (answerChoiceNumber == 0 || answerChoiceNumber == 1)
                     {
-                        temColor = answerPanel[answerChoiceNumber].color;
-                        temColor.a = 0.4f;
-                        answerPanel[answerChoiceNumber].color = temColor;
-                        answerChoiceNumber += 2;
-                        temColor = answerPanel[answerChoiceNumber].color;
-                        temColor.a = 1f;
-                        answerPanel[answerChoiceNumber].color = temColor;
+                        SelectedChange(2);
                     }
                     break;
                 case 3:
                     if (answerChoiceNumber == 0 || answerChoiceNumber == 2)
                     {
-                        temColor = answerPanel[answerChoiceNumber].color;
-                        temColor.a = 0.4f;
-                        answerPanel[answerChoiceNumber].color = temColor;
-                        answerChoiceNumber += 1;
-                        temColor = answerPanel[answerChoiceNumber].color;
-                        temColor.a = 1f;
-                        answerPanel[answerChoiceNumber].color = temColor;
+                        SelectedChange(4);
                     }
-                    break;  
-                default: 
+                    break;
+                default:
                     break;
             }
         }
+    }
+    void SelectedChange(int position)
+    {
+        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
+        temColor.a = 0.4f; // 임시 컬러의 알파값을 0.4f, 즉 100 정도로 만든다
+        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+        switch(position)
+        {
+            case 0:
+                answerChoiceNumber -= 2; // 선택된 넘버를 변경
+                break;
+            case 1:
+                answerChoiceNumber -= 1;
+                break;
+            case 2:
+                answerChoiceNumber += 2;
+                break;
+            case 3:
+                answerChoiceNumber += 1;
+                break;
+        }
+        answerChoiceNumber -= 2; // 선택된 넘버를 변경
 
+        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
+        temColor.a = 1f; // 임시 컬러의 알파값을 1f, 즉 255로 만든다 (불투명 - 선택됨)
+        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
     }
     void CompareKey(int key) // 제대로 눌렸다면 keyCount를 증가 시켜준다.
     {

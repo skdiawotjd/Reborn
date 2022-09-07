@@ -35,6 +35,20 @@ public class MiniGameManager : MonoBehaviour
     private int temNumber;
     private int timingRound;
 
+    // Quiz 변수
+
+    private bool quizGameActive = false;
+    private int answerChoiceNumber;
+    private int answerNumber;
+    private int quizRound;
+    private Color temColor;
+    List<Dictionary<string, object>> quizList;
+    private Image quizPanel;
+    private Image contextPanel;
+    private TextMeshProUGUI quizText;
+    private TextMeshProUGUI contextText;
+    private Image[] answerPanel;
+    private TextMeshProUGUI[] answerText;    
 
     void Start()
     {
@@ -42,6 +56,18 @@ public class MiniGameManager : MonoBehaviour
         timingSlider = GameObject.Find("Canvas").transform.GetChild(3).GetComponent<Slider>();
         perfectFloor = GameObject.Find("Canvas").transform.GetChild(3).GetChild(2).GetComponent<Image>();
         good = GameObject.Find("Canvas").transform.GetChild(4).GetComponent<Good>();
+        quizPanel = GameObject.Find("Canvas").transform.GetChild(5).GetComponent<Image>();
+        quizText = quizPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        contextPanel = quizPanel.transform.GetChild(1).GetComponent<Image>();
+        contextText = contextPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        answerPanel = new Image[4];
+        answerText = new TextMeshProUGUI[answerPanel.Length];
+        for (int i=0; i < answerPanel.Length; i++)
+        {
+            answerPanel[i] = quizPanel.transform.GetChild(i+2).GetComponent<Image>();
+            answerText[i] = answerPanel[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        }
+        temColor = Color.white;
         managerTrans = new Vector3(0, 0, 0);
         keyCount = 0;
         round = 0;
@@ -64,13 +90,24 @@ public class MiniGameManager : MonoBehaviour
         timingCount = 0;
         SetTimingPosition();
     }
-    public void DdrStart()
+    public void DdrStart() // ddr 시작
     {
         timeSlider.gameObject.SetActive(true);
         timeText.gameObject.SetActive(true);
         MiniGameDdr();
         SetRound(0);
         StartCoroutine("CountTime", 0.1);
+    }
+
+    public void QuizStart()
+    {
+        quizRound = 0;
+        answerChoiceNumber = 0;
+        QuizGenerate();
+        QuizSetting();
+        timeText.gameObject.SetActive(true);
+        quizPanel.gameObject.SetActive(true);
+        StartCoroutine(CountTime(0.1f));
     }
 
     void Update()
@@ -120,7 +157,48 @@ public class MiniGameManager : MonoBehaviour
                 SetTimingPosition();
             }
         }
+        if (quizGameActive)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                PressKey(0);
+            }
 
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                PressKey(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                PressKey(2);
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                PressKey(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                quizGameActive = false;
+                good.gameObject.SetActive(true);
+                if (answerChoiceNumber == answerNumber)
+                {
+                    good.ChangeSource(true);
+                }
+                else
+                {
+                    good.ChangeSource(false);
+                }
+                StartCoroutine("WaitingTime", 0.5f);
+                quizRound++;
+                if(quizRound < 5)
+                {
+                    QuizSetting();
+                }
+
+            }
+        }
     }
 
     void SetRound(int nextRound)
@@ -177,20 +255,80 @@ public class MiniGameManager : MonoBehaviour
     }
     void PressKey(int key) // 제대로 눌렸는가? 를 판단
     {
-        if (RandomKey[keyCount] == key)
+        if (timingGameActive) // 타이밍 게임
         {
-            CompareKey(key);
+            if (RandomKey[keyCount] == key)
+            {
+                CompareKey(key);
+            }
+            else if (playTime > 5)
+            {
+                Debug.Log("잘 못 누름");
+                playTime -= 5;
+            }
+            else
+            {
+                playTime = 0;
+                timeSlider.value = playTime;
+            }
         }
-        else if (playTime > 5)
+        else if (quizGameActive) // 퀴즈 게임
         {
-            Debug.Log("잘 못 누름");
-            playTime -= 5;
+            switch (key)
+            {
+                case 0: 
+                    if(answerChoiceNumber == 2 || answerChoiceNumber == 3)
+                    {
+                        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
+                        temColor.a = 0.4f; // 임시 컬러의 알파값을 0.4f, 즉 100 정도로 만든다
+                        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+                        answerChoiceNumber -= 2; // 선택된 넘버를 변경
+                        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
+                        temColor.a = 1f; // 임시 컬러의 알파값을 1f, 즉 255로 만든다 (불투명 - 선택됨)
+                        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+                    }
+                    break;
+                case 1:
+                    if (answerChoiceNumber == 1 || answerChoiceNumber == 3)
+                    {
+                        temColor = answerPanel[answerChoiceNumber].color;
+                        temColor.a = 0.4f;
+                        answerPanel[answerChoiceNumber].color = temColor;
+                        answerChoiceNumber -= 1;
+                        temColor = answerPanel[answerChoiceNumber].color;
+                        temColor.a = 1f;
+                        answerPanel[answerChoiceNumber].color = temColor;
+                    }
+                    break;
+                case 2:
+                    if (answerChoiceNumber == 0 || answerChoiceNumber == 1)
+                    {
+                        temColor = answerPanel[answerChoiceNumber].color;
+                        temColor.a = 0.4f;
+                        answerPanel[answerChoiceNumber].color = temColor;
+                        answerChoiceNumber += 2;
+                        temColor = answerPanel[answerChoiceNumber].color;
+                        temColor.a = 1f;
+                        answerPanel[answerChoiceNumber].color = temColor;
+                    }
+                    break;
+                case 3:
+                    if (answerChoiceNumber == 0 || answerChoiceNumber == 2)
+                    {
+                        temColor = answerPanel[answerChoiceNumber].color;
+                        temColor.a = 0.4f;
+                        answerPanel[answerChoiceNumber].color = temColor;
+                        answerChoiceNumber += 1;
+                        temColor = answerPanel[answerChoiceNumber].color;
+                        temColor.a = 1f;
+                        answerPanel[answerChoiceNumber].color = temColor;
+                    }
+                    break;  
+                default: 
+                    break;
+            }
         }
-        else
-        {
-            playTime = 0;
-            timeSlider.value = playTime;
-        }
+
     }
     void CompareKey(int key) // 제대로 눌렸다면 keyCount를 증가 시켜준다.
     {
@@ -219,7 +357,23 @@ public class MiniGameManager : MonoBehaviour
             
         }
     }
+    void QuizGenerate()
+    {
+        quizList = CSVReader.Read("QuizText");
 
+    }
+    void QuizSetting()
+    {
+        quizGameActive = true;
+        playTime = 60.0f; // 플레이 타임을 정한다
+
+        contextText.text = quizList[quizRound]["Context"].ToString();
+        answerText[0].text = quizList[quizRound]["Answer1"].ToString();
+        answerText[1].text = quizList[quizRound]["Answer2"].ToString();
+        answerText[2].text = quizList[quizRound]["Answer3"].ToString();
+        answerText[3].text = quizList[quizRound]["Answer4"].ToString();
+        answerNumber = int.Parse(quizList[quizRound]["AnswerNumber"].ToString()) - 1;
+    }
     void MiniGameDdr()
     {
         playTime = 60.0f; // 플레이 타임을 정한다
@@ -234,7 +388,14 @@ public class MiniGameManager : MonoBehaviour
             playTime -= 0.1f;
             timeSlider.value = playTime;
             StartCoroutine("CountTime", 0.1f);
-        }    
+        }
+        else if(playTime > 0 && quizGameActive)
+        {
+            playTime -= 0.1f;
+            timeText.text = playTime.ToString();
+            StartCoroutine(CountTime(0.1f));
+
+        }
     }
 
     IEnumerator ChangeTimingValue(float delayTime) // 타이밍 맞추기 코루틴

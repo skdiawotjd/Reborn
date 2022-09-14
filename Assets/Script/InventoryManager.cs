@@ -9,6 +9,11 @@ public class InventoryManager : MonoBehaviour
     private GameObject DataGroup;
     private TextMeshProUGUI[] CharacterStatArray;
 
+    void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +26,9 @@ public class InventoryManager : MonoBehaviour
             CharacterStatArray[i] = DataGroup.transform.GetChild(i).GetComponent<TextMeshProUGUI>();
         }
 
-        for(int i = 0; i < CharacterStatArray.Length; i++)
-        {
-            UpdateCharacterStat(i);
-        }
+        StartInventory();
 
+        GameManager.instance.GameStart.AddListener(StartInventory);
         Character.instance.EventUIChange.AddListener(UpdateCharacterStat);
     }
 
@@ -55,9 +58,17 @@ public class InventoryManager : MonoBehaviour
                 CharacterStatArray[3].text = Character.instance.MyAge.ToString();
                 break;
             // TodoProgress
-            case 5:
+            case 4:
                 CharacterStatArray[4].text = Character.instance.TodoProgress.ToString();
                 break;
+        }
+    }
+
+    private void StartInventory()
+    {
+        for (int i = 0; i < CharacterStatArray.Length; i++)
+        {
+            UpdateCharacterStat(i);
         }
     }
 }

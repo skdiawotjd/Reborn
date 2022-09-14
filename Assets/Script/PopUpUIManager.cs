@@ -19,6 +19,7 @@ public class PopUpUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.GameEnd.AddListener(EndPopUI);
         Character.instance.MyPlayerController.EventUIInput.AddListener(VisibleUI);
     }
 
@@ -36,5 +37,12 @@ public class PopUpUIManager : MonoBehaviour
                 SettingPanel.SetActive(!SettingPanel.activeSelf);
                 break;
         }
+    }
+
+    private void EndPopUI()
+    {
+        InvenPanel.SetActive(false);
+        MiniMapPanel.SetActive(false);
+        MiniMapPanel.SetActive(false);
     }
 }

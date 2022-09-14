@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TemMineral : MonoBehaviour
 {
+    public int Type;
+    public int Val;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +22,7 @@ public class TemMineral : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Mineral에서 충돌체크 " + collision.gameObject.name);
-        Character.instance.SetCharacterStat(5, 10);
+        Character.instance.SetCharacterStat(Type, Val);
         /*if (collision.gameObject.name == "")
         {
             SetCharacterInterActionCollider(false);

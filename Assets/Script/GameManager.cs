@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    // 하루에 지나간 시간
     private float _playTime;
+    // 하루의 총 시간
     private float _totalPlayTime;
-    private bool _gameStart;
+    // 하루가 시작되었는지
+    private bool _dayStart;
+    // 새 게임인지
     private bool _newGame;
-    
-    
-
+    // 며칠이 지났는지
+    private int Days;
 
     public float PlayTime
     {
@@ -26,11 +30,11 @@ public class GameManager : MonoBehaviour
             return _totalPlayTime;
         }
     }
-    public bool GameStart
+    public bool DayStart
     {
         get
         {
-            return _gameStart;
+            return _dayStart;
         }
     }
     public bool NewGame
@@ -41,6 +45,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public UnityEvent GameStart;
+    public UnityEvent GameEnd;
 
     public static GameManager instance = null;
 
@@ -59,31 +65,86 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
         _playTime = 0f;
-        _totalPlayTime = 60f;
-        _gameStart = true;
+        _totalPlayTime = 5f;
+        _dayStart = false;
         _newGame = true;
+        Days = 0;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        NextCycle();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Floor(_playTime) != 60f)
+        if (DayStart)
         {
-            _playTime += Time.deltaTime;
+            if (Mathf.Floor(_playTime) != TotalPlayTime)
+            {
+                _playTime += Time.deltaTime;
 
-            Debug.Log(Mathf.Floor(_playTime));
+                Debug.Log(Mathf.Floor(_playTime));
+            }
+            else
+            {
+                Debug.Log(Days + "일 끝");
+                _dayStart = false;
+                Days += 1;
+
+                InitializeDay();
+                
+                Invoke("NextCycle", 1f);
+            }
         }
-        else
+    }
+
+    private void InitializeDay()
+    {
+        // 1. 분기 판단
+        if (Days == 3)
         {
-            _gameStart = false;
+            CheckQuarter();
+        }
+
+        // 2. 값 초기화
+        _playTime = 0f;
+        Character.instance.MyPlayerController.SetInput(false, false);
+        GameEnd.Invoke();
+
+        
+    }
+
+    // 분기 판단
+    private void CheckQuarter()
+    {
+        for(int i = 0; i < Character.instance.MyStackByJob.Length; i++)
+        {
+            if (Character.instance.MyStackByJob[i] != 0)
+            {
+                Debug.Log(i + "번 째 값이 " + Character.instance.MyStackByJob[i]);
+                Character.instance.SetCharacterStat(2, 1);
+            }
+        }
+    }
+
+    private void NextCycle()
+    {
+        switch(Character.instance.MyRound)
+        {
+            case 1:
+                _dayStart = true;
+                Character.instance.MyPlayerController.SetInput(true, true);
+                GameStart.Invoke();
+                Debug.Log(Days + "일 시작");
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
         }
     }
 }

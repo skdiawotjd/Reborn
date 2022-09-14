@@ -59,7 +59,7 @@ public class MainUIManager : MonoBehaviour
                 break;
             // TodoProgress
             case 4:
-                TodoProgressImage.fillAmount = Character.instance.TodoProgress / 100f;
+                TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
                 break;
             // MyRound
             case 5:

@@ -42,7 +42,7 @@ public class Character : MonoBehaviour
             return _myAge;
         }
     }
-    public float TodoProgress
+    public int TodoProgress
     {
         get
         {

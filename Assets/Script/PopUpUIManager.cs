@@ -43,6 +43,6 @@ public class PopUpUIManager : MonoBehaviour
     {
         InvenPanel.SetActive(false);
         MiniMapPanel.SetActive(false);
-        MiniMapPanel.SetActive(false);
+        SettingPanel.SetActive(false);
     }
 }

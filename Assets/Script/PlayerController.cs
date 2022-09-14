@@ -34,15 +34,17 @@ public class PlayerController : MonoBehaviour
         InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();
 
         moveSpeed = 4.0f;
-        CharacterControllable = true;
-        UIControllable = true;
+        CharacterControllable = false;
+        UIControllable = false;
         ConversationNext = false;
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
         Offset = new Vector2(0.02f, 0.34f);
+
+        
     }
     void Start()
     {
-
+        GameManager.instance.GameEnd.AddListener(EndPlayerController);
     }
 
     void Update()
@@ -224,7 +226,13 @@ public class PlayerController : MonoBehaviour
     {
         CharacterControllable = CharacterInput;
         UIControllable = UIInput;
-}
+    }
+
+    private void EndPlayerController()
+    {
+        Spum._anim.SetBool("Run", false);
+        Spum._anim.SetFloat("RunState", 0.0f);
+    }
 }
 
 

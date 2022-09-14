@@ -9,8 +9,8 @@ public class Character : MonoBehaviour
     private SocialClass _mySocialClass;
     private Job _myJob;
     private int _myAge;
-    private int _myRound;
     private int _todoProgress;
+    private int _myRound;
     private int[] _myStackByJob;
     private float MyWorkSpeed;
     private InventoryManager MyInven;
@@ -42,18 +42,18 @@ public class Character : MonoBehaviour
             return _myAge;
         }
     }
-    public int MyRound
-    {
-        get
-        {
-            return _myRound;
-        }
-    }
     public float TodoProgress
     {
         get
         {
             return _todoProgress;
+        }
+    }
+    public int MyRound
+    {
+        get
+        {
+            return _myRound;
         }
     }
     public int[] MyStackByJob
@@ -87,11 +87,14 @@ public class Character : MonoBehaviour
 
         MyInven = gameObject.GetComponent<InventoryManager>();
         MyPlayerController = gameObject.GetComponent<PlayerController>();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.GameEnd.AddListener(EndCharacter);
+
         CharacterStatSetting();
     }
 
@@ -107,7 +110,7 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - MyRound, 5 - TodoProgress, 6 - MyStackByJob
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyStackByJob
     /// </summary> 
     public void SetCharacterStat<T>(int Type, T value)
     {
@@ -127,13 +130,13 @@ public class Character : MonoBehaviour
             case 3:
                 _myAge = StatType;
                 break;
-            // MyRound
-            case 4:
-                _myRound = StatType;
-                break;
             // TodoProgress
-            case 5:
+            case 4:
                 _todoProgress += StatType;
+                break;
+            // MyRound
+            case 5:
+                _myRound = StatType;
                 break;
             // MyStackByJob
             case 6:
@@ -171,10 +174,10 @@ public class Character : MonoBehaviour
             _myJob = Job.Slayer;
             // 3. 나이 설정
             _myAge = 10;
-            // 4. 라운드 설정
+            // 4. 진행도 설정
+            _todoProgress = 50;
+            // 5. 라운드 설정
             _myRound = 1;
-            // 5. 진행도 설정
-            _todoProgress = 0;
             // 6. 스택 설정
             _myStackByJob = new int[16];
             for (int i = 0; i < MyStackByJob.Length; i++)
@@ -188,5 +191,10 @@ public class Character : MonoBehaviour
         {
             // 이어 하기
         }
+    }
+
+    private void EndCharacter()
+    {
+        _todoProgress = 0;
     }
 }

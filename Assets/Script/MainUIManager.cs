@@ -10,20 +10,21 @@ public class MainUIManager : MonoBehaviour
     private Image JobImage;
     private Image TodoProgressImage;
 
-    private void Awake()
+    void Awake()
     {
         SettingImage = transform.GetChild(0).GetComponent<Image>();
         DayImage = transform.GetChild(2).GetComponent<Image>();
         JobImage = transform.GetChild(3).GetComponent<Image>();
         TodoProgressImage = transform.GetChild(5).GetComponent<Image>();
+
+        GameManager.instance.GameStart.AddListener(StartUI);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         Character.instance.EventUIChange.AddListener(CheckChangeMainUI);
-
-        StartCoroutine(Timer());
+        GameManager.instance.GameEnd.AddListener(EndUI);
     }
 
     // Update is called once per frame
@@ -34,14 +35,13 @@ public class MainUIManager : MonoBehaviour
 
     IEnumerator Timer()
     {
-        while (GameManager.instance.GameStart)
+        while (GameManager.instance.DayStart)
         {
             DayImage.fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
 
 
             yield return Time.deltaTime;
         }
-
     }
 
     private void CheckChangeMainUI(int Type)
@@ -57,16 +57,32 @@ public class MainUIManager : MonoBehaviour
             // MyAge
             case 3:
                 break;
-            // MyRound
-            case 4:
-                break;
             // TodoProgress
-            case 5:
+            case 4:
                 TodoProgressImage.fillAmount = Character.instance.TodoProgress / 100f;
+                break;
+            // MyRound
+            case 5:
                 break;
             // MyStackByJob
             case 6:
                 break;
         }
+    }
+
+    private void EndUI()
+    {
+        CheckChangeMainUI(4);
+
+        StopCoroutine(Timer());
+
+        DayImage.fillAmount = 1f;
+    }
+
+    private void StartUI()
+    {
+        CheckChangeMainUI(4);
+
+        StartCoroutine(Timer());
     }
 }

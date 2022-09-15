@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        NextCycle();
+        NewDay();
     }
 
     // Update is called once per frame
@@ -93,29 +93,37 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log(Days + "일 끝");
                 _dayStart = false;
-                Days += 1;
-
                 InitializeDay();
-                
-                Invoke("NextCycle", 1f);
             }
         }
     }
 
+    // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정
     private void InitializeDay()
     {
         // 1. 분기 판단
-        if (Days == 3)
+        if (Days % 3 == 0)
         {
-            CheckQuarter();
+            // 1.1 특정 분기 진입
+
+            // 1.1.1 n회차 진입
+            if (Days % 9 == 0)
+            {
+                Debug.Log("회차 완료");
+            }
+            else
+            {
+                // 1.1.2 각 분기 진입
+                Debug.Log("분기 진입");
+                CheckQuarter();
+                NewDay();
+            }
         }
-
-        // 2. 값 초기화
-        _playTime = 0f;
-        Character.instance.MyPlayerController.SetInput(false, false);
-        GameEnd.Invoke();
-
-        
+        else
+        {
+            // 1.2 특정 분기 없음
+            NewDay();
+        }
     }
 
     // 분기 판단
@@ -129,6 +137,19 @@ public class GameManager : MonoBehaviour
                 Character.instance.SetCharacterStat(2, 1);
             }
         }
+    }
+
+    // 하루 시작 과정
+    private void NewDay()
+    {
+        // 값 초기화
+        _playTime = 0f;
+        Character.instance.MyPlayerController.SetInput(false, false);
+        GameEnd.Invoke();
+        Days += 1;
+
+        // 새로운 하루 시작
+        Invoke("NextCycle", 1f);
     }
 
     private void NextCycle()

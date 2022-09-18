@@ -5,6 +5,7 @@ using UnityEngine;
 public class DDRNpc : MonoBehaviour
 {
     private MiniGameManager DDRManager;
+    private int myPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +19,26 @@ public class DDRNpc : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        /*switch(Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+        {
+            case 5:
+                myPosition = 0;
+                break;
+            case 6:
+                myPosition = 1;
+                break;
+            case 7:
+                myPosition = 2;
+                break;
+            default:
+                break;
+        }*/
+        myPosition = 2;
+
         if (collision.gameObject.name == "R_Weapon")
         {
-            Debug.Log("asd");
             Character.instance.SetCharacterInput(false, false);
-            //DDRManager.DdrStart();
-            //DDRManager.TimingStart();
-            DDRManager.QuizStart();
-
+            DDRManager.GameStart(myPosition);
         }
     }
 }

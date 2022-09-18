@@ -21,6 +21,7 @@ public class MiniGameManager : MonoBehaviour
     private TextMeshProUGUI timeText;
     Arrow[] arrowArray;
     public Slider timeSlider;
+    private bool gameClear;
 
     // Timing 변수
 
@@ -83,34 +84,64 @@ public class MiniGameManager : MonoBehaviour
 
 
     }
-    public void TimingStart() // 타이밍 맞추기 시작
+    public void GameStart(int gameType)
     {
-        timingValue = 0f;
-        timingChangeDirection = true;
-        timingGameActive = true;
-        timingCount = 0;
-        SetTimingPosition();
+        switch(gameType)
+        {
+            case 0:// 타이밍 맞추기 시작
+                timingValue = 0f;
+                timingChangeDirection = true;
+                timingGameActive = true;
+                timingCount = 0;
+                SetTimingPosition();
+                break;
+            case 1:// ddr 시작
+                timeSlider.gameObject.SetActive(true);
+                timeText.gameObject.SetActive(true);
+                MiniGameDdr();
+                SetRound(0);
+                StartCoroutine("CountTime", 0.1);
+                break;
+            case 2:// Quiz 시작
+                quizRound = 0;
+                answerChoiceNumber = 0;
+                QuizGenerate();
+                QuizSetting();
+                timeText.gameObject.SetActive(true);
+                quizPanel.gameObject.SetActive(true);
+                StartCoroutine(CountTime(0.1f));
+                break;
+            default:
+                break;
+        }
     }
-    public void DdrStart() // ddr 시작
+    private void GameEnd(int gameType, bool clear)
     {
-        timeSlider.gameObject.SetActive(true);
-        timeText.gameObject.SetActive(true);
-        MiniGameDdr();
-        SetRound(0);
-        StartCoroutine("CountTime", 0.1);
+        switch (gameType)
+        {
+            case 0:// 타이밍 맞추기 끝
+                timingSlider.gameObject.SetActive(false);
+                timingGameActive = false;
+                break;
+            case 1:// ddr 끝
+                timeSlider.gameObject.SetActive(false);
+                timeText.gameObject.SetActive(false);
+                gameActive = false;
+                break;
+            case 2:// Quiz 끝
+                timeText.gameObject.SetActive(false);
+                quizPanel.gameObject.SetActive(false);
+                quizGameActive = false;
+                break;
+            default:
+                break;
+        }
+        text.text = clear ? "Clear!" : "Failed";
+        text.gameObject.SetActive(true);
+        StartCoroutine(WaitingTime(3f));
+        text.gameObject.SetActive(false);
+        Character.instance.SetCharacterInput(true, true);
     }
-
-    public void QuizStart()
-    {
-        quizRound = 0;
-        answerChoiceNumber = 0;
-        QuizGenerate();
-        QuizSetting();
-        timeText.gameObject.SetActive(true);
-        quizPanel.gameObject.SetActive(true);
-        StartCoroutine(CountTime(0.1f));
-    }
-
     void Update()
     {
         if(gameActive)
@@ -155,7 +186,14 @@ public class MiniGameManager : MonoBehaviour
                 }
                 StartCoroutine("WaitingTime", 0.5f);
                 timingRound++;
-                SetTimingPosition();
+                if (timingRound < 5)
+                {
+                    SetTimingPosition();
+                }
+                else if (timingRound == 5)
+                {
+                    GameEnd(0, true);
+                }
             }
         }
         if (quizGameActive)
@@ -197,37 +235,22 @@ public class MiniGameManager : MonoBehaviour
                 {
                     QuizSetting();
                 }
+                else if (quizRound == 5)
+                {
+                    GameEnd(2, true);
+                }
 
             }
         }
     }
 
+
+    // 여기서부터 ddr 게임
     void SetRound(int nextRound)
     {
         SetKey(keyOfRound[nextRound]);
         generate();
         gameActive = true;
-    }
-    void SetTimingRound() // 타이밍 맞추기
-    {
-        timingRound = 0;
-        SetTimingPosition();
-    }
-    void SetTimingPosition() // 타이밍 맞추기
-    {
-        if (timingRound < 5)
-        {
-            randomNumber = Random.Range(2.0f, 8.0f);
-            temNumber = (int)(randomNumber * 100f);
-            perfectFloor.rectTransform.anchoredPosition = new Vector3(temNumber, perfectFloor.rectTransform.anchoredPosition.y);
-            timingValue = 0;
-            timingSlider.value = timingValue;
-            timingChangeDirection = true;
-
-            timingSlider.gameObject.SetActive(true);
-            timingGameActive = true;
-            StartCoroutine("ChangeTimingValue", 0.1f);
-        }
     }
     void SetKey(int key)
     {
@@ -242,7 +265,6 @@ public class MiniGameManager : MonoBehaviour
             RandomKey[i] = Random.Range(0, 4);
         }
     }
-
     void generate() // 실제 Arrow를 게임오브젝트 배열에 생성하고 키 방향에 따라 회전시켜준다
     {
         for (int i = 0; i < arrowArray.Length; i++)
@@ -251,7 +273,7 @@ public class MiniGameManager : MonoBehaviour
             // 부모 오브젝트 설정. 부모의 transform을 받기 위함
 
             arrowArray[i].transform.Rotate(0, 0, 90 * RandomKey[i]);
-            
+
         }
     }
     void PressKey(int key) // 제대로 눌렸는가? 를 판단
@@ -271,6 +293,7 @@ public class MiniGameManager : MonoBehaviour
             {
                 playTime = 0;
                 timeSlider.value = playTime;
+                GameEnd(1, false);
             }
         }
         else if (quizGameActive) // 퀴즈 게임
@@ -298,7 +321,7 @@ public class MiniGameManager : MonoBehaviour
                 case 3:
                     if (answerChoiceNumber == 0 || answerChoiceNumber == 2)
                     {
-                        SelectedChange(4);
+                        SelectedChange(3);
                     }
                     break;
                 default:
@@ -306,7 +329,65 @@ public class MiniGameManager : MonoBehaviour
             }
         }
     }
-    void SelectedChange(int position)
+    void CompareKey(int key) // 제대로 눌렸다면 keyCount를 증가 시켜준다.
+    {
+        if (RandomKey[keyCount] == key) // 키 박스의 숫자와 눌린 키가 일치한지
+        {
+            if (keyCount != keyStack) // 키 카운트가 최대값이 아닐 때
+            {
+                arrowArray[keyCount].ArrowAnim();
+                keyCount++; // 키 카운트를 증가시킨다
+                if (keyCount == keyStack) // 키 카운트가 최대에 도달 했을 때
+                {
+                    keyCount = 0;
+                    if (round++ != maxRound)
+                    {
+                        SetRound(round);
+                    }
+                    else
+                    {
+                        GameEnd(1, true);
+                    }
+
+
+                }
+            }
+
+        }
+    }
+    void MiniGameDdr()
+    {
+        playTime = 60.0f; // 플레이 타임을 정한다
+        timeSlider.maxValue = playTime; // 플레이 타임에 맞게 시간 프로그레스 바의 최대값을 정해준다
+    }
+
+    // 여기서부터 타이밍 맞추기
+
+    void SetTimingRound() // 타이밍 맞추기
+    {
+        timingRound = 0;
+        SetTimingPosition();
+    }
+    void SetTimingPosition() // 타이밍 맞추기
+    {
+        if (timingRound < 5)
+        {
+            randomNumber = Random.Range(2.0f, 8.0f);
+            temNumber = (int)(randomNumber * 100f);
+            perfectFloor.rectTransform.anchoredPosition = new Vector3(temNumber, perfectFloor.rectTransform.anchoredPosition.y);
+            timingValue = 0;
+            timingSlider.value = timingValue;
+            timingChangeDirection = true;
+
+            timingSlider.gameObject.SetActive(true);
+            timingGameActive = true;
+            StartCoroutine("ChangeTimingValue", 0.1f);
+        }
+    }
+
+    // 여기서부터 Quiz
+
+    void SelectedChange(int position) // Quiz
     {
         temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
         temColor.a = 0.4f; // 임시 컬러의 알파값을 0.4f, 즉 100 정도로 만든다
@@ -326,38 +407,11 @@ public class MiniGameManager : MonoBehaviour
                 answerChoiceNumber += 1;
                 break;
         }
-        answerChoiceNumber -= 2; // 선택된 넘버를 변경
+        
 
         temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
         temColor.a = 1f; // 임시 컬러의 알파값을 1f, 즉 255로 만든다 (불투명 - 선택됨)
         answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
-    }
-    void CompareKey(int key) // 제대로 눌렸다면 keyCount를 증가 시켜준다.
-    {
-        if (RandomKey[keyCount] == key) // 키 박스의 숫자와 눌린 키가 일치한지
-        {
-            if(keyCount != keyStack) // 키 카운트가 최대값이 아닐 때
-            {
-                arrowArray[keyCount].ArrowAnim();
-                keyCount++; // 키 카운트를 증가시킨다
-                if(keyCount == keyStack) // 키 카운트가 최대에 도달 했을 때
-                {
-                    keyCount = 0;
-                    if(round++ != maxRound)
-                    {
-                        SetRound(round);
-                    }
-                    else
-                    {
-                        gameActive=false;
-                        text.gameObject.SetActive(true);
-                    }
-                    
-
-                }
-            }
-            
-        }
     }
     void QuizGenerate()
     {
@@ -376,27 +430,28 @@ public class MiniGameManager : MonoBehaviour
         answerText[3].text = quizList[quizRound]["Answer4"].ToString();
         answerNumber = int.Parse(quizList[quizRound]["AnswerNumber"].ToString()) - 1;
     }
-    void MiniGameDdr()
-    {
-        playTime = 60.0f; // 플레이 타임을 정한다
-        timeSlider.maxValue = playTime; // 플레이 타임에 맞게 시간 프로그레스 바의 최대값을 정해준다
-    }
+
     IEnumerator CountTime(float delayTime) // 0.1초에 한번씩 시간을 줄인다
     { 
         Debug.Log("Time : " + playTime); 
         yield return new WaitForSeconds(delayTime);
-        if(playTime > 0 && gameActive)
+        if(playTime > 0f && gameActive) // ddr 게임 진행중
         {
             playTime -= 0.1f;
             timeSlider.value = playTime;
             StartCoroutine("CountTime", 0.1f);
         }
-        else if(playTime > 0 && quizGameActive)
+        else if(playTime > 0f && quizGameActive) // 퀴즈 게임 진행중
         {
             playTime -= 0.1f;
             timeText.text = playTime.ToString();
             StartCoroutine(CountTime(0.1f));
 
+        }
+        else if(playTime < 0f && quizGameActive)
+        {
+            playTime = 0f;
+            GameEnd(2, false);
         }
     }
 

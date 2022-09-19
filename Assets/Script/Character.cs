@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     private int _myAge;
     private int _todoProgress;
     private int _myRound;
+    private int _activePoint;
     private int[] _myStackByJob;
     private float MyWorkSpeed;
     private InventoryManager MyInven;
@@ -54,6 +55,13 @@ public class Character : MonoBehaviour
         get
         {
             return _myRound;
+        }
+    }
+    public int ActivePoint
+    {
+        get
+        {
+            return _activePoint;
         }
     }
     public int[] MyStackByJob
@@ -110,7 +118,7 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyStackByJob
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - ActivePoint, 7 - MyStackByJob
     /// </summary> 
     public void SetCharacterStat<T>(int Type, T value)
     {
@@ -138,8 +146,11 @@ public class Character : MonoBehaviour
             case 5:
                 _myRound = StatType;
                 break;
-            // MyStackByJob
+            // ActivePoint
             case 6:
+                _activePoint = StatType;
+                break;
+            // MyStackByJob
             case 7:
             case 8:
             case 9:
@@ -155,6 +166,7 @@ public class Character : MonoBehaviour
             case 19:
             case 20:
             case 21:
+            case 22:
                 _myStackByJob[Type - 6] += StatType;
                 break;
         }
@@ -178,6 +190,8 @@ public class Character : MonoBehaviour
             _todoProgress = 50;
             // 5. 라운드 설정
             _myRound = 1;
+            // 6. 활동력 설정
+            _activePoint = 100;
             // 6. 스택 설정
             _myStackByJob = new int[16];
             for (int i = 0; i < MyStackByJob.Length; i++)
@@ -196,5 +210,6 @@ public class Character : MonoBehaviour
     private void EndCharacter()
     {
         _todoProgress = 0;
+        _activePoint = 100;
     }
 }

@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
     {
         if (DayStart)
         {
-            if (Mathf.Floor(_playTime) != TotalPlayTime)
+            if (Mathf.Floor(_playTime) != TotalPlayTime && Character.instance.ActivePoint != 0)
             {
                 _playTime += Time.deltaTime;
 

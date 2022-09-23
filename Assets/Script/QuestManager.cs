@@ -43,7 +43,7 @@ public class QuestManager : MonoBehaviour
         // 하루가 지나 퀘스트를 부여한다. new day에 불러준다.
         _questType = (int)Character.instance.MyJob;// 퀘스트는 직업별로 다르게 부여된다. 
         _questLevel = (int)Character.instance.MySocialClass;// 퀘스트는 계급별로 난이도가 정해진다.
-        Character.instance.SetCharacterStat(4, 0); // todoProgress를 0으로 만들어 준다.
+        // Character.instance.SetCharacterStat(4, 0); // todoProgress를 0으로 만들어 준다.
     }
 
     public void QuestClear(int type, bool clear)
@@ -56,11 +56,11 @@ public class QuestManager : MonoBehaviour
 
             if (Character.instance.TodoProgress < 100)
             {
-                Character.instance.SetCharacterStat(4, Character.instance.TodoProgress + 20); // todoProgress + 20
+                Character.instance.SetCharacterStat(4, Character.instance.TodoProgress + 2); // todoProgress + 2
             }
             else
             {
-                Character.instance.SetCharacterStat(type + 7, 2); // 스택 업                                                      
+                Character.instance.SetCharacterStat(type + 8, 2); // 스택 업
             }
         }
         else

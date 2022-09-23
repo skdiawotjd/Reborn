@@ -6,7 +6,6 @@ using TMPro;
 
 public class MiniGameManager : MonoBehaviour
 {
-    private QuestManager questManager;
 
     // DDR 변수 
     private int keyStack; // 게임 진행시 나오는 키의 개수
@@ -56,7 +55,6 @@ public class MiniGameManager : MonoBehaviour
 
     void Start()
     {
-        questManager = GetComponent<QuestManager>();
         timeText = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         timingSlider = GameObject.Find("Canvas").transform.GetChild(3).GetComponent<Slider>();
         perfectFloor = GameObject.Find("Canvas").transform.GetChild(3).GetChild(2).GetComponent<Image>();
@@ -143,7 +141,7 @@ public class MiniGameManager : MonoBehaviour
         text.gameObject.SetActive(true);
         StartCoroutine(WaitingTime(3f));
         text.gameObject.SetActive(false);
-        questManager.QuestClear((int)Character.instance.MyJob, clear);
+        QuestManager.instance.QuestClear((int)Character.instance.MyJob, clear);
         Character.instance.SetCharacterInput(true, true);
     }
     void Update()

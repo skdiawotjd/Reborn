@@ -1719,7 +1719,7 @@ GameObject:
   - component: {fileID: 1436986245}
   - component: {fileID: 1436986244}
   m_Layer: 7
-  m_Name: DDRNpc
+  m_Name: MiniGameNPC
   m_TagString: Conversationable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1436986243}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dcf5097ac318c345be62017445e4bf6, type: 3}
+  m_Script: {fileID: 11500000, guid: c1bb49e4628aefa4c8631534d5470610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!61 &1436986245

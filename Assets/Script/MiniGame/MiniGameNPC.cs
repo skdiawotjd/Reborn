@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DDRNpc : MonoBehaviour
+public class MiniGameNPC : MonoBehaviour
 {
-    private MiniGameManager DDRManager;
+    private MiniGameManager miniGameManager;
     private int myPosition;
     // Start is called before the first frame update
     void Start()
     {
-        DDRManager = GameObject.Find("MiniGameManager").GetComponent<MiniGameManager>();
+        miniGameManager = GameObject.Find("MiniGameManager").GetComponent<MiniGameManager>();
     }
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class DDRNpc : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch(Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+        switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
         {
             case 5:
                 myPosition = 0;
@@ -38,7 +38,7 @@ public class DDRNpc : MonoBehaviour
         if (collision.gameObject.name == "R_Weapon")
         {
             Character.instance.SetCharacterInput(false, false);
-            DDRManager.GameStart(myPosition);
+            miniGameManager.GameStart(myPosition);
         }
     }
 }

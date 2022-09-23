@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     private int _myAge;
     private int _todoProgress;
     private int _myRound;
+    private int _myPosition;
     private int _activePoint;
     private int[] _myStackBySocialClass;
     private int[] _myStackByJob;
@@ -56,6 +57,13 @@ public class Character : MonoBehaviour
         get
         {
             return _myRound;
+        }
+    }
+    public int MyPosition
+    {
+        get
+        {
+            return _myPosition;
         }
     }
     public int ActivePoint
@@ -122,9 +130,9 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - ActivePoint, 7~17 - MyStack(SocialClass / Job)
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8~18 - MyStack(SocialClass / Job)
     /// <para>
-    /// 직업 별 Type : 7 - 노예, 8 - 대장장이, 9 - 상인, 10 - 명장, 11 - 대상인, 12 - 기사, 13 - 학자, 14 - 기사단장, 15 - 연금술사, 16 - 귀족, 17 - 왕
+    /// 직업 별 Type : 8 - 노예, 9 - 대장장이, 10 - 상인, 11 - 명장, 12 - 대상인, 13 - 기사, 14 - 학자, 15 - 기사단장, 16 - 연금술사, 17 - 귀족, 18 - 왕
     /// </para>
     /// </summary> 
     public void SetCharacterStat<T>(int Type, T value)
@@ -153,37 +161,41 @@ public class Character : MonoBehaviour
             case 5:
                 _myRound = StatType;
                 break;
-            // ActivePoint
+            // MyPosition
             case 6:
+                _myPosition = StatType;
+                break;
+            // ActivePoint
+            case 7:
                 _activePoint = StatType;
                 break;
             // MyStackBySocialClass
             // MyStackByJob
-            case 7:
-                _myStackBySocialClass[0] += Mathf.Abs(StatType);
-                _myStackByJob[Type - 7] += StatType;
-                break;
             case 8:
+                _myStackBySocialClass[0] += Mathf.Abs(StatType);
+                _myStackByJob[Type - 8] += StatType;
+                break;
             case 9:
             case 10:
             case 11:
-                _myStackBySocialClass[1] += Mathf.Abs(StatType);
-                _myStackByJob[Type - 7] += StatType;
-                break;
             case 12:
+                _myStackBySocialClass[1] += Mathf.Abs(StatType);
+                _myStackByJob[Type - 8] += StatType;
+                break;
             case 13:
             case 14:
             case 15:
-                _myStackBySocialClass[2] += Mathf.Abs(StatType);
-                _myStackByJob[Type - 7] += StatType;
-                break;
             case 16:
-                _myStackBySocialClass[3] += Mathf.Abs(StatType);
-                _myStackByJob[Type - 7] += StatType;
+                _myStackBySocialClass[2] += Mathf.Abs(StatType);
+                _myStackByJob[Type - 8] += StatType;
                 break;
             case 17:
+                _myStackBySocialClass[3] += Mathf.Abs(StatType);
+                _myStackByJob[Type - 8] += StatType;
+                break;
+            case 18:
                 _myStackBySocialClass[4] += Mathf.Abs(StatType);
-                _myStackByJob[Type - 7] += StatType;
+                _myStackByJob[Type - 8] += StatType;
                 break;
         }
 

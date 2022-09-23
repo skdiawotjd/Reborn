@@ -19,7 +19,7 @@ public class DDRNpc : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        /*switch(Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+        switch(Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
         {
             case 5:
                 myPosition = 0;
@@ -32,7 +32,7 @@ public class DDRNpc : MonoBehaviour
                 break;
             default:
                 break;
-        }*/
+        }
         myPosition = 2;
 
         if (collision.gameObject.name == "R_Weapon")

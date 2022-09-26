@@ -223,6 +223,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        Character.instance.SetCharacterStat(4, 0);
     }
 
     // 하루 시작 과정

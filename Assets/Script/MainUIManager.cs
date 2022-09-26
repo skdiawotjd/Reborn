@@ -5,17 +5,19 @@ using UnityEngine.UI;
 
 public class MainUIManager : MonoBehaviour
 {
-    private Image SettingImage;
+    private Button SettingButton;
+    private Button SkipDayButton;
     private Image DayImage;
     private Image JobImage;
     private Image TodoProgressImage;
 
     void Awake()
     {
-        SettingImage = transform.GetChild(0).GetComponent<Image>();
-        DayImage = transform.GetChild(2).GetComponent<Image>();
-        JobImage = transform.GetChild(3).GetComponent<Image>();
-        TodoProgressImage = transform.GetChild(5).GetComponent<Image>();
+        SettingButton = transform.GetChild(0).GetComponent<Button>();
+        SkipDayButton = transform.GetChild(1).GetComponent<Button>();
+        DayImage = transform.GetChild(3).GetComponent<Image>();
+        JobImage = transform.GetChild(4).GetComponent<Image>();
+        TodoProgressImage = transform.GetChild(6).GetComponent<Image>();
 
         GameManager.instance.GameStart.AddListener(StartUI);
     }
@@ -46,7 +48,7 @@ public class MainUIManager : MonoBehaviour
 
     private void CheckChangeMainUI(int Type)
     {
-        switch(Type)
+        switch (Type)
         {
             // MySocialClass
             case 1:
@@ -70,8 +72,16 @@ public class MainUIManager : MonoBehaviour
         }
     }
 
+    public void SetZeroActivePoint()
+    {
+        Character.instance.SetCharacterStat(7, 0);
+    }
+
     private void EndUI()
     {
+        SettingButton.interactable = false;
+        SkipDayButton.interactable = false;
+
         CheckChangeMainUI(4);
 
         StopCoroutine(Timer());
@@ -81,6 +91,9 @@ public class MainUIManager : MonoBehaviour
 
     private void StartUI()
     {
+        SettingButton.interactable = true;
+        SkipDayButton.interactable = true;
+
         CheckChangeMainUI(4);
 
         StartCoroutine(Timer());

@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         }
 
         _playTime = 0f;
-        _totalPlayTime = 5f;
+        _totalPlayTime = 600f;
         _dayStart = false;
         _newGame = true;
         Days = 0;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TemPortal : MonoBehaviour
 {
+    public string SceneName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,7 @@ public class TemPortal : MonoBehaviour
         switch (SceneType)
         {
             case 2:
-                UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGameDdr");
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
                 break;
         }
     }

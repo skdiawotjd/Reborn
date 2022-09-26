@@ -96,5 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a611f57b7e2a0a243b922585667690bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: {x: 9.6, y: 5.4}
+  MapSize: {x: 9.6, y: 5.4}
   cameraSpeed: 5

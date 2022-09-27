@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class PlayerController : MonoBehaviour
     private Coroutine AttackCoroutine;
     private Vector3 Arrow;
     private Vector2 Offset;
+    // Á¦ÇÑ ÁÂÇ¥
+    private Vector2 LimitPosition;
+    // ÃÖÁ¾ ÁÂÇ¥
+    private Vector3 FinalPosition;
 
     private void Awake()
     {
@@ -37,14 +42,19 @@ public class PlayerController : MonoBehaviour
         CharacterControllable = false;
         UIControllable = false;
         ConversationNext = false;
+
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
         Offset = new Vector2(0.02f, 0.34f);
 
-        
+        LimitPosition = new Vector2(8.9f, 5.4f);
+        FinalPosition = new Vector3(0f, 0f, 0f);
     }
     void Start()
     {
         GameManager.instance.GameEnd.AddListener(EndPlayerController);
+        GameManager.instance.SceneMove.AddListener(SetPlayerPositionRange);
+
+        SetPlayerPositionRange();
     }
 
     void Update()
@@ -155,8 +165,17 @@ public class PlayerController : MonoBehaviour
             Spum._anim.SetFloat("RunState", 0.5f);
         }
         
-        Vector3 moveVelocity = new Vector3(InputX, InputY, 0) * moveSpeed * Time.deltaTime;
-        transform.position += moveVelocity;
+        
+        FinalPosition.x = Mathf.Clamp(transform.position.x + InputX * moveSpeed * Time.deltaTime, -LimitPosition.x, LimitPosition.x);
+        FinalPosition.y = Mathf.Clamp(transform.position.y + InputY * moveSpeed * Time.deltaTime, -LimitPosition.y, LimitPosition.y - 2.7f);
+
+        transform.position = FinalPosition;
+    }
+
+    private void SetPlayerPositionRange()
+    {
+        LimitPosition.x = (GameManager.instance.Background.sizeDelta.x / 2f) - 0.7f;
+        LimitPosition.y = (GameManager.instance.Background.sizeDelta.y / 2f);
     }
 
     private void AttackProcess()

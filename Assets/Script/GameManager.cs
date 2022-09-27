@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,8 +48,11 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent GameStart;
     public UnityEvent GameEnd;
+    public UnityEvent SceneMove;
 
     public static GameManager instance = null;
+    // æ¿¿« ≈©±‚
+    public RectTransform Background;
 
     private void Awake()
     {
@@ -70,6 +74,8 @@ public class GameManager : MonoBehaviour
         _dayStart = false;
         _newGame = true;
         Days = 0;
+
+        SceneManager.sceneLoaded += LoadedsceneEvent;
     }
 
     // Start is called before the first frame update
@@ -255,5 +261,12 @@ public class GameManager : MonoBehaviour
             case 3:
                 break;
         }
+    }
+
+    private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
+    {
+        Background = GameObject.Find("Background").GetComponent<RectTransform>();
+
+        SceneMove.Invoke();
     }
 }

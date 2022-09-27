@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
-    // 씬의 크기
-    private RectTransform Background;
+    
     // 카메라 기본 위치
     private Vector3 cameraPosition;
     
@@ -24,11 +22,12 @@ public class CameraController : MonoBehaviour
     private float height;
     private float width;
 
+
     void Start()
     {
         DontDestroyOnLoad(this);
 
-        SceneManager.sceneLoaded += LoadedsceneEvent;
+        GameManager.instance.SceneMove.AddListener(SetCameraRange);
 
         cameraPosition = new Vector3(0, 0, -10f);
         RangePosition = new Vector3(0, 0, -10f);
@@ -37,6 +36,7 @@ public class CameraController : MonoBehaviour
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
 
+        SetCameraRange();
         LimitCameraArea();
     }
 
@@ -64,17 +64,13 @@ public class CameraController : MonoBehaviour
         Gizmos.DrawWireCube(center, MapSize * 2);
     }
 
-    private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
+    private void SetCameraRange()
     {
-        Background = GameObject.Find("Background").GetComponent<RectTransform>();
-
-        if ((MapSize * 2) != Background.sizeDelta)
+        if ((MapSize * 2) != GameManager.instance.Background.sizeDelta)
         {
-            MapSize = Background.sizeDelta / 2f;
+            MapSize = GameManager.instance.Background.sizeDelta / 2f;
         }
 
         transform.position = Vector3.Lerp(transform.position, Character.instance.transform.position + cameraPosition, 1f);
-
-        Debug.Log(scene.name + "으로 변경되었습니다.");
     }
 }

@@ -31,6 +31,7 @@ public class TemPortal : MonoBehaviour
         switch (SceneType)
         {
             case 2:
+                Character.instance.MyPlayerController.DisableCollider();
                 UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
                 break;
         }

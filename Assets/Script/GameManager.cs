@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         }
 
         _playTime = 0f;
-        _totalPlayTime = 600f;
+        _totalPlayTime = 60f;
         _dayStart = false;
         _newGame = true;
         Days = 0;
@@ -78,13 +78,14 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += LoadedsceneEvent;
     }
 
-    // Start is called before the first frame update
+    
     void Start()
     {
+        InitializeGame();
+
         NewDay();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (DayStart)
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
             {
                 _playTime += Time.deltaTime;
 
-                Debug.Log(Mathf.Floor(_playTime));
+                //Debug.Log(Mathf.Floor(_playTime));
             }
             else
             {
@@ -102,6 +103,17 @@ public class GameManager : MonoBehaviour
                 InitializeDay();
             }
         }
+    }
+
+    private void InitializeGame()
+    {
+        // Canvas 세팅
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Canvas")) as GameObject;
+        CanvasObject.name = "Canvas";
+        DontDestroyOnLoad(CanvasObject);
+
+        // Canvas 카메라 세팅
+        //_ = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
     }
 
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정

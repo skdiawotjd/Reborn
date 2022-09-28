@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -210,7 +209,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void DisableCollider()
+    public void DisableCollider()
     {
         InterActionCollider.enabled = false;
     }

@@ -71,6 +71,12 @@ public class CameraController : MonoBehaviour
             MapSize = GameManager.instance.Background.sizeDelta / 2f;
         }
 
+        // LimitCameraArea를 따로 하는 이유는 보정값이 없는 쌩 값으로 카메라 위치를 설정하기 위해
         transform.position = Vector3.Lerp(transform.position, Character.instance.transform.position + cameraPosition, 1f);
+
+        RangePosition.x = Mathf.Clamp(transform.position.x, center.x - (MapSize.x - width), (MapSize.x - width) + center.x);
+        RangePosition.y = Mathf.Clamp(transform.position.y, center.y - (MapSize.y - height), (MapSize.y - height) + center.y);
+
+        transform.position = RangePosition;
     }
 }

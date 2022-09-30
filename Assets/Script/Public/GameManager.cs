@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     // 씬의 크기
     public RectTransform Background;
 
-    private void Awake()
+    void Awake()
     {
         if (instance == null)
         {
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(CanvasObject);
 
         // Canvas 카메라 세팅
-        //_ = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
+        _ = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
     }
 
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정

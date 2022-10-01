@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     private int _myAge;
     private int _todoProgress;
     private int _myRound;
-    private int _myPosition;
+    private string _myPosition;
     private int _activePoint;
     private int[] _myStackBySocialClass;
     private int[] _myStackByJob;
@@ -59,7 +59,7 @@ public class Character : MonoBehaviour
             return _myRound;
         }
     }
-    public int MyPosition
+    public string MyPosition
     {
         get
         {
@@ -163,7 +163,7 @@ public class Character : MonoBehaviour
                 break;
             // MyPosition
             case 6:
-                _myPosition = StatType;
+                _myPosition = StatType.ToString();
                 break;
             // ActivePoint
             case 7:

@@ -45,6 +45,13 @@ public class GameManager : MonoBehaviour
             return _newGame;
         }
     }
+    public string SceneName
+    {
+        get
+        {
+            return SceneManager.GetActiveScene().name;
+        }
+    }
 
     public UnityEvent GameStart;
     public UnityEvent GameEnd;
@@ -108,7 +115,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         // Canvas ¼¼ÆÃ
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Canvas")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
         CanvasObject.name = "Canvas";
         DontDestroyOnLoad(CanvasObject);
 
@@ -278,7 +285,7 @@ public class GameManager : MonoBehaviour
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
     {
         Background = GameObject.Find("Background").GetComponent<RectTransform>();
-
+        
         SceneMove.Invoke();
     }
 }

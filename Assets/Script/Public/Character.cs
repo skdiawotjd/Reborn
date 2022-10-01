@@ -137,7 +137,15 @@ public class Character : MonoBehaviour
     /// </summary> 
     public void SetCharacterStat<T>(int Type, T value)
     {
-        int StatType = (int)(object)value;
+        int StatType = 0;
+        string StatTypeString = "";
+        if(Type == 6)
+        {
+            StatTypeString = value.ToString();
+        } else
+        {
+            StatType = (int)(object)value;
+        }
 
         switch (Type)
         {
@@ -163,7 +171,7 @@ public class Character : MonoBehaviour
                 break;
             // MyPosition
             case 6:
-                _myPosition = StatType.ToString();
+                _myPosition = StatTypeString;
                 break;
             // ActivePoint
             case 7:

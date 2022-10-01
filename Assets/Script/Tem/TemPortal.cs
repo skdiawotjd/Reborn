@@ -32,18 +32,26 @@ public class TemPortal : MonoBehaviour
         {
             case 0:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0002");
+                Character.instance.SetCharacterStat(6, 0002);
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 1:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0003");
+                Character.instance.SetCharacterStat(6, 0003);
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 2:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0004");
+                Character.instance.SetCharacterStat(6, 0004);
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
+                break;
+            case 3:
+                Character.instance.MyPlayerController.DisableCollider();
+                UnityEngine.SceneManagement.SceneManager.LoadScene("TestScene");
+                break;
+            case 4:
+                Character.instance.MyPlayerController.DisableCollider();
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
 
         }

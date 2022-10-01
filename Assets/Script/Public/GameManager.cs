@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     {
         // Canvas 세팅
         GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
-        CanvasObject.name = "Canvas";
+        CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 
         // Canvas 카메라 세팅

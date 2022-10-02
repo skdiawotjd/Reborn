@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GoldBox : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("GoldBox에서 충돌체크 " + collision.gameObject.name);
+        QuestManager.instance.BoxCount();
+        Destroy(this.gameObject);
+    }
+}

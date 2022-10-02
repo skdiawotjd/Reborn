@@ -24,7 +24,7 @@ public class MoveNPCContoroller : MonoBehaviour
         BodyCollider = gameObject.GetComponent<Collider2D>();
         moveSpeed = 1.0f;
         direction = -1f;
-        InvokeRepeating("Move", 1f, 0.001f);
+        InvokeRepeating("Move", 0.001f, 0.001f);
         Spum._anim.SetBool("Run", true);
         Spum._anim.SetFloat("RunState", 0.5f);
         RotationObject = gameObject.transform.GetChild(0).gameObject;

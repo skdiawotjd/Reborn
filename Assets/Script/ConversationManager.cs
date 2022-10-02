@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 public class ConversationManager : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class ConversationManager : MonoBehaviour
 
     private int ConversationCount;
 
+    List<Dictionary<string, object>> chattingList;
+    List<string> chatList;
+    int chatListCount;
+    private Image ChatPanel;
+    private TextMeshProUGUI chatText;
+    private bool chatActive = false;
+
     private void Awake()
     {
         ConversationPanel = gameObject.transform.GetChild(0).gameObject;
@@ -17,7 +25,13 @@ public class ConversationManager : MonoBehaviour
         ContentText = ConversationPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
         NameText.text = "admin";
-        ConversationCount = 3;
+        ConversationCount = 2;
+
+        ChatPanel = GameObject.Find("Canvas").transform.GetChild(2).GetComponent<Image>();
+        chatText = ChatPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        chattingList = CSVReader.Read("Chatting");
+        chatList = new List<string>();
+        ChatGenerate();
     }
 
     // Start is called before the first frame update
@@ -26,25 +40,38 @@ public class ConversationManager : MonoBehaviour
         Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
     }
 
+    private void ChatGenerate()
+    {
+        for (int i = 1; i < chattingList[0].Count; i++)
+        {
+            if (chattingList[0]["Context" + i].ToString() == "")
+            {
+                i = chattingList[0].Count;
+            }
+            else
+            {
+                chatList.Add(chattingList[0]["Context" + i].ToString());
+            }
+        }
+    }
+
     private void NextConversation()
     {
         if (ConversationCount > 1)
         {
-            //Invoke("asd", 1f);
             StartCoroutine(SetConversationNext(true, 0.1f));
-            ContentText.text += ContentText.text;
+            ChatPanel.gameObject.SetActive(true);
+            chatText.text = chatList[Random.Range(0, chatList.Count)];
             ConversationCount--;
             Debug.Log("대사 시작 3 - Conversation의 NextConversation 함수 " + Character.instance.MyPlayerController.ConversationNext);
         }
         else
         {
-            Debug.Log("ConversationCount가 1보다 작지 않음");
-            ConversationPanel.SetActive(false);
+            Debug.Log("ConversationCount가 1보다 크지 않음");
+            ChatPanel.gameObject.SetActive(false);
             Character.instance.MyPlayerController.ConversationNext = true;
             Character.instance.SetCharacterInput(true, true);
 
-            ConversationCount = 3;
-            //Invoke("qwe", 1f);
             StartCoroutine(SetConversationNext(false, 0.5f));
         }
     }

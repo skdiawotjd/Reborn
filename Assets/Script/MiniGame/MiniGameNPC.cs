@@ -19,22 +19,25 @@ public class MiniGameNPC : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       /* switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+        // Character.instance.SetCharacterStat(6, "0004");
+       switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
         {
-            case 5:
+            case "0002": // ddr
                 myPosition = 0;
                 break;
-            case 6:
+            case "0003": // 타이밍
                 myPosition = 1;
                 break;
-            case 7:
+            case "0004": // 퀴즈
                 myPosition = 2;
+                break;
+            case "0005": // 오브젝트
+                myPosition = 3;
                 break;
             default:
                 break;
         }
-        myPosition = 2;*/
-
+        Debug.Log(Character.instance.MyPosition);
         if (collision.gameObject.name == "R_Weapon")
         {
             Character.instance.SetCharacterInput(false, false);

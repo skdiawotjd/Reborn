@@ -32,17 +32,17 @@ public class TemPortal : MonoBehaviour
         {
             case 0:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, 0002);
+                Character.instance.SetCharacterStat(6, "0002"); // ddr
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 1:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, 0003);
+                Character.instance.SetCharacterStat(6, "0003"); // 타이밍
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 2:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, 0004);
+                Character.instance.SetCharacterStat(6, "0004"); // 퀴즈
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 3:
@@ -53,7 +53,17 @@ public class TemPortal : MonoBehaviour
                 Character.instance.MyPlayerController.DisableCollider();
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
-
+            case 5:
+                Character.instance.MyPlayerController.DisableCollider();
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                break;
+            case 6:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(6, "0005"); // 오브젝트
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
+                break;
+            default:
+                break;
         }
     }
 }

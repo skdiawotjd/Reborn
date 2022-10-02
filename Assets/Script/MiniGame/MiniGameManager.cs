@@ -52,8 +52,15 @@ public class MiniGameManager : MonoBehaviour
     private Image[] answerPanel;
     private TextMeshProUGUI[] answerText;
 
+    // Object 배치 변수
 
-    void Start()
+    private GoldBox GoldBox;
+    private GoldBox temBox;
+    private int questCount;
+    private int maxCount;
+    private bool objectGameActive = false;
+
+    void Awake()
     {
         timeText = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         timingSlider = GameObject.Find("Canvas").transform.GetChild(3).GetComponent<Slider>();
@@ -63,6 +70,7 @@ public class MiniGameManager : MonoBehaviour
         quizText = quizPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         contextPanel = quizPanel.transform.GetChild(1).GetComponent<Image>();
         contextText = contextPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        GoldBox = Resources.Load<GoldBox>("Prefabs/GoldBox");
         answerPanel = new Image[4];
         answerText = new TextMeshProUGUI[answerPanel.Length];
         for (int i=0; i < answerPanel.Length; i++)
@@ -82,26 +90,29 @@ public class MiniGameManager : MonoBehaviour
 
 
         Character.instance.transform.position = new Vector3(0f, 0f, 0f);
-
-
+       
+    }
+    private void Start()
+    {
+        QuestManager.instance.EventCountChange.AddListener(BoxCount);
     }
     public void GameStart(int gameType)
     {
         switch(gameType)
         {
-            case 0:// 타이밍 맞추기 시작
-                timingValue = 0f;
-                timingChangeDirection = true;
-                timingGameActive = true;
-                timingCount = 0;
-                SetTimingPosition();
-                break;
-            case 1:// ddr 시작
+            case 0:// ddr 시작
                 timeSlider.gameObject.SetActive(true);
                 timeText.gameObject.SetActive(true);
                 MiniGameDdr();
                 SetRound(0);
                 StartCoroutine("CountTime", 0.1);
+                break;
+            case 1:// 타이밍 맞추기 시작
+                timingValue = 0f;
+                timingChangeDirection = true;
+                timingGameActive = true;
+                timingCount = 0;
+                SetTimingRound();
                 break;
             case 2:// Quiz 시작
                 quizRound = 0;
@@ -112,6 +123,14 @@ public class MiniGameManager : MonoBehaviour
                 quizPanel.gameObject.SetActive(true);
                 StartCoroutine(CountTime(0.1f));
                 break;
+            case 3: // 오브젝트 시작
+                if(!objectGameActive)
+                {
+                    GoldBoxGenerate();
+                }
+                Character.instance.SetCharacterInput(true, true);
+                objectGameActive = true;
+                break;
             default:
                 break;
         }
@@ -120,19 +139,22 @@ public class MiniGameManager : MonoBehaviour
     {
         switch (gameType)
         {
-            case 0:// 타이밍 맞추기 끝
-                timingSlider.gameObject.SetActive(false);
-                timingGameActive = false;
-                break;
-            case 1:// ddr 끝
+            case 0:// ddr 끝
                 timeSlider.gameObject.SetActive(false);
                 timeText.gameObject.SetActive(false);
                 gameActive = false;
+                break;
+            case 1:// 타이밍 맞추기 끝
+                timingSlider.gameObject.SetActive(false);
+                timingGameActive = false;
                 break;
             case 2:// Quiz 끝
                 timeText.gameObject.SetActive(false);
                 quizPanel.gameObject.SetActive(false);
                 quizGameActive = false;
+                break;
+            case 3: // 오브젝트 끝
+                objectGameActive = false;
                 break;
             default:
                 break;
@@ -140,7 +162,7 @@ public class MiniGameManager : MonoBehaviour
         text.text = clear ? "Clear!" : "Failed";
         text.gameObject.SetActive(true);
         StartCoroutine(WaitingTime(3f));
-        text.gameObject.SetActive(false);
+        
         QuestManager.instance.QuestClear((int)Character.instance.MyJob, clear);
         Character.instance.SetCharacterInput(true, true);
     }
@@ -194,7 +216,7 @@ public class MiniGameManager : MonoBehaviour
                 }
                 else if (timingRound == 5)
                 {
-                    GameEnd(0, true);
+                    GameEnd(1, true);
                 }
             }
         }
@@ -280,7 +302,7 @@ public class MiniGameManager : MonoBehaviour
     }
     void PressKey(int key) // 제대로 눌렸는가? 를 판단
     {
-        if (timingGameActive) // 타이밍 게임
+        if (gameActive) // ddr 게임
         {
             if (RandomKey[keyCount] == key)
             {
@@ -295,7 +317,7 @@ public class MiniGameManager : MonoBehaviour
             {
                 playTime = 0;
                 timeSlider.value = playTime;
-                GameEnd(1, false);
+                GameEnd(0, false);
             }
         }
         else if (quizGameActive) // 퀴즈 게임
@@ -348,7 +370,8 @@ public class MiniGameManager : MonoBehaviour
                     }
                     else
                     {
-                        GameEnd(1, true);
+                        round = 0;
+                        GameEnd(0, true);
                     }
 
 
@@ -433,9 +456,34 @@ public class MiniGameManager : MonoBehaviour
         answerNumber = int.Parse(quizList[quizRound]["AnswerNumber"].ToString()) - 1;
     }
 
+    // 여기서부터 Object 배치
+
+    private void GoldBoxGenerate()
+    {
+        maxCount = 5;
+        for (int i=0 ;i < maxCount ; i++)
+        {
+            temBox = Instantiate(GoldBox, new Vector3(Random.Range(-5, 5), Random.Range(-4, 4), transform.position.z), Quaternion.identity) as GoldBox;
+        }
+
+    }
+
+    public void BoxCount()
+    {
+        questCount++;
+        Debug.Log("전리품 1개 획득. 현재 개수 : " + questCount + " / " + maxCount);
+        if(questCount == maxCount)
+        {
+            Debug.Log("전리품 획득 완료. 게임 종료");
+            questCount = 0;
+            GameEnd(3, true);
+            // GameEnd
+        }
+    }
+
     IEnumerator CountTime(float delayTime) // 0.1초에 한번씩 시간을 줄인다
     { 
-        Debug.Log("Time : " + playTime); 
+        //Debug.Log("Time : " + playTime); 
         yield return new WaitForSeconds(delayTime);
         if(playTime > 0f && gameActive) // ddr 게임 진행중
         {
@@ -485,5 +533,6 @@ public class MiniGameManager : MonoBehaviour
     IEnumerator WaitingTime(float delayTime) // 일정 시간 대기
     {
         yield return new WaitForSeconds(delayTime);
+        text.gameObject.SetActive(false);
     }
 }

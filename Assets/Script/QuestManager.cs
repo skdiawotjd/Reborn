@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class QuestManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class QuestManager : MonoBehaviour
             return _questType;
         }
     }
-    public int QuestLeve
+    public int QuestLevel
     {
         get
         {
@@ -38,6 +39,8 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+    public UnityEvent EventCountChange;
+
     public void QuestGive()
     {
         // 하루가 지나 퀘스트를 부여한다. new day에 불러준다.
@@ -49,14 +52,19 @@ public class QuestManager : MonoBehaviour
     public void QuestClear(int type, bool clear)
     {
         // 퀘스트를 클리어하고 부를 함수
-        Character.instance.SetCharacterStat(6,Character.instance.ActivePoint - 10); // 활동력 -10
-        if(clear)
+        Debug.Log("ActivePoint 10 감소하기 전, 현재 수치 : " + Character.instance.ActivePoint);
+        Character.instance.SetCharacterStat(7,Character.instance.ActivePoint - 50); // 활동력 -10
+        Debug.Log("ActivePoint 10 감소, 현재 수치 : " + Character.instance.ActivePoint);
+
+        if (clear)
         {
             Debug.Log("퀘스트 성공");
 
             if (Character.instance.TodoProgress < 100)
             {
-                Character.instance.SetCharacterStat(4, Character.instance.TodoProgress + 2); // todoProgress + 2
+                Debug.Log("TodoProgress 2 증가하기 전, 현재 수치 : " + Character.instance.TodoProgress);
+                Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                Debug.Log("TodoProgress 2 증가, 현재 수치 : " + Character.instance.TodoProgress);
             }
             else
             {
@@ -67,5 +75,11 @@ public class QuestManager : MonoBehaviour
         {
             Debug.Log("퀘스트 실패");
         }
+    }
+
+
+    public void BoxCount()
+    {
+        EventCountChange.Invoke();
     }
 }

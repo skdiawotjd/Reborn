@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8966558649478092644}
   - component: {fileID: 8966558649478092645}
   - component: {fileID: 8966558649478092666}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GoldBox
-  m_TagString: Untagged
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -22,7 +22,7 @@ public class PopUpUIManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.SceneMove.AddListener(SceneMovePopUI);
-        GameManager.instance.GameEnd.AddListener(EndPopUI);
+        GameManager.instance.DayEnd.AddListener(EndPopUI);
         Character.instance.MyPlayerController.EventUIInput.AddListener(VisibleUI);
     }
 

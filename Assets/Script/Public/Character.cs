@@ -13,10 +13,12 @@ public class Character : MonoBehaviour
     private int _myRound;
     private string _myPosition;
     private int _activePoint;
+    private List<string> _myItem;
+    private List<int> _myItemCount;
     private int[] _myStackBySocialClass;
     private int[] _myStackByJob;
     private float MyWorkSpeed;
-    private InventoryManager MyInven;
+
     public string MyName
     {
         get
@@ -73,6 +75,20 @@ public class Character : MonoBehaviour
             return _activePoint;
         }
     }
+    public List<string> MyItem
+    {
+        get
+        {
+            return _myItem;
+        }
+    }
+    public List<int> MyItemCount
+    {
+        get
+        {
+            return _myItemCount;
+        }
+    }
     public int[] MyStackBySocialClass
     {
         get
@@ -87,11 +103,13 @@ public class Character : MonoBehaviour
             return _myStackByJob;
         }
     }
+    
 
     public UnityEvent<int> EventUIChange;
 
 
     public PlayerController MyPlayerController;
+    public ItemManager MyItemManager;
     public static Character instance = null;
 
     private void Awake()
@@ -109,9 +127,10 @@ public class Character : MonoBehaviour
             }
         }
 
-        MyInven = gameObject.GetComponent<InventoryManager>();
         MyPlayerController = gameObject.GetComponent<PlayerController>();
-
+        MyItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
+        _myItem = new List<string>();
+        _myItemCount = new List<int>();
         _myStackByJob = new int[11];
         _myStackBySocialClass = new int[5];
     }
@@ -119,7 +138,7 @@ public class Character : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.GameEnd.AddListener(EndCharacter);
+        GameManager.instance.DayEnd.AddListener(EndCharacter);
 
         CharacterStatSetting();
     }
@@ -130,6 +149,10 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~19 - MyStack(SocialClass / Job)
+    /// <para>
+    /// 직업 별 Type : 9 - 노예, 10 - 대장장이, 11 - 상인, 12 - 명장, 13 - 대상인, 14 - 기사, 15 - 학자, 16 - 기사단장, 17 - 연금술사, 18 - 귀족, 19 - 왕
+    /// </para>
     /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8~18 - MyStack(SocialClass / Job)
     /// <para>
     /// 직업 별 Type : 8 - 노예, 9 - 대장장이, 10 - 상인, 11 - 명장, 12 - 대상인, 13 - 기사, 14 - 학자, 15 - 기사단장, 16 - 연금술사, 17 - 귀족, 18 - 왕
@@ -139,10 +162,11 @@ public class Character : MonoBehaviour
     {
         int StatType = 0;
         string StatTypeString = "";
-        if(Type == 6)
+        if(Type == 6 || Type == 8)
         {
             StatTypeString = value.ToString();
-        } else
+        }
+        else
         {
             StatType = (int)(object)value;
         }
@@ -163,7 +187,15 @@ public class Character : MonoBehaviour
                 break;
             // TodoProgress
             case 4:
-                _todoProgress += StatType;
+                if(_todoProgress + StatType <= 100)
+                {
+                    _todoProgress += StatType;
+                }
+                else
+                {
+                    _todoProgress = 100;
+                    Debug.Log("TodoProgress가 100이 넘음");
+                }
                 break;
             // MyRound
             case 5:
@@ -175,33 +207,81 @@ public class Character : MonoBehaviour
                 break;
             // ActivePoint
             case 7:
-                _activePoint = StatType;
+                _activePoint += StatType;
+                break;
+            // MyItem
+            case 8:
+                string ItemNumber = StatTypeString.Substring(0, 4);
+                int ItemOrder = MyItemManager.OrderItem(ItemNumber);
+                
+                // 추가
+                if (StatTypeString[4] != '-')
+                {
+                    //Debug.Log("추가");
+                    // 동일한 아이템이 없다면
+                    if (!MyItemManager.IsExistItem(ItemNumber))
+                    {
+                        // 실제 아이템 추가
+                        //Debug.Log("아이템 추가 - " + ItemNumber);
+                        _myItem.Insert(ItemOrder, ItemNumber);
+                        // 개수 증가
+                        //Debug.Log("개수 증가 - " + (int)(StatTypeString[4] - '0'));
+                        _myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
+                    }
+                    // 동일한 아이템이 있다면
+                    else
+                    {
+                        // 개수만 증가
+                        //Debug.Log("해당 아이템 " + _myItemCount[ItemOrder] + "에서 " + (int)(StatTypeString[4] - '0') + "만큼 삭제");
+                        _myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
+                    }
+
+                }
+                // 삭제하기 전에 
+                else
+                {
+                    //Debug.Log("삭제");
+                    // 가지고 있는 해당 아이템 모두 삭제
+                    if (MyItemCount[ItemOrder] - (int)(StatTypeString[5] - '0') == 0)
+                    {
+                        //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
+                        _myItem.RemoveAt(ItemOrder);
+                        //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
+                        _myItemCount.RemoveAt(ItemOrder);
+                    }
+                    else
+                    // 일부만 삭제
+                    {
+                        //Debug.Log("해당 아이템 " + MyItemCount[ItemOrder] + "에서 " + (int)(StatTypeString[5] - '0') + "만큼 삭제");
+                        _myItemCount[ItemOrder] = MyItemCount[ItemOrder] - (int)(StatTypeString[5] - '0');
+                    }
+                }
                 break;
             // MyStackBySocialClass
             // MyStackByJob
-            case 8:
+            case 9:
                 _myStackBySocialClass[0] += Mathf.Abs(StatType);
                 _myStackByJob[Type - 8] += StatType;
                 break;
-            case 9:
             case 10:
             case 11:
             case 12:
+            case 13:
                 _myStackBySocialClass[1] += Mathf.Abs(StatType);
                 _myStackByJob[Type - 8] += StatType;
                 break;
-            case 13:
             case 14:
             case 15:
             case 16:
+            case 17:
                 _myStackBySocialClass[2] += Mathf.Abs(StatType);
                 _myStackByJob[Type - 8] += StatType;
                 break;
-            case 17:
+            case 18:
                 _myStackBySocialClass[3] += Mathf.Abs(StatType);
                 _myStackByJob[Type - 8] += StatType;
                 break;
-            case 18:
+            case 19:
                 _myStackBySocialClass[4] += Mathf.Abs(StatType);
                 _myStackByJob[Type - 8] += StatType;
                 break;
@@ -423,4 +503,14 @@ public class Character : MonoBehaviour
     {
         _activePoint = 100;
     }
+
+/*    public void PopItem(int ItemType)
+    {
+        EventItemPop.Invoke(ItemType);
+    }
+
+    public void PushItem(int ItemType)
+    {
+        EventItemPush.Invoke(ItemType);
+    }*/
 }

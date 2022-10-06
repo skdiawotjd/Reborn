@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        GameManager.instance.GameEnd.AddListener(EndPlayerController);
+        GameManager.instance.DayEnd.AddListener(EndPlayerController);
         GameManager.instance.SceneMove.AddListener(SetPlayerPositionRange);
 
         SetPlayerPositionRange();
@@ -58,39 +58,42 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log("1. CharacterControllable = " + CharacterControllable);
         if (CharacterControllable)
         {
             // 움직임
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                Arrow.x = -1.0f;
+                /*Arrow.x = -1.0f;
                 Offset.x = 0.02f;
                 if(RotationObject.transform.localScale.x != Arrow.x)
                 {
                     RotationObject.transform.localScale = Arrow;
                 }
-                BodyCollider.offset = Offset;
+                BodyCollider.offset = Offset;*/
                 
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                Arrow.x = 1.0f;
+                /*Arrow.x = 1.0f;
                 Offset.x = -0.02f;
                 if (RotationObject.transform.localScale.x != Arrow.x)
                 {
                     RotationObject.transform.localScale = Arrow;
                 }
-                BodyCollider.offset = Offset;
+                BodyCollider.offset = Offset;*/
             }
 
             // 공격
+            //Debug.Log("2. Input.GetKey(KeyCode.X) = " + Input.GetKey(KeyCode.X));
             if (Input.GetKey(KeyCode.X))
             {
+                //Debug.Log("3. !Spum._anim.GetBool(IsAttack) && !ConversationNext " + (!Spum._anim.GetBool("IsAttack") && !ConversationNext));
                 if (!Spum._anim.GetBool("IsAttack") && !ConversationNext)
                 {
-                    //BodyCollider.enabled = false;
+                    //Debug.Log("4. InterActionCollider.enabled == true");
                     InterActionCollider.enabled = true;
-                    Invoke("DisableCollider", 0.1f);
+                    Invoke("DisableCollider", 0.05f);
                 }
             }
         }
@@ -162,6 +165,27 @@ public class PlayerController : MonoBehaviour
         {
             Spum._anim.SetBool("Run", true);
             Spum._anim.SetFloat("RunState", 0.5f);
+
+            if (InputX == 1)
+            {
+                Arrow.x = -1.0f;
+                Offset.x = 0.02f;
+                if (RotationObject.transform.localScale.x != Arrow.x)
+                {
+                    RotationObject.transform.localScale = Arrow;
+                }
+                BodyCollider.offset = Offset;
+            }
+            else if (InputX == -1)
+            {
+                Arrow.x = 1.0f;
+                Offset.x = -0.02f;
+                if (RotationObject.transform.localScale.x != Arrow.x)
+                {
+                    RotationObject.transform.localScale = Arrow;
+                }
+                BodyCollider.offset = Offset;
+            }
         }
         
         
@@ -179,34 +203,47 @@ public class PlayerController : MonoBehaviour
 
     private void AttackProcess()
     {
+        //Debug.Log("8. !Spum._anim.GetBool(IsAttack) && Spum._anim.GetCurrentAnimatorStateInfo(0).IsName(RunState) " + !Spum._anim.GetBool("IsAttack") + " " + Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"));
         if (!Spum._anim.GetBool("IsAttack") && Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
         {
+            //Debug.Log("9. AttackCoroutine != null " + (AttackCoroutine != null));
             if (AttackCoroutine != null)
             {
                 StopCoroutine(AttackCoroutine);
             }
 
+            Spum._anim.SetBool("Run", false);
+            Spum._anim.SetFloat("RunState", 0f);
+
             Spum._anim.SetBool("IsAttack", true);
             Spum._anim.SetTrigger("Attack");
+            //Debug.Log("10. 애님 컨트롤러의 IsAttack = " + Spum._anim.GetBool("IsAttack"));
             AttackCoroutine = StartCoroutine(CoroutineAttack());
         }
     }
 
     IEnumerator CoroutineAttack()
     {
+        //Debug.Log("11. CoroutineAttack 시작");
         while (Spum._anim.GetBool("IsAttack"))
         {
+            //if (Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Spum._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             if (Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") && Spum._anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             {
+                //Debug.Log("13. 12 조건이 달성되어서 1프레임정도 기다렸다가");
                 yield return 0.016f;
                 Spum._anim.SetBool("IsAttack", false);
                 CharacterControllable = true;
+                //Debug.Log("14. Spum._anim.SetBool(IsAttack, false)하여 " + Spum._anim.GetBool("IsAttack").ToString() + " , CharacterControllable = " + CharacterControllable);
             }
             else
             {
-                yield return 0.1f;
+                //Debug.Log("12. Spum._anim.GetCurrentAnimatorStateInfo(0).IsName(AttackState)이 " + Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("AttackState") +
+                //    "이고 Spum._anim.GetCurrentAnimatorStateInfo(0).normalizedTime가 " + Spum._anim.GetCurrentAnimatorStateInfo(0).normalizedTime + "이므로 0.05초 대기");
+                yield return 0.05f;
             }
         }
+        //Debug.Log("15. 코루틴 완료!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     public void DisableCollider()
@@ -219,16 +256,20 @@ public class PlayerController : MonoBehaviour
         InterActionCollider.enabled = false;
         CancelInvoke("DisableCollider");
 
+        //Debug.Log("5. OnTriggerEnter2D 진입, InterActionCollider.enabled = " + InterActionCollider.enabled);
+
         switch (collision.gameObject.tag)
         {
             case "Attackable":
                 Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
+                //Debug.Log("6. 캐릭터와 충돌한 콜라이더의 태그가 Attackable인 경우");
                 CharacterControllable = false;
+                //Debug.Log("7. CharacterControllable = " + CharacterControllable);
                 AttackProcess();
                 break;
             case "Conversationable":
-                Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
-                Debug.Log("대사 시작 1 - 콜리전 충돌(캐릭터)");
+                //Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
+                //Debug.Log("대사 시작 1 - 콜리전 충돌(캐릭터)");
                 CharacterControllable = false;
                 if (EventConversation != null)
                 {

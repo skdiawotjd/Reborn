@@ -32,7 +32,7 @@ public class CSVReader
                 string value = values[j];
                 value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
                 object finalvalue = value;
-                int n;
+                /*int n;
                 float f;
                 if (int.TryParse(value, out n))
                 {
@@ -41,7 +41,7 @@ public class CSVReader
                 else if (float.TryParse(value, out f))
                 {
                     finalvalue = f;
-                }
+                }*/
                 entry[header[j]] = finalvalue;
             }
             list.Add(entry);

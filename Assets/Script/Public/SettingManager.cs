@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SettingManager : MonoBehaviour
 {
+    [SerializeField]
     private Button SaveButton;
 
     void Awake()

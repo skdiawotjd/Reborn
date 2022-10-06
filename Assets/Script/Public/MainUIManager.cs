@@ -5,28 +5,35 @@ using UnityEngine.UI;
 
 public class MainUIManager : MonoBehaviour
 {
+    [SerializeField]
     private Button SettingButton;
+    [SerializeField]
     private Button SkipDayButton;
+    [SerializeField]
+    private Image ActivePointImage;
+    [SerializeField]
     private Image DayImage;
+    [SerializeField]
     private Image JobImage;
+    [SerializeField]
     private Image TodoProgressImage;
 
     void Awake()
     {
-        SettingButton = transform.GetChild(0).GetComponent<Button>();
+        /*SettingButton = transform.GetChild(0).GetComponent<Button>();
         SkipDayButton = transform.GetChild(1).GetComponent<Button>();
         DayImage = transform.GetChild(3).GetComponent<Image>();
         JobImage = transform.GetChild(4).GetComponent<Image>();
-        TodoProgressImage = transform.GetChild(6).GetComponent<Image>();
+        TodoProgressImage = transform.GetChild(6).GetComponent<Image>();*/
 
-        GameManager.instance.GameStart.AddListener(StartUI);
+        GameManager.instance.DayStart.AddListener(StartUI);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Character.instance.EventUIChange.AddListener(CheckChangeMainUI);
-        GameManager.instance.GameEnd.AddListener(EndUI);
+        Character.instance.EventUIChange.AddListener(ChangeMainUI);
+        GameManager.instance.DayEnd.AddListener(EndUI);
     }
 
     // Update is called once per frame
@@ -37,7 +44,7 @@ public class MainUIManager : MonoBehaviour
 
     IEnumerator Timer()
     {
-        while (GameManager.instance.DayStart)
+        while (GameManager.instance.IsDayStart)
         {
             DayImage.fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
 
@@ -46,7 +53,7 @@ public class MainUIManager : MonoBehaviour
         }
     }
 
-    private void CheckChangeMainUI(int Type)
+    private void ChangeMainUI(int Type)
     {
         switch (Type)
         {
@@ -66,15 +73,19 @@ public class MainUIManager : MonoBehaviour
             // MyRound
             case 5:
                 break;
-            // MyStackByJob
+            // MyPositon
             case 6:
+                break;
+            // ActivePoint
+            case 7:
+                ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
                 break;
         }
     }
 
     public void SetZeroActivePoint()
     {
-        Character.instance.SetCharacterStat(7, 0);
+        Character.instance.SetCharacterStat(7, -Character.instance.ActivePoint);
     }
 
     private void EndUI()
@@ -82,7 +93,7 @@ public class MainUIManager : MonoBehaviour
         SettingButton.interactable = false;
         SkipDayButton.interactable = false;
 
-        CheckChangeMainUI(4);
+        //ChangeMainUI(4);
 
         StopCoroutine(Timer());
 
@@ -94,7 +105,8 @@ public class MainUIManager : MonoBehaviour
         SettingButton.interactable = true;
         SkipDayButton.interactable = true;
 
-        CheckChangeMainUI(4);
+        ChangeMainUI(4);
+        ChangeMainUI(7);
 
         StartCoroutine(Timer());
     }

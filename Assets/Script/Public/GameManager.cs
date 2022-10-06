@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     // 하루의 총 시간
     private float _totalPlayTime;
     // 하루가 시작되었는지
-    private bool _dayStart;
+    private bool _isdayStart;
     // 새 게임인지
     private bool _newGame;
     // 며칠이 지났는지
@@ -31,11 +31,11 @@ public class GameManager : MonoBehaviour
             return _totalPlayTime;
         }
     }
-    public bool DayStart
+    public bool IsDayStart
     {
         get
         {
-            return _dayStart;
+            return _isdayStart;
         }
     }
     public bool NewGame
@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UnityEvent GameStart;
-    public UnityEvent GameEnd;
+    public UnityEvent DayStart;
+    public UnityEvent DayEnd;
     public UnityEvent SceneMove;
 
     public static GameManager instance = null;
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
         _playTime = 0f;
         _totalPlayTime = 60f;
-        _dayStart = false;
+        _isdayStart = false;
         _newGame = true;
         Days = 0;
 
@@ -89,13 +89,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitializeGame();
-
         NewDay();
     }
     
     void Update()
     {
-        if (DayStart)
+        if (IsDayStart)
         {
             if (Mathf.Floor(_playTime) != TotalPlayTime && Character.instance.ActivePoint != 0)
             {
@@ -106,7 +105,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log(Days + "일 끝");
-                _dayStart = false;
+                _isdayStart = false;
                 InitializeDay();
             }
         }
@@ -145,7 +144,12 @@ public class GameManager : MonoBehaviour
     {
         if (Character.instance.TodoProgress == 100)
         {
-            if (Days == 3)
+            if(Days == 0)
+            {
+                QuestManager.instance.QuestGive();
+                NewDay();
+            }
+            else if (Days == 3)
             {
                 if (Character.instance.MyJob == Job.King)
                 {
@@ -157,6 +161,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
+                    QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -172,6 +177,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
+                    QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -204,6 +210,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
+                    QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -218,6 +225,8 @@ public class GameManager : MonoBehaviour
                 {
                     // 강등
                     Debug.Log("강등강등강등강등강등강등강등강등강등강등");
+                    Character.instance.CheckStack();
+                    QuestManager.instance.QuestGive();
                     NewDay();
                 }
                 else
@@ -225,6 +234,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
+                    QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -249,7 +259,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Character.instance.SetCharacterStat(4, 0);
+        Character.instance.SetCharacterStat(4, -Character.instance.TodoProgress);
     }
 
     // 하루 시작 과정
@@ -258,11 +268,11 @@ public class GameManager : MonoBehaviour
         // 값 초기화
         _playTime = 0f;
         Character.instance.SetCharacterInput(false, false);
-        GameEnd.Invoke();
+        DayEnd.Invoke();
         Days += 1;
 
         // 새로운 하루 시작
-        Invoke("NextCycle", 1f);
+        Invoke("NextCycle", 0.01f);
     }
 
     private void NextCycle()
@@ -270,9 +280,9 @@ public class GameManager : MonoBehaviour
         switch(Character.instance.MyRound)
         {
             case 1:
-                _dayStart = true;
+                _isdayStart = true;
                 Character.instance.SetCharacterInput(true, true);
-                GameStart.Invoke();
+                DayStart.Invoke();
                 Debug.Log(Days + "일 시작");
                 break;
             case 2:

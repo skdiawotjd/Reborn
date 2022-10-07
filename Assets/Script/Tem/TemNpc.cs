@@ -61,7 +61,7 @@ public class TemNpc : MonoBehaviour
                         Character.instance.MyPlayerController.ConversationNext = true;
                         chatText.text = chatList[Random.Range(0, chatList.Count)];*/
             //Character.instance.MyPlayerController.ConversationNext = true;
-            Character.instance.MyPlayerController.EventConversation.Invoke();
+            //Character.instance.MyPlayerController.EventConversation.Invoke();
             Debug.Log("대사 시작 2 - 콜리전 충돌(NPC)");
         }
     }

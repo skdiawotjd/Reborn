@@ -20,12 +20,8 @@ public class ConversationManager : MonoBehaviour
 
     private void Awake()
     {
-        ConversationPanel = gameObject.transform.GetChild(0).gameObject;
-        NameText = ConversationPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        ContentText = ConversationPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-
-        NameText.text = "admin";
-        ConversationCount = 2;
+        
+        ConversationCount = 5;
 
         ChatPanel = GameObject.Find("Canvas").transform.GetChild(2).GetComponent<Image>();
         chatText = ChatPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -63,6 +59,7 @@ public class ConversationManager : MonoBehaviour
             ChatPanel.gameObject.SetActive(true);
             chatText.text = chatList[Random.Range(0, chatList.Count)];
             ConversationCount--;
+            Debug.Log("ConversationCount 현재 수치 : " + ConversationCount);
             Debug.Log("대사 시작 3 - Conversation의 NextConversation 함수 " + Character.instance.MyPlayerController.ConversationNext);
         }
         else

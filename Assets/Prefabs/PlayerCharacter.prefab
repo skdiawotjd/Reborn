@@ -651,7 +651,7 @@ GameObject:
   - component: {fileID: 5704913713793425565}
   - component: {fileID: 7546442632557809154}
   m_Layer: 6
-  m_Name: Inventory
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1804,14 +1804,8 @@ MonoBehaviour:
   EventUIChange:
     m_PersistentCalls:
       m_Calls: []
-  EventItemPop:
-    m_PersistentCalls:
-      m_Calls: []
-  EventItemPush:
-    m_PersistentCalls:
-      m_Calls: []
-  MyPlayerController: {fileID: 0}
-  MyInventoryManager: {fileID: 0}
+  MyPlayerController: {fileID: 4001189032874473893}
+  MyItemManager: {fileID: 7546442632557809154}
 --- !u!114 &4001189032874473893
 MonoBehaviour:
   m_ObjectHideFlags: 0

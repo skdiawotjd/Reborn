@@ -106,8 +106,6 @@ public class Character : MonoBehaviour
     
 
     public UnityEvent<int> EventUIChange;
-
-
     public PlayerController MyPlayerController;
     public ItemManager MyItemManager;
     public static Character instance = null;
@@ -127,8 +125,6 @@ public class Character : MonoBehaviour
             }
         }
 
-        MyPlayerController = gameObject.GetComponent<PlayerController>();
-        MyItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
         _myItem = new List<string>();
         _myItemCount = new List<int>();
         _myStackByJob = new int[11];

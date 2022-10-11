@@ -23,10 +23,6 @@ public class TemMinerals : MonoBehaviour
     {
         Debug.Log("Mineral에서 충돌체크 " + collision.gameObject.name);
         Character.instance.SetCharacterStat(Type, Val);
-        /*if (collision.gameObject.name == "")
-        {
-            SetCharacterInterActionCollider(false);
-        }*/
         Destroy(this.gameObject);
     }
 }

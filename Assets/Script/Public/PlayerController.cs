@@ -9,12 +9,20 @@ public class PlayerController : MonoBehaviour
 
     private SPUM_Prefabs Spum;
     private GameObject RotationObject;
-    private bool CharacterControllable;
+    private bool _characterControllable;
     private bool UIControllable;
     public bool ConversationNext;
     private float moveSpeed;
     private float InputX;
     private float InputY;
+
+    public bool CharacterControllable
+    {
+        get
+        {
+            return _characterControllable;
+        }
+    }
 
     public UnityEvent EventConversation;
     public UnityEvent<int> EventUIInput;
@@ -38,7 +46,7 @@ public class PlayerController : MonoBehaviour
         InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();
 
         moveSpeed = 4.0f;
-        CharacterControllable = false;
+        _characterControllable = false;
         UIControllable = false;
         ConversationNext = false;
 
@@ -107,7 +115,6 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("x키 클릭으로 대사 넘기기");
                     if (EventConversation != null)
                     {
-                        ConversationNext = false;
                         EventConversation.Invoke();
                     }
                 }
@@ -233,7 +240,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("13. 12 조건이 달성되어서 1프레임정도 기다렸다가");
                 yield return 0.016f;
                 Spum._anim.SetBool("IsAttack", false);
-                CharacterControllable = true;
+                _characterControllable = true;
                 //Debug.Log("14. Spum._anim.SetBool(IsAttack, false)하여 " + Spum._anim.GetBool("IsAttack").ToString() + " , CharacterControllable = " + CharacterControllable);
             }
             else
@@ -263,14 +270,14 @@ public class PlayerController : MonoBehaviour
             case "Attackable":
                 Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
                 //Debug.Log("6. 캐릭터와 충돌한 콜라이더의 태그가 Attackable인 경우");
-                CharacterControllable = false;
+                _characterControllable = false;
                 //Debug.Log("7. CharacterControllable = " + CharacterControllable);
                 AttackProcess();
                 break;
             case "Conversationable":
-                //Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
-                //Debug.Log("대사 시작 1 - 콜리전 충돌(캐릭터)");
-                CharacterControllable = false;
+                Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
+                Debug.Log("대사 시작 2 - 콜리전 충돌(캐릭터)");
+                _characterControllable = false;
                 if (EventConversation != null)
                 {
                     Spum._anim.SetBool("Run", false);
@@ -283,7 +290,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetInput(bool CharacterInput, bool UIInput)
     {
-        CharacterControllable = CharacterInput;
+        _characterControllable = CharacterInput;
         UIControllable = UIInput;
     }
 

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     // 하루가 시작되었는지
     private bool _isdayStart;
     // 새 게임인지
-    private bool _newGame;
+    private bool _isnewGame;
     // 며칠이 지났는지
     private int Days;
 
@@ -38,11 +38,11 @@ public class GameManager : MonoBehaviour
             return _isdayStart;
         }
     }
-    public bool NewGame
+    public bool IsNewGame
     {
         get
         {
-            return _newGame;
+            return _isnewGame;
         }
     }
     public string SceneName
@@ -79,17 +79,19 @@ public class GameManager : MonoBehaviour
         _playTime = 0f;
         _totalPlayTime = 60f;
         _isdayStart = false;
-        _newGame = true;
+        _isnewGame = true;
         Days = 0;
 
         SceneManager.sceneLoaded += LoadedsceneEvent;
+
+        SceneMove.AddListener(CheckScene);
     }
 
     
     void Start()
     {
-        InitializeGame();
-        NewDay();
+        /*InitializeGame();
+        NewDay();*/
     }
     
     void Update()
@@ -119,7 +121,16 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(CanvasObject);
 
         // Canvas 카메라 세팅
-        _ = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
+        GameObject MainCamera = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
+        MainCamera.name = "Main Camera";
+
+        // Character 세팅
+        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
+        PlayerCharacter.name = "PlayerCharacter";
+
+        // QuestManager 세팅
+        GameObject QuestManager = Instantiate(Resources.Load("Public/QuestManager")) as GameObject;
+        QuestManager.name = "QuestManager";
     }
 
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정
@@ -297,5 +308,28 @@ public class GameManager : MonoBehaviour
         Background = GameObject.Find("Background").GetComponent<RectTransform>();
         
         SceneMove.Invoke();
+    }
+
+    private void CheckScene()
+    {
+        if(IsNewGame && SceneName == "Home")
+        {
+            NewDay();
+        }
+    }
+
+    public void NewGame()
+    {
+        GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+
+        SceneManager.LoadScene("JustChat");
+
+        InitializeGame();
+    }
+
+    public void LoadGame()
+    {
+        _isnewGame = false;
+        Debug.Log("저장");
     }
 }

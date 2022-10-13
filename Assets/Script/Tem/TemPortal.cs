@@ -62,6 +62,10 @@ public class TemPortal : MonoBehaviour
                 Character.instance.SetCharacterStat(6, "0005"); // 오브젝트
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
+            case 7:
+                Character.instance.MyPlayerController.DisableCollider();
+                UnityEngine.SceneManagement.SceneManager.LoadScene("JustChat");
+                break;
             default:
                 break;
         }

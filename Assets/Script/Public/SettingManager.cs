@@ -10,13 +10,13 @@ public class SettingManager : MonoBehaviour
 
     void Awake()
     {
-        SaveButton = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Button>();
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SaveButton.onClick.AddListener(GameDataManager.instance.Save);
+        SaveButton.onClick.AddListener(GameManager.instance.LoadGame);
     }
 
     // Update is called once per frame

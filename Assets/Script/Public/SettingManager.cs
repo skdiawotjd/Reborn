@@ -24,4 +24,10 @@ public class SettingManager : MonoBehaviour
     {
         
     }
+
+    public void SaveData()
+    {
+        /*string playerToJson = JsonUtility.ToJson(GameObject.Find("PlayerCharacter").gameObject);
+        Debug.Log(playerToJson);*/
+    }
 }

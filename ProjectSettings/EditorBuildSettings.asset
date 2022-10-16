@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MiniGame.unity
     guid: 3c7e8a747180f2542b3deee1d39c4b04
+  - enabled: 1
+    path: Assets/Scenes/JustChat.unity
+    guid: b04186c43c786ff4c858b7a456445bbe
   m_configObjects: {}

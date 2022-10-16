@@ -53,7 +53,7 @@ public class PopUpUIManager : MonoBehaviour
     {
         if(GameManager.instance.SceneName == "MiniGame")
         {
-            MainUI.SetActive(false);
+            MainUI.SetActive(true);
         }
         else
         {

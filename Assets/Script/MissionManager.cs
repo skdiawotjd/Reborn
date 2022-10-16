@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MissionManager : MonoBehaviour
 {
-    ItemManager itemManager;
     List<Dictionary<string, object>> UniqueQuestList;
     // Start is called before the first frame update
     void Start()
     {
-        itemManager = new ItemManager();
         UniqueQuestList = CSVReader.Read("UniqueQuest");
     }
 
@@ -24,7 +22,7 @@ public class MissionManager : MonoBehaviour
     {
         // 직업에 따라 필요로 하는 아이템이 있다.
         // 컨펌을 받으러 오면 직업을 먼저 확인, 그에 맞는 아이템 넘버를 넣어서 CanDeleteItem 확인
-        if (itemManager.CanDeleteItem(UniqueQuestList[0][Character.instance.MyJob.ToString()].ToString()) )        // true라면 SetCharacterStat으로 아이템을 제거 후 보상 제공
+        if (Character.instance.MyItemManager.CanDeleteItem(UniqueQuestList[0][Character.instance.MyJob.ToString()].ToString()) )        // true라면 SetCharacterStat으로 아이템을 제거 후 보상 제공
         {
             Character.instance.SetCharacterStat(8, (UniqueQuestList[1][Character.instance.MyJob.ToString()].ToString())/*없앨 아이템 넘버와 개수*/);
             Character.instance.SetCharacterStat(4, 5); // TodoProgress 5 증가

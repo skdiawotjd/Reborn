@@ -61,9 +61,9 @@ public class MiniGameManager : MonoBehaviour
     private bool objectGameActive = false;
 
     // Map 변수
-    private Object floor1;
-    private Object floor2;
-    private Object temMap;
+    private GameObject floor1;
+    private GameObject floor2;
+    private GameObject temMap;
 
     void Awake()
     {
@@ -75,8 +75,8 @@ public class MiniGameManager : MonoBehaviour
         quizText = quizPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         contextPanel = quizPanel.transform.GetChild(1).GetComponent<Image>();
         contextText = contextPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        floor1 = Resources.Load<Object>("Prefabs/Floor01");
-        floor2 = Resources.Load<Object>("Prefabs/Floor02");
+        floor1 = Resources.Load<GameObject>("Prefabs/Floor01");
+        floor2 = Resources.Load<GameObject>("Prefabs/Floor02");
         GoldBox = Resources.Load<GoldBox>("Prefabs/GoldBox");
         answerPanel = new Image[4];
         answerText = new TextMeshProUGUI[answerPanel.Length];
@@ -97,12 +97,13 @@ public class MiniGameManager : MonoBehaviour
 
 
         Character.instance.transform.position = new Vector3(0f, 0f, 0f);
-       
+        MapSetting();
+
     }
     private void Start()
     {
         QuestManager.instance.EventCountChange.AddListener(BoxCount);
-        MapSetting();
+
         
     }
 
@@ -111,10 +112,12 @@ public class MiniGameManager : MonoBehaviour
         switch(Character.instance.MyPosition)
         {
             case "0003": // 광석 캐기_Timing
-                temMap = Instantiate(floor2, new Vector3(transform.position.x - 3, transform.position.y + 5.5f, transform.position.z), Quaternion.identity) as Object;
+                temMap = Instantiate(floor2, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
                 break;
             default:
-                temMap = Instantiate(floor1, new Vector3(transform.position.x - 3, transform.position.y + 5.5f, transform.position.z), Quaternion.identity) as Object;
+                temMap = Instantiate(floor1, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
                 break;
         }
     }

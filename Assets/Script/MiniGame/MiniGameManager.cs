@@ -60,6 +60,11 @@ public class MiniGameManager : MonoBehaviour
     private int maxCount;
     private bool objectGameActive = false;
 
+    // Map 변수
+    private Object floor1;
+    private Object floor2;
+    private Object temMap;
+
     void Awake()
     {
         timeText = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -70,6 +75,8 @@ public class MiniGameManager : MonoBehaviour
         quizText = quizPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         contextPanel = quizPanel.transform.GetChild(1).GetComponent<Image>();
         contextText = contextPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        floor1 = Resources.Load<Object>("Prefabs/Floor01");
+        floor2 = Resources.Load<Object>("Prefabs/Floor02");
         GoldBox = Resources.Load<GoldBox>("Prefabs/GoldBox");
         answerPanel = new Image[4];
         answerText = new TextMeshProUGUI[answerPanel.Length];
@@ -95,7 +102,23 @@ public class MiniGameManager : MonoBehaviour
     private void Start()
     {
         QuestManager.instance.EventCountChange.AddListener(BoxCount);
+        MapSetting();
+        
     }
+
+    private void MapSetting()
+    {
+        switch(Character.instance.MyPosition)
+        {
+            case "0003": // 광석 캐기_Timing
+                temMap = Instantiate(floor2, new Vector3(transform.position.x - 3, transform.position.y + 5.5f, transform.position.z), Quaternion.identity) as Object;
+                break;
+            default:
+                temMap = Instantiate(floor1, new Vector3(transform.position.x - 3, transform.position.y + 5.5f, transform.position.z), Quaternion.identity) as Object;
+                break;
+        }
+    }
+
     public void GameStart(int gameType)
     {
         switch(gameType)

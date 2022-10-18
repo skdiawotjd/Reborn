@@ -19,6 +19,6 @@ public class JustChatNpc : BasicNpc
 
     public override void FunctionEnd()
     {
-        Character.instance.SetCharacterStat(7, -Character.instance.ActivePoint);
+        //Character.instance.SetCharacterStat(7, -Character.instance.ActivePoint);
     }
 }

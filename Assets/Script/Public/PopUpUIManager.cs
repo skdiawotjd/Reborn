@@ -22,7 +22,7 @@ public class PopUpUIManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.SceneMove.AddListener(SceneMovePopUI);
-        GameManager.instance.DayEnd.AddListener(EndPopUI);
+        GameManager.instance.DayEnd.AddListener(DayEnd);
         Character.instance.MyPlayerController.EventUIInput.AddListener(VisibleUI);
     }
 
@@ -42,7 +42,7 @@ public class PopUpUIManager : MonoBehaviour
         }
     }
 
-    private void EndPopUI()
+    private void DayEnd()
     {
         InvenPanel.SetActive(false);
         MiniMapPanel.SetActive(false);

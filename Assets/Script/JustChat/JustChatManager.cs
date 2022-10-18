@@ -16,7 +16,7 @@ public class JustChatManager : MonoBehaviour
     void Start()
     {
         MainCanvas.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-        ConversationManager.NpcToChat = 0;
+        ConversationManager.NpcNumberChatType = "0-0";
         Character.instance.SetCharacterInput(false, false);
         Character.instance.MyPlayerController.EventConversation.Invoke();
 
@@ -25,7 +25,7 @@ public class JustChatManager : MonoBehaviour
 
     IEnumerator CompleteChat()
     {
-        while(ConversationManager.ConversationCount != 1)
+        while(ConversationManager.ConversationCount != -1)
         {
             yield return new WaitForSeconds(0.1f);
         }

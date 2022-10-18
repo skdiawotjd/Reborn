@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
+        GameManager.instance.DayStart.AddListener(StartPlayerController);
         GameManager.instance.DayEnd.AddListener(EndPlayerController);
         GameManager.instance.SceneMove.AddListener(SetPlayerPositionRange);
 
@@ -275,7 +276,7 @@ public class PlayerController : MonoBehaviour
                 AttackProcess();
                 break;
             case "Conversationable":
-                Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌");
+                Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌 " + collision.gameObject.name);
                 Debug.Log("대사 시작 2 - 콜리전 충돌(캐릭터)");
                 _characterControllable = false;
                 if (EventConversation != null)
@@ -296,9 +297,20 @@ public class PlayerController : MonoBehaviour
 
     private void EndPlayerController()
     {
+        Debug.Log("EndDay의 EndPlayerController");
+        InterActionCollider.enabled = false;
         Spum._anim.SetBool("Run", false);
         Spum._anim.SetFloat("RunState", 0.0f);
+        ConversationNext = false;
+        _characterControllable = false;
+        UIControllable = false;
     }
+
+    private void StartPlayerController()
+    {
+        _characterControllable = true;
+        UIControllable = true;;
+    }    
 }
 
 

@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         // Canvas ¼¼ÆÃ
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas 1")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 

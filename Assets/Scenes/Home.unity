@@ -602,6 +602,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Noble
       objectReference: {fileID: 0}
+    - target: {fileID: 752644274106037468, guid: 246f5d85b102e784fbfe128f01c6a73e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 752644274106037468, guid: 246f5d85b102e784fbfe128f01c6a73e, type: 3}
+      propertyPath: m_TagString
+      value: Conversationable
+      objectReference: {fileID: 0}
     - target: {fileID: 6985880169015342121, guid: 246f5d85b102e784fbfe128f01c6a73e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -705,6 +713,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f4bddc59ae19046b767ba07378fdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _npcNumber: 4
+  todayQuest: 
+  questDeleteNumber: 
 --- !u!61 &836807937
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -718,7 +729,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.25752378}
+  m_Offset: {x: -0.01724276, y: 0.45578456}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -729,7 +740,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5150471}
+  m_Size: {x: 1.5172808, y: 1.9115686}
   m_EdgeRadius: 0
 --- !u!1 &836807938 stripped
 GameObject:

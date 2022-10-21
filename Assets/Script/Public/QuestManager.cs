@@ -10,6 +10,13 @@ public class QuestManager : MonoBehaviour
     List<Dictionary<string, object>> TodoNumberlist;
     private string TodoMapNumber;
 
+    private List<Dictionary<string, object>> UniqueQuestList;
+    public string todayQuest;
+    public string questDeleteNumber;
+    public bool questEnd;
+    private int temNumber;
+    private QuestUIManager QUIManager;
+
     /*public int questType
     {
         get
@@ -42,17 +49,31 @@ public class QuestManager : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+        UniqueQuestList = CSVReader.Read("UniqueQuest");
+        GiveQuest();
+        QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(5).GetComponent<QuestUIManager>();
     }
 
     void Start()
     {
         MainQuest = new List<string>();
         SubQuest = new List<string>();
+        
 
-        QuestGive();
+        QUIManager.questTextGenerate();
+        GameManager.instance.DayStart.AddListener(GiveQuest);
     }
 
-
+    private void GiveQuest()
+    {
+        temNumber = Random.Range(0, 2) * 2;
+        Debug.Log("temNumber : " + temNumber);
+        Debug.Log(UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString());
+        todayQuest = UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString();
+        questDeleteNumber = UniqueQuestList[temNumber + 1][Character.instance.MyJob.ToString()].ToString();
+        questEnd = false;
+        
+    }
     public void QuestGive()
     {
         TodoNumberlist = CSVReader.Read("QuestNumber");
@@ -91,16 +112,23 @@ public class QuestManager : MonoBehaviour
         if (clear)
         {
             Debug.Log("퀘스트 성공");
-
-            if (Character.instance.TodoProgress < 100)
+            switch(Character.instance.MyJob.ToString())
             {
-                Debug.Log("TodoProgress 2 증가하기 전, 현재 수치 : " + Character.instance.TodoProgress);
-                Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
-                Debug.Log("TodoProgress 2 증가, 현재 수치 : " + Character.instance.TodoProgress);
-            }
-            else
-            {
-                Character.instance.SetCharacterStat(type + 8, 2); // 스택 업
+                case "Slayer":
+                    switch(Character.instance.MyPosition)
+                    {
+                        case "0001": // ex) 직업 Slayer의 전용퀘스트가 아닌, 추가 퀘스트일 경우
+                        case "0002":
+                        case "0003":
+                            Character.instance.SetCharacterStat(type + 8, 2); // 스택 업
+                            break;
+                        default:
+                            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                            break;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         else

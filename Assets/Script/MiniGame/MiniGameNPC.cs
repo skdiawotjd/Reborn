@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniGameNPC : MonoBehaviour
+public class MiniGameNPC : BasicNpc
 {
     private MiniGameManager miniGameManager;
     private int myPosition;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         miniGameManager = GameObject.Find("MiniGameManager").GetComponent<MiniGameManager>();
     }
 
@@ -17,10 +18,9 @@ public class MiniGameNPC : MonoBehaviour
     {
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void FunctionStart()
     {
-        // Character.instance.SetCharacterStat(6, "0004");
-       switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+        switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
         {
             case "0002": // ddr
                 myPosition = 0;
@@ -38,10 +38,12 @@ public class MiniGameNPC : MonoBehaviour
                 break;
         }
         Debug.Log(Character.instance.MyPosition);
-        if (collision.gameObject.name == "R_Weapon")
-        {
-            Character.instance.SetCharacterInput(false, false);
-            miniGameManager.GameStart(myPosition);
-        }
+
+        Character.instance.SetCharacterInput(false, false);
+        miniGameManager.GameStart(myPosition);
+    }
+
+    public override void FunctionEnd()
+    {
     }
 }

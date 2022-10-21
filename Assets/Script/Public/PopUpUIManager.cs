@@ -8,6 +8,7 @@ public class PopUpUIManager : MonoBehaviour
     private GameObject InvenPanel;
     private GameObject MiniMapPanel;
     private GameObject SettingPanel;
+    private GameObject QuestPanel;
 
     private void Awake()
     {
@@ -15,7 +16,7 @@ public class PopUpUIManager : MonoBehaviour
         InvenPanel = transform.GetChild(2).GetChild(0).gameObject;
         MiniMapPanel = transform.GetChild(3).GetChild(0).gameObject;
         SettingPanel = transform.GetChild(4).GetChild(0).gameObject;
-
+        QuestPanel = transform.GetChild(5).GetChild(0).gameObject;
     }
 
     // Start is called before the first frame update
@@ -38,6 +39,9 @@ public class PopUpUIManager : MonoBehaviour
                 break;
             case 4:
                 SettingPanel.SetActive(!SettingPanel.activeSelf);
+                break;
+            case 5:
+                QuestPanel.SetActive(!QuestPanel.activeSelf);
                 break;
         }
     }

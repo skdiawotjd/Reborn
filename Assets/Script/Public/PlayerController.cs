@@ -148,6 +148,14 @@ public class PlayerController : MonoBehaviour
                     EventUIInput.Invoke(4);
                 }
             }
+            // Äù½ºÆ®
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (EventUIInput != null)
+                {
+                    EventUIInput.Invoke(5);
+                }
+            }
         }
     }
 

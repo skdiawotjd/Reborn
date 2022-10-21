@@ -90,8 +90,8 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        /*InitializeGame();
-        NewDay();*/
+        InitializeGame();
+        NewDay();
     }
     
     void Update()

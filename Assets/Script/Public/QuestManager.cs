@@ -120,7 +120,7 @@ public class QuestManager : MonoBehaviour
                         case "0001": // ex) 직업 Slayer의 전용퀘스트가 아닌, 추가 퀘스트일 경우
                         case "0002":
                         case "0003":
-                            Character.instance.SetCharacterStat(type + 8, 2); // 스택 업
+                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
                             break;
                         default:
                             Character.instance.SetCharacterStat(4, 2); // todoProgress + 2

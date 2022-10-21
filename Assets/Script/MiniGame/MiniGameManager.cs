@@ -75,8 +75,8 @@ public class MiniGameManager : MonoBehaviour
         quizText = quizPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         contextPanel = quizPanel.transform.GetChild(1).GetComponent<Image>();
         contextText = contextPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        floor1 = Resources.Load<GameObject>("Prefabs/Floor01");
-        floor2 = Resources.Load<GameObject>("Prefabs/Floor02");
+        floor1 = Resources.Load<GameObject>("Prefabs/MiniGameDefault");
+        floor2 = Resources.Load<GameObject>("Prefabs/MiniGameMine");
         GoldBox = Resources.Load<GoldBox>("Prefabs/GoldBox");
         answerPanel = new Image[4];
         answerText = new TextMeshProUGUI[answerPanel.Length];

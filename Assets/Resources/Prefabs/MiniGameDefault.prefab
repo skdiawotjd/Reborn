@@ -6389,7 +6389,7 @@ GameObject:
   - component: {fileID: 6971435778768585722}
   - component: {fileID: 6047329602061975447}
   m_Layer: 0
-  m_Name: Floor01
+  m_Name: MiniGameDefault
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

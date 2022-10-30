@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: c3780b5a995c9b64aa39f107ddbd2e7d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - TownBackground: {instanceID: 0}
+  - MiniGameSlayerDDR0NPC: {instanceID: 0}
+  - MiniGameSlayerObject0NPC: {instanceID: 0}
+  - MiniGameSlayerObject1NPC: {instanceID: 0}
+  - QuestSlayerChat0NPC: {instanceID: 0}
+  - Minigame1Background: {instanceID: 0}
+  - Minigame2Background: {instanceID: 0}
+  - TownManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -6,7 +6,6 @@ using TMPro;
 
 public class MiniGameManager : MonoBehaviour
 {
-
     // DDR 변수 
     private int keyStack; // 게임 진행시 나오는 키의 개수
     private int keyCount; // 진행 도중 알맞게 누른 키의 개수
@@ -97,17 +96,17 @@ public class MiniGameManager : MonoBehaviour
 
 
         Character.instance.transform.position = new Vector3(0f, 0f, 0f);
-        MapSetting();
+        //MapSetting();
 
     }
     private void Start()
     {
         QuestManager.instance.EventCountChange.AddListener(BoxCount);
-
+        //SceneLoadManager.instance.MapSetting();
         
     }
 
-    private void MapSetting()
+/*    private void MapSetting()
     {
         switch(Character.instance.MyPosition)
         {
@@ -120,7 +119,7 @@ public class MiniGameManager : MonoBehaviour
                 temMap.name = "Background";
                 break;
         }
-    }
+    }*/
 
     public void GameStart(int gameType)
     {

@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        GameManager.instance.SceneMove.AddListener(SetCameraRange);
+        SceneLoadManager.instance.MapSettingEvent.AddListener(SetCameraRange);
 
         cameraPosition = new Vector3(0, 0, -10f);
         RangePosition = new Vector3(0, 0, -10f);
@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
 
-        SetCameraRange();
+        //SetCameraRange();
         LimitCameraArea();
     }
 
@@ -66,9 +66,9 @@ public class CameraController : MonoBehaviour
 
     private void SetCameraRange()
     {
-        if ((MapSize * 2) != GameManager.instance.Background.sizeDelta)
+        if ((MapSize * 2) != SceneLoadManager.instance.Background.sizeDelta)
         {
-            MapSize = GameManager.instance.Background.sizeDelta / 2f;
+            MapSize = SceneLoadManager.instance.Background.sizeDelta / 2f;
         }
 
         // LimitCameraArea를 따로 하는 이유는 보정값이 없는 쌩 값으로 카메라 위치를 설정하기 위해

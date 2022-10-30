@@ -5,7 +5,7 @@ using UnityEngine;
 public class MiniGameNPC : BasicNpc
 {
     private MiniGameManager miniGameManager;
-    private int myPosition;
+    private int gameType;
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -23,16 +23,23 @@ public class MiniGameNPC : BasicNpc
         switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
         {
             case "0002": // ddr
-                myPosition = 0;
+            case "0102":
+            case "0202":
+                gameType = 0;
                 break;
             case "0003": // 타이밍
-                myPosition = 1;
+            case "0103":
+                gameType = 1;
                 break;
             case "0004": // 퀴즈
-                myPosition = 2;
+            case "0104":
+                gameType = 2;
                 break;
             case "0005": // 오브젝트
-                myPosition = 3;
+            case "0105":
+            case "0205":
+            case "0305":
+                gameType = 3;
                 break;
             default:
                 break;
@@ -40,7 +47,7 @@ public class MiniGameNPC : BasicNpc
         Debug.Log(Character.instance.MyPosition);
 
         Character.instance.SetCharacterInput(false, false);
-        miniGameManager.GameStart(myPosition);
+        miniGameManager.GameStart(gameType);
     }
 
     public override void FunctionEnd()

@@ -872,6 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1bb49e4628aefa4c8631534d5470610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _npcNumber: 0
 --- !u!61 &590124700
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1500,6 +1501,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca9b28b77c66dc4096dad0a3e3463a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playTime: 0
+  _totalPlayTime: 0
+  _isdayStart: 0
+  _isNewGame: 0
+  Days: 0
+  _saveDataCount: 0
   DayStart:
     m_PersistentCalls:
       m_Calls: []
@@ -1509,7 +1516,9 @@ MonoBehaviour:
   SceneMove:
     m_PersistentCalls:
       m_Calls: []
-  Background: {fileID: 0}
+  LoadEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &968125311
 Transform:
   m_ObjectHideFlags: 0
@@ -1751,7 +1760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1194327995
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3041,6 +3050,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a646a8ebc90fa147b586e48c0e0202f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  todayQuest: 
+  questDeleteNumber: 
+  questEnd: 0
   EventCountChange:
     m_PersistentCalls:
       m_Calls: []

@@ -2,13 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TownNPC : MonoBehaviour
+public class TownNPC : BasicNpc
 {
-    public TownManager townManager;
+    [SerializeField]
+    private string questNumber;
+    [SerializeField]
+    private bool onlyChat;
+    [SerializeField]
+    private TownManager townManager;
+
+    private bool QuestStart;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        townManager = GameObject.Find("TownManager").transform.GetComponent<TownManager>();
+        base.Start();
+        QuestStart = false;
     }
 
     // Update is called once per frame
@@ -16,11 +24,38 @@ public class TownNPC : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void FunctionStart()
     {
-        if (collision.gameObject.name == "R_Weapon")
+
+        //Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
+        if (QuestStart)
         {
-            townManager.ChoiceButtonActive();
+            // 퀘스트 확인
+            ChatType = 1;
+            ConversationManager.CurNpc = this;
+            ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+        }
+        else
+        {
+            // 퀘스트 부여
+            QuestStart = true;
+            ChatType = 0;
+            ConversationManager.CurNpc = this;
+            ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+        }
+    }
+    public override void FunctionEnd()
+    {
+        if(ChatType == 1)
+        {
+            if (onlyChat)
+            {
+
+            }
+            else
+            {
+                townManager.TownSceneMove(questNumber);
+            }
         }
     }
 }

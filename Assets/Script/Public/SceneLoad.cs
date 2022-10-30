@@ -28,6 +28,6 @@ public class SceneLoad : MonoBehaviour
 
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name + "으로 이동");
+        //Debug.Log(scene.name + "으로 이동");
     }
 }

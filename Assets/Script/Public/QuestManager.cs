@@ -67,8 +67,8 @@ public class QuestManager : MonoBehaviour
     private void GiveQuest()
     {
         temNumber = Random.Range(0, 2) * 2;
-        Debug.Log("temNumber : " + temNumber);
-        Debug.Log(UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString());
+        //Debug.Log("temNumber : " + temNumber);
+        //Debug.Log(UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString());
         todayQuest = UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString();
         questDeleteNumber = UniqueQuestList[temNumber + 1][Character.instance.MyJob.ToString()].ToString();
         questEnd = false;

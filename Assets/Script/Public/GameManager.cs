@@ -1,21 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+//[Serializable]
 public class GameManager : MonoBehaviour
 {
-    // 하루에 지나간 시간
-    private float _playTime;
-    // 하루의 총 시간
-    private float _totalPlayTime;
-    // 하루가 시작되었는지
-    private bool _isdayStart;
-    // 새 게임인지
-    private bool _isnewGame;
-    // 며칠이 지났는지
-    private int Days;
+    [SerializeField]
+    private float _playTime;        // 하루에 지나간 시간
+    [SerializeField]
+    private float _totalPlayTime;   // 하루의 총 시간
+    [SerializeField]
+    private bool _isdayStart;       // 하루가 시작되었는지
+    [SerializeField]
+    private bool _isNewGame;        // 새 게임인지
+    [SerializeField]
+    private int Days;               // 며칠이 지났는지
+
+    [SerializeField]
+    private DirectoryInfo SaveDataDirectory;
+    [SerializeField]
+    private int _saveDataCount;
 
     public float PlayTime
     {
@@ -42,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            return _isnewGame;
+            return _isNewGame;
         }
     }
     public string SceneName
@@ -52,10 +61,18 @@ public class GameManager : MonoBehaviour
             return SceneManager.GetActiveScene().name;
         }
     }
+    public int SaveDataCount
+    {
+        get
+        {
+            return _saveDataCount;
+        }
+    }
 
     public UnityEvent DayStart;
     public UnityEvent DayEnd;
     public UnityEvent SceneMove;
+    public UnityEvent LoadEvent;
 
     public static GameManager instance = null;
     // 씬의 크기
@@ -79,19 +96,19 @@ public class GameManager : MonoBehaviour
         _playTime = 0f;
         _totalPlayTime = 60f;
         _isdayStart = false;
-        _isnewGame = true;
+        _isNewGame = true;
         Days = 0;
 
-        SceneManager.sceneLoaded += LoadedsceneEvent;
+        SaveDataDirectory = new DirectoryInfo(Application.dataPath + "/Resources/SaveData/");
 
-        SceneMove.AddListener(CheckScene);
+        SceneManager.sceneLoaded += LoadedsceneEvent;
     }
 
     
     void Start()
     {
-        InitializeGame();
-        NewDay();
+        /*InitializeGame();
+        NewDay();*/
     }
     
     void Update()
@@ -101,7 +118,6 @@ public class GameManager : MonoBehaviour
             if (Mathf.Floor(_playTime) != TotalPlayTime && Character.instance.ActivePoint != 0)
             {
                 _playTime += Time.deltaTime;
-
                 //Debug.Log(Mathf.Floor(_playTime));
             }
             else
@@ -112,10 +128,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void GameStart()
+    {
+        if(_isNewGame)
+        {
+            // 1. Start씬의 카메라 false
+            GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+            // 2. 시작 씬 이동
+            SceneManager.LoadScene("JustChat");
+            // 3. 게임 초기화
+            InitializeGame();
+        }
+        else
+        {
+            InitializeGame();
+        }
+    }
+
+
     private void InitializeGame()
     {
         // Canvas 세팅
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas 1")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 
@@ -304,30 +338,55 @@ public class GameManager : MonoBehaviour
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
     {
         Background = GameObject.Find("Background").GetComponent<RectTransform>();
-        
+
+        if (IsNewGame && SceneName == "Home")
+        {
+            NewDay();
+            _isNewGame = false;
+        }
         SceneMove.Invoke();
     }
 
-    private void CheckScene()
+
+    public void SaveData()
     {
-        if(IsNewGame && SceneName == "Home")
+        SetSaveDataCount();
+        
+        string Json1 = JsonUtility.ToJson(Character.instance);
+        string path1 = SaveDataDirectory.ToString() + "PlayerCharacter" + SaveDataCount.ToString() + ".Json";
+        File.WriteAllText(path1, Json1);
+
+        string Json2 = JsonUtility.ToJson(gameObject.GetComponent<GameManager>());
+        string path2 = SaveDataDirectory.ToString() + "GameManager" + SaveDataCount.ToString() + ".Json";
+        File.WriteAllText(path2, Json2);
+
+        AssetDatabase.Refresh();
+    }
+
+    public void LoadData(int Number)
+    {
+        string path1 = SaveDataDirectory.ToString() + "GameManager" + Number.ToString() + ".Json";
+        string json1 = File.ReadAllText(path1);
+        JsonUtility.FromJsonOverwrite(json1, gameObject.GetComponent<GameManager>());
+
+        string path2 = SaveDataDirectory.ToString() + "PlayerCharacter" + Number.ToString() + ".Json";
+        string json2 = File.ReadAllText(path2);
+        JsonUtility.FromJsonOverwrite(json2, Character.instance);
+
+        LoadEvent.Invoke();
+    }
+
+
+    public void SetSaveDataCount()
+    {
+        _saveDataCount = 0;
+        foreach (FileInfo File in SaveDataDirectory.GetFiles())
         {
-            NewDay();
+            if (File.Extension == ".Json")
+            {
+                _saveDataCount++;
+            }
         }
-    }
-
-    public void NewGame()
-    {
-        GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
-
-        SceneManager.LoadScene("JustChat");
-
-        InitializeGame();
-    }
-
-    public void LoadGame()
-    {
-        _isnewGame = false;
-        Debug.Log("저장");
+        _saveDataCount /= 2;
     }
 }

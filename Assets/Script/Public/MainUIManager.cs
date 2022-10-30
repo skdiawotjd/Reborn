@@ -27,12 +27,14 @@ public class MainUIManager : MonoBehaviour
         TodoProgressImage = transform.GetChild(6).GetComponent<Image>();*/
 
         GameManager.instance.DayStart.AddListener(StartUI);
+        GameManager.instance.LoadEvent.AddListener(LoadUI);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Character.instance.EventUIChange.AddListener(ChangeMainUI);
+        //Character.instance.EventUIChange.AddListener(ChangeMainUI);
+        Character.instance.UIChangeAddListener(ChangeMainUI);
         GameManager.instance.DayEnd.AddListener(EndUI);
     }
 
@@ -109,5 +111,11 @@ public class MainUIManager : MonoBehaviour
         ChangeMainUI(7);
 
         StartCoroutine(Timer());
+    }
+
+    private void LoadUI()
+    {
+        ChangeMainUI(4);
+        ChangeMainUI(7);
     }
 }

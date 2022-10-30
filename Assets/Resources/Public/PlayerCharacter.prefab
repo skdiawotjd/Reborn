@@ -1801,6 +1801,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e1dc711dbea44ba7f49fc5537535d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _myName: 
+  _mySocialClass: 0
+  _myJob: 0
+  _myAge: 0
+  _todoProgress: 0
+  _myRound: 0
+  _myPosition: 
+  _activePoint: 0
+  _myItem: []
+  _myItemCount: 
+  _myStackBySocialClass: 
+  _myStackByJob: 
+  MyWorkSpeed: 0
   EventUIChange:
     m_PersistentCalls:
       m_Calls: []
@@ -1818,6 +1831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec894b05ce555d45823342914befbfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Spum: {fileID: 3868824026026870322}
+  RotationObject: {fileID: 7385670610414917756}
   ConversationNext: 0
   EventConversation:
     m_PersistentCalls:
@@ -1825,6 +1840,8 @@ MonoBehaviour:
   EventUIInput:
     m_PersistentCalls:
       m_Calls: []
+  BodyCollider: {fileID: 196858517466419320}
+  InterActionCollider: {fileID: 1973752813266507347}
 --- !u!114 &3868824026026870322
 MonoBehaviour:
   m_ObjectHideFlags: 0

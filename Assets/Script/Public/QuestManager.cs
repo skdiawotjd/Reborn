@@ -117,13 +117,65 @@ public class QuestManager : MonoBehaviour
                 case "Slayer":
                     switch(Character.instance.MyPosition)
                     {
-                        case "0001": // ex) 직업 Slayer의 전용퀘스트가 아닌, 추가 퀘스트일 경우
-                        case "0002":
-                        case "0003":
-                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
+                        case "0002": // ex) 직업 Slayer의 전용퀘스트일 경우
+                        case "0005":
+                        case "0105":
+                            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
                             break;
                         default:
+                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
+                            break;
+                    }
+                    break;
+                case "Smith":
+                    switch (Character.instance.MyPosition)
+                    {
+                        case "0003": 
+                        case "0104":
+                        case "0208":
                             Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                            break;
+                        default:
+                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
+                            break;
+                    }
+                    break;
+                case "bania":
+                    switch (Character.instance.MyPosition)
+                    {
+                        case "0004": 
+                        case "0108":
+                        case "0205":
+                            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                            break;
+                        default:
+                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
+                            break;
+                    }
+                    break;
+                case "MasterSmith":
+                    switch (Character.instance.MyPosition)
+                    {
+                        case "0007": 
+                        case "0102":
+                        case "0103":
+                            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                            break;
+                        default:
+                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
+                            break;
+                    }
+                    break;
+                case "Merchant":
+                    switch (Character.instance.MyPosition)
+                    {
+                        case "0202": 
+                        case "0305":
+                        case "0107":
+                            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                            break;
+                        default:
+                            Character.instance.SetCharacterStat(type + 9, 2); // 스택 업
                             break;
                     }
                     break;

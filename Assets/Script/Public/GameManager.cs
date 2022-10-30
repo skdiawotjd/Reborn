@@ -75,8 +75,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent LoadEvent;
 
     public static GameManager instance = null;
-    // 씬의 크기
-    public RectTransform Background;
+
 
     void Awake()
     {
@@ -107,8 +106,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        /*InitializeGame();
-        NewDay();*/
+
     }
     
     void Update()
@@ -164,6 +162,10 @@ public class GameManager : MonoBehaviour
         // QuestManager 세팅
         GameObject QuestManager = Instantiate(Resources.Load("Public/QuestManager")) as GameObject;
         QuestManager.name = "QuestManager";
+
+        // SceneLoadManager 세팅
+        GameObject SceneLoadManager = Instantiate(Resources.Load("Public/SceneLoadManager")) as GameObject;
+        SceneLoadManager.name = "SceneLoadManager";
     }
 
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정
@@ -337,14 +339,15 @@ public class GameManager : MonoBehaviour
 
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
     {
-        Background = GameObject.Find("Background").GetComponent<RectTransform>();
+        SceneMove.Invoke();
+
+        
 
         if (IsNewGame && SceneName == "Home")
         {
             NewDay();
             _isNewGame = false;
         }
-        SceneMove.Invoke();
     }
 
 

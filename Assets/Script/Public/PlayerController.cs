@@ -64,9 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.instance.DayStart.AddListener(StartPlayerController);
         GameManager.instance.DayEnd.AddListener(EndPlayerController);
-        GameManager.instance.SceneMove.AddListener(SetPlayerPositionRange);
-
-        SetPlayerPositionRange();
+        SceneLoadManager.instance.MapSettingEvent.AddListener(SetPlayerPositionRange);
     }
 
     void Update()
@@ -217,8 +215,8 @@ public class PlayerController : MonoBehaviour
 
     private void SetPlayerPositionRange()
     {
-        LimitPosition.x = (GameManager.instance.Background.sizeDelta.x / 2f) - 0.7f;
-        LimitPosition.y = (GameManager.instance.Background.sizeDelta.y / 2f);
+        LimitPosition.x = (SceneLoadManager.instance.Background.sizeDelta.x / 2f) - 0.7f;
+        LimitPosition.y = (SceneLoadManager.instance.Background.sizeDelta.y / 2f);
     }
 
     private void AttackProcess()

@@ -47,14 +47,17 @@ public class TemPortal : MonoBehaviour
                 break;
             case 3:
                 Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(6, "0001"); // 노예의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("TestScene");
                 break;
             case 4:
                 Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(6, "0000"); // Home
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
             case 5:
                 Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(6, "0001"); // 노예의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
                 break;
             case 6:

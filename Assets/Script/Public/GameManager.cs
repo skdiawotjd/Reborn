@@ -313,7 +313,7 @@ public class GameManager : MonoBehaviour
     {
         // 값 초기화
         _playTime = 0f;
-        Debug.Log(Days + "일 끝");
+        //Debug.Log(Days + "일 끝");
         DayEnd.Invoke();
         Days += 1;
 
@@ -327,7 +327,7 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 _isdayStart = true;
-                Debug.Log(Days + "일 시작");
+                //Debug.Log(Days + "일 시작");
                 DayStart.Invoke();
                 break;
             case 2:

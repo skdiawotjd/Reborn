@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (ConversationNext)
                 {
-                    Debug.Log("x키 클릭으로 대사 넘기기");
+                    //Debug.Log("x키 클릭으로 대사 넘기기");
                     if (EventConversation != null)
                     {
                         EventConversation.Invoke();
@@ -279,15 +279,15 @@ public class PlayerController : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "Attackable":
-                Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
+                //Debug.Log("캐릭터가 공격가능 콜라이더랑 충돌");
                 //Debug.Log("6. 캐릭터와 충돌한 콜라이더의 태그가 Attackable인 경우");
                 _characterControllable = false;
                 //Debug.Log("7. CharacterControllable = " + CharacterControllable);
                 AttackProcess();
                 break;
             case "Conversationable":
-                Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌 " + collision.gameObject.name);
-                Debug.Log("대사 시작 2 - 콜리전 충돌(캐릭터)");
+                //Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌 " + collision.gameObject.name);
+                //Debug.Log("대사 시작 2 - 콜리전 충돌(캐릭터)");
                 _characterControllable = false;
                 if (EventConversation != null)
                 {
@@ -307,7 +307,6 @@ public class PlayerController : MonoBehaviour
 
     private void EndPlayerController()
     {
-        Debug.Log("EndDay의 EndPlayerController");
         InterActionCollider.enabled = false;
         Spum._anim.SetBool("Run", false);
         Spum._anim.SetFloat("RunState", 0.0f);

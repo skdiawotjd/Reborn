@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     enum Direction { Left = 1, Right = -1}
 
+    [SerializeField]
     private SPUM_Prefabs Spum;
+    [SerializeField]
     private GameObject RotationObject;
     private bool _characterControllable;
     private bool UIControllable;
@@ -27,7 +29,9 @@ public class PlayerController : MonoBehaviour
     public UnityEvent EventConversation;
     public UnityEvent<int> EventUIInput;
 
+    [SerializeField]
     private Collider2D BodyCollider;
+    [SerializeField]
     private Collider2D InterActionCollider;
 
     private Coroutine AttackCoroutine;
@@ -40,10 +44,10 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        Spum = gameObject.GetComponent<SPUM_Prefabs>();
+        /*Spum = gameObject.GetComponent<SPUM_Prefabs>();
         RotationObject = gameObject.transform.GetChild(0).gameObject;
         BodyCollider = gameObject.GetComponent<Collider2D>();
-        InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();
+        InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();*/
 
         moveSpeed = 4.0f;
         _characterControllable = false;

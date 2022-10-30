@@ -18,16 +18,16 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.DayStart.AddListener(StartInventoryStat);
-        Character.instance.EventUIChange.AddListener(UpdateInventoryStat);
+        GameManager.instance.DayStart.AddListener(InitializeInventory);
+        //Character.instance.EventUIChange.AddListener(UpdateInventoryStat);
+        Character.instance.UIChangeAddListener(UpdateInventoryStat);
+        GameManager.instance.LoadEvent.AddListener(InitializeInventory);
 
         CharacterStatArray = new TextMeshProUGUI[InfoDataGroup.transform.childCount];
         for(int i = 0; i < CharacterStatArray.Length; i++)
         {
             CharacterStatArray[i] = InfoDataGroup.transform.GetChild(i).GetComponent<TextMeshProUGUI>();
         }
-
-        StartInventoryStat();
     }
 
     public void UpdateInventoryStat(int Type)
@@ -36,7 +36,7 @@ public class InventoryManager : MonoBehaviour
         {
             // MyName
             case 0:
-                CharacterStatArray[0].text = Character.instance.name;
+                CharacterStatArray[0].text = Character.instance.MyName;
                 break;
             // MySocialClass
             case 1:
@@ -55,12 +55,13 @@ public class InventoryManager : MonoBehaviour
                 CharacterStatArray[4].text = Character.instance.TodoProgress.ToString();
                 break;
             case 8:
+                // 실제 아이템이 1개 이상일 때
                 // 인벤토리에 아이템이 실제 아이템보다 적을 때
-                if(Character.instance.MyItem.Count > ItemContent.transform.childCount)
+                if (Character.instance.MyItem.Count > ItemContent.transform.childCount)
                 {
                     int InsertOrder = 0;
 
-                    for ( ; InsertOrder < ItemContent.transform.childCount; InsertOrder++)
+                    for (; InsertOrder < ItemContent.transform.childCount; InsertOrder++)
                     {
                         if (!(ItemContent.transform.GetChild(InsertOrder).name == Character.instance.MyItem[InsertOrder].ToString()))
                         {
@@ -84,7 +85,7 @@ public class InventoryManager : MonoBehaviour
                 else if (Character.instance.MyItem.Count < ItemContent.transform.childCount)
                 {
                     int DeleteCount = 0;
-                    for(; DeleteCount < Character.instance.MyItem.Count; DeleteCount++)
+                    for (; DeleteCount < Character.instance.MyItem.Count; DeleteCount++)
                     {
                         if (Character.instance.MyItem[DeleteCount] != ItemContent.transform.GetChild(DeleteCount).name)
                         {
@@ -97,15 +98,6 @@ public class InventoryManager : MonoBehaviour
                 break;
         }
     }
-
-    private void StartInventoryStat()
-    {
-        for (int i = 0; i < CharacterStatArray.Length; i++)
-        {
-            UpdateInventoryStat(i);
-        }
-    }
-
 
     private void AddItemButton(string ItemType, int InsertOrder)
     {
@@ -120,5 +112,14 @@ public class InventoryManager : MonoBehaviour
         // 버튼 하위의 text 변경
         NewItemButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ItemType + " " + Character.instance.MyItemCount[Character.instance.MyItem.IndexOf(ItemType)].ToString();
         //NewItemButton.GetComponent<Button>().onClick.AddListener();
+    }
+
+    private void InitializeInventory()
+    {
+        for (int i = 0; i < CharacterStatArray.Length; i++)
+        {
+            UpdateInventoryStat(i);
+        }
+        UpdateInventoryStat(8);
     }
 }

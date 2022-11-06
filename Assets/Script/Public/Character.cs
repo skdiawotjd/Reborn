@@ -271,7 +271,8 @@ public class Character : MonoBehaviour
                     {
                         // 개수만 증가
                         //Debug.Log("해당 아이템 " + _myItemCount[ItemOrder] + "에서 " + (int)(StatTypeString[4] - '0') + "만큼 삭제");
-                        CharacterStat._myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
+                        //CharacterStat._myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
+                        CharacterStat._myItemCount[ItemOrder] += (int)(StatTypeString[4] - '0');
                     }
 
                 }

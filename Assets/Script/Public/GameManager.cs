@@ -377,6 +377,8 @@ public class GameManager : MonoBehaviour
         JsonUtility.FromJsonOverwrite(json2, Character.instance);
 
         LoadEvent.Invoke();
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 

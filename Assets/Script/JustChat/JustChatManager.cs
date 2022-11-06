@@ -29,7 +29,7 @@ public class JustChatManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-
+        Character.instance.SetCharacterStat(6, "0000");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
     }
 }

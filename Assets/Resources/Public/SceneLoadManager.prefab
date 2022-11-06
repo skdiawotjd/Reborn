@@ -43,6 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3780b5a995c9b64aa39f107ddbd2e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Noble: {fileID: 7796434779723243177, guid: b86efdf0226eea24f9f854cdefccf428, type: 3}
+  DoorToTown: {fileID: 282408519068971547, guid: c12d5928db9656543b5b3a2619520959, type: 3}
+  DoorToJustChat: {fileID: 6748728407355019774, guid: 327386e1083dc2540bfd478ba2775b94, type: 3}
+  DoorToTest: {fileID: 5841783859675004287, guid: 3f1299a419b645e48b4aa1042e6dd1f0, type: 3}
+  Tree0: {fileID: 2685632612339716306, guid: b9f3ea7bea772d149b400734b784e1bd, type: 3}
+  Tree1: {fileID: 354729642908375964, guid: adb802b461fd5034a846e18bd342362f, type: 3}
+  Tree2: {fileID: 1839283565060272216, guid: e74c03856dc900441a704212f8049841, type: 3}
+  Tree3: {fileID: 6195446065555625526, guid: e9fce9ab5fc224e43b052b6e3de03905, type: 3}
+  Tree4: {fileID: 4334456391102748826, guid: be93737a208ac7c49845af4d83f3a7c8, type: 3}
   TownBackground: {fileID: 8085408844564400604, guid: e95be309e224e614ba2488eef15073ec, type: 3}
   MiniGameSlayerDDR0NPC: {fileID: 664753849849904708, guid: 130276a31bd659b48aa2664f6368877e, type: 3}
   MiniGameSlayerObject0NPC: {fileID: 5844330563532503744, guid: 29f6224fc7125274ea007129bfde4bc5, type: 3}
@@ -50,4 +59,9 @@ MonoBehaviour:
   QuestSlayerChat0NPC: {fileID: 1272594444480376458, guid: fec17161650ac6242a2abb53b8bd7576, type: 3}
   Minigame1Background: {fileID: 5747751185502123206, guid: 0b998e5ada22fb0498818f51b3e865c1, type: 3}
   Minigame2Background: {fileID: 5924309468821904063, guid: ae4996022cdc77b4086f0603d1b33527, type: 3}
+  MiniGameNPC: {fileID: 235554389172204315, guid: 2df5dec47596e3643a36d68fb0bfed83, type: 3}
   TownManager: {fileID: 370759291652946399, guid: 9a2462e905e21af44aebdb3bd732f4ef, type: 3}
+  Background: {fileID: 0}
+  MapSettingEvent:
+    m_PersistentCalls:
+      m_Calls: []

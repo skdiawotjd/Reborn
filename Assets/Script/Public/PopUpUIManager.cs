@@ -4,19 +4,32 @@ using UnityEngine;
 
 public class PopUpUIManager : MonoBehaviour
 {
+    /*private enum UIOrder { MainUI, InvenPanel, MiniMapPanel, SettingPanel, QuestPanel }
+    private List<GameObject> UIList;*/
+
+    [SerializeField]
     private GameObject MainUI;
+    [SerializeField]
     private GameObject InvenPanel;
+    [SerializeField]
     private GameObject MiniMapPanel;
+    [SerializeField]
     private GameObject SettingPanel;
+    [SerializeField]
     private GameObject QuestPanel;
 
     private void Awake()
     {
-        MainUI = transform.GetChild(0).gameObject;
+        /*MainUI = transform.GetChild(0).gameObject;
         InvenPanel = transform.GetChild(2).GetChild(0).gameObject;
         MiniMapPanel = transform.GetChild(3).GetChild(0).gameObject;
         SettingPanel = transform.GetChild(4).GetChild(0).gameObject;
         QuestPanel = transform.GetChild(5).GetChild(0).gameObject;
+
+        for(int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            UIList.Add(gameObject.transform.GetChild(i).gameObject);
+        }*/
     }
 
     // Start is called before the first frame update
@@ -52,6 +65,7 @@ public class PopUpUIManager : MonoBehaviour
         InvenPanel.SetActive(false);
         MiniMapPanel.SetActive(false);
         SettingPanel.SetActive(false);
+        QuestPanel.SetActive(false);
     }
 
     private void SceneMovePopUI()

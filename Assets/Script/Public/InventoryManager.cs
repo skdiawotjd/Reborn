@@ -207,6 +207,11 @@ public class InventoryManager : MonoBehaviour
             Destroy(ItemContent.transform.GetChild(i).gameObject);
         }
 
+        for (int i = 0; i < CharacterStatArray.Length; i++)
+        {
+            UpdateInventoryStat(i);
+        }
+
         StartCoroutine(CoroutineLoadInventory());
     }
 

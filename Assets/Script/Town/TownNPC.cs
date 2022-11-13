@@ -24,6 +24,10 @@ public class TownNPC : BasicNpc
     {
         
     }
+    public void SetquestNumber(string number)
+    {
+        questNumber = number;
+    }
     protected override void FunctionStart()
     {
 
@@ -54,6 +58,7 @@ public class TownNPC : BasicNpc
             }
             else
             {
+                Character.instance.SetCharacterStat(6, questNumber);
                 townManager.TownSceneMove(questNumber);
             }
         }

@@ -18,6 +18,11 @@ public abstract class BasicNpc : MonoBehaviour
         }
     }
 
+    public void SetNpcNumber(int number)
+    {
+       _npcNumber = number;
+    }
+
     protected virtual void Start()
     {
         ChatType = 0;

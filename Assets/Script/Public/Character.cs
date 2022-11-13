@@ -331,7 +331,7 @@ public class Character : MonoBehaviour
 
     private void CharacterStatSetting()
     {
-        if (GameManager.instance.IsNewGame)
+        if (GameManager.instance.Round == 0)
         {
             // 새로 시작
             // 1. 이름 설정

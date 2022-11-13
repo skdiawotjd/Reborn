@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
         MainCamera.name = "Main Camera";
 
         // Character 세팅
-        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/TemPlayerCharacter")) as GameObject;
+        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
         PlayerCharacter.name = "PlayerCharacter";
         
         // QuestManager 세팅

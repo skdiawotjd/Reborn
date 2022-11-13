@@ -5992,7 +5992,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2981297092835255749}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
         m_MethodName: SetActiveLoadPanel
         m_Mode: 1

@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 //[Serializable]
 public class GameManager : MonoBehaviour
 {
+    private bool _isNewGenerate;    // 게임을 처음 기동했는지
     [SerializeField]
     private float _playTime;        // 하루에 지나간 시간
     [SerializeField]
@@ -17,9 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool _isdayStart;       // 하루가 시작되었는지
     [SerializeField]
-    private bool _isNewGame;        // 새 게임인지
+    private int _round;             // 몇회차
     [SerializeField]
-    private int Days;               // 며칠이 지났는지
+    private int _days;              // 며칠이 지났는지
 
     [SerializeField]
     private DirectoryInfo SaveDataDirectory;
@@ -47,11 +48,25 @@ public class GameManager : MonoBehaviour
             return _isdayStart;
         }
     }
-    public bool IsNewGame
+    public bool IsNewGenerate
     {
         get
         {
-            return _isNewGame;
+            return _isNewGenerate;
+        }
+    }
+    public int Round
+    {
+        get
+        {
+            return _round;
+        }
+    }
+    public int Days
+    {
+        get
+        {
+            return _days;
         }
     }
     public string SceneName
@@ -95,8 +110,8 @@ public class GameManager : MonoBehaviour
         _playTime = 0f;
         _totalPlayTime = 600f;
         _isdayStart = false;
-        _isNewGame = true;
-        Days = 0;
+        _isNewGenerate = true;
+        _days = 0;
 
         SaveDataDirectory = new DirectoryInfo(Application.dataPath + "/Resources/SaveData/");
 
@@ -128,18 +143,26 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        if(_isNewGame)
+        if(IsNewGenerate)
         {
+            _isNewGenerate = false;
             // 1. Start씬의 카메라 false
             GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
-            // 2. 시작 씬 이동
-            SceneManager.LoadScene("JustChat");
-            // 3. 게임 초기화
+            // 2. 게임 초기화
             InitializeGame();
+
+            if(_days == 0)
+            {
+                // 3. 시작 씬 이동
+                SceneManager.LoadScene("JustChat");
+            }
         }
         else
         {
-            InitializeGame();
+            if (_days == 0)
+            {
+                SceneManager.LoadScene("JustChat");
+            }
         }
     }
 
@@ -147,7 +170,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         // Canvas 세팅
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas 1")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 
@@ -156,9 +179,9 @@ public class GameManager : MonoBehaviour
         MainCamera.name = "Main Camera";
 
         // Character 세팅
-        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
+        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/TemPlayerCharacter")) as GameObject;
         PlayerCharacter.name = "PlayerCharacter";
-
+        
         // QuestManager 세팅
         GameObject QuestManager = Instantiate(Resources.Load("Public/QuestManager")) as GameObject;
         QuestManager.name = "QuestManager";
@@ -192,7 +215,7 @@ public class GameManager : MonoBehaviour
         {
             if(Days == 0)
             {
-                QuestManager.instance.QuestGive();
+                //QuestManager.instance.QuestGive();
                 NewDay();
             }
             else if (Days == 3)
@@ -207,7 +230,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    QuestManager.instance.QuestGive();
+                    //QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -223,7 +246,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    QuestManager.instance.QuestGive();
+                    //QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -240,6 +263,10 @@ public class GameManager : MonoBehaviour
                     Debug.Log("끝인데 생존생존생존생존생존생존생존생존생존생존");
                     //Character.instance.CheckStack();
                 }
+                _days = 0;
+                _round++;
+                // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
+                GameStart();
             }
         }
         else if (Character.instance.TodoProgress < 100)
@@ -256,7 +283,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    QuestManager.instance.QuestGive();
+                    //QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -272,7 +299,7 @@ public class GameManager : MonoBehaviour
                     // 강등
                     Debug.Log("강등강등강등강등강등강등강등강등강등강등");
                     Character.instance.CheckStack();
-                    QuestManager.instance.QuestGive();
+                    //QuestManager.instance.QuestGive();
                     NewDay();
                 }
                 else
@@ -280,7 +307,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    QuestManager.instance.QuestGive();
+                    //QuestManager.instance.QuestGive();
                     NewDay();
                 }
             }
@@ -302,6 +329,10 @@ public class GameManager : MonoBehaviour
                     Debug.Log("끝인데 생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
                 }
+                _days = 0;
+                _round++;
+                // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
+                GameStart();
             }
         }
 
@@ -315,7 +346,7 @@ public class GameManager : MonoBehaviour
         _playTime = 0f;
         //Debug.Log(Days + "일 끝");
         DayEnd.Invoke();
-        Days += 1;
+        _days += 1;
 
         // 새로운 하루 시작
         Invoke("NextCycle", 0.01f);
@@ -343,10 +374,9 @@ public class GameManager : MonoBehaviour
 
         
 
-        if (IsNewGame && SceneName == "Home")
+        if (!IsDayStart && SceneName == "Home")
         {
             NewDay();
-            _isNewGame = false;
         }
     }
 

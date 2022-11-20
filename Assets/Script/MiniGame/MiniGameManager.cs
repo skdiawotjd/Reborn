@@ -22,6 +22,17 @@ public class MiniGameManager : MonoBehaviour
     Arrow[] arrowArray;
     public Slider timeSlider;
     private bool gameClear;
+    private GameObject temImage;
+    private SpriteRenderer temSprite;
+    [SerializeField]
+    private GameObject MinigameClothImage;
+    [SerializeField]
+    private Sprite MinigameCloth1;
+    [SerializeField]
+    private Sprite MinigameCloth2;
+    [SerializeField]
+    private Sprite MinigameCloth3;
+
 
     // Timing 변수
 
@@ -58,6 +69,8 @@ public class MiniGameManager : MonoBehaviour
     private int questCount;
     private int maxCount;
     private bool objectGameActive = false;
+    [SerializeField]
+    private Sprite MineralOfMine;
 
     // Map 변수
     private GameObject floor1;
@@ -88,11 +101,13 @@ public class MiniGameManager : MonoBehaviour
         managerTrans = new Vector3(0, 0, 0);
         keyCount = 0;
         round = 0;
-        keyOfRound = new int[3];
+        keyOfRound = new int[5];
         maxRound = keyOfRound.Length -1;
         keyOfRound[0] = 3;
         keyOfRound[1] = 4;
         keyOfRound[2] = 5;
+        keyOfRound[3] = 5;
+        keyOfRound[4] = 5;
 
 
         Character.instance.transform.position = new Vector3(0f, 0f, 0f);
@@ -167,6 +182,7 @@ public class MiniGameManager : MonoBehaviour
             case 0:// ddr 끝
                 timeSlider.gameObject.SetActive(false);
                 timeText.gameObject.SetActive(false);
+                Destroy(temImage);
                 gameActive = false;
                 break;
             case 1:// 타이밍 맞추기 끝
@@ -391,6 +407,15 @@ public class MiniGameManager : MonoBehaviour
                     keyCount = 0;
                     if (round++ != maxRound)
                     {
+                        if(round == maxRound)
+                        {
+                            temSprite.sprite = MinigameCloth3;
+                        }
+                        else
+                        {
+                            temSprite.sprite = MinigameCloth2;
+                        }
+                        
                         SetRound(round);
                     }
                     else
@@ -409,6 +434,8 @@ public class MiniGameManager : MonoBehaviour
     {
         playTime = 60.0f; // 플레이 타임을 정한다
         timeSlider.maxValue = playTime; // 플레이 타임에 맞게 시간 프로그레스 바의 최대값을 정해준다
+        temImage = Instantiate(MinigameClothImage) as GameObject;
+        temSprite = temImage.GetComponent<SpriteRenderer>();
     }
 
     // 여기서부터 타이밍 맞추기
@@ -488,7 +515,17 @@ public class MiniGameManager : MonoBehaviour
         maxCount = 5;
         for (int i=0 ;i < maxCount ; i++)
         {
-            temBox = Instantiate(GoldBox, new Vector3(Random.Range(-5, 5), Random.Range(-4, 4), transform.position.z), Quaternion.identity) as GoldBox;
+            
+            if(Character.instance.MyPosition == "0005")
+            {
+                temBox = Instantiate(GoldBox, new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, -1f), transform.position.z), Quaternion.identity) as GoldBox;
+                temBox.GetComponent<SpriteRenderer>().sprite = MineralOfMine;
+            }
+            else
+            {
+                temBox = Instantiate(GoldBox, new Vector3(Random.Range(-5, 5), Random.Range(-4, 4), transform.position.z), Quaternion.identity) as GoldBox;
+            }
+            
         }
 
     }

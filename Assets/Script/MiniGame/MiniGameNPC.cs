@@ -20,31 +20,38 @@ public class MiniGameNPC : BasicNpc
     }
     protected override void FunctionStart()
     {
-        switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+        if(Character.instance.ActivePoint >= 10)
         {
-            case "0002": // ddr
-            case "0102":
-            case "0202":
-                gameType = 0;
-                break;
-            case "0003": // 타이밍
-            case "0103":
-                gameType = 1;
-                break;
-            case "0004": // 퀴즈
-            case "0104":
-                gameType = 2;
-                break;
-            case "0005": // 오브젝트
-            case "0105":
-            case "0205":
-            case "0305":
-                gameType = 3;
-                break;
-            default:
-                break;
+            switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+            {
+                case "0002": // ddr
+                case "0102":
+                case "0202":
+                    gameType = 0;
+                    break;
+                case "0003": // 타이밍
+                case "0103":
+                    gameType = 1;
+                    break;
+                case "0004": // 퀴즈
+                case "0104":
+                    gameType = 2;
+                    break;
+                case "0005": // 오브젝트
+                case "0105":
+                case "0205":
+                case "0305":
+                    gameType = 3;
+                    break;
+                default:
+                    break;
+            }
         }
-        Debug.Log(Character.instance.MyPosition);
+        else
+        {
+            // 대충 활동 포인트가 부족하다는 내용
+        }
+
 
         Character.instance.SetCharacterInput(false, false);
         miniGameManager.GameStart(gameType);

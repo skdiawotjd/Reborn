@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 7769088637421475219}
   - component: {fileID: 9113243382578939203}
   - component: {fileID: 1780121156031692341}
-  - component: {fileID: 1780121156031692340}
+  - component: {fileID: 8568855623699836740}
   m_Layer: 7
   m_Name: QuestSlayerChat0NPC
   m_TagString: Conversationable
@@ -320,7 +320,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.34, y: 1.67}
   m_EdgeRadius: 0
---- !u!114 &1780121156031692340
+--- !u!114 &8568855623699836740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,13 +329,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1272594444480376458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72fa18d5eef054c488c8de29bec12e40, type: 3}
+  m_Script: {fileID: 11500000, guid: ef31a9da25df5ed4f92bbc9195321c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _npcNumber: 8
-  questNumber: 0008
-  onlyChat: 1
-  townManager: {fileID: 370759291652946397, guid: 9a2462e905e21af44aebdb3bd732f4ef, type: 3}
+  _npcNumber: 9
 --- !u!1 &1361112290126885818
 GameObject:
   m_ObjectHideFlags: 0

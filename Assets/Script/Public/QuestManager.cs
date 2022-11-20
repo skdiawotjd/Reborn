@@ -14,6 +14,7 @@ public class QuestManager : MonoBehaviour
     public string todayQuest;
     public string questDeleteNumber;
     public bool questEnd;
+    public bool subQuestStart = false;
     private int temNumber;
     private QuestUIManager QUIManager;
 
@@ -61,7 +62,7 @@ public class QuestManager : MonoBehaviour
         
 
         QUIManager.questTextGenerate();
-        GameManager.instance.DayStart.AddListener(GiveQuest);
+        GameManager.instance.DayStartEvent.AddListener(GiveQuest);
     }
 
     private void GiveQuest()
@@ -94,7 +95,7 @@ public class QuestManager : MonoBehaviour
     {
         // 퀘스트를 클리어하고 부를 함수
         Debug.Log("ActivePoint 10 감소하기 전, 현재 수치 : " + Character.instance.ActivePoint);
-        switch(TodoMapNumber)
+        switch(Character.instance.MyPosition)
         {
             case "0002":
             case "0005":
@@ -120,7 +121,9 @@ public class QuestManager : MonoBehaviour
                         case "0002": // ex) 직업 Slayer의 전용퀘스트일 경우
                         case "0005":
                         case "0105":
+                            Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.TodoProgress);
                             Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+                            Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.TodoProgress);
                             break;
                         default:
                             Character.instance.SetCharacterStat(type + 9, 2); // 스택 업

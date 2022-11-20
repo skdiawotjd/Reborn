@@ -18,7 +18,7 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.DayStartEvent.AddListener(InitializeInventory);
+        GameManager.instance.DayStart.AddListener(InitializeInventory);
         //Character.instance.EventUIChange.AddListener(UpdateInventoryStat);
         Character.instance.UIChangeAddListener(UpdateInventoryStat);
         GameManager.instance.LoadEvent.AddListener(LoadInventory);
@@ -132,7 +132,7 @@ public class InventoryManager : MonoBehaviour
 
                     if (Character.instance.MyItem.Count == 0)
                     {
-                        for (; ProOrder < ItemContent.transform.childCount; PreOrder++)
+                        for (; ProOrder < ItemContent.transform.childCount; ProOrder++)
                         {
                             Destroy(ItemContent.transform.GetChild(ProOrder).gameObject);
                         }

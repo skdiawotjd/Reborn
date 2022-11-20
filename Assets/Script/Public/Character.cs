@@ -171,7 +171,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         GameManager.instance.GameStartEvent.AddListener(InitializeMapNumber);
-        GameManager.instance.DayEndEvent.AddListener(EndCharacter);
+        GameManager.instance.DayEnd.AddListener(EndCharacter);
 
         CharacterStatSetting();
     }

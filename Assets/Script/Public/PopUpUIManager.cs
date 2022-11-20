@@ -36,7 +36,7 @@ public class PopUpUIManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.SceneMove.AddListener(SceneMovePopUI);
-        GameManager.instance.DayEnd.AddListener(AllClosePopUpUI);
+        GameManager.instance.DayEndEvent.AddListener(AllClosePopUpUI);
         GameManager.instance.LoadEvent.AddListener(AllClosePopUpUI);
         Character.instance.MyPlayerController.EventUIInput.AddListener(VisibleUI);
     }

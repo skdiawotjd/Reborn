@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-public class SPUM_Prefab : MonoBehaviour
+public class SPUM_Prefabs : MonoBehaviour
 {
     public float _version;
     public SPUM_SpriteList _spriteOBj;
@@ -24,7 +24,6 @@ public class SPUM_Prefab : MonoBehaviour
     private AnimationClip[] _animationClips;
     public AnimationClip[] AnimationClips => _animationClips;
     private Dictionary<string, int> _nameToHashPair = new Dictionary<string, int>();
-
     private void InitAnimPair(){
         _nameToHashPair.Clear();
         _animationClips = _anim.runtimeAnimatorController.animationClips;
@@ -36,9 +35,7 @@ public class SPUM_Prefab : MonoBehaviour
     }
     private void Awake() {
         InitAnimPair();
-        SetSPUMSprite();
     }
-
     private void Start() {
         UnitTypeChanged.AddListener(InitAnimPair);
     }
@@ -51,10 +48,5 @@ public class SPUM_Prefab : MonoBehaviour
                 break;
             }
         }
-    }
-
-    public void SetSPUMSprite()
-    {
-        _spriteOBj.InitializeSprite();
     }
 }

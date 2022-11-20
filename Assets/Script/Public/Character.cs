@@ -170,7 +170,8 @@ public class Character : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.DayEnd.AddListener(EndCharacter);
+        GameManager.instance.GameStartEvent.AddListener(InitializeMapNumber);
+        GameManager.instance.DayEndEvent.AddListener(EndCharacter);
 
         CharacterStatSetting();
     }
@@ -345,6 +346,8 @@ public class Character : MonoBehaviour
             CharacterStat._todoProgress = 50;
             // 5. 라운드 설정
             CharacterStat._myRound = 1;
+            // 6. 위치 설정
+            CharacterStat._myPosition = "0007";
             // 6. 활동력 설정
             CharacterStat._activePoint = 100;
             // 7. 스택 설정
@@ -357,6 +360,12 @@ public class Character : MonoBehaviour
             // 이어 하기
         }
     }
+
+    public void InitializeMapNumber()
+    {
+        CharacterStat._myPosition = "0" + (MySocialClass + 1).ToString() + "007";
+    }
+
     private void InitializeStack()
     {
         for (int i = 0; i < MyStackByJob.Length; i++)
@@ -382,7 +391,7 @@ public class Character : MonoBehaviour
                     {
                         CharacterStat._mySocialClass = SocialClass.Slayer;
                         CharacterStat._myJob = Job.Slayer;
-
+                        
                         InitializeStack();
                     }
                     break;
@@ -413,6 +422,7 @@ public class Character : MonoBehaviour
                     else if (MyStackBySocialClass[i] == 100)
                     {
                         CharacterStat._mySocialClass = SocialClass.Commons;
+                        CharacterStat._myPosition = "0100";
                         // 명장
                         if (MyStackByJob[3] + MyStackByJob[4] > 0)
                         {
@@ -542,7 +552,6 @@ public class Character : MonoBehaviour
     {
         CharacterStat._activePoint = 100;
     }
-
 /*    public void PopItem(int ItemType)
     {
         EventItemPop.Invoke(ItemType);

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
+using System;
+using static SPUM_SpriteList;
 
 public class SPUM_SpriteList : MonoBehaviour
 {
@@ -17,7 +20,6 @@ public class SPUM_SpriteList : MonoBehaviour
 
     public SPUM_HorseSpriteList _spHorseSPList;
     public string _spHorseString;
-    // Start is called before the first frame update
 
     public Texture2D _bodyTexture;
     public string _bodyString;
@@ -28,7 +30,17 @@ public class SPUM_SpriteList : MonoBehaviour
     public List<string> _pantListString = new List<string>();
     public List<string> _weaponListString = new List<string>();
     public List<string> _backListString = new List<string>();
-    
+
+
+    private const string Path = "Assets/Resources/SPUM/SPUM_Sprites/";  //Application.dataPath + "/Resources/SPUM/SPUM_Sprites/";
+    List<Dictionary<string, object>> SpriteListCSV;
+
+    [Serializable]
+    public struct StringListStruct
+    {
+        public List<string> StringList;
+    }
+    public List<StringListStruct> SpriteStringList = new List<StringListStruct>();
 
 
     public void Reset()
@@ -111,12 +123,13 @@ public class SPUM_SpriteList : MonoBehaviour
         _hairList[0].gameObject.SetActive(!data._hairList[0].gameObject.activeInHierarchy);
         _hairList[3].gameObject.SetActive(!data._hairList[3].gameObject.activeInHierarchy);
 
-        _hairListString = data._hairListString;
+        /*_hairListString = data._hairListString;
         _clothListString = data._clothListString;
         _pantListString = data._pantListString;
         _armorListString = data._armorListString;
         _weaponListString = data._weaponListString;
-        _backListString = data._backListString;
+        _backListString = data._backListString;*/
+        SpriteStringList = data.SpriteStringList;
     }
 
     public void SetSpriteList(List<SpriteRenderer> tList, List<SpriteRenderer> tData)
@@ -134,12 +147,18 @@ public class SPUM_SpriteList : MonoBehaviour
 
     public void ResyncData()
     {
-        SyncPath(_hairList,_hairListString);
+        /*SyncPath(_hairList,_hairListString);
         SyncPath(_clothList,_clothListString);
         SyncPath(_armorList,_armorListString);
         SyncPath(_pantList,_pantListString);
         SyncPath(_weaponList,_weaponListString);
-        SyncPath(_backList,_backListString);
+        SyncPath(_backList,_backListString);*/
+        SyncPath(_hairList, SpriteStringList[0].StringList);
+        SyncPath(_clothList, SpriteStringList[1].StringList);
+        SyncPath(_armorList, SpriteStringList[2].StringList);
+        SyncPath(_pantList, SpriteStringList[3].StringList);
+        SyncPath(_weaponList, SpriteStringList[4].StringList);
+        SyncPath(_backList, SpriteStringList[5].StringList);
     }
 
     public void SyncPath(List<SpriteRenderer> _objList, List<string> _pathList)
@@ -167,5 +186,36 @@ public class SPUM_SpriteList : MonoBehaviour
                 _objList[i].sprite = null;
             }
         }
+    }
+
+    public void InitializeSprite()
+    {
+        GameManager.instance.GameStartEvent.AddListener(InitializeSprite);
+
+        SpriteListCSV = CSVReader.Read("SPUMSprite");
+
+        for (int i = 0; i < SpriteListCSV.Count; i++)
+        {
+            //Debug.Log("SpriteList.Count = " + SpriteListCSV.Count);
+            for (int k = 1; k <= (SpriteListCSV[i].Count - 1); k++)
+            {
+                //Debug.Log("SpriteList[i].Count = " + SpriteList[i].Count);
+                if(SpriteListCSV[i]["Element" + k].ToString() != "")
+                {
+                    //Debug.Log("1. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + Path + SpriteListCSV[i]["Element" + k].ToString());
+                    //Debug.Log("2. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + SpriteStringList[i].StringList[k-1]);
+                    SpriteStringList[i].StringList[k-1] = Path + SpriteListCSV[i]["Element" + k].ToString();
+                }
+            }
+        }
+
+        ResyncData();
+    }
+
+    public void SetSprite()
+    {
+        SpriteStringList[0].StringList[0] = Path + "Items/0_Hair/Hair_1.png";
+
+        ResyncData();
     }
 }

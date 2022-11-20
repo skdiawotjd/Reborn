@@ -16,12 +16,12 @@ public class JustChatManager : MonoBehaviour
     void Start()
     {
         MainCanvas.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-        ConversationManager.NpcNumberChatType = "0-0";
+        //ConversationManager.NpcNumberChatType = "0-0";
         Character.instance.SetCharacterInput(false, false);
         SetPrefab();
         Character.instance.MyPlayerController.EventConversation.Invoke();
 
-        StartCoroutine(CompleteChat());
+        //StartCoroutine(CompleteChat());
     }
 
     IEnumerator CompleteChat()
@@ -30,8 +30,9 @@ public class JustChatManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
         }
-        Character.instance.SetCharacterStat(6, "0000");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
+        //Character.instance.SetCharacterStat(6, "0000");
+        //Character.instance.InitializeMapNumber();
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
     }
 
     private void SetPrefab()

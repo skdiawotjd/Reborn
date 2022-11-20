@@ -3,7 +3,15 @@ guid: 9b4fa77825c035145990242c797d269d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Arrow: {instanceID: 0}
+  - text: {instanceID: 0}
+  - timeSlider: {instanceID: 0}
+  - MinigameClothImage: {instanceID: 0}
+  - MinigameCloth1: {fileID: 21300000, guid: 0d5916fdd9d622e4e890b2443526bfaf, type: 3}
+  - MinigameCloth2: {fileID: 21300000, guid: 18e4dc96aae9b874d9fd55237eb4684a, type: 3}
+  - MinigameCloth3: {instanceID: 0}
+  - MineralOfMine: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

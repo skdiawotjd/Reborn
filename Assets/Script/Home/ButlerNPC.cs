@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ButlerNPC : BasicNpc
+{
+    private bool QuestStart = false;
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+
+    protected override void FunctionStart()
+    {
+
+        //Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
+        if (QuestManager.instance.subQuestStart)
+        {
+            // 퀘스트 확인
+            ChatType = 2;
+            ConversationManager.CurNpc = this;
+            ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+        }
+        else
+        {
+            // 퀘스트 부여
+            QuestManager.instance.subQuestStart = true;
+            ChatType = Random.Range(0,1);
+            ConversationManager.CurNpc = this;
+            ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+            if (ChatType == 0)
+            {
+                Character.instance.SetCharacterStat(8, "99991"/*추가 할 아이템 넘버와 개수*/);
+            }
+            else
+            {
+                Character.instance.SetCharacterStat(8, "97971"/*추가 할 아이템 넘버와 개수*/);
+            }
+            
+        }
+    }
+    public override void FunctionEnd()
+    {
+        if (ChatType == 2)
+        {
+            for (int i = 0; i < Character.instance.MyItem.Count; i++)
+            {
+                if (Character.instance.MyItem[i] == "9999" || Character.instance.MyItem[i] == "9797") // 주문 서류가 있다면
+                {
+                    ChatType = 3;
+                    ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                    Character.instance.MyPlayerController.EventConversation.Invoke();
+                    return;
+                }
+            }
+
+            ChatType = 4;
+            ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+            Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.TodoProgress);
+            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+            Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.TodoProgress);
+            Character.instance.MyPlayerController.EventConversation.Invoke();
+            QuestManager.instance.subQuestStart = false;
+
+        }
+    }
+}

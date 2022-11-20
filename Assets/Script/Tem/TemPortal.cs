@@ -52,6 +52,20 @@ public class TemPortal : MonoBehaviour
                 break;
             case 4:
                 Character.instance.MyPlayerController.DisableCollider();
+                switch(Character.instance.MyJob.ToString())
+                {
+                    case "Slayer":
+                        Character.instance.SetCharacterStat(6, "0000"); // Home
+                        break;
+                    case "Bania":
+                        Character.instance.SetCharacterStat(6, "0100"); // Home
+                        break;
+                    case "Smith":
+                        Character.instance.SetCharacterStat(6, "0200"); // Home
+                        break;
+
+
+                }
                 Character.instance.SetCharacterStat(6, "0000"); // Home
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;

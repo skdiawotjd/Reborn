@@ -96,7 +96,7 @@ public class SceneLoadManager : MonoBehaviour
             case "0000": // ³ë¿¹ÀÇ Home
                 AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
                 
-                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfCommons"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTest"), new Vector3(5, -5, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTown"), new Vector3(6, -5, transform.position.z), Quaternion.identity) as GameObject;

@@ -84,9 +84,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UnityEvent DayStart;
-    public UnityEvent DayEnd;
-    public UnityEvent SceneMove;
+    public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeMapNumber
+    public UnityEvent DayStartEvent;    // PlayerController - StartPlayerController, MainUIManager - StartUI, InventoryManager - InitializeInventory, QuestManager - GiveQuest
+    public UnityEvent DayEndEvent;      // PlayerController - EndPlayerController, MainUIManager - EndUI, PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd, Character - EndCharacter
+    public UnityEvent SceneMove;        // PopUpUIManager - SceneMovePopUI, SceneManager - MapSetting
     public UnityEvent LoadEvent;
 
     public static GameManager instance = null;
@@ -150,19 +151,25 @@ public class GameManager : MonoBehaviour
             GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
             // 2. 게임 초기화
             InitializeGame();
+            // 3. 시작 씬 이동
+            SceneManager.LoadScene("JustChat");
 
-            if(_days == 0)
+            /*if(_days == 0)
             {
                 // 3. 시작 씬 이동
                 SceneManager.LoadScene("JustChat");
-            }
+            }*/
         }
         else
         {
-            if (_days == 0)
+            SaveData();
+            GameStartEvent.Invoke();
+            SceneManager.LoadScene("JustChat");
+
+            /*if (_days == 0)
             {
                 SceneManager.LoadScene("JustChat");
-            }
+            }*/
         }
     }
 
@@ -170,7 +177,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         // Canvas 세팅
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas 1")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 
@@ -179,7 +186,7 @@ public class GameManager : MonoBehaviour
         MainCamera.name = "Main Camera";
 
         // Character 세팅
-        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
+        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/TemPlayerCharacter")) as GameObject;
         PlayerCharacter.name = "PlayerCharacter";
         
         // QuestManager 세팅
@@ -229,7 +236,7 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
+                    //Character.instance.CheckStack();
                     //QuestManager.instance.QuestGive();
                     NewDay();
                 }
@@ -245,7 +252,7 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
+                    //Character.instance.CheckStack();
                     //QuestManager.instance.QuestGive();
                     NewDay();
                 }
@@ -261,12 +268,12 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("끝인데 생존생존생존생존생존생존생존생존생존생존");
-                    //Character.instance.CheckStack();
+                    Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
+                    GameStart();
                 }
-                _days = 0;
-                _round++;
-                // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
-                GameStart();
             }
         }
         else if (Character.instance.TodoProgress < 100)
@@ -282,7 +289,7 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
+                    //Character.instance.CheckStack();
                     //QuestManager.instance.QuestGive();
                     NewDay();
                 }
@@ -306,7 +313,7 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
+                    //Character.instance.CheckStack();
                     //QuestManager.instance.QuestGive();
                     NewDay();
                 }
@@ -322,17 +329,18 @@ public class GameManager : MonoBehaviour
                 {
                     // 강등
                     Debug.Log("끝인데 강등강등강등강등강등강등강등강등강등강등");
+                    Character.instance.CheckStack();
                 }
                 else
                 {
                     // 생존
                     Debug.Log("끝인데 생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
+                    GameStart();
                 }
-                _days = 0;
-                _round++;
-                // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
-                GameStart();
             }
         }
 
@@ -345,7 +353,7 @@ public class GameManager : MonoBehaviour
         // 값 초기화
         _playTime = 0f;
         //Debug.Log(Days + "일 끝");
-        DayEnd.Invoke();
+        DayEndEvent.Invoke();
         _days += 1;
 
         // 새로운 하루 시작
@@ -359,7 +367,7 @@ public class GameManager : MonoBehaviour
             case 1:
                 _isdayStart = true;
                 //Debug.Log(Days + "일 시작");
-                DayStart.Invoke();
+                DayStartEvent.Invoke();
                 break;
             case 2:
                 break;

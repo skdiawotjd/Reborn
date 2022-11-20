@@ -18,7 +18,7 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.DayStart.AddListener(InitializeInventory);
+        GameManager.instance.DayStartEvent.AddListener(InitializeInventory);
         //Character.instance.EventUIChange.AddListener(UpdateInventoryStat);
         Character.instance.UIChangeAddListener(UpdateInventoryStat);
         GameManager.instance.LoadEvent.AddListener(LoadInventory);

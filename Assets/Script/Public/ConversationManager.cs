@@ -43,15 +43,16 @@ public class ConversationManager : MonoBehaviour
     
     void Awake()
     {
-        InitializeConversationManager();
-
         ChatList = CSVReader.Read("Chatting");
+
+        InitializeConversationManager();
     }
 
     void Start()
     {
         Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
-        GameManager.instance.DayEnd.AddListener(DayEnd);
+        GameManager.instance.GameStartEvent.AddListener(InitializeNpcNumberChatType);
+        GameManager.instance.DayEndEvent.AddListener(DayEnd);
     }
 
     private void InitializeConversationManager()
@@ -59,7 +60,7 @@ public class ConversationManager : MonoBehaviour
         IsCanChat = false;
         ChatCount = -1;
         _conversationCount = -1;
-        _npcNumberChatType = "";
+        NpcNumberChatType = "0-0";
         ConversationPanel.gameObject.SetActive(false);
     }
 
@@ -158,5 +159,10 @@ public class ConversationManager : MonoBehaviour
     private void DayEnd()
     {
         InitializeConversationManager();
+    }
+
+    private void InitializeNpcNumberChatType()
+    {
+        NpcNumberChatType = ((int)Character.instance.MyJob + 1).ToString() + "-0";
     }
 }

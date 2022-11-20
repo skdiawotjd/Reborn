@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using System.IO;
 
 public class SceneLoadManager : MonoBehaviour
 {
@@ -99,6 +100,17 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(DoorToTown, new Vector3(6, -5, transform.position.z), Quaternion.identity) as GameObject;
                 temNPC = Instantiate(Noble, new Vector3(1, -5, transform.position.z), Quaternion.identity) as GameObject;
                 temNPC = Instantiate(Butler, new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
+                Debug.Log("asd");
+                /*AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
+                
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTest"), new Vector3(5, -5, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTown"), new Vector3(6, -5, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC = Instantiate(bundle.LoadAsset<GameObject>("Noble"), new Vector3(1, -5, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC = Instantiate(bundle.LoadAsset<GameObject>("ButlerNPC"), new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
+
+                bundle.Unload(false);*/
                 break;
             case "0001": // ³ë¿¹ÀÇ Town
                 temMap = Instantiate(TownBackground, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;

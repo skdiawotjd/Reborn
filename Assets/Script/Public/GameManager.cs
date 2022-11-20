@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviour
     }
 
     public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeMapNumber
-    public UnityEvent DayStartEvent;    // PlayerController - StartPlayerController, MainUIManager - StartUI, InventoryManager - InitializeInventory, QuestManager - GiveQuest
-    public UnityEvent DayEndEvent;      // PlayerController - EndPlayerController, MainUIManager - EndUI, PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd, Character - EndCharacter
+    public UnityEvent DayStart;    // PlayerController - StartPlayerController, MainUIManager - StartUI, InventoryManager - InitializeInventory, QuestManager - GiveQuest
+    public UnityEvent DayEnd;      // PlayerController - EndPlayerController, MainUIManager - EndUI, PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd, Character - EndCharacter
     public UnityEvent SceneMove;        // PopUpUIManager - SceneMovePopUI, SceneManager - MapSetting
     public UnityEvent LoadEvent;
 
@@ -353,7 +353,7 @@ public class GameManager : MonoBehaviour
         // 값 초기화
         _playTime = 0f;
         //Debug.Log(Days + "일 끝");
-        DayEndEvent.Invoke();
+        DayEnd.Invoke();
         _days += 1;
 
         // 새로운 하루 시작
@@ -367,7 +367,7 @@ public class GameManager : MonoBehaviour
             case 1:
                 _isdayStart = true;
                 //Debug.Log(Days + "일 시작");
-                DayStartEvent.Invoke();
+                DayStart.Invoke();
                 break;
             case 2:
                 break;
@@ -401,7 +401,7 @@ public class GameManager : MonoBehaviour
         string path2 = SaveDataDirectory.ToString() + "GameManager" + SaveDataCount.ToString() + ".Json";
         File.WriteAllText(path2, Json2);
 
-        AssetDatabase.Refresh();
+        //AssetDatabase.Refresh();
     }
 
     public void LoadData(int Number)

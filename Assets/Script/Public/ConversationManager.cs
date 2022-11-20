@@ -52,7 +52,7 @@ public class ConversationManager : MonoBehaviour
     {
         Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
         GameManager.instance.GameStartEvent.AddListener(InitializeNpcNumberChatType);
-        GameManager.instance.DayEndEvent.AddListener(DayEnd);
+        GameManager.instance.DayEnd.AddListener(DayEnd);
     }
 
     private void InitializeConversationManager()

@@ -62,7 +62,7 @@ public class QuestManager : MonoBehaviour
         
 
         QUIManager.questTextGenerate();
-        GameManager.instance.DayStartEvent.AddListener(GiveQuest);
+        GameManager.instance.DayStart.AddListener(GiveQuest);
     }
 
     private void GiveQuest()

@@ -1758,8 +1758,7 @@ GameObject:
   - component: {fileID: 674221430596235437}
   - component: {fileID: 448264223955735305}
   - component: {fileID: 4001189032874473893}
-  - component: {fileID: 5195985337858519859}
-  - component: {fileID: 3868824026026870322}
+  - component: {fileID: 5868554360516547802}
   - component: {fileID: 196858517466419320}
   - component: {fileID: 129854218126504832}
   m_Layer: 6
@@ -1828,7 +1827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec894b05ce555d45823342914befbfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spum: {fileID: 3868824026026870322}
+  Spum: {fileID: 5868554360516547802}
   RotationObject: {fileID: 7385670610414917756}
   ConversationNext: 0
   EventConversation:
@@ -1839,7 +1838,7 @@ MonoBehaviour:
       m_Calls: []
   BodyCollider: {fileID: 196858517466419320}
   InterActionCollider: {fileID: 1973752813266507347}
---- !u!114 &5195985337858519859
+--- !u!114 &5868554360516547802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1854,29 +1853,7 @@ MonoBehaviour:
   _version: 0
   _spriteOBj: {fileID: 9143057528056292496}
   EditChk: 0
-  _code: Unit000
-  _anim: {fileID: 1472596763053690594}
-  _horse: 0
-  _horseString: 
-  UnitTypeChanged:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3868824026026870322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5127632831829948452}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ac21711b0ec40a0812d33a586eb7ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _version: 0
-  _spriteOBj: {fileID: 9143057528056292496}
-  EditChk: 0
-  _code: Unit000
+  _code: 
   _anim: {fileID: 1472596763053690594}
   _horse: 0
   _horseString: 

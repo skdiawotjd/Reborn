@@ -16,22 +16,7 @@ public class QuestManager : MonoBehaviour
     public bool questEnd;
     public bool subQuestStart = false;
     private int temNumber;
-    private QuestUIManager QUIManager;
-
-    /*public int questType
-    {
-        get
-        {
-            return _questType;
-        }
-    }
-    public int QuestLevel
-    {
-        get
-        {
-            return _questLevel;
-        }
-    }*/
+    //private QuestUIManager QUIManager;
 
     public static QuestManager instance = null;
     public UnityEvent EventCountChange;
@@ -52,7 +37,7 @@ public class QuestManager : MonoBehaviour
         }
         UniqueQuestList = CSVReader.Read("UniqueQuest");
         GiveQuest();
-        QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(5).GetComponent<QuestUIManager>();
+        //QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<QuestUIManager>();
     }
 
     void Start()
@@ -61,7 +46,7 @@ public class QuestManager : MonoBehaviour
         SubQuest = new List<string>();
         
 
-        QUIManager.questTextGenerate();
+        //QUIManager.questTextGenerate();
         GameManager.instance.DayStart.AddListener(GiveQuest);
     }
 

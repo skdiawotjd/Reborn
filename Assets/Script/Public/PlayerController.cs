@@ -5,10 +5,10 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    enum Direction { Left = 1, Right = -1}
+    private enum Direction { Left = 1, Right = -1}
 
     [SerializeField]
-    private SPUM_Prefabs Spum;
+    private SPUM_Prefab Spum;
     [SerializeField]
     private GameObject RotationObject;
     private bool _characterControllable;
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public UnityEvent EventConversation;
-    public UnityEvent<int> EventUIInput;
+    public UnityEvent<UIPopUpOrder> EventUIInput;
 
     [SerializeField]
     private Collider2D BodyCollider;
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
             {
                 if(EventUIInput != null)
                 {
-                    EventUIInput.Invoke(2);
+                    EventUIInput.Invoke(UIPopUpOrder.InvenPanel);
                 }
             }
             // ¹Ì´Ï¸Ê
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (EventUIInput != null)
                 {
-                    EventUIInput.Invoke(3);
+                    EventUIInput.Invoke(UIPopUpOrder.MiniMapPanel);
                 }
             }
             // ¼³Á¤
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (EventUIInput != null)
                 {
-                    EventUIInput.Invoke(4);
+                    EventUIInput.Invoke(UIPopUpOrder.SettingPanel);
                 }
             }
             // Äù½ºÆ®
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (EventUIInput != null)
                 {
-                    EventUIInput.Invoke(5);
+                    EventUIInput.Invoke(UIPopUpOrder.QuestPanel);
                 }
             }
         }

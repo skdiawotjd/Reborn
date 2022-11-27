@@ -15,7 +15,7 @@ public class JustChatManager : MonoBehaviour
     }
     void Start()
     {
-        MainCanvas.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        //MainCanvas.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         //ConversationManager.NpcNumberChatType = "0-0";
         Character.instance.SetCharacterInput(false, false);
         SetPrefab();

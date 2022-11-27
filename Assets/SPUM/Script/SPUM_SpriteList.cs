@@ -42,6 +42,10 @@ public class SPUM_SpriteList : MonoBehaviour
     }
     public List<StringListStruct> SpriteStringList = new List<StringListStruct>();
 
+    void Start()
+    {
+
+    }
 
     public void Reset()
     {
@@ -190,6 +194,7 @@ public class SPUM_SpriteList : MonoBehaviour
 
     public void InitializeSprite()
     {
+        //Debug.Log("불러짐");
         GameManager.instance.GameStartEvent.AddListener(InitializeSprite);
 
         SpriteListCSV = CSVReader.Read("SPUMSprite");
@@ -199,7 +204,7 @@ public class SPUM_SpriteList : MonoBehaviour
             //Debug.Log("SpriteList.Count = " + SpriteListCSV.Count);
             for (int k = 1; k <= (SpriteListCSV[i].Count - 1); k++)
             {
-                //Debug.Log("SpriteList[i].Count = " + SpriteList[i].Count);
+                //.Log("SpriteList[" + i + "].Count = " + SpriteListCSV[i].Count);
                 if(SpriteListCSV[i]["Element" + k].ToString() != "")
                 {
                     //Debug.Log("1. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + Path + SpriteListCSV[i]["Element" + k].ToString());

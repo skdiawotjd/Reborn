@@ -27,7 +27,7 @@ public class Character : MonoBehaviour
     [SerializeField]
     private Stat CharacterStat;
 
-    private UnityEvent<int> _eventUIChange;
+    private UnityEvent<CharacterStatType> _eventUIChange;
     private PlayerController _myPlayerController;
     private ItemManager _myItemManager;
 
@@ -117,7 +117,7 @@ public class Character : MonoBehaviour
             return CharacterStat._myStackByJob;
         }
     }
-    public UnityEvent<int> EventUIChange
+    public UnityEvent<CharacterStatType> EventUIChange
     {
         get
         {
@@ -158,25 +158,25 @@ public class Character : MonoBehaviour
         CharacterStat = new Stat();
         CharacterStat._myItem = new List<string>();
         CharacterStat._myItemCount = new List<int>();
-        CharacterStat._myStackByJob = new int[11];
+        CharacterStat._myStackByJob = new int[16];
         CharacterStat._myStackBySocialClass = new int[5];
 
         
         _myPlayerController = gameObject.GetComponent<PlayerController>();
         _myItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
-        _eventUIChange = new UnityEvent<int>();
+        _eventUIChange = new UnityEvent<CharacterStatType>();
     }
 
 
     void Start()
     {
-        GameManager.instance.GameStartEvent.AddListener(InitializeMapNumber);
+        GameManager.instance.GameStartEvent.AddListener(InitializeCharacter);
         GameManager.instance.DayEnd.AddListener(EndCharacter);
 
         CharacterStatSetting();
     }
 
-    public void UIChangeAddListener(UnityAction<int> AddEvent)
+    public void UIChangeAddListener(UnityAction<CharacterStatType> AddEvent)
     {
         
         EventUIChange.AddListener(AddEvent);
@@ -188,7 +188,7 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~19 - MyStack(SocialClass / Job)
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~24 - MyStack(SocialClass / Job)
     /// <para>
     /// 직업 별 Type : 9 - 노예, 10 - 대장장이, 11 - 상인, 12 - 명장, 13 - 대상인, 14 - 기사, 15 - 학자, 16 - 기사단장, 17 - 연금술사, 18 - 귀족, 19 - 왕
     /// </para>
@@ -201,7 +201,9 @@ public class Character : MonoBehaviour
     {
         int StatType = 0;
         string StatTypeString = "";
-        if(Type == 6 || Type == 8)
+        CharacterStatType TemType = (CharacterStatType)Type;
+
+        if (TemType == CharacterStatType.MyPositon || TemType == CharacterStatType.MyItem)
         {
             StatTypeString = value.ToString();
         }
@@ -210,22 +212,22 @@ public class Character : MonoBehaviour
             StatType = (int)(object)value;
         }
 
-        switch (Type)
+        switch (TemType)
         {
             // MySocialClass
-            case 1:
+            case CharacterStatType.MySocialClass:
                 CharacterStat._mySocialClass = (SocialClass)StatType;
                 break;
             // MyJob
-            case 2:
+            case CharacterStatType.MyJob:
                 CharacterStat._myJob = (Job)StatType;
                 break;
             // MyAge
-            case 3:
+            case CharacterStatType.MyAge:
                 CharacterStat._myAge = StatType;
                 break;
             // TodoProgress
-            case 4:
+            case CharacterStatType.TodoProgress:
                 if(CharacterStat._todoProgress + StatType <= 100)
                 {
                     CharacterStat._todoProgress += StatType;
@@ -237,19 +239,19 @@ public class Character : MonoBehaviour
                 }
                 break;
             // MyRound
-            case 5:
+            case CharacterStatType.MyRound:
                 CharacterStat._myRound = StatType;
                 break;
             // MyPosition
-            case 6:
+            case CharacterStatType.MyPositon:
                 CharacterStat._myPosition = StatTypeString;
                 break;
             // ActivePoint
-            case 7:
+            case CharacterStatType.ActivePoint:
                 CharacterStat._activePoint += StatType;
                 break;
             // MyItem
-            case 8:
+            case CharacterStatType.MyItem:
                 string ItemNumber = StatTypeString.Substring(0, 4);
                 int ItemOrder = MyItemManager.OrderItem(ItemNumber);
                 
@@ -299,35 +301,40 @@ public class Character : MonoBehaviour
                 break;
             // MyStackBySocialClass
             // MyStackByJob
-            case 9:
+            case CharacterStatType.Slayer:
                 CharacterStat._myStackBySocialClass[0] += Mathf.Abs(StatType);
-                CharacterStat._myStackByJob[Type - 8] += StatType;
+                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
                 break;
-            case 10:
-            case 11:
-            case 12:
-            case 13:
+            case CharacterStatType.Smith:
+            case CharacterStatType.Bania:
+            case CharacterStatType.MasterSmith:
+            case CharacterStatType.Merchant:
                 CharacterStat._myStackBySocialClass[1] += Mathf.Abs(StatType);
-                CharacterStat._myStackByJob[Type - 8] += StatType;
+                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
                 break;
-            case 14:
-            case 15:
-            case 16:
-            case 17:
+            case CharacterStatType.Knight:
+            case CharacterStatType.Scholar:
+            case CharacterStatType.MasterKnight:
+            case CharacterStatType.Alchemist:
                 CharacterStat._myStackBySocialClass[2] += Mathf.Abs(StatType);
-                CharacterStat._myStackByJob[Type - 8] += StatType;
+                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
                 break;
-            case 18:
+            case CharacterStatType.Baron:
+            case CharacterStatType.Viscount:
+            case CharacterStatType.Earl:
+            case CharacterStatType.Marquess:
+            case CharacterStatType.Duke:
+            case CharacterStatType.GrandDuke:
                 CharacterStat._myStackBySocialClass[3] += Mathf.Abs(StatType);
-                CharacterStat._myStackByJob[Type - 8] += StatType;
+                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
                 break;
-            case 19:
+            case CharacterStatType.King:
                 CharacterStat._myStackBySocialClass[4] += Mathf.Abs(StatType);
-                CharacterStat._myStackByJob[Type - 8] += StatType;
+                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
                 break;
         }
 
-        EventUIChange.Invoke(Type);
+        EventUIChange.Invoke(TemType);
     }
 
     private void CharacterStatSetting()
@@ -361,9 +368,13 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void InitializeMapNumber()
+    public void InitializeCharacter()
     {
-        CharacterStat._myPosition = "0" + (MySocialClass + 1).ToString() + "007";
+        Debug.Log("asd");
+        //InitializeMapNumber
+        CharacterStat._myPosition = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
+        // 3. 나이 설정
+        CharacterStat._myAge = 10;
     }
 
     private void InitializeStack()
@@ -393,6 +404,7 @@ public class Character : MonoBehaviour
                         CharacterStat._myJob = Job.Slayer;
                         
                         InitializeStack();
+                        return;
                     }
                     break;
                 // 평민 스택
@@ -417,6 +429,7 @@ public class Character : MonoBehaviour
                         }
 
                         InitializeStack();
+                        return;
                     }
                     // 평민 2
                     else if (MyStackBySocialClass[i] == 100)
@@ -439,6 +452,7 @@ public class Character : MonoBehaviour
                         }
 
                         InitializeStack();
+                        return;
                     }
                     break;
                 // 준귀족 스택
@@ -463,6 +477,7 @@ public class Character : MonoBehaviour
                         }
 
                         InitializeStack();
+                        return;
                     }
                     // 준귀족 2
                     else if (MyStackBySocialClass[i] == 100)
@@ -484,6 +499,7 @@ public class Character : MonoBehaviour
                         }
 
                         InitializeStack();
+                        return;
                     }
 
                     //InitializeStack();
@@ -498,13 +514,13 @@ public class Character : MonoBehaviour
                             CharacterStat._mySocialClass = SocialClass.Noble;
                             CharacterStat._myJob = Job.Baron;
                             InitializeStack();
-                            break;
+                            return;
                         // 자작
                         case int n when (20 <= n && n <= 29):
                             CharacterStat._mySocialClass = SocialClass.Noble;
                             CharacterStat._myJob = Job.Viscount;
                             InitializeStack();
-                            break;
+                            return;
                         // 백작
                         case int n when (30 <= n && n <= 39):
                             CharacterStat._mySocialClass = SocialClass.Noble;
@@ -551,6 +567,7 @@ public class Character : MonoBehaviour
     private void EndCharacter()
     {
         CharacterStat._activePoint = 100;
+        CharacterStat._myAge += 1;
     }
 /*    public void PopItem(int ItemType)
     {

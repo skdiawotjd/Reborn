@@ -84,11 +84,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeMapNumber
+    public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeCharacter
     public UnityEvent DayStart;    // PlayerController - StartPlayerController, MainUIManager - StartUI, InventoryManager - InitializeInventory, QuestManager - GiveQuest
     public UnityEvent DayEnd;      // PlayerController - EndPlayerController, MainUIManager - EndUI, PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd, Character - EndCharacter
     public UnityEvent SceneMove;        // PopUpUIManager - SceneMovePopUI, SceneManager - MapSetting
-    public UnityEvent LoadEvent;
+    public UnityEvent LoadEvent;      // PopUpUIManager - AllClosePopUpUI, UIMainManager - LoadUI, UIInventoryManager - LoadInventory
+    private bool Pause;
+
 
     public static GameManager instance = null;
 
@@ -113,6 +115,7 @@ public class GameManager : MonoBehaviour
         _isdayStart = false;
         _isNewGenerate = true;
         _days = 0;
+        Pause = false;
 
         SaveDataDirectory = new DirectoryInfo(Application.dataPath + "/Resources/SaveData/");
 
@@ -131,7 +134,10 @@ public class GameManager : MonoBehaviour
         {
             if (Mathf.Floor(_playTime) != TotalPlayTime && Character.instance.ActivePoint != 0)
             {
-                _playTime += Time.deltaTime;
+                if(!Pause)
+                {
+                    _playTime += Time.deltaTime;
+                }
                 //Debug.Log(Mathf.Floor(_playTime));
             }
             else
@@ -162,8 +168,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SaveData();
             GameStartEvent.Invoke();
+            SaveData();
             SceneManager.LoadScene("JustChat");
 
             /*if (_days == 0)
@@ -177,13 +183,17 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         // Canvas 세팅
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas 2")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 
-        // Canvas 카메라 세팅
+        // Camera 세팅
         GameObject MainCamera = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
         MainCamera.name = "Main Camera";
+
+        // Sound 세팅
+        GameObject SoundManager = Instantiate(Resources.Load("Public/SoundManager")) as GameObject;
+        SoundManager.name = "SoundManager";
 
         // Character 세팅
         GameObject PlayerCharacter = Instantiate(Resources.Load("Public/TemPlayerCharacter")) as GameObject;
@@ -201,6 +211,8 @@ public class GameManager : MonoBehaviour
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정
     private void InitializeDay()
     {
+        DayEnd.Invoke();
+
         // 1. 분기 판단
         if (Days % 3 == 0)
         {
@@ -353,7 +365,7 @@ public class GameManager : MonoBehaviour
         // 값 초기화
         _playTime = 0f;
         //Debug.Log(Days + "일 끝");
-        DayEnd.Invoke();
+        //DayEnd.Invoke();
         _days += 1;
 
         // 새로운 하루 시작
@@ -431,5 +443,10 @@ public class GameManager : MonoBehaviour
             }
         }
         _saveDataCount /= 2;
+    }
+
+    public void ActivateDay()
+    {
+        Pause = !Pause;
     }
 }

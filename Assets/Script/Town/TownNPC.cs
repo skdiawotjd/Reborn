@@ -58,7 +58,7 @@ public class TownNPC : BasicNpc
             }
             else
             {
-                Character.instance.SetCharacterStat(6, questNumber);
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, questNumber);
                 townManager.TownSceneMove(questNumber);
             }
         }

@@ -24,7 +24,7 @@ public class TownManager : MonoBehaviour
     public void TownSceneMove(string mapNumber)
     {
         Character.instance.MyPlayerController.DisableCollider();
-        Character.instance.SetCharacterStat(6, mapNumber);
+        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, mapNumber);
         UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
     }
 }

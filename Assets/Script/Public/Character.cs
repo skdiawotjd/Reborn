@@ -187,6 +187,12 @@ public class Character : MonoBehaviour
         MyPlayerController.SetInput(CharacterInput, UIInput);
     }
 
+    public CharacterStatType ChangeJobType()
+    {
+        return (CharacterStatType)Enum.Parse(typeof(CharacterStatType), MyJob.ToString());
+        //return (CharacterStatType)((int)MyJob + 9);
+    }
+
     /// <summary>
     /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~24 - MyStack(SocialClass / Job)
     /// <para>
@@ -197,7 +203,7 @@ public class Character : MonoBehaviour
     /// 직업 별 Type : 8 - 노예, 9 - 대장장이, 10 - 상인, 11 - 명장, 12 - 대상인, 13 - 기사, 14 - 학자, 15 - 기사단장, 16 - 연금술사, 17 - 귀족, 18 - 왕
     /// </para>
     /// </summary> 
-    public void SetCharacterStat<T>(int Type, T value)
+    public void SetCharacterStat<T>(CharacterStatType Type, T value)
     {
         int StatType = 0;
         string StatTypeString = "";

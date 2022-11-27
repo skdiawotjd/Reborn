@@ -32,22 +32,22 @@ public class TemPortal : MonoBehaviour
         {
             case 0:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0002"); // ddr
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0002"); // ddr
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 1:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0003"); // 타이밍
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0003"); // 타이밍
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 2:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0004"); // 퀴즈
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0004"); // 퀴즈
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 3:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0001"); // 노예의 Town
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0001"); // 노예의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("TestScene");
                 break;
             case 4:
@@ -67,17 +67,17 @@ public class TemPortal : MonoBehaviour
 
 
                 }*/
-                Character.instance.SetCharacterStat(6, "0000"); // Home
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0000"); // Home
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
             case 5:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0001"); // 노예의 Town
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0001"); // 노예의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
                 break;
             case 6:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0005"); // 오브젝트
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0005"); // 오브젝트
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             case 7:
@@ -86,12 +86,12 @@ public class TemPortal : MonoBehaviour
                 break;
             case 8:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0201"); // 대장장이의 Town
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0201"); // 대장장이의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
                 break;
             case 9:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(6, "0200"); // 대장장이의 Home
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0200"); // 대장장이의 Home
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
             default:

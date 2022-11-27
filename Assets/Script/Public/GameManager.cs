@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         // Canvas 세팅
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas 2")) as GameObject;
+        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
 
@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
         SoundManager.name = "SoundManager";
 
         // Character 세팅
-        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/TemPlayerCharacter")) as GameObject;
+        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
         PlayerCharacter.name = "PlayerCharacter";
         
         // QuestManager 세팅
@@ -356,7 +356,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Character.instance.SetCharacterStat(4, -Character.instance.TodoProgress);
+        Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, -Character.instance.TodoProgress);
     }
 
     // 하루 시작 과정

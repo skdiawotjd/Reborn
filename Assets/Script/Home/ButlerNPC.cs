@@ -41,11 +41,11 @@ public class ButlerNPC : BasicNpc
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
             if (ChatType == 0)
             {
-                Character.instance.SetCharacterStat(8, "99991"/*추가 할 아이템 넘버와 개수*/);
+                Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99991"/*추가 할 아이템 넘버와 개수*/);
             }
             else
             {
-                Character.instance.SetCharacterStat(8, "97971"/*추가 할 아이템 넘버와 개수*/);
+                Character.instance.SetCharacterStat(CharacterStatType.MyItem, "97971"/*추가 할 아이템 넘버와 개수*/);
             }
             
         }
@@ -68,7 +68,7 @@ public class ButlerNPC : BasicNpc
             ChatType = 4;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
             Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.TodoProgress);
-            Character.instance.SetCharacterStat(4, 2); // todoProgress + 2
+            Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 2); // todoProgress + 2
             Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.TodoProgress);
             Character.instance.MyPlayerController.EventConversation.Invoke();
             QuestManager.instance.subQuestStart = false;

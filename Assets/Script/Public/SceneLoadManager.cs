@@ -52,6 +52,11 @@ public class SceneLoadManager : MonoBehaviour
     [SerializeField]
     private GameObject MiniGameNPC;
     [SerializeField]
+    private GameObject ForgeOfSmith;
+    [SerializeField]
+    private GameObject ShopOfBania;
+
+    [SerializeField]
     private GameObject TownManager;
     private GameObject temMap;
     private GameObject temNPC;
@@ -96,10 +101,10 @@ public class SceneLoadManager : MonoBehaviour
             case "0000": // 노예의 Home
                 AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
                 
-                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfCommons"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
-                temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTest"), new Vector3(5, -5, transform.position.z), Quaternion.identity) as GameObject;
-                temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTown"), new Vector3(6, -5, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTest"), new Vector3(5, -4, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(bundle.LoadAsset<GameObject>("DoorToTown"), new Vector3(7, -4, transform.position.z), Quaternion.identity) as GameObject;
                 temNPC = Instantiate(bundle.LoadAsset<GameObject>("Noble"), new Vector3(1, -5, transform.position.z), Quaternion.identity) as GameObject;
                 temNPC = Instantiate(bundle.LoadAsset<GameObject>("ButlerNPC"), new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
 
@@ -155,10 +160,72 @@ public class SceneLoadManager : MonoBehaviour
             case "0200":
                 temMap = Instantiate(HomeOfCommons, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
-                temObject = Instantiate(DoorToJustChat) as GameObject;
+                temNPC = Instantiate(Butler, new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC.transform.GetComponent<ButlerNPC>().SetNpcNumber(10);
                 temObject = Instantiate(DoorToTest) as GameObject;
                 temObject = Instantiate(DoorToTown) as GameObject;
                 break;
+            case "0003": // Minigame 대장장이 제작
+                temMap = Instantiate(ForgeOfSmith, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temNPC = Instantiate(MiniGameNPC, new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(DoorToTown) as GameObject;
+                break;
+            case "0004": // Minigame 상인 판매기술 배우기
+                temMap = Instantiate(ShopOfBania, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temNPC = Instantiate(MiniGameNPC, new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(DoorToTown) as GameObject;
+                break;
+            case "0104": // Minigame 대장장이 판매기술 배우기
+                temMap = Instantiate(ForgeOfSmith, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temNPC = Instantiate(MiniGameNPC, new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(DoorToTown) as GameObject;
+                break;
+            case "0205": // Minigame 상인 판매
+                temMap = Instantiate(ShopOfBania, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temNPC = Instantiate(MiniGameNPC, new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(DoorToTown) as GameObject;
+                break;
+            case "0101": // 상인의 Town
+                temMap = Instantiate(TownBackground, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(DoorToHome, new Vector3(-13, 6, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC = Instantiate(QuestSlayerChat0NPC, new Vector3(-15, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
+                temNPC.transform.GetComponent<DeliveryNPC>().SetNpcNumber(11);
+                temNPC.transform.GetComponent<DeliveryNPC>().SetOrderString("9999");
+                temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "물건전달노예";
+                temNPC = Instantiate(MiniGameSlayerObject1NPC, new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(13);
+                temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0004");
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "퀴즈NPC";
+                temNPC = Instantiate(MiniGameSlayerDDR0NPC, new Vector3(13, -9, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(14);
+                temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0205");
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "수습상인";
+                break;
+            case "0201": // 대장장이의 Town
+                temMap = Instantiate(TownBackground, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(DoorToHome, new Vector3(-13, 6, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC = Instantiate(MiniGameSlayerDDR0NPC, new Vector3(13, 5.5f, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(12);
+                temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0003");
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "수습대장장이";
+                temNPC = Instantiate(QuestSlayerChat0NPC, new Vector3(-15, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
+                temNPC.transform.GetComponent<DeliveryNPC>().SetNpcNumber(11);
+                temNPC.transform.GetComponent<DeliveryNPC>().SetOrderString("9999");
+                temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "물건전달노예";
+                temNPC = Instantiate(MiniGameSlayerObject1NPC, new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(13);
+                temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0104");
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "퀴즈NPC";
+                break;
+
             default:
                 //temMap = Instantiate(TownBackground, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 //temMap.name = "Background";

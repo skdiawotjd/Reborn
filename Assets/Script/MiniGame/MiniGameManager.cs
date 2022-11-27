@@ -32,6 +32,10 @@ public class MiniGameManager : MonoBehaviour
     private Sprite MinigameCloth2;
     [SerializeField]
     private Sprite MinigameCloth3;
+    [SerializeField]
+    private GameObject Anvil;
+    [SerializeField]
+    private GameObject BookObject;
 
 
     // Timing 변수
@@ -53,6 +57,8 @@ public class MiniGameManager : MonoBehaviour
     private int answerChoiceNumber;
     private int answerNumber;
     private int quizRound;
+    private int gameNumberRound;
+    private int temNum;
     private Color temColor;
     List<Dictionary<string, object>> quizList;
     private Image quizPanel;
@@ -187,11 +193,20 @@ public class MiniGameManager : MonoBehaviour
                 break;
             case 1:// 타이밍 맞추기 끝
                 timingSlider.gameObject.SetActive(false);
+                if (Character.instance.MyPosition == "0003")
+                {
+                    Destroy(temImage);
+                }
                 timingGameActive = false;
                 break;
             case 2:// Quiz 끝
                 timeText.gameObject.SetActive(false);
                 quizPanel.gameObject.SetActive(false);
+                if (Character.instance.MyPosition == "0004" || Character.instance.MyPosition == "0104")
+                {
+                    Destroy(temImage);
+                }
+
                 quizGameActive = false;
                 break;
             case 3: // 오브젝트 끝
@@ -443,13 +458,17 @@ public class MiniGameManager : MonoBehaviour
     void SetTimingRound() // 타이밍 맞추기
     {
         timingRound = 0;
+        if(Character.instance.MyPosition == "0003")
+        {
+            temImage = Instantiate(Anvil) as GameObject;
+        }
         SetTimingPosition();
     }
     void SetTimingPosition() // 타이밍 맞추기
     {
         if (timingRound < 5)
         {
-            randomNumber = Random.Range(2.0f, 8.0f);
+            randomNumber = Random.Range(2.0f, 8.0f); // 2에서 8까지 랜덤 넘버를 잡는다 >> 타이밍 카운터가 움직일 범위
             temNumber = (int)(randomNumber * 100f);
             perfectFloor.rectTransform.anchoredPosition = new Vector3(temNumber, perfectFloor.rectTransform.anchoredPosition.y);
             timingValue = 0;
@@ -493,19 +512,29 @@ public class MiniGameManager : MonoBehaviour
     void QuizGenerate()
     {
         quizList = CSVReader.Read("QuizText");
+        temImage = Instantiate(BookObject) as GameObject;
 
     }
     void QuizSetting()
     {
         quizGameActive = true;
         playTime = 60.0f; // 플레이 타임을 정한다
-
-        contextText.text = quizList[quizRound]["Context"].ToString();
-        answerText[0].text = quizList[quizRound]["Answer1"].ToString();
-        answerText[1].text = quizList[quizRound]["Answer2"].ToString();
-        answerText[2].text = quizList[quizRound]["Answer3"].ToString();
-        answerText[3].text = quizList[quizRound]["Answer4"].ToString();
-        answerNumber = int.Parse(quizList[quizRound]["AnswerNumber"].ToString()) - 1;
+        temNum = Random.Range(1, 2);
+        switch(Character.instance.MyPosition)
+        {
+            case "0004":
+                gameNumberRound = quizRound * temNum;
+                break;
+            case "0104":
+                gameNumberRound = (quizRound * temNum) + 10;
+                break;
+        }
+        contextText.text = quizList[gameNumberRound]["Context"].ToString();
+        answerText[0].text = quizList[gameNumberRound]["Answer1"].ToString();
+        answerText[1].text = quizList[gameNumberRound]["Answer2"].ToString();
+        answerText[2].text = quizList[gameNumberRound]["Answer3"].ToString();
+        answerText[3].text = quizList[gameNumberRound]["Answer4"].ToString();
+        answerNumber = int.Parse(quizList[gameNumberRound]["AnswerNumber"].ToString()) - 1;
     }
 
     // 여기서부터 Object 배치

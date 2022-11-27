@@ -26,7 +26,17 @@ public class ButlerNPC : BasicNpc
         {
             // Äù½ºÆ® ºÎ¿©
             QuestManager.instance.subQuestStart = true;
-            ChatType = Random.Range(0,1);
+            switch(Character.instance.MyPosition)
+            {
+                case "0000":
+                    ChatType = Random.Range(0, 1);
+                    break;
+                case "0100":
+                case "0200":
+                    ChatType = 0;
+                    break;
+            }
+            
             ConversationManager.CurNpc = this;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
             if (ChatType == 0)

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2002166800
+CRC: 3145486315
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 211f294653231703c3056f7f61c7eaf8
+    Hash: bacf0297596d6c3cf94c5fda07ac533a
   TypeTreeHash:
     serializedVersion: 2
     Hash: f97521ef1c666233e820ca7e2f98031f
@@ -91,5 +91,6 @@ Assets:
 - Assets/Resources/Prefabs/Object/DoorToTown.prefab
 - Assets/Resources/Prefabs/NPC/Noble.prefab
 - Assets/Resources/Prefabs/Map/HomeOfCommons.prefab
+- Assets/Resources/Prefabs/Map/HomeOfSlayer.prefab
 - Assets/Resources/Prefabs/Object/DoorToTest.prefab
 Dependencies: []

@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3780b5a995c9b64aa39f107ddbd2e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HomeOfSlayer: {fileID: 2896969059559749702, guid: 9243a91d884e686428c25db2a50887ec, type: 3}
-  HomeOfCommons: {fileID: 7300149128597042996, guid: 7831777865560e54d9422971ee3d55da, type: 3}
+  HomeOfSlayer: {fileID: 7300149128597042996, guid: 7831777865560e54d9422971ee3d55da, type: 3}
+  HomeOfCommons: {fileID: 2896969059559749702, guid: 9243a91d884e686428c25db2a50887ec, type: 3}
   LaundryOfSlayer: {fileID: 2743513292946905541, guid: b0369cfb0036b224d804059ab832528f, type: 3}
   Noble: {fileID: 7796434779723243177, guid: b86efdf0226eea24f9f854cdefccf428, type: 3}
   DoorToHome: {fileID: 6748728407355019774, guid: 56efb7da88630964da55c51525a101e4, type: 3}
@@ -65,6 +65,8 @@ MonoBehaviour:
   Minigame1Background: {fileID: 5747751185502123206, guid: 0b998e5ada22fb0498818f51b3e865c1, type: 3}
   MinigameMineBackground: {fileID: 9215258999236000840, guid: 138d60a548d56724485d734938545514, type: 3}
   MiniGameNPC: {fileID: 235554389172204315, guid: 2df5dec47596e3643a36d68fb0bfed83, type: 3}
+  ForgeOfSmith: {fileID: 7527667063645631, guid: 2d36ca229b1ad15419dae385277dfe34, type: 3}
+  ShopOfBania: {fileID: 6760904224004166429, guid: e8f626f6d2307cd4ca7b5ad61fdaabb7, type: 3}
   TownManager: {fileID: 370759291652946399, guid: 9a2462e905e21af44aebdb3bd732f4ef, type: 3}
   Background: {fileID: 0}
   MapSettingEvent:

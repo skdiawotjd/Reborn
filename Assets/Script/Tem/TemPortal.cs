@@ -52,7 +52,8 @@ public class TemPortal : MonoBehaviour
                 break;
             case 4:
                 Character.instance.MyPlayerController.DisableCollider();
-                switch(Character.instance.MyJob.ToString())
+
+                /*switch(Character.instance.MyJob.ToString())
                 {
                     case "Slayer":
                         Character.instance.SetCharacterStat(6, "0000"); // Home
@@ -65,7 +66,7 @@ public class TemPortal : MonoBehaviour
                         break;
 
 
-                }
+                }*/
                 Character.instance.SetCharacterStat(6, "0000"); // Home
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
@@ -82,6 +83,16 @@ public class TemPortal : MonoBehaviour
             case 7:
                 Character.instance.MyPlayerController.DisableCollider();
                 UnityEngine.SceneManagement.SceneManager.LoadScene("JustChat");
+                break;
+            case 8:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(6, "0201"); // 대장장이의 Town
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                break;
+            case 9:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(6, "0200"); // 대장장이의 Home
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
             default:
                 break;

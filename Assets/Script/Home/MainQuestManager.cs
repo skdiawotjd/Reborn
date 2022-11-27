@@ -41,8 +41,8 @@ public class MainQuestManager : BasicNpc
                     {
                         ChatType = 2;
                         ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                        Character.instance.SetCharacterStat(8, (QuestManager.instance.questDeleteNumber)/*없앨 아이템 넘버와 개수*/);
-                        Character.instance.SetCharacterStat(4, 5); // TodoProgress 5 증가
+                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, (QuestManager.instance.questDeleteNumber)/*없앨 아이템 넘버와 개수*/);
+                        Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 5); // TodoProgress 5 증가
                         Character.instance.MyPlayerController.EventConversation.Invoke();
                         return;
                     }

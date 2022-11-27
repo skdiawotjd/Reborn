@@ -30,7 +30,7 @@ public class DeliveryNPC : BasicNpc
                 {
                     ChatType = 2;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                    Character.instance.SetCharacterStat(8, OrderString + "-1");
+                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, OrderString + "-1");
                     Character.instance.MyPlayerController.EventConversation.Invoke();
                     return;
                 }

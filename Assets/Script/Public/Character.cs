@@ -16,6 +16,7 @@ public class Character : MonoBehaviour
         public int _todoProgress;
         public int _myRound;
         public string _myPosition;
+        // public string _myMapNumber;
         public int _activePoint;
         public List<string> _myItem;
         public List<int> _myItemCount;
@@ -26,6 +27,9 @@ public class Character : MonoBehaviour
 
     [SerializeField]
     private Stat CharacterStat;
+    [SerializeField]
+    private Vector2 CharacterVector;
+    // private Vector2 CharacterPosition;
 
     private UnityEvent<CharacterStatType> _eventUIChange;
     private PlayerController _myPlayerController;
@@ -82,6 +86,13 @@ public class Character : MonoBehaviour
             return CharacterStat._myPosition;
         }
     }
+    /*public string MyMapNumber
+    {
+        get
+        {
+            return CharacterStat._myMapNumber;
+        }
+    }*/
     public int ActivePoint
     {
         get
@@ -172,8 +183,22 @@ public class Character : MonoBehaviour
     {
         GameManager.instance.GameStartEvent.AddListener(InitializeCharacter);
         GameManager.instance.DayEnd.AddListener(EndCharacter);
+        GameManager.instance.LoadEvent.AddListener(LoadCharacterPosition);
+        GameManager.instance.SceneMove.AddListener(SetCharacterPosition);
 
         CharacterStatSetting();
+    }
+
+    public void SaveCharacterPosition()
+    {
+        CharacterVector = transform.position;
+        // CharacterPosition = transform.position;
+    }
+
+    public void LoadCharacterPosition()
+    {
+        transform.position = CharacterVector;
+        // transform.position = CharacterPosition;
     }
 
     public void UIChangeAddListener(UnityAction<CharacterStatType> AddEvent)
@@ -197,10 +222,6 @@ public class Character : MonoBehaviour
     /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~24 - MyStack(SocialClass / Job)
     /// <para>
     /// 직업 별 Type : 9 - 노예, 10 - 대장장이, 11 - 상인, 12 - 명장, 13 - 대상인, 14 - 기사, 15 - 학자, 16 - 기사단장, 17 - 연금술사, 18 - 귀족, 19 - 왕
-    /// </para>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8~18 - MyStack(SocialClass / Job)
-    /// <para>
-    /// 직업 별 Type : 8 - 노예, 9 - 대장장이, 10 - 상인, 11 - 명장, 12 - 대상인, 13 - 기사, 14 - 학자, 15 - 기사단장, 16 - 연금술사, 17 - 귀족, 18 - 왕
     /// </para>
     /// </summary> 
     public void SetCharacterStat<T>(CharacterStatType Type, T value)
@@ -351,7 +372,7 @@ public class Character : MonoBehaviour
             // 1. 이름 설정
             CharacterStat._myName = "Admin";
             // 2. 계급/직업 설정
-            CharacterStat._mySocialClass = SocialClass.Slayer;
+            CharacterStat._mySocialClass = SocialClass.Helot;
             CharacterStat._myJob = Job.Slayer;
             // 3. 나이 설정
             CharacterStat._myAge = 10;
@@ -361,6 +382,7 @@ public class Character : MonoBehaviour
             CharacterStat._myRound = 1;
             // 6. 위치 설정
             CharacterStat._myPosition = "0007";
+            // CharacterStat._myMapNumber = "0007";
             // 6. 활동력 설정
             CharacterStat._activePoint = 100;
             // 7. 스택 설정
@@ -379,6 +401,7 @@ public class Character : MonoBehaviour
         Debug.Log("asd");
         //InitializeMapNumber
         CharacterStat._myPosition = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
+        // CharacterStat._myMapNumber = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
         // 3. 나이 설정
         CharacterStat._myAge = 10;
     }
@@ -406,7 +429,7 @@ public class Character : MonoBehaviour
                 case 0:
                     if (MyStackBySocialClass[i] == 1)
                     {
-                        CharacterStat._mySocialClass = SocialClass.Slayer;
+                        CharacterStat._mySocialClass = SocialClass.Helot;
                         CharacterStat._myJob = Job.Slayer;
                         
                         InitializeStack();
@@ -441,7 +464,6 @@ public class Character : MonoBehaviour
                     else if (MyStackBySocialClass[i] == 100)
                     {
                         CharacterStat._mySocialClass = SocialClass.Commons;
-                        CharacterStat._myPosition = "0100";
                         // 명장
                         if (MyStackByJob[3] + MyStackByJob[4] > 0)
                         {
@@ -575,13 +597,33 @@ public class Character : MonoBehaviour
         CharacterStat._activePoint = 100;
         CharacterStat._myAge += 1;
     }
-/*    public void PopItem(int ItemType)
-    {
-        EventItemPop.Invoke(ItemType);
-    }
 
-    public void PushItem(int ItemType)
+    private void SetCharacterPosition()
     {
-        EventItemPush.Invoke(ItemType);
-    }*/
+        switch(CharacterStat._myPosition)
+        // switch(CharacterStat._myMapNumber)
+        {
+            case "0000":
+                //CharacterVector = new Vector2(-3.8f, -3.3f);
+                CharacterVector.x = -3.8f;
+                CharacterVector.y = -3.3f;
+                /*CharacterPosition.x = -3.8f;
+                 CharacterPosition.y = -3.3f;*/
+                break;
+            case "0001":
+            case "0101":
+            case "0201":
+            case "0301":
+            case "0401":
+                CharacterVector.x = -11.8f;
+                CharacterVector.y = 5.3f;
+                /*CharacterPosition.x = -11.8f;
+                 CharacterPosition.y = 5.3f;*/
+                break;
+
+        }
+
+        transform.position = CharacterVector;
+        //transform.position = CharacterPosition;
+    }
 }

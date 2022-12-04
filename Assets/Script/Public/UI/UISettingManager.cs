@@ -16,6 +16,9 @@ public class UISettingManager : UIManager
     [SerializeField]
     private List<Slider> SettingSlider;
 
+    [SerializeField]
+    private GameObject LoadButtonItemConent;
+
     private int CurSaveDataCount;
 
 
@@ -118,7 +121,10 @@ public class UISettingManager : UIManager
     {
         yield return new WaitForSeconds(0.5f);
 
-        SetActivePanel(UISettingPanelOrder.Save);
+        if (SettingPanel[(int)UISettingPanelOrder.Save].activeSelf)
+        {
+            SetActivePanel(UISettingPanelOrder.Save);
+        }
     }
 
 
@@ -133,12 +139,18 @@ public class UISettingManager : UIManager
             // 버튼을 새로 생성
             for (; CurSaveDataCount < GameManager.instance.SaveDataCount; CurSaveDataCount++)
             {
-                GameObject NewLoadButton = Instantiate(Resources.Load("Public/LoadButton")) as GameObject;
+                /*GameObject NewLoadButton = Instantiate(Resources.Load("Public/LoadButton")) as GameObject;
                 NewLoadButton.transform.SetParent(SettingPanel[(int)UISettingPanelOrder.Load].transform, false);
                 int SaveDataButtonCount = CurSaveDataCount;
                 NewLoadButton.GetComponent<Button>().onClick.AddListener(() => { GameManager.instance.LoadData(SaveDataButtonCount); });
                 NewLoadButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = CurSaveDataCount.ToString();
-                NewLoadButton.GetComponent<RectTransform>().anchoredPosition = new Vector2((NewLoadButton.GetComponent<RectTransform>().anchoredPosition.x + (200 * CurSaveDataCount)), NewLoadButton.GetComponent<RectTransform>().anchoredPosition.y);
+                NewLoadButton.GetComponent<RectTransform>().anchoredPosition = new Vector2((NewLoadButton.GetComponent<RectTransform>().anchoredPosition.x + (200 * CurSaveDataCount)), NewLoadButton.GetComponent<RectTransform>().anchoredPosition.y);*/
+
+
+                GameObject NewLoadButton = Instantiate(Resources.Load("UI/LoadButton")) as GameObject;
+                NewLoadButton.transform.SetParent(LoadButtonItemConent.transform, false);
+                int SaveDataButtonCount = CurSaveDataCount;
+                NewLoadButton.GetComponent<Button>().onClick.AddListener(() => { GameManager.instance.LoadData(SaveDataButtonCount); });
             }
         }
     }

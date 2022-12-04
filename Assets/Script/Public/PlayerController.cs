@@ -134,14 +134,6 @@ public class PlayerController : MonoBehaviour
                     EventUIInput.Invoke(UIPopUpOrder.InvenPanel);
                 }
             }
-            // ¹Ì´Ï¸Ê
-            else if (Input.GetKeyDown(KeyCode.M))
-            {
-                if (EventUIInput != null)
-                {
-                    EventUIInput.Invoke(UIPopUpOrder.MiniMapPanel);
-                }
-            }
             // ¼³Á¤
             else if (Input.GetKeyDown(KeyCode.Escape))
             {

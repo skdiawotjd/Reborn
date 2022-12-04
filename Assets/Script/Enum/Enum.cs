@@ -1,4 +1,4 @@
-public enum SocialClass { Slayer, Commons, SemiNoble, Noble, King }
+public enum SocialClass { Helot, Commons, SemiNoble, Noble, King }
 public enum Job
 {
     Slayer, Smith, Bania, MasterSmith, Merchant,
@@ -15,10 +15,10 @@ public enum CharacterStatType
     King
 }
 
-public enum UIPopUpOrder { MainUI, InvenPanel, MiniMapPanel, SettingPanel, QuestPanel }
+public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel }
 public enum UIInventoryOrder { Name, MySocialClass, MyJob, MyAge, TodoProgress, Item = 8 }
 public enum UIMainButtonOrder { Setting, SkipDay }
-public enum UIMainImageOrder { Job = 2, TodoProgress = 4, ActivePoint = 7 }
+public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, TodoProgress }
 public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Resume, LoadClose, SoundClose }
 public enum UISettingPanelOrder { Pause, Save, Load, Sound }
 public enum UISoundOrder { Background, Effect }

@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIMainManager : UIManager
 {
-    [SerializeField]
+    /*[SerializeField]
     private Button SettingButton;
     [SerializeField]
     private Button SkipDayButton;
@@ -17,7 +19,7 @@ public class UIMainManager : UIManager
     [SerializeField]
     private Image JobImage;
     [SerializeField]
-    private Image TodoProgressImage;
+    private Image TodoProgressImage;*/
     [SerializeField]
     private List<Button> MainButton;
     [SerializeField]
@@ -30,7 +32,7 @@ public class UIMainManager : UIManager
         MainButton[(int)UIMainButtonOrder.SkipDay].onClick.AddListener(SkipDay);
 
         GameManager.instance.LoadEvent.AddListener(LoadUI);
-        Character.instance.UIChangeAddListener(ChangeMainUI);
+        Character.instance.UIChangeAddListener(ChangeMainUIType);
     }
 
     protected override void StartUI()
@@ -64,25 +66,43 @@ public class UIMainManager : UIManager
     {
         while (GameManager.instance.IsDayStart)
         {
-            DayImage.fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
-
+            //DayImage.fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
+            MainImage[(int)UIMainImageOrders.Day].fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
 
             yield return Time.deltaTime;
         }
     }
 
-    private void ChangeMainUI(CharacterStatType Type)
+    public void ChangeMainUIType(CharacterStatType Type)
+    {
+        if(Enum.TryParse(Type.ToString(), out UIMainImageOrders TemEnum))
+        {
+            ChangeMainUI(TemEnum);
+        }
+    }
+
+    private void ChangeMainUI(UIMainImageOrders Type)
     {
         switch (Type)
         {
-            // TodoProgress
-            case CharacterStatType.TodoProgress:
-                TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
+            // ActivePoint
+            case UIMainImageOrders.Qurter:
+                //ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
+                MainImage[(int)UIMainImageOrders.Qurter].fillAmount = 1f - GameManager.instance.Days * 0.1f;
                 break;
             // ActivePoint
-            case CharacterStatType.ActivePoint:
-                ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
+            case UIMainImageOrders.ActivePoint:
+                //ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
+                MainImage[(int)UIMainImageOrders.ActivePoint].fillAmount = (float)Character.instance.ActivePoint / 100f;
                 break;
+            case UIMainImageOrders.Job:
+                //MainImage[(int)UIMainImageOrders.Job].sprite = "현 직업에 맞는 이미지 삽입";
+                break;
+            // TodoProgress
+            case UIMainImageOrders.TodoProgress:
+                //TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
+                MainImage[(int)UIMainImageOrders.TodoProgress].fillAmount = (float)Character.instance.TodoProgress / 100f;
+                break;    
         }
     }
     private void SkipDay()
@@ -97,11 +117,12 @@ public class UIMainManager : UIManager
 
     private void InitializeMainUI()
     {
-        foreach (int Order in Enum.GetValues(typeof(UIMainImageOrder)))
+        foreach (int Order in Enum.GetValues(typeof(UIMainImageOrders)))
         {
-            ChangeMainUI((CharacterStatType)Order);
+            ChangeMainUI((UIMainImageOrders)Order);
         }
 
-        DayImage.fillAmount = 1f;
+        //DayImage.fillAmount = 1f;
+        MainImage[(int)UIMainImageOrders.Day].fillAmount = 1f;
     }
 }

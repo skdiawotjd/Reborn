@@ -15,8 +15,7 @@ public class Character : MonoBehaviour
         public int _myAge;
         public int _todoProgress;
         public int _myRound;
-        public string _myPosition;
-        // public string _myMapNumber;
+        public string _myMapNumber;
         public int _activePoint;
         public List<string> _myItem;
         public List<int> _myItemCount;
@@ -28,8 +27,7 @@ public class Character : MonoBehaviour
     [SerializeField]
     private Stat CharacterStat;
     [SerializeField]
-    private Vector2 CharacterVector;
-    // private Vector2 CharacterPosition;
+    private Vector2 CharacterPosition;
 
     private UnityEvent<CharacterStatType> _eventUIChange;
     private PlayerController _myPlayerController;
@@ -79,20 +77,13 @@ public class Character : MonoBehaviour
             return CharacterStat._myRound;
         }
     }
-    public string MyPosition
-    {
-        get
-        {
-            return CharacterStat._myPosition;
-        }
-    }
-    /*public string MyMapNumber
+    public string MyMapNumber
     {
         get
         {
             return CharacterStat._myMapNumber;
         }
-    }*/
+    }
     public int ActivePoint
     {
         get
@@ -191,13 +182,13 @@ public class Character : MonoBehaviour
 
     public void SaveCharacterPosition()
     {
-        CharacterVector = transform.position;
+        CharacterPosition = transform.position;
         // CharacterPosition = transform.position;
     }
 
     public void LoadCharacterPosition()
     {
-        transform.position = CharacterVector;
+        transform.position = CharacterPosition;
         // transform.position = CharacterPosition;
     }
 
@@ -271,7 +262,7 @@ public class Character : MonoBehaviour
                 break;
             // MyPosition
             case CharacterStatType.MyPositon:
-                CharacterStat._myPosition = StatTypeString;
+                CharacterStat._myMapNumber = StatTypeString;
                 break;
             // ActivePoint
             case CharacterStatType.ActivePoint:
@@ -381,7 +372,7 @@ public class Character : MonoBehaviour
             // 5. 라운드 설정
             CharacterStat._myRound = 1;
             // 6. 위치 설정
-            CharacterStat._myPosition = "0007";
+            CharacterStat._myMapNumber = "0007";
             // CharacterStat._myMapNumber = "0007";
             // 6. 활동력 설정
             CharacterStat._activePoint = 100;
@@ -400,7 +391,7 @@ public class Character : MonoBehaviour
     {
         Debug.Log("asd");
         //InitializeMapNumber
-        CharacterStat._myPosition = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
+        CharacterStat._myMapNumber = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
         // CharacterStat._myMapNumber = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
         // 3. 나이 설정
         CharacterStat._myAge = 10;
@@ -600,30 +591,25 @@ public class Character : MonoBehaviour
 
     private void SetCharacterPosition()
     {
-        switch(CharacterStat._myPosition)
+        switch(CharacterStat._myMapNumber)
         // switch(CharacterStat._myMapNumber)
         {
             case "0000":
                 //CharacterVector = new Vector2(-3.8f, -3.3f);
-                CharacterVector.x = -3.8f;
-                CharacterVector.y = -3.3f;
-                /*CharacterPosition.x = -3.8f;
-                 CharacterPosition.y = -3.3f;*/
+                CharacterPosition.x = -3.8f;
+                 CharacterPosition.y = -3.3f;
                 break;
             case "0001":
             case "0101":
             case "0201":
             case "0301":
             case "0401":
-                CharacterVector.x = -11.8f;
-                CharacterVector.y = 5.3f;
-                /*CharacterPosition.x = -11.8f;
-                 CharacterPosition.y = 5.3f;*/
+                CharacterPosition.x = -11.8f;
+                 CharacterPosition.y = 5.3f;
                 break;
 
         }
 
-        transform.position = CharacterVector;
-        //transform.position = CharacterPosition;
+        transform.position = CharacterPosition;
     }
 }

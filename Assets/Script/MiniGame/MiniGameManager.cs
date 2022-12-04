@@ -21,17 +21,21 @@ public class MiniGameManager : MonoBehaviour
     private TextMeshProUGUI timeText;
     Arrow[] arrowArray;
     public Slider timeSlider;
-    private bool gameClear;
     private GameObject temImage;
     private SpriteRenderer temSprite;
     [SerializeField]
     private GameObject MinigameClothImage;
     [SerializeField]
-    private Sprite MinigameCloth1;
-    [SerializeField]
     private Sprite MinigameCloth2;
     [SerializeField]
     private Sprite MinigameCloth3;
+    [SerializeField]
+    private Sprite Goods1;
+    [SerializeField]
+    private Sprite Goods2;
+    [SerializeField]
+    private Sprite Goods3;
+
     [SerializeField]
     private GameObject Anvil;
     [SerializeField]
@@ -45,7 +49,6 @@ public class MiniGameManager : MonoBehaviour
     private float timingValue;
     private bool timingChangeDirection;
     private bool timingGameActive = false;
-    private int timingCount;
     private Image perfectFloor;
     private float randomNumber;
     private int temNumber;
@@ -77,11 +80,7 @@ public class MiniGameManager : MonoBehaviour
     private bool objectGameActive = false;
     [SerializeField]
     private Sprite MineralOfMine;
-
-    // Map 변수
-    private GameObject floor1;
-    private GameObject floor2;
-    private GameObject temMap;
+    private Sprite[] goods;
 
     void Awake()
     {
@@ -93,8 +92,6 @@ public class MiniGameManager : MonoBehaviour
         quizText = quizPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         contextPanel = quizPanel.transform.GetChild(1).GetComponent<Image>();
         contextText = contextPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        floor1 = Resources.Load<GameObject>("Prefabs/MiniGameDefault");
-        floor2 = Resources.Load<GameObject>("Prefabs/MiniGameMine");
         GoldBox = Resources.Load<GoldBox>("Prefabs/GoldBox");
         answerPanel = new Image[4];
         answerText = new TextMeshProUGUI[answerPanel.Length];
@@ -115,33 +112,20 @@ public class MiniGameManager : MonoBehaviour
         keyOfRound[3] = 5;
         keyOfRound[4] = 5;
 
+        goods = new Sprite[3];
+        goods[0] = Goods1;
+        goods[1] = Goods2;
+        goods[2] = Goods3;
+
 
         Character.instance.transform.position = new Vector3(0f, 0f, 0f);
-        //MapSetting();
 
     }
     private void Start()
     {
         QuestManager.instance.EventCountChange.AddListener(BoxCount);
-        //SceneLoadManager.instance.MapSetting();
         
     }
-
-/*    private void MapSetting()
-    {
-        switch(Character.instance.MyPosition)
-        {
-            case "0003": // 광석 캐기_Timing
-                temMap = Instantiate(floor2, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-                temMap.name = "Background";
-                break;
-            default:
-                temMap = Instantiate(floor1, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-                temMap.name = "Background";
-                break;
-        }
-    }*/
-
     public void GameStart(int gameType)
     {
         switch(gameType)
@@ -157,7 +141,6 @@ public class MiniGameManager : MonoBehaviour
                 timingValue = 0f;
                 timingChangeDirection = true;
                 timingGameActive = true;
-                timingCount = 0;
                 SetTimingRound();
                 break;
             case 2:// Quiz 시작
@@ -193,7 +176,7 @@ public class MiniGameManager : MonoBehaviour
                 break;
             case 1:// 타이밍 맞추기 끝
                 timingSlider.gameObject.SetActive(false);
-                if (Character.instance.MyPosition == "0003")
+                if (Character.instance.MyMapNumber == "0003")
                 {
                     Destroy(temImage);
                 }
@@ -202,7 +185,7 @@ public class MiniGameManager : MonoBehaviour
             case 2:// Quiz 끝
                 timeText.gameObject.SetActive(false);
                 quizPanel.gameObject.SetActive(false);
-                if (Character.instance.MyPosition == "0004" || Character.instance.MyPosition == "0104")
+                if (Character.instance.MyMapNumber == "0004" || Character.instance.MyMapNumber == "0104")
                 {
                     Destroy(temImage);
                 }
@@ -422,14 +405,18 @@ public class MiniGameManager : MonoBehaviour
                     keyCount = 0;
                     if (round++ != maxRound)
                     {
-                        if(round == maxRound)
+                        if(Character.instance.MyMapNumber == "0002")
                         {
-                            temSprite.sprite = MinigameCloth3;
+                            if (round == maxRound)
+                            {
+                                temSprite.sprite = MinigameCloth3;
+                            }
+                            else
+                            {
+                                temSprite.sprite = MinigameCloth2;
+                            }
                         }
-                        else
-                        {
-                            temSprite.sprite = MinigameCloth2;
-                        }
+
                         
                         SetRound(round);
                     }
@@ -449,8 +436,16 @@ public class MiniGameManager : MonoBehaviour
     {
         playTime = 60.0f; // 플레이 타임을 정한다
         timeSlider.maxValue = playTime; // 플레이 타임에 맞게 시간 프로그레스 바의 최대값을 정해준다
-        temImage = Instantiate(MinigameClothImage) as GameObject;
-        temSprite = temImage.GetComponent<SpriteRenderer>();
+        if (Character.instance.MyMapNumber == "0002")
+        {
+            temImage = Instantiate(MinigameClothImage) as GameObject;
+            temSprite = temImage.GetComponent<SpriteRenderer>();
+        }
+        else
+        {
+            temImage = Instantiate(BookObject) as GameObject;
+        }
+
     }
 
     // 여기서부터 타이밍 맞추기
@@ -458,7 +453,7 @@ public class MiniGameManager : MonoBehaviour
     void SetTimingRound() // 타이밍 맞추기
     {
         timingRound = 0;
-        if(Character.instance.MyPosition == "0003")
+        if(Character.instance.MyMapNumber == "0003")
         {
             temImage = Instantiate(Anvil) as GameObject;
         }
@@ -519,8 +514,8 @@ public class MiniGameManager : MonoBehaviour
     {
         quizGameActive = true;
         playTime = 60.0f; // 플레이 타임을 정한다
-        temNum = Random.Range(1, 2);
-        switch(Character.instance.MyPosition)
+        temNum = Random.Range(1, 3);
+        switch(Character.instance.MyMapNumber)
         {
             case "0004":
                 gameNumberRound = quizRound * temNum;
@@ -545,14 +540,20 @@ public class MiniGameManager : MonoBehaviour
         for (int i=0 ;i < maxCount ; i++)
         {
             
-            if(Character.instance.MyPosition == "0005")
+            if(Character.instance.MyMapNumber == "0005")
             {
                 temBox = Instantiate(GoldBox, new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, -1f), transform.position.z), Quaternion.identity) as GoldBox;
                 temBox.GetComponent<SpriteRenderer>().sprite = MineralOfMine;
             }
+            else if (Character.instance.MyMapNumber == "0205")
+            {
+                temBox = Instantiate(GoldBox, new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, -1f), transform.position.z), Quaternion.identity) as GoldBox;
+                temBox.transform.localScale = new Vector3(1f, 1f, 1f);
+                temBox.GetComponent<SpriteRenderer>().sprite = goods[Random.Range(0,3)];
+            }
             else
             {
-                temBox = Instantiate(GoldBox, new Vector3(Random.Range(-5, 5), Random.Range(-4, 4), transform.position.z), Quaternion.identity) as GoldBox;
+                temBox = Instantiate(GoldBox, new Vector3(Random.Range(-5f, 5f), Random.Range(-4f, 4f), transform.position.z), Quaternion.identity) as GoldBox;
             }
             
         }

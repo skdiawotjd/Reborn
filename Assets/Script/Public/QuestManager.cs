@@ -82,7 +82,7 @@ public class QuestManager : MonoBehaviour
     {
         // 퀘스트를 클리어하고 부를 함수
         Debug.Log("ActivePoint 10 감소하기 전, 현재 수치 : " + Character.instance.ActivePoint);
-        switch(Character.instance.MyPosition)
+        switch(Character.instance.MyMapNumber)
         {
             case "0002":
             case "0005":
@@ -103,7 +103,7 @@ public class QuestManager : MonoBehaviour
             switch(Character.instance.MyJob.ToString())
             {
                 case "Slayer":
-                    switch(Character.instance.MyPosition)
+                    switch(Character.instance.MyMapNumber)
                     {
                         case "0002": // ex) 직업 Slayer의 전용퀘스트일 경우
                         case "0005":
@@ -118,7 +118,7 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case "Smith":
-                    switch (Character.instance.MyPosition)
+                    switch (Character.instance.MyMapNumber)
                     {
                         case "0003": 
                         case "0104":
@@ -131,7 +131,7 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case "bania":
-                    switch (Character.instance.MyPosition)
+                    switch (Character.instance.MyMapNumber)
                     {
                         case "0004": 
                         case "0108":
@@ -144,7 +144,7 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case "MasterSmith":
-                    switch (Character.instance.MyPosition)
+                    switch (Character.instance.MyMapNumber)
                     {
                         case "0007": 
                         case "0102":
@@ -157,7 +157,7 @@ public class QuestManager : MonoBehaviour
                     }
                     break;
                 case "Merchant":
-                    switch (Character.instance.MyPosition)
+                    switch (Character.instance.MyMapNumber)
                     {
                         case "0202": 
                         case "0305":

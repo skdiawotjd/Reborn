@@ -434,7 +434,7 @@ public class GameManager : MonoBehaviour
         LoadEvent.Invoke();
 
         
-        switch (Character.instance.MyPosition.Substring(0,2))
+        switch (Character.instance.MyMapNumber.Substring(0,2))
         {
             case "00": // Áý
                 SceneManager.LoadScene("Home");

@@ -84,12 +84,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeCharacter
+    public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeCharacter, ConversationManager - InitializeNpcNumberChatType
     public UnityEvent DayStart;    // PlayerController - StartPlayerController, MainUIManager - StartUI, InventoryManager - InitializeInventory, QuestManager - GiveQuest
     public UnityEvent DayEnd;      // PlayerController - EndPlayerController, MainUIManager - EndUI, PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd, Character - EndCharacter
     public UnityEvent SceneMove;        // PopUpUIManager - SceneMovePopUI, SceneManager - MapSetting
     public UnityEvent LoadEvent;      // PopUpUIManager - AllClosePopUpUI, UIMainManager - LoadUI, UIInventoryManager - LoadInventory
     private bool Pause;
+    //public GameObject MainCanvas;
 
 
     public static GameManager instance = null;
@@ -125,7 +126,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-
+        //MainCanvas = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
     }
     
     void Update()
@@ -153,11 +154,12 @@ public class GameManager : MonoBehaviour
         if(IsNewGenerate)
         {
             _isNewGenerate = false;
-            // 1. Start씬의 카메라 false
+
+            //MainCanvas.transform.GetChild(0).GetComponent<PopUpUIManager>().SettingUIGame();
             GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
-            // 2. 게임 초기화
+            // 1. 게임 초기화
             InitializeGame();
-            // 3. 시작 씬 이동
+            // 2. 시작 씬 이동
             SceneManager.LoadScene("JustChat");
 
             /*if(_days == 0)
@@ -182,10 +184,11 @@ public class GameManager : MonoBehaviour
 
     private void InitializeGame()
     {
-        // Canvas 세팅
+        /// Canvas 세팅
         GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
         CanvasObject.name = "Main Canvas";
         DontDestroyOnLoad(CanvasObject);
+
 
         // Camera 세팅
         GameObject MainCamera = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
@@ -390,6 +393,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Scene Load");
         SceneMove.Invoke();
 
         
@@ -404,7 +408,8 @@ public class GameManager : MonoBehaviour
     public void SaveData()
     {
         SetSaveDataCount();
-        
+
+        Character.instance.SaveCharacterPosition();
         string Json1 = JsonUtility.ToJson(Character.instance);
         string path1 = SaveDataDirectory.ToString() + "PlayerCharacter" + SaveDataCount.ToString() + ".Json";
         File.WriteAllText(path1, Json1);
@@ -428,7 +433,29 @@ public class GameManager : MonoBehaviour
 
         LoadEvent.Invoke();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+        switch (Character.instance.MyPosition.Substring(0,2))
+        {
+            case "00": // 집
+                SceneManager.LoadScene("Home");
+                break;
+            case "01": // 타운
+                SceneManager.LoadScene("Town");
+                break;
+            case "02": // DDR
+            case "03": // 타이밍
+            case "04": // 퀴즈
+            case "05": // 오브젝트 배치
+            case "08": // 물건전달
+                SceneManager.LoadScene("MiniGame");
+                break;
+            case "06": // 미니 RPG
+                
+                break;
+            case "07": // 대화
+                SceneManager.LoadScene("JustChat");
+                break;   
+        }
     }
 
 

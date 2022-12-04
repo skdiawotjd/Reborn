@@ -26,7 +26,7 @@ public abstract class BasicNpc : MonoBehaviour
     protected virtual void Start()
     {
         ChatType = 0;
-        ConversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(5).GetComponent<ConversationManager>();
+        ConversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)

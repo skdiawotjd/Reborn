@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="24" height="18" tilewidth="80" tileheight="60" infinite="0" nextlayerid="4" nextobjectid="6">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="24" height="18" tilewidth="80" tileheight="60" infinite="0" nextlayerid="4" nextobjectid="8">
  <tileset firstgid="1" source="ShopFloorTileset8.tsx"/>
  <layer id="1" name="Tile Layer 1" width="24" height="18">
   <data encoding="csv">
@@ -24,11 +24,11 @@
 </data>
  </layer>
  <objectgroup id="3" name="Object Layer 1">
-  <object id="4" x="1.52188" y="287.635">
-   <polygon points="0,0 82.1814,4.56563 95.8782,-62.397 301.332,-57.8313 313.507,12.175 421.56,79.1376 578.313,127.838 745.72,147.622 719.848,109.575 658.973,92.8345 655.929,39.5688 987.698,-22.8282 1104.88,-16.7406 1328.6,80.6595 1392.52,80.6595 1468.61,59.3532 1550.79,59.3532 1581.23,-10.6531 1736.46,-7.60938 1818.64,22.8282 1812.56,85.2251 1699.94,54.7876 1664.93,71.5282 1658.85,95.8782 1913,136.969 1919.09,-287.635 0,-287.635"/>
-  </object>
   <object id="5" x="485.479" y="445.91">
    <polygon points="0,0 -62.397,25.8719 -62.397,51.7438 57.8313,51.7438 48.7001,12.175"/>
+  </object>
+  <object id="7" x="-1.52188" y="178.06">
+   <polygon points="0,0 304.375,-3.04375 477.869,150.666 649.841,150.666 646.798,74.572 1021.18,28.9157 1182.5,62.397 1368.17,133.925 1552.31,80.6595 1675.59,38.0469 1806.47,74.572 1849.08,126.316 1922.13,181.103 1922.13,-175.016 3.04375,-178.06"/>
   </object>
  </objectgroup>
 </map>

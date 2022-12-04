@@ -94,6 +94,21 @@ public class TemPortal : MonoBehaviour
                 Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0200"); // 대장장이의 Home
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Home");
                 break;
+            case 10:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0101"); // 상인의 Town
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                break;
+            case 11:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0301"); // 대상인의 Town
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                break;
+            case 12:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0401"); // 명장의 Town
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                break;
             default:
                 break;
         }

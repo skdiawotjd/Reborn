@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="24" height="18" tilewidth="80" tileheight="60" infinite="0" nextlayerid="3" nextobjectid="2">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="24" height="18" tilewidth="80" tileheight="60" infinite="0" nextlayerid="3" nextobjectid="3">
  <tileset firstgid="1" source="ForgeFloorTileset1.tsx"/>
  <tileset firstgid="217" source="ForgeFloorTileset2.tsx"/>
  <layer id="1" name="Tile Layer 1" width="24" height="18">
@@ -25,8 +25,8 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="1" x="0" y="543.31">
-   <polygon points="0,0 372.86,-15.2188 802.029,-38.0469 1200.76,-53.2657 1741.03,-33.4813 1642.11,-115.663 1844.51,-112.619 1844.51,-59.3532 1919.09,-57.8313 1917.56,-541.788 1.52188,-541.788"/>
+  <object id="2" x="-1.52188" y="-1.52188">
+   <polygon points="0,0 0,465.694 1736.46,459.607 1731.9,346.988 1838.43,346.988 1839.95,409.385 1919.09,410.907 1920.61,1.52188"/>
   </object>
  </objectgroup>
 </map>

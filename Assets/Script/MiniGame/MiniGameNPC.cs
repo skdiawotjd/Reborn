@@ -22,7 +22,7 @@ public class MiniGameNPC : BasicNpc
     {
         if(Character.instance.ActivePoint >= 10)
         {
-            switch (Character.instance.MyPosition) // Character.instance.MyPosition 변수를 불러온다.
+            switch (Character.instance.MyMapNumber) // Character.instance.MyPosition 변수를 불러온다.
             {
                 case "0002": // ddr
                 case "0102":

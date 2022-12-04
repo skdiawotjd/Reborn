@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ButlerNPC : BasicNpc
 {
-    private bool QuestStart = false;
     protected override void Start()
     {
         base.Start();
@@ -26,10 +25,10 @@ public class ButlerNPC : BasicNpc
         {
             // Äù½ºÆ® ºÎ¿©
             QuestManager.instance.subQuestStart = true;
-            switch(Character.instance.MyPosition)
+            switch(Character.instance.MyMapNumber)
             {
                 case "0000":
-                    ChatType = Random.Range(0, 1);
+                    ChatType = Random.Range(0, 2);
                     break;
                 case "0100":
                 case "0200":

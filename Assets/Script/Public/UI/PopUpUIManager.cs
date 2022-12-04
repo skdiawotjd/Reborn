@@ -41,8 +41,8 @@ public class PopUpUIManager : MonoBehaviour
 
     private void SceneMovePopUI()
     {
-        // 미니게임 씬이거나 하루가 시작되지 않았는데 저챗 씬에 있으면
-        if(GameManager.instance.SceneName == "MiniGame" || (!GameManager.instance.IsDayStart && GameManager.instance.SceneName == "JustChat"))
+        // 하루가 시작되지 않았는데 저챗 씬에 있으면
+        if((!GameManager.instance.IsDayStart && GameManager.instance.SceneName == "JustChat"))
         {
             UIManagerList[(int)UIPopUpOrder.MainUI].SetActivePanel(false);
         }

@@ -1,0 +1,55 @@
+ManifestFileVersion: 0
+CRC: 3895264905
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 95f1561de11a5c818d3219cb37c9d082
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c2c2c12bb5bd817fec8ed2ef5af6d6bb
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 60
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9afdeaae1bb27d6418d5d8cd5165faed, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dee00135f58173948b1f4e932384fb89, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b236e958402f8514f8685b9a9db9b715, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6625a2c215475fa44b1c76c4ae978948, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: eec2c2b638f63854f80d6b6f12a070d9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: bdadc5a21ba6c134192e653b4385d366, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 60eadddeab0d66d4084aca14d14cbcfc, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 156049354
+  Script: {instanceID: 0}
+- Class: 483693784
+  Script: {instanceID: 0}
+- Class: 1839735485
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: SuperTiled2Unity
+  ClassName: SuperTiled2Unity.SuperColliderComponent/Shape
+Assets:
+- Assets/Resources/Prefabs/Map/EduCenter.prefab
+Dependencies: []

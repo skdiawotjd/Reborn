@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Jobs;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +29,7 @@ public class UIMainManager : UIManager
         MainButton[(int)UIMainButtonOrder.Setting].onClick.AddListener(() => { transform.GetComponentInParent<PopUpUIManager>().VisibleUI(UIPopUpOrder.SettingPanel); });
         MainButton[(int)UIMainButtonOrder.SkipDay].onClick.AddListener(SkipDay);
 
-        GameManager.instance.LoadEvent.AddListener(LoadUI);
+        GameManager.instance.AddLoadEvent(LoadUI);
         Character.instance.UIChangeAddListener(ChangeMainUIType);
     }
 
@@ -112,6 +110,7 @@ public class UIMainManager : UIManager
 
     private void LoadUI()
     {
+        Debug.Log("LoadEvent - UIMainManager");
         InitializeMainUI();
     }
 

@@ -29,7 +29,7 @@ public class UIInventoryManager : UIManager
     {
         base.Start();
         Character.instance.UIChangeAddListener(UpdateInventoryStat);
-        GameManager.instance.LoadEvent.AddListener(LoadInventory);
+        GameManager.instance.AddLoadEvent(LoadInventory);
     }
 
     protected override void StartUI()
@@ -208,6 +208,7 @@ public class UIInventoryManager : UIManager
 
     private void LoadInventory()
     {
+        Debug.Log("LoadEvent - UIInventoryManager");
         for (int i = 0; i < ItemContent.transform.childCount; i++)
         {
             Destroy(ItemContent.transform.GetChild(i).gameObject);

@@ -9,8 +9,8 @@ public abstract class UIManager : MonoBehaviour
 
     protected virtual void Start()
     {
-        GameManager.instance.DayStart.AddListener(StartUI);
-        GameManager.instance.DayEnd.AddListener(EndUI);
+        GameManager.instance.AddDayStart(StartUI);
+        GameManager.instance.AddDayEnd(EndUI);
     }
 
     public virtual void SetActivePanel()

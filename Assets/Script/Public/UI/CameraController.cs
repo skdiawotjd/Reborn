@@ -38,6 +38,8 @@ public class CameraController : MonoBehaviour
 
         //SetCameraRange();
         LimitCameraArea();
+
+        //GameManager.instance.SceneMove.AddListener(SceneMoveCameraPosition);
     }
 
     void FixedUpdate()
@@ -79,4 +81,20 @@ public class CameraController : MonoBehaviour
 
         transform.position = RangePosition;
     }
+
+    /*private void SceneMoveCameraPosition()
+    {
+        Debug.Log("현재 카메라 위치 " + transform.position);
+        Debug.Log("캐릭터 위치 " + Character.instance.gameObject.transform.position);
+        transform.position = Character.instance.gameObject.transform.position;
+
+        transform.position = Vector3.Lerp(transform.position, Character.instance.transform.position + cameraPosition, 1f);
+
+
+        RangePosition.x = Mathf.Clamp(transform.position.x, center.x - (MapSize.x - width), (MapSize.x - width) + center.x);
+        RangePosition.y = Mathf.Clamp(transform.position.y, center.y - (MapSize.y - height), (MapSize.y - height) + center.y);
+
+        transform.position = RangePosition;
+        Debug.Log("최종 카메라 위치 " + transform.position);
+    }*/
 }

@@ -18,10 +18,10 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.DayStart.AddListener(InitializeInventory);
+        GameManager.instance.AddDayStart(InitializeInventory);
         //Character.instance.EventUIChange.AddListener(UpdateInventoryStat);
         Character.instance.UIChangeAddListener(UpdateInventoryStat);
-        GameManager.instance.LoadEvent.AddListener(LoadInventory);
+        //GameManager.instance.LoadEvent.AddListener(LoadInventory);
 
         CharacterStatArray = new TextMeshProUGUI[InfoDataGroup.transform.childCount];
         for(int i = 0; i < CharacterStatArray.Length; i++)
@@ -192,12 +192,24 @@ public class InventoryManager : MonoBehaviour
 
     private void InitializeInventory()
     {
+        /*for (int i = 0; i < CharacterStatArray.Length; i++)
+        {
+            UpdateInventoryStat((CharacterStatType)i);
+        }
+
+        UpdateInventoryStat(CharacterStatType.MyItem);*/
+
+        for (int i = 0; i < ItemContent.transform.childCount; i++)
+        {
+            Destroy(ItemContent.transform.GetChild(i).gameObject);
+        }
+
         for (int i = 0; i < CharacterStatArray.Length; i++)
         {
             UpdateInventoryStat((CharacterStatType)i);
         }
 
-        UpdateInventoryStat(CharacterStatType.MyItem);
+        StartCoroutine(CoroutineLoadInventory());
     }
 
     private void LoadInventory()

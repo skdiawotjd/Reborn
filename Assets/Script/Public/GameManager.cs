@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -15,7 +14,7 @@ public class GameManager : MonoBehaviour
     private float _playTime;        // 하루에 지나간 시간
     [SerializeField]
     private float _totalPlayTime;   // 하루의 총 시간
-    [SerializeField]
+    
     private bool _isdayStart;       // 하루가 시작되었는지
     [SerializeField]
     private int _round;             // 몇회차
@@ -84,17 +83,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UnityEvent GameStartEvent;   // SPUM_SpriteList - InitializeSprite, Character - InitializeCharacter, ConversationManager - InitializeNpcNumberChatType
-    public UnityEvent DayStart;    // PlayerController - StartPlayerController, MainUIManager - StartUI, InventoryManager - InitializeInventory, QuestManager - GiveQuest
-    public UnityEvent DayEnd;      // PlayerController - EndPlayerController, MainUIManager - EndUI, PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd, Character - EndCharacter
-    public UnityEvent SceneMove;        // PopUpUIManager - SceneMovePopUI, SceneManager - MapSetting
-    public UnityEvent LoadEvent;      // PopUpUIManager - AllClosePopUpUI, UIMainManager - LoadUI, UIInventoryManager - LoadInventory
+    // 게임 최초 시작 시
+    private UnityEvent GenerateGameEvent;
+    // 게임이 완료된 후 시작 시
+    private UnityEvent GameStartEvent;
+    // 하루가 시작 시
+    private UnityEvent DayStart;
+    // 하루가 끝날 시
+    private UnityEvent DayEnd;
+    // 씬이 변경될 시
+    private UnityEvent SceneMoveEvent;
+    // 로드 시
+    private UnityEvent LoadEvent;
     private bool Pause;
-    //public GameObject MainCanvas;
 
 
     public static GameManager instance = null;
 
+    // PopUpUIManager - SettingUIGame
+    public void AddGenerateGameEvent(UnityAction AddEvent)
+    {
+        GenerateGameEvent.AddListener(AddEvent);
+    }
+    // SPUM_SpriteList - InitializeSprite, Character - InitializeCharacter, ConversationManager - InitializeNpcNumberChatType
+    public void AddGameStartEvent(UnityAction AddEvent)
+    {
+        GameStartEvent.AddListener(AddEvent);
+    }
+    // PlayerController - StartPlayerController, ///Character - LoadCharacter, UIManager - StartUI
+    // PopUpUIManager - AllClosePopUpUI, UIInventoryManager - InitializeInventory, QuestManager - GiveQuest
+    public void AddDayStart(UnityAction AddEvent)
+    {
+        DayStart.AddListener(AddEvent);
+    }
+    // PlayerController - EndPlayerController, Character - EndCharacter, UIManager - EndUI
+    // PopUpUIManager - AllClosePopUpUI, ConversationManager - DayEnd
+    public void AddDayEnd(UnityAction AddEvent)
+    {
+        DayEnd.AddListener(AddEvent);
+    }
+    // SceneLoadManager - MapSetting, SoundManager - SetBackgroundSource, PopUpUIManager - SceneMovePopUI
+    public void AddSceneMoveEvent(UnityAction AddEvent)
+    {
+        SceneMoveEvent.AddListener(AddEvent);
+    }
+    // Character - LoadCharacter, PopUpUIManager - ActiveUIManagerList, UIMainManager - LoadUI
+    // UIInventoryManager - LoadInventory, UISettingManager - SetActivePanel
+    public void AddLoadEvent(UnityAction AddEvent)
+    {
+        LoadEvent.AddListener(AddEvent);
+    }
 
     void Awake()
     {
@@ -118,9 +156,17 @@ public class GameManager : MonoBehaviour
         _days = 0;
         Pause = false;
 
-        SaveDataDirectory = new DirectoryInfo(Application.dataPath + "/Resources/SaveData/");
+        GenerateGameEvent = new UnityEvent();
+        GameStartEvent = new UnityEvent();
+        DayStart = new UnityEvent();
+        DayEnd = new UnityEvent();
+        SceneMoveEvent = new UnityEvent();
+        LoadEvent = new UnityEvent();
 
+        SaveDataDirectory = new DirectoryInfo(Application.dataPath + "/Resources/SaveData/");
         SceneManager.sceneLoaded += LoadedsceneEvent;
+
+        LoadEvent.AddListener(NextCycle);
     }
 
     
@@ -155,60 +201,55 @@ public class GameManager : MonoBehaviour
         {
             _isNewGenerate = false;
 
-            //MainCanvas.transform.GetChild(0).GetComponent<PopUpUIManager>().SettingUIGame();
             GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
             // 1. 게임 초기화
             InitializeGame();
+
+            GenerateGameEvent.Invoke();
+
             // 2. 시작 씬 이동
             SceneManager.LoadScene("JustChat");
-
-            /*if(_days == 0)
-            {
-                // 3. 시작 씬 이동
-                SceneManager.LoadScene("JustChat");
-            }*/
         }
         else
         {
             GameStartEvent.Invoke();
             SaveData();
             SceneManager.LoadScene("JustChat");
-
-            /*if (_days == 0)
-            {
-                SceneManager.LoadScene("JustChat");
-            }*/
         }
     }
 
 
     private void InitializeGame()
     {
-        /// Canvas 세팅
+        /*/// Canvas 세팅
         GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
         CanvasObject.name = "Main Canvas";
-        DontDestroyOnLoad(CanvasObject);
+        DontDestroyOnLoad(CanvasObject);*/
 
 
         // Camera 세팅
         GameObject MainCamera = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
         MainCamera.name = "Main Camera";
 
-        // Sound 세팅
+        /*// Sound 세팅
         GameObject SoundManager = Instantiate(Resources.Load("Public/SoundManager")) as GameObject;
-        SoundManager.name = "SoundManager";
+        SoundManager.name = "SoundManager";*/
 
         // Character 세팅
-        GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
-        PlayerCharacter.name = "PlayerCharacter";
+        if(!Character.instance)
+        {
+            GameObject PlayerCharacter = Instantiate(Resources.Load("Public/PlayerCharacter")) as GameObject;
+            PlayerCharacter.name = "PlayerCharacter";
+        }
+        
         
         // QuestManager 세팅
         GameObject QuestManager = Instantiate(Resources.Load("Public/QuestManager")) as GameObject;
         QuestManager.name = "QuestManager";
 
-        // SceneLoadManager 세팅
+        /*// SceneLoadManager 세팅
         GameObject SceneLoadManager = Instantiate(Resources.Load("Public/SceneLoadManager")) as GameObject;
-        SceneLoadManager.name = "SceneLoadManager";
+        SceneLoadManager.name = "SceneLoadManager";*/
     }
 
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정
@@ -251,9 +292,10 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    //Character.instance.CheckStack();
-                    //QuestManager.instance.QuestGive();
-                    NewDay();
+                    Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    GameStart();
                 }
             }
             else if (Days == 6)
@@ -267,9 +309,10 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    //Character.instance.CheckStack();
-                    //QuestManager.instance.QuestGive();
-                    NewDay();
+                    Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    GameStart();
                 }
             }
             else if (Days == 9)
@@ -286,7 +329,6 @@ public class GameManager : MonoBehaviour
                     Character.instance.CheckStack();
                     _days = 0;
                     _round++;
-                    // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
                     GameStart();
                 }
             }
@@ -304,9 +346,10 @@ public class GameManager : MonoBehaviour
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    //Character.instance.CheckStack();
-                    //QuestManager.instance.QuestGive();
-                    NewDay();
+                    Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    GameStart();
                 }
             }
             else if (Days == 6)
@@ -320,17 +363,18 @@ public class GameManager : MonoBehaviour
                 {
                     // 강등
                     Debug.Log("강등강등강등강등강등강등강등강등강등강등");
+                    Debug.Log("강등 기능");
                     Character.instance.CheckStack();
-                    //QuestManager.instance.QuestGive();
-                    NewDay();
+                    _days = 0;
+                    _round++;
+                    GameStart();
                 }
                 else
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    //Character.instance.CheckStack();
-                    //QuestManager.instance.QuestGive();
-                    NewDay();
+                    Character.instance.CheckStack();
+                    GameStart();
                 }
             }
             else if (Days == 9)
@@ -344,7 +388,11 @@ public class GameManager : MonoBehaviour
                 {
                     // 강등
                     Debug.Log("끝인데 강등강등강등강등강등강등강등강등강등강등");
+                    Debug.Log("강등 기능");
                     Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    GameStart();
                 }
                 else
                 {
@@ -377,7 +425,7 @@ public class GameManager : MonoBehaviour
 
     private void NextCycle()
     {
-        switch(Character.instance.MyRound)
+        switch (Character.instance.MyRound)
         {
             case 1:
                 _isdayStart = true;
@@ -393,8 +441,13 @@ public class GameManager : MonoBehaviour
 
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Scene Load");
-        SceneMove.Invoke();
+        if(Character.instance)
+        {
+            Character.instance.SetCharacterPosition();
+        }
+        
+
+        SceneMoveEvent.Invoke();
 
         
 
@@ -408,8 +461,9 @@ public class GameManager : MonoBehaviour
     public void SaveData()
     {
         SetSaveDataCount();
+        SaveSaveList();
 
-        Character.instance.SaveCharacterPosition();
+        Character.instance.SaveCharacter();
         string Json1 = JsonUtility.ToJson(Character.instance);
         string path1 = SaveDataDirectory.ToString() + "PlayerCharacter" + SaveDataCount.ToString() + ".Json";
         File.WriteAllText(path1, Json1);
@@ -429,12 +483,17 @@ public class GameManager : MonoBehaviour
 
         string path2 = SaveDataDirectory.ToString() + "PlayerCharacter" + Number.ToString() + ".Json";
         string json2 = File.ReadAllText(path2);
+        if (Character.instance == null)
+        {
+            InitializeGame();
+            Character.instance.LoadCharacter();
+            GenerateGameEvent.Invoke();
+        }
         JsonUtility.FromJsonOverwrite(json2, Character.instance);
 
         LoadEvent.Invoke();
 
-        
-        switch (Character.instance.MyMapNumber.Substring(0,2))
+        switch (Character.instance.MyMapNumber.Substring(2,2))
         {
             case "00": // 집
                 SceneManager.LoadScene("Home");
@@ -456,8 +515,33 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene("JustChat");
                 break;   
         }
+
+        Invoke("NextCycle", 0.1f);
     }
 
+    private void SaveSaveList()
+    {
+        string path = SaveDataDirectory.ToString() + "SaveDataList.csv";
+        string str = "\n" + _saveDataCount.ToString() + "," + ((int)Character.instance.MyJob).ToString() + "," + Character.instance.MyAge.ToString() + "," + PlayTime + "," + Character.instance.MyMapNumber.ToString();
+        //Debug.Log("SaveDataNumber : " + _saveDataCount.ToString() + " Job : " + ((int)Character.instance.MyJob).ToString() + " Age : " + Character.instance.MyAge.ToString() + " PlayTime : " + PlayTime + " MapNumber : " + Character.instance.MyMapNumber.ToString());
+
+        File.AppendAllText(path, str);
+    }
+
+    public string LoadSaveList(int Order)
+    {
+        string path = SaveDataDirectory.ToString() + "SaveDataList.csv";
+
+        foreach (string line in File.ReadLines(path))
+        {
+            if(line[0] - '0' == Order)
+            {
+                return line;
+            }
+        }
+
+        return "0,0,10,0,0000";
+    }
 
     public void SetSaveDataCount()
     {
@@ -469,6 +553,7 @@ public class GameManager : MonoBehaviour
                 _saveDataCount++;
             }
         }
+
         _saveDataCount /= 2;
     }
 

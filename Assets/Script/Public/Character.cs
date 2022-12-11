@@ -27,9 +27,9 @@ public class Character : MonoBehaviour
     [SerializeField]
     private Stat CharacterStat;
     [SerializeField]
-    private Vector2 CharacterPosition;
+    private Vector2 _characterPosition;
 
-    private UnityEvent<CharacterStatType> _eventUIChange;
+    private UnityEvent<CharacterStatType> EventUIChange;
     private PlayerController _myPlayerController;
     private ItemManager _myItemManager;
 
@@ -119,13 +119,13 @@ public class Character : MonoBehaviour
             return CharacterStat._myStackByJob;
         }
     }
-    public UnityEvent<CharacterStatType> EventUIChange
+    /*public UnityEvent<CharacterStatType> EventUIChange
     {
         get
         {
             return _eventUIChange;
         }
-    }
+    }*/
     public PlayerController MyPlayerController
     {
         get
@@ -140,7 +140,13 @@ public class Character : MonoBehaviour
             return _myItemManager;
         }
     }
-
+    public Vector2 CharacterPosition
+    {
+        get
+        {
+            return _characterPosition;
+        }
+    }
 
     private void Awake()
     {
@@ -163,33 +169,22 @@ public class Character : MonoBehaviour
         CharacterStat._myStackByJob = new int[16];
         CharacterStat._myStackBySocialClass = new int[5];
 
-        
+        CharacterStatSetting();
+
         _myPlayerController = gameObject.GetComponent<PlayerController>();
         _myItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
-        _eventUIChange = new UnityEvent<CharacterStatType>();
+        EventUIChange = new UnityEvent<CharacterStatType>();
     }
 
 
     void Start()
     {
-        GameManager.instance.GameStartEvent.AddListener(InitializeCharacter);
-        GameManager.instance.DayEnd.AddListener(EndCharacter);
-        GameManager.instance.LoadEvent.AddListener(LoadCharacterPosition);
-        GameManager.instance.SceneMove.AddListener(SetCharacterPosition);
+        GameManager.instance.AddGameStartEvent(InitializeCharacter);
+        GameManager.instance.AddDayEnd(EndCharacter);
+        //GameManager.instance.AddDayStart(LoadCharacter);
+        GameManager.instance.AddLoadEvent(LoadCharacter);
+        //GameManager.instance.SceneMove.AddListener(SetCharacterPosition);
 
-        CharacterStatSetting();
-    }
-
-    public void SaveCharacterPosition()
-    {
-        CharacterPosition = transform.position;
-        // CharacterPosition = transform.position;
-    }
-
-    public void LoadCharacterPosition()
-    {
-        transform.position = CharacterPosition;
-        // transform.position = CharacterPosition;
     }
 
     public void UIChangeAddListener(UnityAction<CharacterStatType> AddEvent)
@@ -355,7 +350,7 @@ public class Character : MonoBehaviour
         EventUIChange.Invoke(TemType);
     }
 
-    private void CharacterStatSetting()
+    public void CharacterStatSetting()
     {
         if (GameManager.instance.Round == 0)
         {
@@ -373,7 +368,6 @@ public class Character : MonoBehaviour
             CharacterStat._myRound = 1;
             // 6. 위치 설정
             CharacterStat._myMapNumber = "0007";
-            // CharacterStat._myMapNumber = "0007";
             // 6. 활동력 설정
             CharacterStat._activePoint = 100;
             // 7. 스택 설정
@@ -389,7 +383,6 @@ public class Character : MonoBehaviour
 
     public void InitializeCharacter()
     {
-        Debug.Log("asd");
         //InitializeMapNumber
         CharacterStat._myMapNumber = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
         // CharacterStat._myMapNumber = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
@@ -588,28 +581,47 @@ public class Character : MonoBehaviour
         CharacterStat._activePoint = 100;
         CharacterStat._myAge += 1;
     }
-
-    private void SetCharacterPosition()
+    public void SaveCharacter()
     {
-        switch(CharacterStat._myMapNumber)
-        // switch(CharacterStat._myMapNumber)
-        {
-            case "0000":
-                //CharacterVector = new Vector2(-3.8f, -3.3f);
-                CharacterPosition.x = -3.8f;
-                 CharacterPosition.y = -3.3f;
-                break;
-            case "0001":
-            case "0101":
-            case "0201":
-            case "0301":
-            case "0401":
-                CharacterPosition.x = -11.8f;
-                 CharacterPosition.y = 5.3f;
-                break;
+        Debug.Log("SaveCharacter : " + transform.position);
+        _characterPosition = transform.position;
+    }
 
+    public void LoadCharacter()
+    {
+        Debug.Log("LoadEvent - Character CharacterPosition : " + CharacterPosition);
+        transform.position = CharacterPosition;
+    }
+
+    public void SetCharacterPosition()
+    {
+        if(CharacterPosition.x == 0 && CharacterPosition.y == 0)
+        {
+            switch (CharacterStat._myMapNumber)
+            {
+                // Home
+                case "0000":
+                    //CharacterVector = new Vector2(-3.8f, -3.3f);
+                    _characterPosition.x = -3.8f;
+                    _characterPosition.y = -3.3f;
+                    MyPlayerController.PlayerRotation(Direction.Right);
+                    break;
+                // Town
+                case "0001":
+                case "0101":
+                case "0201":
+                case "0301":
+                case "0401":
+                    _characterPosition.x = -11.8f;
+                    _characterPosition.y = 5.3f;
+                    MyPlayerController.PlayerRotation(Direction.Right);
+                    break;
+
+            }
         }
 
         transform.position = CharacterPosition;
+        _characterPosition.x = 0f;
+        _characterPosition.y = 0f;
     }
 }

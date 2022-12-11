@@ -1,7 +1,31 @@
 ManifestFileVersion: 0
-CRC: 1188673946
+CRC: 1027088465
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: home
+      Name: public
+      Dependencies: {}
+    Info_1:
+      Name: town
+      Dependencies: {}
+    Info_2:
+      Name: minigameslayer
+      Dependencies: {}
+    Info_3:
+      Name: homeofslayer
+      Dependencies: {}
+    Info_4:
+      Name: homeofcommons
+      Dependencies: {}
+    Info_5:
+      Name: minigameofsmith
+      Dependencies: {}
+    Info_6:
+      Name: minigameofbania
+      Dependencies: {}
+    Info_7:
+      Name: minigamep
+      Dependencies: {}
+    Info_8:
+      Name: minigameedu
       Dependencies: {}

@@ -1,0 +1,71 @@
+ManifestFileVersion: 0
+CRC: 2712041418
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d6147225996045413e32a1af26f1d789
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6ad61df1ca1f53ebd82a8cf4128ed702
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 28ac21711b0ec40a0812d33a586eb7ec, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 60a195100e1505b418545d662c3b7973, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 46142383fe5a5c247bdb4e492367a0eb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f79a53a8fd7cc484a863b5ba2a94cda2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7c562f92f3b8b435d98ac3b65547b755, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f040fbdf3ce3d66429b9f269878c947a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: baea2e9758e554909b2367e396d9c5a4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c1bb49e4628aefa4c8631534d5470610, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cba787c401807cb49a8425295335c840, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: aa7184577f797874cb56979fca5731bc, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 210
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/Resources/Public/MGQuizManager.prefab
+- Assets/Resources/Prefabs/NPC/MiniGameNPC.prefab
+- Assets/Resources/Public/MGObjectManager.prefab
+- Assets/Resources/Public/MGDDRManager.prefab
+- Assets/Resources/Public/MGTimingManager.prefab
+Dependencies: []

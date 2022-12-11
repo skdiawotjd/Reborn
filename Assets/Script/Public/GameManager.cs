@@ -293,9 +293,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    GameStart();
+                    NewDay();
                 }
             }
             else if (Days == 6)
@@ -310,9 +308,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    GameStart();
+                    NewDay();
                 }
             }
             else if (Days == 9)
@@ -347,9 +343,7 @@ public class GameManager : MonoBehaviour
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    GameStart();
+                    NewDay();
                 }
             }
             else if (Days == 6)
@@ -365,16 +359,14 @@ public class GameManager : MonoBehaviour
                     Debug.Log("강등강등강등강등강등강등강등강등강등강등");
                     Debug.Log("강등 기능");
                     Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    GameStart();
+                    NewDay();
                 }
                 else
                 {
                     // 생존
                     Debug.Log("생존생존생존생존생존생존생존생존생존생존");
                     Character.instance.CheckStack();
-                    GameStart();
+                    NewDay();
                 }
             }
             else if (Days == 9)

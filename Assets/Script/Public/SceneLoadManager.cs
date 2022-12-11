@@ -82,7 +82,7 @@ public class SceneLoadManager : MonoBehaviour
     }
     void Start()
     {
-        GameManager.instance.SceneMove.AddListener(MapSetting);
+        GameManager.instance.AddSceneMoveEvent(MapSetting);
     }
 
     // Update is called once per frame

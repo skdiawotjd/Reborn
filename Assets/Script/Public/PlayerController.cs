@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum Direction { Left = 1, Right = -1}
-
     [SerializeField]
     private SPUM_Prefab Spum;
     [SerializeField]
@@ -62,8 +60,8 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        GameManager.instance.DayStart.AddListener(StartPlayerController);
-        GameManager.instance.DayEnd.AddListener(EndPlayerController);
+        GameManager.instance.AddDayStart(StartPlayerController);
+        GameManager.instance.AddDayEnd(EndPlayerController);
         SceneLoadManager.instance.MapSettingEvent.AddListener(SetPlayerPositionRange);
     }
 
@@ -178,7 +176,7 @@ public class PlayerController : MonoBehaviour
 
             if (InputX == 1)
             {
-                Arrow.x = -1.0f;
+                PlayerRotation(Direction.Right);
                 Offset.x = 0.02f;
                 if (RotationObject.transform.localScale.x != Arrow.x)
                 {
@@ -188,7 +186,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (InputX == -1)
             {
-                Arrow.x = 1.0f;
+                PlayerRotation(Direction.Left);
                 Offset.x = -0.02f;
                 if (RotationObject.transform.localScale.x != Arrow.x)
                 {
@@ -203,6 +201,13 @@ public class PlayerController : MonoBehaviour
         FinalPosition.y = Mathf.Clamp(transform.position.y + InputY * moveSpeed * Time.deltaTime, -LimitPosition.y, LimitPosition.y - 2.7f);
 
         transform.position = FinalPosition;
+    }
+
+    public void PlayerRotation(Direction NewDirection)
+    {
+        Arrow.x = (float)NewDirection;
+
+        RotationObject.transform.localScale = Arrow;
     }
 
     private void SetPlayerPositionRange()

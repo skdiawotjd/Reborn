@@ -1,3 +1,5 @@
+public enum Direction { Left = 1, Right = -1 }
+
 public enum SocialClass { Helot, Commons, SemiNoble, Noble, King }
 public enum Job
 {

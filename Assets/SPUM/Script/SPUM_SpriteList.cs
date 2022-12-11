@@ -195,7 +195,7 @@ public class SPUM_SpriteList : MonoBehaviour
     public void InitializeSprite()
     {
         //Debug.Log("불러짐");
-        GameManager.instance.GameStartEvent.AddListener(InitializeSprite);
+        GameManager.instance.AddGameStartEvent(InitializeSprite);
 
         SpriteListCSV = CSVReader.Read("SPUMSprite");
 

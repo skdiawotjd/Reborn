@@ -34,22 +34,27 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.SceneMove.AddListener(SetBackgroundSource);
+        SetBackgroundSource();
+        GameManager.instance.AddSceneMoveEvent(SetBackgroundSource);
     }
 
     private void SetBackgroundSource()
     {
-        if(SceneManager.GetActiveScene().name == "Home")
+        if (SceneManager.GetActiveScene().name == "Town")
         {
             Source[(int)UISoundOrder.Background].clip = BackgroundClip[0];
         }
-        else if(SceneManager.GetActiveScene().name == "JustChat")
+        if (SceneManager.GetActiveScene().name == "Home")
         {
             Source[(int)UISoundOrder.Background].clip = BackgroundClip[1];
         }
-        else if (SceneManager.GetActiveScene().name == "Town" || SceneManager.GetActiveScene().name == "TestScene")
+        else if(SceneManager.GetActiveScene().name == "JustChat")
         {
             Source[(int)UISoundOrder.Background].clip = BackgroundClip[2];
+        }
+        else if (SceneManager.GetActiveScene().name == "Town" || SceneManager.GetActiveScene().name == "TestScene")
+        {
+            Source[(int)UISoundOrder.Background].clip = BackgroundClip[3];
         }
 
         Source[(int)UISoundOrder.Background].Play();

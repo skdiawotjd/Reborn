@@ -26,16 +26,16 @@ public class MainUIManager : MonoBehaviour
         JobImage = transform.GetChild(4).GetComponent<Image>();
         TodoProgressImage = transform.GetChild(6).GetComponent<Image>();*/
 
-        GameManager.instance.DayStart.AddListener(StartUI);
-        GameManager.instance.LoadEvent.AddListener(LoadUI);
+        ///GameManager.instance.AddDayStart(StartUI);
+        //GameManager.instance.LoadEvent.AddListener(LoadUI);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         //Character.instance.EventUIChange.AddListener(ChangeMainUI);
-        Character.instance.UIChangeAddListener(ChangeMainUI);
-        GameManager.instance.DayEnd.AddListener(EndUI);
+        ///Character.instance.UIChangeAddListener(ChangeMainUI);
+        ///GameManager.instance.AddDayEnd(EndUI);
     }
 
     // Update is called once per frame

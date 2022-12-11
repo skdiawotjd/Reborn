@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 2407844509122019069}
   - component: {fileID: 8096190427739375719}
   - component: {fileID: 8263278023094765813}
+  - component: {fileID: 6324734107700813704}
   m_Layer: 0
   m_Name: LoadButton
   m_TagString: Untagged
@@ -257,6 +258,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6324734107700813704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162059091162499823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d42f487d014739447a1baed1583f18bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterImage: {fileID: 7065681593576668952}
+  LoadButtonName:
+  - {fileID: 2589679919704650901}
+  - {fileID: 7421300336173296707}
+  - {fileID: 6475553195346643375}
+  - {fileID: 674044908813519940}
+  LoadButtonData:
+  - {fileID: 4680117298987864593}
+  - {fileID: 474378810508914591}
+  - {fileID: 7946696067881068794}
+  - {fileID: 4542653331020509710}
 --- !u!1 &2425418066545275099
 GameObject:
   m_ObjectHideFlags: 0

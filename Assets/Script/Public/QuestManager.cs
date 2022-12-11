@@ -49,7 +49,7 @@ public class QuestManager : MonoBehaviour
         
 
         //QUIManager.questTextGenerate();
-        GameManager.instance.DayStart.AddListener(GiveQuest);
+        GameManager.instance.AddDayStart(GiveQuest);
     }
 
     private void GiveQuest()

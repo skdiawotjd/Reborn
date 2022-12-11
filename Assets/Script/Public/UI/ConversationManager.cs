@@ -51,8 +51,8 @@ public class ConversationManager : MonoBehaviour
     void Start()
     {
         Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
-        GameManager.instance.GameStartEvent.AddListener(InitializeNpcNumberChatType);
-        GameManager.instance.DayEnd.AddListener(DayEnd);
+        GameManager.instance.AddGameStartEvent(InitializeNpcNumberChatType);
+        GameManager.instance.AddDayEnd(DayEnd);
     }
 
     private void InitializeConversationManager()

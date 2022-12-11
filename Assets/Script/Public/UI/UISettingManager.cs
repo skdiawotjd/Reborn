@@ -27,7 +27,9 @@ public class UISettingManager : UIManager
         base.Start();
 
         CurSaveDataCount = 0;
+
         InitializeSettingManager();
+        GameManager.instance.AddLoadEvent(SetActivePanel);
     }
 
     protected override void StartUI()
@@ -70,9 +72,9 @@ public class UISettingManager : UIManager
         SettingButton[(int)UISettingButtonOrder.Resume].onClick.AddListener(() => { SetPause(true); });
         // 저장하기
         SettingButton[(int)UISettingButtonOrder.Save].onClick.AddListener(GameManager.instance.SaveData);
-
         // 불러오기
         SettingButton[(int)UISettingButtonOrder.Load].onClick.AddListener(CheckLoadButton);
+
         // Background Mute
         SettingToggle[(int)UISoundOrder.Background].onValueChanged.AddListener((value) => { SoundManager.instance.MuteAudioSource(UISoundOrder.Background, value); });
         // Effect Mute
@@ -149,6 +151,7 @@ public class UISettingManager : UIManager
 
                 GameObject NewLoadButton = Instantiate(Resources.Load("UI/LoadButton")) as GameObject;
                 NewLoadButton.transform.SetParent(LoadButtonItemConent.transform, false);
+                NewLoadButton.GetComponent<LoadButtonManager>().SetLoadButtonData(GameManager.instance.LoadSaveList(CurSaveDataCount));
                 int SaveDataButtonCount = CurSaveDataCount;
                 NewLoadButton.GetComponent<Button>().onClick.AddListener(() => { GameManager.instance.LoadData(SaveDataButtonCount); });
             }

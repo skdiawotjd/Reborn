@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 9b4fa77825c035145990242c797d269d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Arrow: {instanceID: 0}
+  - text: {instanceID: 0}
+  - timeSlider: {instanceID: 0}
+  - MinigameClothImage: {instanceID: 0}
+  - MinigameCloth1: {fileID: 21300000, guid: 0d5916fdd9d622e4e890b2443526bfaf, type: 3}
+  - MinigameCloth2: {fileID: 21300000, guid: 18e4dc96aae9b874d9fd55237eb4684a, type: 3}
+  - MinigameCloth3: {fileID: 21300000, guid: a7187b04edfa36446b4344e6c1c15d97, type: 3}
+  - Goods1: {fileID: 21300000, guid: 52e128a061bbf9e41a93ca900e6ed102, type: 3}
+  - Goods2: {fileID: 21300000, guid: 68ed927dfe76c4b4090e47834f70e953, type: 3}
+  - Goods3: {fileID: 21300000, guid: 41ceb244086ccd24eacf2915ee134df2, type: 3}
+  - Anvil: {instanceID: 0}
+  - BookObject: {instanceID: 0}
+  - MineralOfMine: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

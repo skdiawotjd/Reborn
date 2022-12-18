@@ -105,8 +105,8 @@ public class MGDDRManager : MiniGameManager
         timeText.gameObject.SetActive(false);
         Destroy(temImage);
         gameActive = false;
+        Character.instance.SetCharacterInput(true, true);
     }
-
     public override void SetRound(int nextRound)
     {
         SetMainWork(keyOfRound[nextRound]);
@@ -226,6 +226,10 @@ public class MGDDRManager : MiniGameManager
             {
                 playTime = 0;
                 timeSlider.value = playTime;
+                for(int i = 0; i < keyStack; i++)
+                {
+                    arrowArray[i].DestroyImage();
+                }
                 GameEnd(false);
             }
         }

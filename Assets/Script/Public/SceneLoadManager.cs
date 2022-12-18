@@ -57,6 +57,8 @@ public class SceneLoadManager : MonoBehaviour
     AssetBundle bundleP;
     AssetBundle temBundle;
 
+    List<Dictionary<string, object>> MapNumber;
+
 
     // ¾ÀÀÇ Å©±â
     public RectTransform Background;
@@ -83,6 +85,7 @@ public class SceneLoadManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.AddSceneMoveEvent(MapSetting);
+        MapNumber = CSVReader.Read("MapNumber");
     }
 
     // Update is called once per frame
@@ -96,7 +99,7 @@ public class SceneLoadManager : MonoBehaviour
         bundleP = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "public"));
         switch (Character.instance.MyMapNumber)
         {
-            case "0000": // ³ë¿¹ÀÇ Home
+            case "0000": // ³ë¿¹ÀÇ Home 
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
                 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -128,7 +131,7 @@ public class SceneLoadManager : MonoBehaviour
                 temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Ã»¼ÒÀåÀÎ";
 
                 temNPC = Instantiate(bundle.LoadAsset<GameObject>("MiniGameTownNPC"), new Vector3(-12, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
-                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(5);
+                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(7);
                 temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0002");
                 temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
                 temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "»¡·¡ÀåÀÎ";
@@ -165,14 +168,16 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.GetComponent<SpriteRenderer>().color = new Color(90, 0, 255, 150);
 
                 bundle.Unload(false);
+                temBundle.Unload(false);
                 break;
-            case "0005": // Minigame SlayerÀÇ Ã¤Áý
+            case "0005": // Minigame SlayerÀÇ Ã¤±¤
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameslayer"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("MineOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGObjectManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGObjectManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-8, -3, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -180,9 +185,10 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.GetComponent<SpriteRenderer>().color = new Color(90, 0, 255, 150);
 
                 bundle.Unload(false);
+                temBundle.Unload(false);
                 break;            
             case "0105": // MinigameSlayerÀÇ Ã»¼Ò
-                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameslayer"));
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -191,9 +197,12 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.name = "DoorToTown";
                 temObject.GetComponent<Portal>().ChangeSceneName(5);
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGObjectManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-                temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGObjectManager";
+                temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -4, transform.position.z), Quaternion.identity) as GameObject;
+
 
                 bundle.Unload(false);
+                temBundle.Unload(false);
                 break;
             case "0100": // Æò¹Î Áß ¾Æ·§´Ü°èÀÇ Home
             case "0200":
@@ -228,6 +237,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ForgeOfSmith"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGTimingManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGTimingManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -243,6 +253,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("EduCenter"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGQuizManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGQuizManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -4, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -258,6 +269,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("EduCenter"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGQuizManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGQuizManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -4, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -273,6 +285,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ShopOfBania"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGObjectManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGObjectManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -400,6 +413,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("EduCenter"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGDDRManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGDDRManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -4, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -415,6 +429,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("EduCenter"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGDDRManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGDDRManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -4, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -430,6 +445,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ForgeOfSmith"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGTimingManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGTimingManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -445,6 +461,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ShopOfBania"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGObjectManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGObjectManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
@@ -453,6 +470,9 @@ public class SceneLoadManager : MonoBehaviour
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;
+            case "0405": // ³ë¿¹ÀÇ ³ó»ç
+                break;
+
             default:
                 break;
                 

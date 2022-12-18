@@ -62,6 +62,10 @@ public class MGObjectManager : MiniGameManager
                 temBox = Instantiate(GoldBox, new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, -1f), transform.position.z), Quaternion.identity) as GoldBox;
                 temBox.GetComponent<SpriteRenderer>().sprite = MineralOfMine;
             }
+            else if (Character.instance.MyMapNumber == "0105")
+            {
+                temBox = Instantiate(GoldBox, new Vector3(Random.Range(-5f, 5f), Random.Range(-3f, -5f), transform.position.z), Quaternion.identity) as GoldBox;
+            }
             else if (Character.instance.MyMapNumber == "0205")
             {
                 temBox = Instantiate(GoldBox, new Vector3(Random.Range(-6f, 6f), Random.Range(-5f, -1f), transform.position.z), Quaternion.identity) as GoldBox;

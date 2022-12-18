@@ -6,51 +6,73 @@ using UnityEngine.UI;
 public class StartManager : MonoBehaviour
 {
     [SerializeField]
-    private Button NewGame;
-    [SerializeField]
-    private Button LoadGame;
+    private List<Button> StartButtonList;
 
     private AudioListener StartAudioListener;
     private PopUpUIManager PopUpUIManager;
 
+    private CharacterSelectManager CharacterSelectManager;
+
+    private bool SetActiveLoad;
+
     void Awake()
     {
-        NewGame.onClick.AddListener(ClickNewGame);
-        LoadGame.onClick.AddListener(ClickLoadGame);
+        SetActiveLoad = false;
+
+        StartButtonList[(int)StartButtonOrder.New].onClick.AddListener(ClickNewGame);
+        StartButtonList[(int)StartButtonOrder.Load].onClick.AddListener(ClickLoadGame);
+        StartButtonList[(int)StartButtonOrder.Exit].onClick.AddListener(ClickExitGame);
     }
 
     void Start()
     {
         StartAudioListener = GameObject.Find("Main Camera").GetComponent<AudioListener>();
         PopUpUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetComponent<PopUpUIManager>();
+        CharacterSelectManager = GameObject.Find("Main Canvas").transform.GetChild(1).GetComponent<CharacterSelectManager>();
+
+        CanLoad();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            CharacterSelectManager.SetActiveCharacterSelectPanel();
+            if (SetActiveLoad && SetActiveLoad == PopUpUIManager.UIManagerList[(int)UIPopUpOrder.SettingPanel].gameObject.activeSelf)
+            {
+                ClickLoadGame();
+            }
+        }
     }
 
-    public void ClickNewGame()
+    public void SetActivePopUpUI()
     {
-        // 저장한 데이터가 없다면
-        if(true)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            Debug.Log("NewGame - 1게임을 마친 정보가 없음");
-            // 1. Start씬의 카메라 false
-            StartAudioListener.enabled = false;
-
-            GameManager.instance.GameStart();
-        }
-        // 저장한 데이터가 없다면
-        else 
-        {
-            Debug.Log("NewGame - 1게임을 마친 정보가 있음");
-            // 캐릭터 선택 화면 보여주기
+            PopUpUIManager.transform.GetChild(i).gameObject.SetActive(true);
         }
     }
 
-    public void ClickLoadGame()
+    private void ClickNewGame()
+    {
+        PopUpUIManager.SetActiveLoad();
+        Job StartJob = GameManager.instance.CanPlayJob();
+
+        switch (StartJob)
+        {
+            case Job.Slayer :
+                StartAudioListener.enabled = false;
+                GameManager.instance.GameStart();
+                break;
+            default:
+                CharacterSelectManager.SetCharacterSelectButton(StartJob);
+                CharacterSelectManager.SetActiveCharacterSelectPanel();
+                break;
+        }
+
+    }
+
+    private void CanLoad()
     {
         // 저장된 데이터 개수 체크
         GameManager.instance.SetSaveDataCount();
@@ -58,15 +80,30 @@ public class StartManager : MonoBehaviour
         // 저장한 내역이 있다면
         if (GameManager.instance.SaveDataCount != 0)
         {
-            Debug.Log("LoadGame - 저장한 데이터가 있음");
+            //Debug.Log("LoadGame - 저장한 데이터가 있음");
             // 1. Start씬의 카메라 false
             //StartAudioListener.enabled = false;
 
-            PopUpUIManager.VisibleSpecificUI(UIPopUpOrder.SettingPanel);
+            StartButtonList[(int)StartButtonOrder.Load].interactable = true;
         }
         else
         {
-            Debug.Log("LoadGame - 저장한 데이터가 없음");
+            //Debug.Log("LoadGame - 저장한 데이터가 없음");
         }
+    }
+
+    private void ClickLoadGame()
+    {
+        PopUpUIManager.SetActiveLoadPanel();
+        SetActiveLoad = PopUpUIManager.UIManagerList[(int)UIPopUpOrder.SettingPanel].gameObject.activeSelf;
+    }
+
+    private void ClickExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

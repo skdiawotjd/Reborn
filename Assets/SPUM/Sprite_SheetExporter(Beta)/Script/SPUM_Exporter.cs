@@ -120,11 +120,11 @@ public class SPUM_Exporter : MonoBehaviour
 
 
     // Start is called before the first frame update
-	private bool takeHiResShot = false;
+	//private bool takeHiResShot = false;
 
-	 public void TakeHiResShot() {
+	 /*public void TakeHiResShot() {
          takeHiResShot = true;
-     }
+     }*/
 
 	 public void SetScreenShot()
 	 {
@@ -245,7 +245,7 @@ public class SPUM_Exporter : MonoBehaviour
 			
 		}
 		
-		takeHiResShot = false;
+		//takeHiResShot = false;
 		_camera.targetTexture = null;
 		if(_gifExportUse ) MakeGifAnimation();
 		

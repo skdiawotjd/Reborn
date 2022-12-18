@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -154,6 +156,8 @@ public class GameManager : MonoBehaviour
         _isdayStart = false;
         _isNewGenerate = true;
         _days = 0;
+        _round = 0;
+        _saveDataCount = 0;
         Pause = false;
 
         GenerateGameEvent = new UnityEvent();
@@ -197,27 +201,49 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        if(IsNewGenerate)
+        if (IsNewGenerate)
+        {
+            _isNewGenerate = false;
+            // 1. 게임 초기화
+            InitializeGame();
+            GenerateGameEvent.Invoke();
+            Character.instance.CharacterStatSetting();
+            GameStartEvent.Invoke();
+
+            GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+            // 2. 시작 씬 이동
+            SceneManager.LoadScene("JustChat");
+        }
+        else
+        {
+            SaveData();
+            GameStartEvent.Invoke();
+            SceneManager.LoadScene("JustChat");
+        }
+    }
+    public void GameStart(Job StartJob)
+    {
+        if (IsNewGenerate)
         {
             _isNewGenerate = false;
 
             GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
             // 1. 게임 초기화
             InitializeGame();
-
+            Character.instance.CharacterStatSetting(StartJob);
             GenerateGameEvent.Invoke();
+            GameStartEvent.Invoke();
 
             // 2. 시작 씬 이동
             SceneManager.LoadScene("JustChat");
         }
         else
         {
-            GameStartEvent.Invoke();
             SaveData();
+            GameStartEvent.Invoke();
             SceneManager.LoadScene("JustChat");
         }
     }
-
 
     private void InitializeGame()
     {
@@ -514,7 +540,12 @@ public class GameManager : MonoBehaviour
     private void SaveSaveList()
     {
         string path = SaveDataDirectory.ToString() + "SaveDataList.csv";
-        string str = "\n" + _saveDataCount.ToString() + "," + ((int)Character.instance.MyJob).ToString() + "," + Character.instance.MyAge.ToString() + "," + PlayTime + "," + Character.instance.MyMapNumber.ToString();
+        string str = "\n" + _saveDataCount.ToString() + "," + 
+            ((int)Character.instance.MyJob).ToString() + "," + 
+            Character.instance.MyAge.ToString() + "," + 
+            PlayTime + "," + 
+            Character.instance.MyMapNumber.ToString() + "," + 
+            Round.ToString();
         //Debug.Log("SaveDataNumber : " + _saveDataCount.ToString() + " Job : " + ((int)Character.instance.MyJob).ToString() + " Age : " + Character.instance.MyAge.ToString() + " PlayTime : " + PlayTime + " MapNumber : " + Character.instance.MyMapNumber.ToString());
 
         File.AppendAllText(path, str);
@@ -547,6 +578,45 @@ public class GameManager : MonoBehaviour
         }
 
         _saveDataCount /= 2;
+    }
+
+    public Job CanPlayJob()
+    {
+        List<Dictionary<string, object>> SaveList;
+        int highList = 0;
+        
+        SaveList = CSVReader.Read("SaveData/SaveDataList");
+
+        for(int i = 0; i < SaveList.Count; i++)
+        {
+            try
+            {
+                if (int.Parse(SaveList[i]["Round"].ToString()) > 1)
+                {
+                    if(int.Parse(SaveList[i]["Job"].ToString()) > highList)
+                    {
+                        highList = int.Parse(SaveList[i]["Job"].ToString());
+                    }
+                }
+            }
+            catch (InvalidCastException e)
+            {
+                Debug.Log(e.Message);
+
+                return Job.Slayer;
+            }
+        }
+
+        highList--;
+
+        if (Enum.IsDefined(typeof(Job), highList))
+        {
+            return (Job)highList;
+        }
+        else
+        {
+            return Job.Slayer;
+        }
     }
 
     public void ActivateDay()

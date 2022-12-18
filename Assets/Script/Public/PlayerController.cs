@@ -300,6 +300,8 @@ public class PlayerController : MonoBehaviour
     {
         _characterControllable = CharacterInput;
         UIControllable = UIInput;
+
+        Debug.Log(_characterControllable + " " + UIControllable);
     }
 
     private void EndPlayerController()

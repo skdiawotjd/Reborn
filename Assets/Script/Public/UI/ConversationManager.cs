@@ -19,7 +19,7 @@ public class ConversationManager : MonoBehaviour
     private bool IsCanChat; // 대화를 시작할 수 있는지
     private int ChatCount; // CSV 상 대화가 몇번 째에 있는지
     private int _conversationCount; // 대화가 몇번 진행 되었는지
-    private string _npcNumberChatType; // "NPC넘버-대화넘버"
+    public string _npcNumberChatType; // "NPC넘버-대화넘버"
 
     public int ConversationCount
     {
@@ -46,13 +46,14 @@ public class ConversationManager : MonoBehaviour
         ChatList = CSVReader.Read("Chatting");
 
         InitializeConversationManager();
+
+        GameManager.instance.AddGameStartEvent(InitializeNpcNumberChatType);
+        GameManager.instance.AddDayEnd(DayEnd);
     }
 
     void Start()
     {
         Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
-        GameManager.instance.AddGameStartEvent(InitializeNpcNumberChatType);
-        GameManager.instance.AddDayEnd(DayEnd);
     }
 
     private void InitializeConversationManager()
@@ -66,6 +67,7 @@ public class ConversationManager : MonoBehaviour
 
     private void SetChat(string NNN)
     {
+        _npcNumberChatType = NNN;
         for (int i = 0; i < ChatList.Count; i++)
         {
             if (ChatList[i]["NpcNumber"].ToString() == NNN)
@@ -163,6 +165,6 @@ public class ConversationManager : MonoBehaviour
 
     private void InitializeNpcNumberChatType()
     {
-        NpcNumberChatType = ((int)Character.instance.MyJob + 1).ToString() + "-0";
+        NpcNumberChatType = ((int)Character.instance.MyJob).ToString() + "-0";
     }
 }

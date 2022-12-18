@@ -21,15 +21,18 @@ public class UISettingManager : UIManager
 
     private int CurSaveDataCount;
 
+    void Awake()
+    {
+        CurSaveDataCount = 0;
+    }
 
     protected override void Start()
     {
         base.Start();
 
-        CurSaveDataCount = 0;
-
-        InitializeSettingManager();
+        GameManager.instance.AddGenerateGameEvent(SetLoadExitButton);
         GameManager.instance.AddLoadEvent(SetActivePanel);
+        InitializeSettingManager();
     }
 
     protected override void StartUI()
@@ -71,9 +74,9 @@ public class UISettingManager : UIManager
         // 재개하기
         SettingButton[(int)UISettingButtonOrder.Resume].onClick.AddListener(() => { SetPause(true); });
         // 저장하기
-        SettingButton[(int)UISettingButtonOrder.Save].onClick.AddListener(GameManager.instance.SaveData);
+        SettingButton[(int)UISettingButtonOrder.Save].onClick.AddListener(() => { GameManager.instance.SaveData(); });
         // 불러오기
-        SettingButton[(int)UISettingButtonOrder.Load].onClick.AddListener(CheckLoadButton);
+        SettingButton[(int)UISettingButtonOrder.Load].onClick.AddListener(() => { CheckLoadButton(); });
 
         // Background Mute
         SettingToggle[(int)UISoundOrder.Background].onValueChanged.AddListener((value) => { SoundManager.instance.MuteAudioSource(UISoundOrder.Background, value); });
@@ -100,7 +103,8 @@ public class UISettingManager : UIManager
         //  일시정지 창 닫기
         SettingButton[(int)UISettingButtonOrder.Resume].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Pause); });
         // 로드 창 닫기
-        SettingButton[(int)UISettingButtonOrder.LoadClose].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Load); });
+        //SettingButton[(int)UISettingButtonOrder.LoadClose].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Load); });
+        SettingButton[(int)UISettingButtonOrder.LoadClose].onClick.AddListener(StartLoadExitButton);
         // 사운드 창 닫기
         SettingButton[(int)UISettingButtonOrder.SoundClose].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Sound); });
     }
@@ -131,11 +135,12 @@ public class UISettingManager : UIManager
 
 
     // 불러오기 기능
-    private void CheckLoadButton()
+    public void CheckLoadButton()
     {
         GameManager.instance.SetSaveDataCount();
-        Debug.Log(".json이 " + GameManager.instance.SaveDataCount + "개 있음");
+        //Debug.Log(".json이 " + GameManager.instance.SaveDataCount + "개 있음");
         // 실제 저장 데이터 수와 현재 저장데이터 수가 다르면
+        Debug.Log("pre " + CurSaveDataCount + " " + GameManager.instance.SaveDataCount);
         if (CurSaveDataCount != GameManager.instance.SaveDataCount)
         {
             // 버튼을 새로 생성
@@ -154,7 +159,22 @@ public class UISettingManager : UIManager
                 NewLoadButton.GetComponent<LoadButtonManager>().SetLoadButtonData(GameManager.instance.LoadSaveList(CurSaveDataCount));
                 int SaveDataButtonCount = CurSaveDataCount;
                 NewLoadButton.GetComponent<Button>().onClick.AddListener(() => { GameManager.instance.LoadData(SaveDataButtonCount); });
+                NewLoadButton.GetComponent<Button>().onClick.AddListener(() => { SetLoadExitButton(); });
             }
         }
+        Debug.Log("pro " + CurSaveDataCount + " " + GameManager.instance.SaveDataCount);
+    }
+
+    public void StartLoadExitButton()
+    {
+        SetActivePanel(UISettingPanelOrder.Load);
+        SetActivePanel();
+        Panel.transform.parent.gameObject.SetActive(!Panel.transform.parent.gameObject.activeSelf);
+    }
+
+    private void SetLoadExitButton()
+    {
+        SettingButton[(int)UISettingButtonOrder.LoadClose].onClick.RemoveAllListeners();
+        SettingButton[(int)UISettingButtonOrder.LoadClose].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Load); });
     }
 }

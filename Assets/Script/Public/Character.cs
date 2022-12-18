@@ -169,22 +169,17 @@ public class Character : MonoBehaviour
         CharacterStat._myStackByJob = new int[16];
         CharacterStat._myStackBySocialClass = new int[5];
 
-        CharacterStatSetting();
+        //CharacterStatSetting();
 
         _myPlayerController = gameObject.GetComponent<PlayerController>();
         _myItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
         EventUIChange = new UnityEvent<CharacterStatType>();
-    }
 
-
-    void Start()
-    {
         GameManager.instance.AddGameStartEvent(InitializeCharacter);
         GameManager.instance.AddDayEnd(EndCharacter);
         //GameManager.instance.AddDayStart(LoadCharacter);
         GameManager.instance.AddLoadEvent(LoadCharacter);
         //GameManager.instance.SceneMove.AddListener(SetCharacterPosition);
-
     }
 
     public void UIChangeAddListener(UnityAction<CharacterStatType> AddEvent)
@@ -363,7 +358,7 @@ public class Character : MonoBehaviour
             // 3. 나이 설정
             CharacterStat._myAge = 10;
             // 4. 진행도 설정
-            CharacterStat._todoProgress = 50;
+            CharacterStat._todoProgress = 0;
             // 5. 라운드 설정
             CharacterStat._myRound = 1;
             // 6. 위치 설정
@@ -375,10 +370,57 @@ public class Character : MonoBehaviour
             // 9. 작업 속도 설정
             CharacterStat.MyWorkSpeed = 1.0f;
         }
-        else
+    }
+
+    public void CharacterStatSetting(Job StartJob)
+    {
+        CharacterStat._myJob = StartJob;
+
+        switch (StartJob)
         {
-            // 이어 하기
+            case Job.Slayer:
+                CharacterStat._mySocialClass = SocialClass.Helot;
+                CharacterStat._activePoint = 100;
+                break;
+            case Job.Smith:
+            case Job.Bania:
+            case Job.MasterSmith:
+            case Job.Merchant:
+                CharacterStat._mySocialClass = SocialClass.Commons;
+                CharacterStat._activePoint = 100;
+                break;
+            case Job.Knight:
+            case Job.Scholar:
+            case Job.Masterknight:
+            case Job.Alchemist:
+                CharacterStat._mySocialClass = SocialClass.SemiNoble;
+                CharacterStat._activePoint = 100;
+                break;
+            case Job.Baron:
+            case Job.Viscount:
+            case Job.Earl:
+            case Job.Marquess:
+            case Job.Duke:
+            case Job.GrandDuke:
+                CharacterStat._mySocialClass = SocialClass.Noble;
+                CharacterStat._activePoint = 100;
+                break;
         }
+
+        // 1. 이름 설정
+        CharacterStat._myName = "Admin";
+        // 3. 나이 설정
+        CharacterStat._myAge = 10;
+        // 4. 진행도 설정
+        CharacterStat._todoProgress = 0;
+        // 5. 라운드 설정
+        CharacterStat._myRound = 1;
+        // 6. 위치 설정
+        CharacterStat._myMapNumber = "0007";
+        // 7. 스택 설정
+        InitializeStack();
+        // 9. 작업 속도 설정
+        CharacterStat.MyWorkSpeed = 1.0f;
     }
 
     public void InitializeCharacter()
@@ -583,13 +625,13 @@ public class Character : MonoBehaviour
     }
     public void SaveCharacter()
     {
-        Debug.Log("SaveCharacter : " + transform.position);
+        //Debug.Log("SaveCharacter : " + transform.position);
         _characterPosition = transform.position;
     }
 
     public void LoadCharacter()
     {
-        Debug.Log("LoadEvent - Character CharacterPosition : " + CharacterPosition);
+        //Debug.Log("LoadEvent - Character CharacterPosition : " + CharacterPosition);
         transform.position = CharacterPosition;
     }
 

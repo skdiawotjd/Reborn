@@ -226,7 +226,7 @@ public class MGDDRManager : MiniGameManager
             {
                 playTime = 0;
                 timeSlider.value = playTime;
-                for(int i = 0; i < keyStack; i++)
+                for(int i = keyCount; i < keyStack; i++)
                 {
                     arrowArray[i].DestroyImage();
                 }

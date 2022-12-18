@@ -53,9 +53,9 @@ public class SPUM_ExporterEditor : Editor
     float tAnimTimer;
     float tAnimTimerFactor;
     float timeSave;
-    float tValuee = 0 ;
+    /*float tValuee = 0 ;
     bool objectSelectionFoldout = false;
-    int objectSelectionToolbar = 0;
+    int objectSelectionToolbar = 0;*/
 
     void OnEnable()
     {

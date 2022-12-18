@@ -7,7 +7,14 @@ using UnityEngine.UI;
 public class PopUpUIManager : MonoBehaviour
 {
     [SerializeField]
-    private List<UIManager> UIManagerList;
+    private List<UIManager> _uIManagerList;
+    public List<UIManager> UIManagerList
+    {
+        get
+        {
+            return _uIManagerList;
+        }
+    }
 
     void Awake()
     {
@@ -69,11 +76,18 @@ public class PopUpUIManager : MonoBehaviour
         }
     }
 
-    public void VisibleSpecificUI(UIPopUpOrder Type)
+    public void SetActiveLoad()
     {
-        transform.GetChild((int)Type).gameObject.SetActive(true);
+        transform.GetChild((int)UIPopUpOrder.SettingPanel).gameObject.SetActive(!transform.GetChild((int)UIPopUpOrder.SettingPanel).gameObject.activeSelf);
+    }    
 
-        UIManagerList[(int)Type].SetActivePanel();
+    public void SetActiveLoadPanel()
+    {
+        SetActiveLoad();
+        UIManagerList[(int)UIPopUpOrder.SettingPanel].SetActivePanel();
+        UIManagerList[(int)UIPopUpOrder.SettingPanel].GetComponent<UISettingManager>().CheckLoadButton();
+        UIManagerList[(int)UIPopUpOrder.SettingPanel].GetComponent<UISettingManager>().SetActivePanel(UISettingPanelOrder.Load);
+        
     }
 
     private void ActiveUIManagerList()

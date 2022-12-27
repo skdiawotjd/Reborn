@@ -2991,6 +2991,7 @@ MonoBehaviour:
   questDeleteNumber: 
   questEnd: 0
   subQuestStart: 0
+  moveBG: 0
   EventCountChange:
     m_PersistentCalls:
       m_Calls: []

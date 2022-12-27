@@ -1,0 +1,7 @@
+﻿Number,KorName,Name,Rate,BoxNumber,ItemNumber,Percentage
+0,동광석,bronzeore,0.25,2,1001,25
+1,은광석,silverore,0.4,2,1002,15
+2,금광석,goldore,0.5,2,1003,10
+3,백금광석,platinumore,0.57,3,1004,7
+4,티타늄광석,titaniumore,0.61,3,1005,4
+5,철광석,ironore,1,1,1000,39

@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
         _characterControllable = CharacterInput;
         UIControllable = UIInput;
 
-        Debug.Log(_characterControllable + " " + UIControllable);
+        //Debug.Log(_characterControllable + " " + UIControllable);
     }
 
     private void EndPlayerController()
@@ -319,6 +319,20 @@ public class PlayerController : MonoBehaviour
         _characterControllable = true;
         UIControllable = true;;
     }    
+    public void SetRunState(bool state)
+    {
+        if (state)
+        {
+            Spum._anim.SetBool("Run", state);
+            Spum._anim.SetFloat("RunState", 0.5f);
+        }
+        else
+        {
+            Spum._anim.SetBool("Run", state);
+            Spum._anim.SetFloat("RunState", 0.0f);
+        }
+
+    }
 }
 
 

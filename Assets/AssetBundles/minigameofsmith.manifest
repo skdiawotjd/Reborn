@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 462022414
+CRC: 3022322267
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 05495cb83468ca9e68e128043ef26064
+    Hash: d176a77f073a4a3d170a3ff58882fe26
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c2c2c12bb5bd817fec8ed2ef5af6d6bb
+    Hash: ddf9707578952e80a3dfd638ebe96a45
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -23,6 +23,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 11500000, guid: 9afdeaae1bb27d6418d5d8cd5165faed, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 513f7efe56efea44bb9bb480bb3a18ab, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: dee00135f58173948b1f4e932384fb89, type: 3}
 - Class: 114
@@ -51,5 +53,7 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: SuperTiled2Unity
   ClassName: SuperTiled2Unity.SuperColliderComponent/Shape
 Assets:
+- Assets/Resources/Prefabs/Map/ExploreOfCave.prefab
 - Assets/Resources/Prefabs/Map/ForgeOfSmith.prefab
-Dependencies: []
+Dependencies:
+- C:/UnityR/Reborn/Assets/AssetBundles/minigameslayer

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JustChat.unity
     guid: b04186c43c786ff4c858b7a456445bbe
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: c0d04855b417bd748b7e2bbe376951cc
   m_configObjects: {}

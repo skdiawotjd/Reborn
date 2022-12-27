@@ -68,9 +68,9 @@ public class MainUIManager : MonoBehaviour
             // MyAge
             case 3:
                 break;*/
-            // TodoProgress
-            case CharacterStatType.TodoProgress:
-                TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
+            // Reputation
+            case CharacterStatType.Reputation:
+                TodoProgressImage.fillAmount = (float)Character.instance.Reputation / 100f;
                 break;
             /*// MyRound
             case 5:
@@ -102,7 +102,7 @@ public class MainUIManager : MonoBehaviour
         SettingButton.interactable = true;
         SkipDayButton.interactable = true;
 
-        ChangeMainUI(CharacterStatType.TodoProgress);
+        ChangeMainUI(CharacterStatType.Reputation);
         ChangeMainUI(CharacterStatType.ActivePoint);
 
         StartCoroutine(Timer());
@@ -110,7 +110,7 @@ public class MainUIManager : MonoBehaviour
 
     private void LoadUI()
     {
-        ChangeMainUI(CharacterStatType.TodoProgress);
+        ChangeMainUI(CharacterStatType.Reputation);
         ChangeMainUI(CharacterStatType.ActivePoint);
     }
 }

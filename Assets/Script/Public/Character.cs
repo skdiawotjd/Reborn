@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,13 +14,13 @@ public class Character : MonoBehaviour
         public SocialClass _mySocialClass;
         public Job _myJob;
         public int _myAge;
-        public int _todoProgress;
+        public int _reputation;
         public int _myRound;
         public string _myMapNumber;
         public int _activePoint;
         public List<string> _myItem;
         public List<int> _myItemCount;
-        public int[] _myStackBySocialClass;
+        //public int[] _myStackBySocialClass;
         public int[] _myStackByJob;
         public float MyWorkSpeed;
     }
@@ -63,11 +64,11 @@ public class Character : MonoBehaviour
             return CharacterStat._myAge;
         }
     }
-    public int TodoProgress
+    public int Reputation
     {
         get
         {
-            return CharacterStat._todoProgress;
+            return CharacterStat._reputation;
         }
     }
     public int MyRound
@@ -105,13 +106,13 @@ public class Character : MonoBehaviour
             return CharacterStat._myItemCount;
         }
     }
-    public int[] MyStackBySocialClass
+    /*public int[] MyStackBySocialClass
     {
         get
         {
             return CharacterStat._myStackBySocialClass;
         }
-    }
+    }*/
     public int[] MyStackByJob
     {
         get
@@ -166,8 +167,8 @@ public class Character : MonoBehaviour
         CharacterStat = new Stat();
         CharacterStat._myItem = new List<string>();
         CharacterStat._myItemCount = new List<int>();
-        CharacterStat._myStackByJob = new int[16];
-        CharacterStat._myStackBySocialClass = new int[5];
+        CharacterStat._myStackByJob = new int[6];
+        //CharacterStat._myStackBySocialClass = new int[5];
 
         //CharacterStatSetting();
 
@@ -200,9 +201,9 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - TodoProgress, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~24 - MyStack(SocialClass / Job)
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - Reputation, 5 - MyRound, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~17 - MyStack(SocialClass / Job)
     /// <para>
-    /// 직업 별 Type : 9 - 노예, 10 - 대장장이, 11 - 상인, 12 - 명장, 13 - 대상인, 14 - 기사, 15 - 학자, 16 - 기사단장, 17 - 연금술사, 18 - 귀족, 19 - 왕
+    /// 직업 별 Type : 9 - 기사, 10 - 학자, 11 - 하급귀족, 12 - 중급귀족, 13 - 상급귀족, 14 - 왕
     /// </para>
     /// </summary> 
     public void SetCharacterStat<T>(CharacterStatType Type, T value)
@@ -234,16 +235,16 @@ public class Character : MonoBehaviour
             case CharacterStatType.MyAge:
                 CharacterStat._myAge = StatType;
                 break;
-            // TodoProgress
-            case CharacterStatType.TodoProgress:
-                if(CharacterStat._todoProgress + StatType <= 100)
+            // Reputation
+            case CharacterStatType.Reputation:
+                if(CharacterStat._reputation + StatType <= 100)
                 {
-                    CharacterStat._todoProgress += StatType;
+                    CharacterStat._reputation += StatType;
                 }
                 else
                 {
-                    CharacterStat._todoProgress = 100;
-                    Debug.Log("TodoProgress가 100이 넘음");
+                    CharacterStat._reputation = 100;
+                    Debug.Log("Reputation가 100이 넘음");
                 }
                 break;
             // MyRound
@@ -307,11 +308,14 @@ public class Character : MonoBehaviour
                     }
                 }
                 break;
-            // MyStackBySocialClass
+            case CharacterStatType InputType when (InputType >= CharacterStatType.Knight):
+                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
+                break;
+/*            // MyStackBySocialClass
             // MyStackByJob
             case CharacterStatType.Slayer:
-                CharacterStat._myStackBySocialClass[0] += Mathf.Abs(StatType);
-                CharacterStat._myStackByJob[(int)Type - 8] += StatType;
+                //CharacterStat._myStackBySocialClass[0] += Mathf.Abs(StatType);
+                //CharacterStat._myStackByJob[(int)Type - 8] += StatType;
                 break;
             case CharacterStatType.Smith:
             case CharacterStatType.Bania:
@@ -339,7 +343,7 @@ public class Character : MonoBehaviour
             case CharacterStatType.King:
                 CharacterStat._myStackBySocialClass[4] += Mathf.Abs(StatType);
                 CharacterStat._myStackByJob[(int)Type - 8] += StatType;
-                break;
+                break;*/
         }
 
         EventUIChange.Invoke(TemType);
@@ -358,7 +362,7 @@ public class Character : MonoBehaviour
             // 3. 나이 설정
             CharacterStat._myAge = 10;
             // 4. 진행도 설정
-            CharacterStat._todoProgress = 0;
+            CharacterStat._reputation = 0;
             // 5. 라운드 설정
             CharacterStat._myRound = 1;
             // 6. 위치 설정
@@ -384,19 +388,29 @@ public class Character : MonoBehaviour
                 break;
             case Job.Smith:
             case Job.Bania:
-            case Job.MasterSmith:
-            case Job.Merchant:
+            /*case Job.MasterSmith:
+            case Job.Merchant:*/
                 CharacterStat._mySocialClass = SocialClass.Commons;
                 CharacterStat._activePoint = 100;
                 break;
             case Job.Knight:
             case Job.Scholar:
-            case Job.Masterknight:
-            case Job.Alchemist:
+            /*case Job.Masterknight:
+            case Job.Alchemist:*/
                 CharacterStat._mySocialClass = SocialClass.SemiNoble;
                 CharacterStat._activePoint = 100;
                 break;
-            case Job.Baron:
+            case Job.LowNobility:
+            case Job.MiddleNobility:
+            case Job.HighNobility:
+                CharacterStat._mySocialClass = SocialClass.Noble;
+                CharacterStat._activePoint = 100;
+                break;
+            case Job.King:
+                CharacterStat._mySocialClass = SocialClass.King;
+                CharacterStat._activePoint = 100;
+                break;
+/*            case Job.Baron:
             case Job.Viscount:
             case Job.Earl:
             case Job.Marquess:
@@ -404,7 +418,7 @@ public class Character : MonoBehaviour
             case Job.GrandDuke:
                 CharacterStat._mySocialClass = SocialClass.Noble;
                 CharacterStat._activePoint = 100;
-                break;
+                break;*/
         }
 
         // 1. 이름 설정
@@ -412,7 +426,7 @@ public class Character : MonoBehaviour
         // 3. 나이 설정
         CharacterStat._myAge = 10;
         // 4. 진행도 설정
-        CharacterStat._todoProgress = 0;
+        CharacterStat._reputation = 0;
         // 5. 라운드 설정
         CharacterStat._myRound = 1;
         // 6. 위치 설정
@@ -438,20 +452,44 @@ public class Character : MonoBehaviour
         {
             CharacterStat._myStackByJob[i] = 0;
         }
-        for (int i = 0; i < MyStackBySocialClass.Length; i++)
+        /*for (int i = 0; i < MyStackBySocialClass.Length; i++)
         {
             CharacterStat._myStackBySocialClass[i] = 0;
-        }
+        }*/
     }
 
     public void CheckStack()
     {
-        for(int i = 0; i < MyStackBySocialClass.Length; i++)
+        //for (int i = 0; i < MyStackBySocialClass.Length; i++)
+        for (int CheckStack = 0; CheckStack < MyStackByJob.Length; CheckStack++)
         {
             //Debug.Log("MyStackBySocialClass[" + i + "] = " + MyStackBySocialClass[i]);
-            switch (i)
+            if(MyStackByJob[CheckStack] >= 50)
             {
-                // 노예 스택
+                switch(CheckStack)
+                {
+                    case 0:
+                    case 1:
+                        CharacterStat._mySocialClass = SocialClass.SemiNoble;
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        CharacterStat._mySocialClass = SocialClass.Noble;
+                        break;
+                    case 5:
+                        CharacterStat._mySocialClass = SocialClass.King;
+                        break;
+                }
+                CharacterStat._myJob = (Job)(CheckStack + 3);
+
+                InitializeStack();
+            }
+
+
+            switch (CheckStack)
+            {
+/*                // 노예 스택
                 case 0:
                     if (MyStackBySocialClass[i] == 1)
                     {
@@ -613,7 +651,7 @@ public class Character : MonoBehaviour
                         CharacterStat._myJob = Job.King;
                         InitializeStack();
                     }
-                    break;
+                    break;*/
             }
         }    
     }

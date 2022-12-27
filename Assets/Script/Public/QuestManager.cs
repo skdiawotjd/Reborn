@@ -108,9 +108,9 @@ public class QuestManager : MonoBehaviour
                         case "0002": // ex) 직업 Slayer의 전용퀘스트일 경우
                         case "0005":
                         case "0105":
-                            Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.TodoProgress);
-                            Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 2); // todoProgress + 2
-                            Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.TodoProgress);
+                            Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.Reputation);
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
+                            Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.Reputation);
                             break;
                         default:
                             Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
@@ -123,7 +123,7 @@ public class QuestManager : MonoBehaviour
                         case "0003": 
                         case "0104":
                         case "0208":
-                            Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 2); // todoProgress + 2
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
                             break;
                         default:
                             Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
@@ -136,7 +136,7 @@ public class QuestManager : MonoBehaviour
                         case "0004": 
                         case "0108":
                         case "0205":
-                            Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 2); // todoProgress + 2
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
                             break;
                         default:
                             Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
@@ -149,7 +149,7 @@ public class QuestManager : MonoBehaviour
                         case "0007": 
                         case "0102":
                         case "0103":
-                            Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 2); // todoProgress + 2
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
                             break;
                         default:
                             Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
@@ -162,7 +162,7 @@ public class QuestManager : MonoBehaviour
                         case "0202": 
                         case "0305":
                         case "0107":
-                            Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, 2); // todoProgress + 2
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
                             break;
                         default:
                             Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업

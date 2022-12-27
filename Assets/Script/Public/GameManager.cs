@@ -300,9 +300,9 @@ public class GameManager : MonoBehaviour
     // 분기 판단
     private void Quarter()
     {
-        if (Character.instance.TodoProgress == 100)
+        if (Character.instance.Reputation == 100)
         {
-            if(Days == 0)
+            /*if(Days == 0)
             {
                 //QuestManager.instance.QuestGive();
                 NewDay();
@@ -353,11 +353,11 @@ public class GameManager : MonoBehaviour
                     _round++;
                     GameStart();
                 }
-            }
+            }*/
         }
-        else if (Character.instance.TodoProgress < 100)
+        else if (Character.instance.Reputation < 100)
         {
-            if (Days == 3)
+            /*if (Days == 3)
             {
                 if (Character.instance.MyJob >= Job.GrandDuke)
                 {
@@ -422,10 +422,42 @@ public class GameManager : MonoBehaviour
                     // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
                     GameStart();
                 }
-            }
+            }*/
         }
 
-        Character.instance.SetCharacterStat(CharacterStatType.TodoProgress, -Character.instance.TodoProgress);
+        switch (Days)
+        {
+            case 3:
+            case 6:
+                if (Character.instance.Reputation >= 10 / Days)
+                {
+                    // 리본 모양 변경 기능
+                }
+                else
+                {
+                    // 내 직업에 맞는 경고 대사를 위한 NpcNumberChatType set
+                }
+                NewDay();
+                break;
+            case 9:
+                if (Character.instance.Reputation == 100)
+                {
+                    Character.instance.CheckStack();
+                    _days = 0;
+                    _round++;
+                    GameStart();
+                }
+                else
+                {
+                    // 사망
+                    Debug.Log("사망사망사망사망사망사망사망사망사망사망");
+                }
+                break;
+        }
+
+
+
+        Character.instance.SetCharacterStat(CharacterStatType.Reputation, -Character.instance.Reputation);
     }
 
     // 하루 시작 과정

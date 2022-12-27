@@ -99,7 +99,7 @@ public class UIMainManager : UIManager
             // TodoProgress
             case UIMainImageOrders.TodoProgress:
                 //TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
-                MainImage[(int)UIMainImageOrders.TodoProgress].fillAmount = (float)Character.instance.TodoProgress / 100f;
+                MainImage[(int)UIMainImageOrders.TodoProgress].fillAmount = (float)Character.instance.Reputation / 100f;
                 break;    
         }
     }

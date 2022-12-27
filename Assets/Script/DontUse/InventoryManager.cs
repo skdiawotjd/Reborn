@@ -51,8 +51,8 @@ public class InventoryManager : MonoBehaviour
                 CharacterStatArray[3].text = Character.instance.MyAge.ToString();
                 break;
             // TodoProgress
-            case CharacterStatType.TodoProgress:
-                CharacterStatArray[4].text = Character.instance.TodoProgress.ToString();
+            case CharacterStatType.Reputation:
+                CharacterStatArray[4].text = Character.instance.Reputation.ToString();
                 break;
             case CharacterStatType.MyItem:
                 // 인벤토리에 아이템이 실제 아이템보다 적을 때

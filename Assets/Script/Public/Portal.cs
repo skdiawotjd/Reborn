@@ -104,6 +104,11 @@ public class Portal : MonoBehaviour
                 Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0401"); // 명장의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
                 break;
+            case 13:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "4444"); // 오브젝트
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
+                break;
             default:
                 break;
         }

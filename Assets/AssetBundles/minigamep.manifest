@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2712041418
+CRC: 1052351771
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d6147225996045413e32a1af26f1d789
+    Hash: aa5b140b834ea91bcef8e438edff067e
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 6ad61df1ca1f53ebd82a8cf4128ed702
+    Hash: 9303f17cfc44462edd1075d83a52858d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -47,6 +47,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: cba787c401807cb49a8425295335c840, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: aa7184577f797874cb56979fca5731bc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 03327f67140ed4948b33ce8dd4902910, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 210
@@ -63,6 +65,7 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.UnityEvent
 Assets:
+- Assets/Resources/Public/ExploreManager.prefab
 - Assets/Resources/Public/MGQuizManager.prefab
 - Assets/Resources/Prefabs/NPC/MiniGameNPC.prefab
 - Assets/Resources/Public/MGObjectManager.prefab

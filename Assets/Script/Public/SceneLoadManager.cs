@@ -108,6 +108,9 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.name = "DoorToTown";
                 temObject.GetComponent<Portal>().ChangeSceneName(5);
                 temObject.GetComponent<SpriteRenderer>().color = new Color(90, 0, 255, 150);
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(5, -4, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToExplore";
+                temObject.GetComponent<Portal>().ChangeSceneName(13);
                 temNPC = Instantiate(bundle.LoadAsset<GameObject>("Noble"), new Vector3(1, -5, transform.position.z), Quaternion.identity) as GameObject;
                 temNPC = Instantiate(bundleP.LoadAsset<GameObject>("ButlerNPC"), new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
 
@@ -470,7 +473,17 @@ public class SceneLoadManager : MonoBehaviour
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;
-            case "0405": // 노예의 농사
+            case "4444": // 대장장이의 탐험
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("ExploreOfCave"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(temBundle.LoadAsset<GameObject>("ExploreManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "ExploreManager";
+
+                bundle.Unload(false);
+                temBundle.Unload(false);
                 break;
 
             default:

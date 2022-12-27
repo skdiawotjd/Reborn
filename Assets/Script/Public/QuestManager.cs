@@ -17,6 +17,7 @@ public class QuestManager : MonoBehaviour
     public string questDeleteNumber;
     public bool questEnd;
     public bool subQuestStart = false;
+    public bool moveBG;
     private int temNumber;
     //private QuestUIManager QUIManager;
 
@@ -40,6 +41,7 @@ public class QuestManager : MonoBehaviour
         UniqueQuestList = CSVReader.Read("UniqueQuest");
         GiveQuest();
         //QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<QuestUIManager>();
+        moveBG = true;
     }
 
     void Start()
@@ -203,6 +205,10 @@ public class QuestManager : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    public void ChangeMoveBG(bool move) // 탐험에서 배경이 움직일 지 안 움직일지를 판단하는 변수를 바꿔준다.
+    {
+        moveBG = move;
     }
 }
 

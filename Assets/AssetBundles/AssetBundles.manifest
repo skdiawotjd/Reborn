@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1027088465
+CRC: 3031344062
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -19,7 +19,8 @@ AssetBundleManifest:
       Dependencies: {}
     Info_5:
       Name: minigameofsmith
-      Dependencies: {}
+      Dependencies:
+        Dependency_0: minigameslayer
     Info_6:
       Name: minigameofbania
       Dependencies: {}

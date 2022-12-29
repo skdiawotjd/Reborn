@@ -55,9 +55,8 @@ public class StartManager : MonoBehaviour
 
     private void ClickNewGame()
     {
-        PopUpUIManager.SetActiveLoad();
+        //PopUpUIManager.SetActiveLoad();
         Job StartJob = GameManager.instance.CanPlayJob();
-
         switch (StartJob)
         {
             case Job.Slayer :

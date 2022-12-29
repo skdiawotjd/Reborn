@@ -19,7 +19,8 @@ public enum Job
 }*/
 public enum CharacterStatType
 {
-    MySocialClass = 1, MyJob, MyAge, Reputation, MyRound, MyPositon, ActivePoint, MyItem,
+    MySocialClass = 1, MyJob, MyAge, Reputation, Gold,//MyRound,
+    MyPositon, ActivePoint, MyItem,
     Knight, Scholar,
     LowNobility, MiddleNobility, HighNobility,
     King

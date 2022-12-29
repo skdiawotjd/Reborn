@@ -443,6 +443,7 @@ public class GameManager : MonoBehaviour
                 if (Character.instance.Reputation == 100)
                 {
                     Character.instance.CheckStack();
+                    Character.instance.SetCharacterStat(CharacterStatType.Reputation, -Character.instance.Reputation);
                     _days = 0;
                     _round++;
                     GameStart();
@@ -454,10 +455,6 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-
-
-
-        Character.instance.SetCharacterStat(CharacterStatType.Reputation, -Character.instance.Reputation);
     }
 
     // 하루 시작 과정
@@ -475,7 +472,7 @@ public class GameManager : MonoBehaviour
 
     private void NextCycle()
     {
-        switch (Character.instance.MyRound)
+        /*switch (Round)
         {
             case 1:
                 _isdayStart = true;
@@ -486,7 +483,11 @@ public class GameManager : MonoBehaviour
                 break;
             case 3:
                 break;
-        }
+        }*/
+
+        _isdayStart = true;
+        //Debug.Log(Days + "일 시작");
+        DayStart.Invoke();
     }
 
     private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
@@ -623,7 +624,7 @@ public class GameManager : MonoBehaviour
         {
             try
             {
-                if (int.Parse(SaveList[i]["Round"].ToString()) > 1)
+                if (int.Parse(SaveList[i]["Round"].ToString()) > 0)
                 {
                     if(int.Parse(SaveList[i]["Job"].ToString()) > highList)
                     {

@@ -203,6 +203,31 @@ public class PlayerController : MonoBehaviour
         transform.position = FinalPosition;
     }
 
+    public void SetPlayerPosition(int k)
+    {
+        switch(k)
+        {
+            //аб
+            case 0:
+                InputX = 1f;
+                break;
+            //©Л
+            case 1:
+                InputX = -1f;
+                break;
+            //╩С
+            case 2:
+                InputY = 1f;
+                break;
+            //го
+            case 3:
+                InputY = -1f;
+                break;
+
+        }
+        Move();
+    }
+
     public void PlayerRotation(Direction NewDirection)
     {
         Arrow.x = (float)NewDirection;

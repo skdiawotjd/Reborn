@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UISettingManager : UIManager
@@ -86,6 +86,9 @@ public class UISettingManager : UIManager
         SettingSlider[(int)UISoundOrder.Background].onValueChanged.AddListener((value) => { SoundManager.instance.VolumeAudioSource(UISoundOrder.Background, value); });
         // Effect Volume
         SettingSlider[(int)UISoundOrder.Background].onValueChanged.AddListener((value) => { SoundManager.instance.VolumeAudioSource(UISoundOrder.Background, value); });
+        
+        // 메뉴로 가기
+        SettingButton[(int)UISettingButtonOrder.BackOk].onClick.AddListener(() => { MoveToStartScene(); });
 
         // 열기
         // 각 창 열기
@@ -107,6 +110,8 @@ public class UISettingManager : UIManager
         SettingButton[(int)UISettingButtonOrder.LoadClose].onClick.AddListener(StartLoadExitButton);
         // 사운드 창 닫기
         SettingButton[(int)UISettingButtonOrder.SoundClose].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Sound); });
+        // 사운드 창 닫기
+        SettingButton[(int)UISettingButtonOrder.BackCancel].onClick.AddListener(() => { SetActivePanel(UISettingPanelOrder.Back); });
     }
 
     // 창 여닫기 기능
@@ -140,7 +145,7 @@ public class UISettingManager : UIManager
         GameManager.instance.SetSaveDataCount();
         //Debug.Log(".json이 " + GameManager.instance.SaveDataCount + "개 있음");
         // 실제 저장 데이터 수와 현재 저장데이터 수가 다르면
-        Debug.Log("pre " + CurSaveDataCount + " " + GameManager.instance.SaveDataCount);
+        //Debug.Log("pre " + CurSaveDataCount + " " + GameManager.instance.SaveDataCount);
         if (CurSaveDataCount != GameManager.instance.SaveDataCount)
         {
             // 버튼을 새로 생성
@@ -162,7 +167,15 @@ public class UISettingManager : UIManager
                 NewLoadButton.GetComponent<Button>().onClick.AddListener(() => { SetLoadExitButton(); });
             }
         }
-        Debug.Log("pro " + CurSaveDataCount + " " + GameManager.instance.SaveDataCount);
+        //Debug.Log("pro " + CurSaveDataCount + " " + GameManager.instance.SaveDataCount);
+    }
+
+    private void MoveToStartScene()
+    {
+        SceneManager.LoadScene("Start");
+
+        SetActivePanel(UISettingPanelOrder.Back);
+        SetActivePanel();
     }
 
     public void StartLoadExitButton()

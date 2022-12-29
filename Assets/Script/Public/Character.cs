@@ -225,6 +225,10 @@ public class Character : MonoBehaviour
                     Debug.Log("Reputation가 100이 넘음");
                 }
                 break;
+            // Gold
+            case CharacterStatType.Gold:
+                CharacterStat._gold += StatType;
+                break;
             // MyPosition
             case CharacterStatType.MyPositon:
                 CharacterStat._myMapNumber = StatTypeString;
@@ -304,13 +308,15 @@ public class Character : MonoBehaviour
             CharacterStat._myAge = 10;
             // 4. 진행도 설정
             CharacterStat._reputation = 0;
-            // 5. 위치 설정
+            // 5. 골드 설정
+            CharacterStat._gold = 0;
+            // 6. 위치 설정
             CharacterStat._myMapNumber = "0007";
-            // 6. 활동력 설정
+            // 7. 활동력 설정
             CharacterStat._activePoint = 100;
-            // 7. 스택 설정
+            // 8. 스택 설정
             InitializeStack();
-            // 8. 작업 속도 설정
+            // 9. 작업 속도 설정
             CharacterStat.MyWorkSpeed = 1.0f;
         }
     }
@@ -354,12 +360,14 @@ public class Character : MonoBehaviour
         CharacterStat._myAge = 10;
         // 4. 진행도 설정
         CharacterStat._reputation = 0;
-        // 5. 위치 설정
+        // 5. 골드 설정
+        CharacterStat._gold = 0;
+        // 6. 위치 설정
         CharacterStat._myMapNumber = "0007";
 
-        // 7. 스택 설정
+        // 8. 스택 설정
         InitializeStack();
-        // 8. 작업 속도 설정
+        // 9. 작업 속도 설정
         CharacterStat.MyWorkSpeed = 1.0f;
     }
 

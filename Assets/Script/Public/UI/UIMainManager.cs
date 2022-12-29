@@ -86,7 +86,7 @@ public class UIMainManager : UIManager
             // Qurter
             case UIMainImageOrders.Qurter:
                 //ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
-                MainImage[(int)UIMainImageOrders.Qurter].fillAmount = 1f - GameManager.instance.Days * 0.1f;
+                MainImage[(int)UIMainImageOrders.Qurter].fillAmount = 1f - (float)(GameManager.instance.Days - 1) / 9f;
                 break;
             // ActivePoint
             case UIMainImageOrders.ActivePoint:

@@ -53,27 +53,19 @@ public class CharacterSelectManager : MonoBehaviour
         {
             case 1:
             case 2:
-                ButtonCount = 3;
+                ButtonCount = 2;
                 break;
             case 3:
             case 4:
-                ButtonCount = 5;
+                ButtonCount = 4;
                 break;
             case 5:
             case 6:
-                ButtonCount = 7;
-                break;
             case 7:
+                ButtonCount = 6;
+                break;
             case 8:
                 ButtonCount = 9;
-                break;
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-                ButtonCount = (int)StartJob;
                 break;
         }
 

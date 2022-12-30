@@ -17,8 +17,9 @@ public class ConversationManager : MonoBehaviour
     List<Dictionary<string, object>> ChatList;
     public BasicNpc CurNpc;
     private bool IsCanChat; // 대화를 시작할 수 있는지
-    private int ChatCount; // CSV 상 대화가 몇번 째에 있는지
+    private int _chatCount; // CSV 상 대화가 몇번 째에 있는지
     private int _conversationCount; // 대화가 몇번 진행 되었는지
+    private int _totalCount; // 대화가 몇번 진행 되었는지
     public string _npcNumberChatType; // "NPC넘버-대화넘버"
 
     public int ConversationCount
@@ -26,6 +27,13 @@ public class ConversationManager : MonoBehaviour
         get
         {
             return _conversationCount;
+        }
+    }
+    public int TotalCount
+    {
+        get
+        {
+            return _totalCount;
         }
     }
     public string NpcNumberChatType
@@ -59,7 +67,7 @@ public class ConversationManager : MonoBehaviour
     private void InitializeConversationManager()
     {
         IsCanChat = false;
-        ChatCount = -1;
+        _chatCount = -1;
         _conversationCount = -1;
         NpcNumberChatType = "0-0";
         ConversationPanel.gameObject.SetActive(false);
@@ -73,7 +81,8 @@ public class ConversationManager : MonoBehaviour
             if (ChatList[i]["NpcNumber"].ToString() == NNN)
             {
                 IsCanChat = true;
-                ChatCount = i;
+                _chatCount = i;
+                _totalCount = ChatList[_chatCount].Count;
                 _conversationCount = 0;
                 break;
             }
@@ -118,15 +127,15 @@ public class ConversationManager : MonoBehaviour
             yield return new WaitForSeconds(0.016f);
         }
 
-        //Debug.Log("대사 시작 3 (" + ConversationCount + " < " + (ChatList[ChatCount].Count - 1) + ") 이면");
-        if (ConversationCount < ChatList[ChatCount].Count - 1)
+        //Debug.Log("대사 시작 3 ConversationCount가 (" + ConversationCount + " < " + (ChatList[_chatCount].Count - 1) + ") 이면");
+        if (ConversationCount < ChatList[_chatCount].Count - 1)
         {
             if (!ConversationPanel.gameObject.activeSelf)
             {
                 ConversationPanel.gameObject.SetActive(true);
             }
-            //Debug.Log("대사 시작 4 - " + "ChatList[" + ChatCount + "][Context" + ConversationCount + "]");
-            ContentText.text = ChatList[ChatCount]["Context" + ConversationCount].ToString();
+            //Debug.Log("대사 시작 4 - " + "ChatList[" + _chatCount + "][Context" + ConversationCount + "] 출력");
+            ContentText.text = ChatList[_chatCount]["Context" + ConversationCount].ToString();
             _conversationCount++;
             StartCoroutine(SetConversationNext(true, 0.1f));
         }
@@ -139,12 +148,12 @@ public class ConversationManager : MonoBehaviour
             {
                 CurNpc.FunctionEnd();
             }
-            if (ConversationCount == ChatList[ChatCount].Count - 1)
+            if (ConversationCount == ChatList[_chatCount].Count - 1)
             {
-                //Debug.Log("대사 시작 6 - 추가로 이어질 대사 없음");
-                Character.instance.SetCharacterInput(true, true);
+                //Debug.Log("대사 시작 6 - 대사 끝");
                 StartCoroutine(SetConversationNext(false, 0.4f));
                 IsCanChat = false;
+                Character.instance.SetCharacterInput(true, true);
                 _conversationCount = -1;
             }
         }

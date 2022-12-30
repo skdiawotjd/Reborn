@@ -374,7 +374,7 @@ public class Character : MonoBehaviour
     public void InitializeCharacter()
     {
         //InitializeMapNumber
-        CharacterStat._myMapNumber = "0" + ((int)(MySocialClass + 1)).ToString() + "07";
+        CharacterStat._myMapNumber = "0" + ((int)(MySocialClass)).ToString() + "07";
         // 3. 나이 설정
         CharacterStat._myAge = 10;
         // 6. 활동력 설정

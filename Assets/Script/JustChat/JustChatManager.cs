@@ -24,7 +24,7 @@ public class JustChatManager : MonoBehaviour
     {
         Character.instance.SetCharacterInput(false, false);
 
-        SetJustChat();
+        //SetJustChat();
     }
 
     private void SetJustChat()
@@ -150,6 +150,6 @@ public class JustChatManager : MonoBehaviour
         {
             yield return WaitFixedUpdate;
         }
-        Character.instance.SetCharacterInput(false, false);
+        Character.instance.SetCharacterInput(true, false);
     }
 }

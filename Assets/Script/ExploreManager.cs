@@ -140,6 +140,7 @@ public class ExploreManager : MonoBehaviour
             case "0":
             case "1":
             case "2":
+            case "7":
             case "8":
                 floatingOptionManager.GenerateOptionButton(true, ExploreAction);
                 break;

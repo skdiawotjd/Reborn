@@ -155,15 +155,16 @@ public class PlayerController : MonoBehaviour
     {
         if (CharacterControllable)
         {
+            InputX = Input.GetAxisRaw("Horizontal");
+            InputY = Input.GetAxisRaw("Vertical");
+
             Move();
         }
     }
 
     private void Move()
     {
-        InputX = Input.GetAxisRaw("Horizontal");
-        InputY = Input.GetAxisRaw("Vertical");
-
+        //Debug.Log("Move");
         if (InputX == 0 && InputY == 0)
         {
             Spum._anim.SetBool("Run", false);
@@ -202,18 +203,27 @@ public class PlayerController : MonoBehaviour
 
         transform.position = FinalPosition;
     }
-
+    /// <summary>
+    /// 0 - ÁÂ, 1 - ¿ì, 2 - »ó, 3 - ÇÏ
+    /// </summary>
     public void SetPlayerPosition(int k)
     {
         switch(k)
         {
+            //Á¤Áö
+            case -1:
+                InputX = 0f;
+                InputY = 0f;
+                break;
             //ÁÂ
             case 0:
                 InputX = 1f;
+                InputY = 0f;
                 break;
             //¿ì
             case 1:
                 InputX = -1f;
+                InputY = 0f;
                 break;
             //»ó
             case 2:
@@ -226,6 +236,11 @@ public class PlayerController : MonoBehaviour
 
         }
         Move();
+    }
+
+    public void SetInputX()
+    {
+        InterActionCollider.enabled = true;
     }
 
     public void PlayerRotation(Direction NewDirection)

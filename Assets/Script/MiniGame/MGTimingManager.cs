@@ -50,7 +50,7 @@ public class MGTimingManager : MiniGameManager
                     good.ChangeSource(false);
                     Debug.Log("½ÇÆÐ");
                 }
-                StartCoroutine("WaitingTime", 0.5f);
+                StartCoroutine("CountTime", 0.5f);
                 timingRound++;
                 if (timingRound < 5)
                 {
@@ -130,5 +130,9 @@ public class MGTimingManager : MiniGameManager
                 //timingGameActive = false;
             }
         }
+    }
+    public override IEnumerator CountTime(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
     }
 }

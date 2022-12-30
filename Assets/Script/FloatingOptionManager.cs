@@ -34,7 +34,13 @@ public class FloatingOptionManager : MonoBehaviour
         {
             temButton[i] = Instantiate(optionButtonPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button;
             int index = i;
-            temButton[i].onClick.AddListener(() => { addEvent(index); });
+            if (i == 0 && !ItIsBox) // 몬스터 일 시
+            {
+                temButton[i].onClick.AddListener(() => { addEvent(3); });
+            } else
+            {
+                temButton[i].onClick.AddListener(() => { addEvent(index); });
+            }
             //temButton[i].onClick.AddListener(() => { Debug.Log(index); });
             temButton[i].transform.SetParent(optionPanel.transform, false);
             switch(i)

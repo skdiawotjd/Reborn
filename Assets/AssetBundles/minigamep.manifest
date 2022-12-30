@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1052351771
+CRC: 1985818530
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: aa5b140b834ea91bcef8e438edff067e
+    Hash: d7e9f02d2bb811e78266ebdb5fd2da7a
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9303f17cfc44462edd1075d83a52858d
+    Hash: 0c1592401f8514e70d584e01c5ce5be1
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -19,6 +19,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 50
+  Script: {instanceID: 0}
 - Class: 61
   Script: {instanceID: 0}
 - Class: 74
@@ -28,7 +30,13 @@ ClassTypes:
 - Class: 95
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 11500000, guid: 03327f67140ed4948b33ce8dd4902910, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 41302e45b5a3c494ab6d47e061a7be85, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 28ac21711b0ec40a0812d33a586eb7ec, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cbb8a163c9b0eab428cba3542027a048, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 60a195100e1505b418545d662c3b7973, type: 3}
 - Class: 114
@@ -44,11 +52,15 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: c1bb49e4628aefa4c8631534d5470610, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 90e5bcf6073ad28418a418c30be4a872, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: cba787c401807cb49a8425295335c840, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: aa7184577f797874cb56979fca5731bc, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 03327f67140ed4948b33ce8dd4902910, type: 3}
+  Script: {fileID: 11500000, guid: 09f48edbab7d8954cb0daa767982aded, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: df531604e2f6bab4f9766a2ea58e73d3, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 210
@@ -69,6 +81,8 @@ Assets:
 - Assets/Resources/Public/MGQuizManager.prefab
 - Assets/Resources/Prefabs/NPC/MiniGameNPC.prefab
 - Assets/Resources/Public/MGObjectManager.prefab
+- Assets/Resources/Public/BattleManager.prefab
 - Assets/Resources/Public/MGDDRManager.prefab
+- Assets/Resources/Prefabs/NPC/MonsterNPC.prefab
 - Assets/Resources/Public/MGTimingManager.prefab
 Dependencies: []

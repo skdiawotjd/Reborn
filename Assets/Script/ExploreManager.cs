@@ -140,14 +140,15 @@ public class ExploreManager : MonoBehaviour
             case "0":
             case "1":
             case "2":
+            case "3":
+            case "4":
+            case "5":
             case "7":
-            case "8":
                 floatingOptionManager.GenerateOptionButton(true, ExploreAction);
                 break;
             case "6":
                 floatingOptionManager.GenerateOptionButton(false, ExploreAction);
                 break;
-
         }
         floatingOptionManager.optionPanel.gameObject.SetActive(true);
     }

@@ -52,6 +52,8 @@ public class SceneLoadManager : MonoBehaviour
     private GameObject temMap;
     private GameObject temNPC;
     private GameObject temObject;
+    private BattleManager temBattleManager;
+    private ExploreManager temExploreManager;
 
     AssetBundle bundle;
     AssetBundle bundleP;
@@ -479,8 +481,17 @@ public class SceneLoadManager : MonoBehaviour
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ExploreOfCave"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
+                temObject = Instantiate(temBundle.LoadAsset<GameObject>("BattleManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temBattleManager = temObject.GetComponent<BattleManager>();
+                temBattleManager.name = "BattleManager";
+                temObject.gameObject.SetActive(true);
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("ExploreManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-                temObject.name = "ExploreManager";
+                temExploreManager = temObject.GetComponent<ExploreManager>();
+                temExploreManager.name = "ExploreManager";
+
+                temBattleManager.SetexploreManager(temExploreManager);
+                temExploreManager.SetBattleManager(temBattleManager);
+
 
                 bundle.Unload(false);
                 temBundle.Unload(false);

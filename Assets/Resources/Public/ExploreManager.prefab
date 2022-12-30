@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageManager: {fileID: 0}
+  floatingOptionManager: {fileID: 0}
+  battleManager: {fileID: 8584396915201781847, guid: f122c23ca4c287646a0918451665fc6a, type: 3}
   randomObject: {fileID: 8966558649478092667, guid: 60a65d30e779e0045a11320b54de614b, type: 3}

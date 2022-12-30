@@ -371,7 +371,10 @@ public class PlayerController : MonoBehaviour
             Spum._anim.SetBool("Run", state);
             Spum._anim.SetFloat("RunState", 0.0f);
         }
-
+    }
+    public float GetPlayerDirection()
+    {
+        return RotationObject.transform.localScale.x;
     }
 }
 

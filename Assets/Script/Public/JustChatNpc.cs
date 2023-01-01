@@ -12,9 +12,8 @@ public class JustChatNpc : BasicNpc
     protected override void FunctionStart()
     {
         //Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
-        ChatType = 0;
         ConversationManager.CurNpc = this;
-        ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-0";
+        ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
     }
 
     public override void FunctionEnd()

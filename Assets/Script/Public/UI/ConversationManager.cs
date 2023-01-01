@@ -152,9 +152,9 @@ public class ConversationManager : MonoBehaviour
             {
                 //Debug.Log("대사 시작 6 - 대사 끝");
                 StartCoroutine(SetConversationNext(false, 0.4f));
-                IsCanChat = false;
                 Character.instance.SetCharacterInput(true, true);
                 _conversationCount = -1;
+                IsCanChat = false;
             }
         }
     }

@@ -241,6 +241,7 @@ public class PlayerController : MonoBehaviour
     public void SetInputX()
     {
         InterActionCollider.enabled = true;
+        Invoke("DisableCollider", 0.05f);
     }
 
     public void PlayerRotation(Direction NewDirection)

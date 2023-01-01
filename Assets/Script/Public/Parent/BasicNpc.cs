@@ -7,8 +7,8 @@ public abstract class BasicNpc : MonoBehaviour
     [SerializeField]
     protected int _npcNumber;
     protected ConversationManager ConversationManager;
-    // 0 - 시작 대사, 1 - 확인 대사, 2 - true, 3 - false
-    protected int ChatType;
+    [SerializeField]
+    protected int _chatType;    // 0 - 시작 대사, 1 - 확인 대사, 2 - true, 3 - false
 
     public int NpcNumber
     {
@@ -17,15 +17,33 @@ public abstract class BasicNpc : MonoBehaviour
             return _npcNumber;
         }
     }
+    public int ChatType
+    {
+        set
+        {
+            _chatType = value;
+
+        }
+        get
+        {
+            return _chatType;
+        }
+    }
 
     public void SetNpcNumber(int number)
     {
        _npcNumber = number;
     }
+    public void SetChatType(int Type)
+    {
+        _chatType = Type;
+    }
+
 
     protected virtual void Start()
     {
-        ChatType = 0;
+        _npcNumber = 0;
+        _chatType = 0;
         ConversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
     }
 

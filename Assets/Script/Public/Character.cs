@@ -300,7 +300,7 @@ public class Character : MonoBehaviour
         {
             // 새로 시작
             // 1. 이름 설정
-            CharacterStat._myName = "Admin";
+            CharacterStat._myName = "주인공";
             // 2. 계급/직업 설정
             CharacterStat._mySocialClass = SocialClass.Helot;
             CharacterStat._myJob = Job.Slayer;
@@ -354,7 +354,7 @@ public class Character : MonoBehaviour
         }
 
         // 1. 이름 설정
-        CharacterStat._myName = "Admin";
+        CharacterStat._myName = "주인공";
 
         // 3. 나이 설정
         CharacterStat._myAge = 10;

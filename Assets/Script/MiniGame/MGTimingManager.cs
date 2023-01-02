@@ -74,6 +74,7 @@ public class MGTimingManager : MiniGameManager
 
     public override void GameEnd(bool clear)
     {
+        QuestManager.instance.QuestClear(true);
         timingSlider.gameObject.SetActive(false);
         if (Character.instance.MyMapNumber == "0003")
         {

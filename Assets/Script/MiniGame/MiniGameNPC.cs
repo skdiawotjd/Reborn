@@ -23,24 +23,36 @@ public class MiniGameNPC : BasicNpc
         {
             switch (Character.instance.MyMapNumber) // Character.instance.MyPosition 변수를 불러온다.
             {
-                case "0002": // ddr
-                case "0102":
-                case "0202":
-                    miniGameManager = GameObject.Find("MGDDRManager").GetComponent<MGDDRManager>();
-                    break;
-                case "0003": // 타이밍
+                case "0003": // ddr
                 case "0103":
-                    miniGameManager = GameObject.Find("MGTimingManager").GetComponent<MGTimingManager>();
+                case "0203":
+                    if (miniGameManager == null)
+                    {
+                        miniGameManager = GameObject.Find("MGDDRManager").GetComponent<MGDDRManager>();
+                    }
                     break;
-                case "0004": // 퀴즈
+                case "0004": // 타이밍
                 case "0104":
-                    miniGameManager = GameObject.Find("MGQuizManager").GetComponent<MGQuizManager>();
+                    if (miniGameManager == null)
+                    {
+                        miniGameManager = GameObject.Find("MGTimingManager").GetComponent<MGTimingManager>();
+                    }
                     break;
-                case "0005": // 오브젝트
+                case "0005": // 퀴즈
                 case "0105":
-                case "0205":
-                case "0305":
-                    miniGameManager = GameObject.Find("MGObjectManager").GetComponent<MGObjectManager>();
+                    if (miniGameManager == null)
+                    {
+                        miniGameManager = GameObject.Find("MGQuizManager").GetComponent<MGQuizManager>();
+                    }
+                    break;
+                case "0006": // 오브젝트
+                case "0106":
+                case "0206":
+                case "0306":
+                    if (miniGameManager == null)
+                    {
+                        miniGameManager = GameObject.Find("MGObjectManager").GetComponent<MGObjectManager>();
+                    }
                     break;
                 default:
                     break;

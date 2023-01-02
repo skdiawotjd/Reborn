@@ -80,20 +80,31 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void QuestClear(int type, bool clear)
+    public void QuestClear(bool clear)
     {
         // 퀘스트를 클리어하고 부를 함수
         Debug.Log("ActivePoint 10 감소하기 전, 현재 수치 : " + Character.instance.ActivePoint);
         switch(Character.instance.MyMapNumber)
         {
-            case "0002":
-            case "0005":
-            case "0105":
-                Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10); // 활동력 -10
-                break;
-            case "0003":
-            case "0205":
+            // 노예
+            case "0004":
+            case "0008":
+            case "0009":
                 Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
+                break;
+            // 대장장이
+            case "0003":
+            case "0104":
+            case "0005":
+            case "0108":
+            case "0109":
+            // 상인
+            case "0103":
+            case "0204":
+            case "0105":
+            case "0208":
+            case "0209":
+                Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10); // 활동력 -10
                 break;
         }
         
@@ -107,46 +118,40 @@ public class QuestManager : MonoBehaviour
                 case "Slayer":
                     switch(Character.instance.MyMapNumber)
                     {
-                        case "0002": // ex) 직업 Slayer의 전용퀘스트일 경우
-                        case "0005":
-                        case "0105":
+                        case "0004":
+                        case "0008":
+                        case "0009":
                             Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.Reputation);
-                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 20); // todoProgress + 20
                             Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.Reputation);
-                            break;
-                        default:
-                            Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
                             break;
                     }
                     break;
                 case "Smith":
                     switch (Character.instance.MyMapNumber)
                     {
-                        case "0003": 
+                        case "0003":
                         case "0104":
-                        case "0208":
-                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
-                            break;
-                        default:
-                            Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
+                        case "0005":
+                        case "0108":
+                        case "0109":
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 10); // todoProgress + 10
                             break;
                     }
                     break;
                 case "bania":
                     switch (Character.instance.MyMapNumber)
                     {
-                        case "0004": 
-                        case "0108":
-                        case "0205":
-                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
-                            break;
-                        default:
-                            Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
+                        case "0103":
+                        case "0204":
+                        case "0105":
+                        case "0208":
+                        case "0209":
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 10); // todoProgress + 2
                             break;
                     }
                     break;
                 case "Knight":
-                    break;
                 case "Scholar":
                 case "LowNobility":
                 case "MiddleNobility":

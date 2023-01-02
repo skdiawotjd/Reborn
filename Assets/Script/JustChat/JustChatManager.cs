@@ -25,6 +25,7 @@ public class JustChatManager : MonoBehaviour
     }
     void Start()
     {
+        Character.instance.SetCharacterInput(true, true, false);
         SetJustChat();
     }
 

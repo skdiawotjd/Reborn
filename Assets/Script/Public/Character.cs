@@ -172,6 +172,10 @@ public class Character : MonoBehaviour
     {
         MyPlayerController.SetInput(CharacterInput, UIInput);
     }
+    public void SetCharacterInput(bool CharacterInput, bool CharacterMove, bool UIInput)
+    {
+        MyPlayerController.SetInput(CharacterInput, CharacterMove, UIInput);
+    }
 
     public CharacterStatType ChangeJobType()
     {

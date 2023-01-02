@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject RotationObject;
     private bool _characterControllable;
+    private bool _characterMovable;
     private bool UIControllable;
     public bool ConversationNext;
     private float moveSpeed;
@@ -21,6 +22,13 @@ public class PlayerController : MonoBehaviour
         get
         {
             return _characterControllable;
+        }
+    }
+    public bool CharacterMovable
+    {
+        get
+        {
+            return _characterMovable;
         }
     }
 
@@ -49,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
         moveSpeed = 4.0f;
         _characterControllable = false;
+        _characterMovable = false;
         UIControllable = false;
         ConversationNext = false;
 
@@ -70,29 +79,6 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("1. CharacterControllable = " + CharacterControllable);
         if (CharacterControllable)
         {
-            // 움직임
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                /*Arrow.x = -1.0f;
-                Offset.x = 0.02f;
-                if(RotationObject.transform.localScale.x != Arrow.x)
-                {
-                    RotationObject.transform.localScale = Arrow;
-                }
-                BodyCollider.offset = Offset;*/
-                
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                /*Arrow.x = 1.0f;
-                Offset.x = -0.02f;
-                if (RotationObject.transform.localScale.x != Arrow.x)
-                {
-                    RotationObject.transform.localScale = Arrow;
-                }
-                BodyCollider.offset = Offset;*/
-            }
-
             // 공격
             //Debug.Log("2. Input.GetKey(KeyCode.X) = " + Input.GetKey(KeyCode.X));
             if (Input.GetKey(KeyCode.X))
@@ -153,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (CharacterControllable)
+        if (_characterMovable)
         {
             InputX = Input.GetAxisRaw("Horizontal");
             InputY = Input.GetAxisRaw("Vertical");
@@ -327,6 +313,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("캐릭터가 대화가능 콜라이더랑 충돌 " + collision.gameObject.name);
                 //Debug.Log("대사 시작 2 - 콜리전 충돌(캐릭터)");
                 _characterControllable = false;
+                _characterMovable = false;
                 if (EventConversation != null)
                 {
                     Spum._anim.SetBool("Run", false);
@@ -344,6 +331,12 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log(_characterControllable + " " + UIControllable);
     }
+    public void SetInput(bool CharacterInput,bool CharacterMove, bool UIInput)
+    {
+        _characterControllable = CharacterInput;
+        _characterMovable = CharacterMove;
+        UIControllable = UIInput;
+    }
 
     private void EndPlayerController()
     {
@@ -352,12 +345,14 @@ public class PlayerController : MonoBehaviour
         Spum._anim.SetFloat("RunState", 0.0f);
         ConversationNext = false;
         _characterControllable = false;
+        _characterMovable = false;
         UIControllable = false;
     }
 
     private void StartPlayerController()
     {
         _characterControllable = true;
+        _characterMovable = true;
         UIControllable = true;;
     }    
     public void SetRunState(bool state)

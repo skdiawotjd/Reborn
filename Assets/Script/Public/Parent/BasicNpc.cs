@@ -42,8 +42,8 @@ public abstract class BasicNpc : MonoBehaviour
 
     protected virtual void Start()
     {
-        _npcNumber = 0;
-        _chatType = 0;
+        //_npcNumber = 0;
+        //_chatType = 0;
         ConversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
     }
 

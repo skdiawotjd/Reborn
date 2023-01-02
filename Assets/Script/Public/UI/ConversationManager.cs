@@ -17,11 +17,23 @@ public class ConversationManager : MonoBehaviour
     List<Dictionary<string, object>> ChatList;
     public BasicNpc CurNpc;
     private bool IsCanChat; // 대화를 시작할 수 있는지
+    private bool _conversationPanelStillOpen;
     private int _chatCount; // CSV 상 대화가 몇번 째에 있는지
     private int _conversationCount; // 대화가 몇번 진행 되었는지
     private int _totalCount; // 대화가 몇번 진행 되었는지
     public string _npcNumberChatType; // "NPC넘버-대화넘버"
 
+    public bool ConversationPanelStillOpen
+    {
+        set
+        {
+            _conversationPanelStillOpen = value;
+        }
+        get
+        {
+            return _conversationPanelStillOpen;
+        }
+    }
     public int ConversationCount
     {
         get
@@ -69,7 +81,8 @@ public class ConversationManager : MonoBehaviour
         IsCanChat = false;
         _chatCount = -1;
         _conversationCount = -1;
-        NpcNumberChatType = "0-0";
+        ConversationPanelStillOpen = false;
+        _npcNumberChatType = "0-0";
         ConversationPanel.gameObject.SetActive(false);
     }
 
@@ -142,7 +155,7 @@ public class ConversationManager : MonoBehaviour
         else
         {
             //Debug.Log("대사 시작 5 - ConversationCount가 ChatList[NpcToChat].Count보다 크므로 대사 끝");
-            ConversationPanel.gameObject.SetActive(false);
+            ConversationPanel.gameObject.SetActive(ConversationPanelStillOpen);
 
             if(CurNpc)
             {
@@ -151,10 +164,7 @@ public class ConversationManager : MonoBehaviour
             if (ConversationCount == ChatList[_chatCount].Count - 1)
             {
                 //Debug.Log("대사 시작 6 - 대사 끝");
-                StartCoroutine(SetConversationNext(false, 0.4f));
-                Character.instance.SetCharacterInput(true, true);
-                _conversationCount = -1;
-                IsCanChat = false;
+                StartCoroutine(EndConversation(false, 0.2f));
             }
         }
     }
@@ -165,6 +175,15 @@ public class ConversationManager : MonoBehaviour
         Character.instance.MyPlayerController.ConversationNext = Next;
         //Debug.Log("ConversationCount 현재 수치 : " + ConversationCount);
         //Debug.Log("받은 값 " + Next + " Conversation의 NextConversation 함수 " + Character.instance.MyPlayerController.ConversationNext);
+    }
+    IEnumerator EndConversation(bool Next, float WaitTime)
+    {
+        yield return new WaitForSeconds(WaitTime);
+
+        _conversationCount = -1;
+        Character.instance.MyPlayerController.ConversationNext = Next;
+        IsCanChat = Next;
+        Character.instance.SetCharacterInput(true, true, true);
     }
 
     private void DayEnd()

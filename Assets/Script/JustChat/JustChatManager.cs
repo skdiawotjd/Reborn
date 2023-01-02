@@ -75,9 +75,6 @@ public class JustChatManager : MonoBehaviour
             yield return WaitFixedUpdate;
         }
         Character.instance.SetCharacterInput(false, false);
-        /*Character.instance.MyPlayerController.SetInputX();
-        yield return WaitSeconds;
-        Character.instance.SetCharacterInput(false, false);*/
 
         // 3 대사 / 대기
         Character.instance.MyPlayerController.SetPlayerPosition(-1);
@@ -91,7 +88,7 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false);
 
         // 4 오브젝트 생성
-        Instantiate(Resources.Load("Prefabs/Trash"), new Vector3(5f, 0.5f, 0f), Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs/Trash"), new Vector3(4.5f, 0.5f, 0f), Quaternion.identity);
         Character.instance.MyPlayerController.SetPlayerPosition(-1);
         Character.instance.SetCharacterInput(false, false);
         yield return WaitSeconds;
@@ -116,7 +113,7 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false);
 
         // 6 이동 / 대사 / 대기
-        while (Character.instance.transform.position.x <= 4f)
+        while (Character.instance.transform.position.x <= 3f)
         {
             Character.instance.MyPlayerController.SetPlayerPosition(0);
 
@@ -135,6 +132,9 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false);
 
         // 7 공격
+        //Character.instance.SetCharacterInput(false, false);
+        Character.instance.MyPlayerController.SetPlayerPosition(0);
+        Character.instance.MyPlayerController.SetPlayerPosition(-1);
         Character.instance.MyPlayerController.SetInputX();
         while (Character.instance.MyPlayerController.CharacterControllable != true)
         {
@@ -145,6 +145,7 @@ public class JustChatManager : MonoBehaviour
 
         // 8 오브젝트 생성
         JustChatNpc = (Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
+        JustChatNpc.SetChatType(8);
 
         Character.instance.MyPlayerController.SetPlayerPosition(0);
         Character.instance.MyPlayerController.SetPlayerPosition(-1);
@@ -156,42 +157,27 @@ public class JustChatManager : MonoBehaviour
 
         // 9 대사 / 대기
         ConversationManager.NpcNumberChatType = "0-3";
+        //ConversationManager.ConversationPanelStillOpen = true;
         Character.instance.MyPlayerController.EventConversation.Invoke();
-
-        while (ConversationManager.ConversationCount != -1f)
-        {
-            Debug.Log("wait");
-            yield return WaitFixedUpdate;
-        }
-        Character.instance.SetCharacterInput(true, false);
-
-        // 10 캐릭터와 대사 / 대기
-        /*JustChatNpc.SetChatType(4);
-
-        Character.instance.MyPlayerController.SetInputX();
-        Debug.Log("ConversationManager.ConversationCount" + ConversationManager.ConversationCount);
-        while (ConversationManager.ConversationCount != 0f)
-        {
-            Debug.Log("ConversationManager.ConversationCount" + ConversationManager.ConversationCount);
-            Character.instance.MyPlayerController.ConversationNext = true;
-            yield return WaitFixedUpdate;
-        }
-        Debug.Log("2");
         while (ConversationManager.ConversationCount != -1f)
         {
             yield return WaitFixedUpdate;
         }
-        Character.instance.MyPlayerController.ConversationNext = false;
-        Character.instance.SetCharacterInput(true, false);*/
+        Character.instance.SetCharacterInput(false, false);
 
-        /*// 11 
-        JustChatNpc.SetChatType(5);
-        Character.instance.MyPlayerController.SetInputX();
-        while (ConversationManager.ConversationCount != 0f)
+
+        // 10 대사 / 대기
+        ConversationManager.NpcNumberChatType = "0-4";
+        Character.instance.MyPlayerController.EventConversation.Invoke();
+        while (ConversationManager.ConversationCount != -1f)
         {
-            Character.instance.MyPlayerController.ConversationNext = true;
             yield return WaitFixedUpdate;
         }
+        Character.instance.SetCharacterInput(false, false);
+
+        // 11 대사 / 대기
+        ConversationManager.NpcNumberChatType = "0-5";
+        Character.instance.MyPlayerController.EventConversation.Invoke();
         while (ConversationManager.ConversationCount != -1f)
         {
             yield return WaitFixedUpdate;
@@ -200,19 +186,21 @@ public class JustChatManager : MonoBehaviour
 
         // 12 상인 대장장이 선택지 보여주기
 
-        // 13  캐릭터와 대사 / 대기
-        JustChatNpc.SetChatType(7);
-        Character.instance.MyPlayerController.SetInputX();
-        while (ConversationManager.ConversationCount != 0f)
-        {
-            Character.instance.MyPlayerController.ConversationNext = true;
-            yield return WaitFixedUpdate;
-        }
+
+        // 13  대사 / 대기
+        ConversationManager.NpcNumberChatType = "0-7";
+        //ConversationManager.ConversationPanelStillOpen = false;
+        Character.instance.MyPlayerController.EventConversation.Invoke();
         while (ConversationManager.ConversationCount != -1f)
         {
             yield return WaitFixedUpdate;
         }
-        Character.instance.SetCharacterInput(false, false);*/
+        Character.instance.SetCharacterInput(false, false);
+
+
+        
+        JustChatNpc.GetComponent<Collider2D>().enabled = true;
+        Character.instance.SetCharacterInput(true, true, false);
 
         // 14 선택한 직업에 맞는 위치로 보내주기
         JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();

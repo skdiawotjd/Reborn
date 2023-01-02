@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 745821127320462267}
   m_Layer: 7
   m_Name: MiniGameNPC
-  m_TagString: Untagged
+  m_TagString: Conversationable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _npcNumber: 0
+  _chatType: 0
 --- !u!1 &494804552189590401
 GameObject:
   m_ObjectHideFlags: 0

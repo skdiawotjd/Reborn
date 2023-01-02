@@ -699,7 +699,6 @@ GameObject:
   - component: {fileID: 6112425738261809290}
   - component: {fileID: 5411659053410140885}
   - component: {fileID: 1973752813266507347}
-  - component: {fileID: 1129332647646749460}
   m_Layer: 7
   m_Name: R_Weapon
   m_TagString: Untagged
@@ -799,20 +798,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.46}
   m_EdgeRadius: 0
---- !u!114 &1129332647646749460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973752813266507344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5baabc9866cfbb419b455f6225dd45a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 6331956829547268188, guid: f962ab524feed2e4c9506bd908f976cb, type: 3}
-  pos: {fileID: 5263123927880550922}
 --- !u!1 &2289650105964922888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,6 +2705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baea2e9758e554909b2367e396d9c5a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageChange: 1
   _itemList:
   - {fileID: 2774695645721001606}
   - {fileID: 3766315982902670800}
@@ -2777,7 +2763,7 @@ MonoBehaviour:
   _bodyTexture: {fileID: 0}
   _bodyString: 
   _hairListString:
-  - Assets/Resources/SPUM/SPUM_Sprites/Items/0_Hair/Hair_2.png
+  - es/Items/0_Hair/Hair_2.png_Sprites/Items/0_Hair/Hair_2.png
   - 
   - 
   - 

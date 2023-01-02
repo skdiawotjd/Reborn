@@ -105,7 +105,7 @@ public class MGDDRManager : MiniGameManager
         timeText.gameObject.SetActive(false);
         Destroy(temImage);
         gameActive = false;
-        Character.instance.SetCharacterInput(true, true);
+        Character.instance.SetCharacterInput(true, true, true);
     }
     public override void SetRound(int nextRound)
     {

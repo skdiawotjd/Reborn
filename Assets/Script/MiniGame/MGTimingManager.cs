@@ -80,6 +80,7 @@ public class MGTimingManager : MiniGameManager
             Destroy(temImage);
         }
         timingGameActive = false;
+        Character.instance.SetCharacterInput(true, true, true);
     }
     public override void SetRound(int num) // SetTimingRound()
     {

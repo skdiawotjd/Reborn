@@ -53,7 +53,7 @@ public class Monster : MonoBehaviour
     {
         temProjectile = Instantiate(projectile, transform.position, transform.rotation) as Projectile;
         temProjectile.damage = monsterAtk;
-        
+        Spum._anim.SetTrigger("Attack");
         temProjectile.AddListenerMonsterProjectileAttackEvent(MonsterProjectileAttackEvent2); // BattleManager에서 받아온 Damaged 함수를 Add 해놓은 MonsterAttackEvent를 실행하는 함수를 MonsterProjectile의 AddListener 함수에 보내준다.
     }
 /*    public void AddDamageAction(UnityAction<int> NewAction)

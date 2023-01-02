@@ -145,31 +145,13 @@ public class QuestManager : MonoBehaviour
                             break;
                     }
                     break;
-                case "MasterSmith":
-                    switch (Character.instance.MyMapNumber)
-                    {
-                        case "0007": 
-                        case "0102":
-                        case "0103":
-                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
-                            break;
-                        default:
-                            Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
-                            break;
-                    }
+                case "Knight":
                     break;
-                case "Merchant":
-                    switch (Character.instance.MyMapNumber)
-                    {
-                        case "0202": 
-                        case "0305":
-                        case "0107":
-                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
-                            break;
-                        default:
-                            Character.instance.SetCharacterStat(Character.instance.ChangeJobType(), 2); // 스택 업
-                            break;
-                    }
+                case "Scholar":
+                case "LowNobility":
+                case "MiddleNobility":
+                case "HighNobility":
+                case "King":
                     break;
                 default:
                     break;

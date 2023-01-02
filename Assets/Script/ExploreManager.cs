@@ -10,7 +10,7 @@ public class ExploreManager : MonoBehaviour
     private string m_Message3;
     private float m_Speed = 0.2f;
     private int exploreCount = 0;
-    private int maxExplore = 5;
+    private int maxExplore = 60;
 
     private bool waitActive;
     public MessageManager messageManager;
@@ -39,7 +39,7 @@ public class ExploreManager : MonoBehaviour
         m_Message2 = "π´æ∞• πﬂ∞ﬂ«ﬂ¥Ÿ!";
         m_Message3 = "∏ÛΩ∫≈Õ∏¶ ∏∂¡÷√∆¥Ÿ!";
 
-        Character.instance.SetCharacterInput(false, false);
+        Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.SetRunState(true);
         Character.instance.SetCharacterPosition();
         StartCoroutine("CountOneSecond", 0.1f);
@@ -158,21 +158,23 @@ public class ExploreManager : MonoBehaviour
         {
             case 0:
                 Debug.Log("ø¿«¬π⁄Ω∫");
-                ChangeMessage(itemList[ObjectNumber]["Name"].ToString() + "∏¶ »πµÊ«ﬂ¥Ÿ!");
                 switch (itemList[ObjectNumber]["Number"].ToString())
                 {
                     case "0":
                     case "1":
                     case "2":
                         Character.instance.SetCharacterStat(CharacterStatType.MyItem, WhatIsFoundThings(randomObjectNumber, 1) + ProbabilityOfHowMany());
+                        ChangeMessage(boxGoodsList[goodsNumber]["Name"].ToString() + "∏¶ »πµÊ«ﬂ¥Ÿ!");
                         break;
                     case "3":
                     case "4":
                     case "5":
                         Character.instance.SetCharacterStat(CharacterStatType.MyItem, WhatIsFoundThings(randomObjectNumber, 2) + ProbabilityOfHowMany());
+                        ChangeMessage(mineralGoodsList[goodsNumber]["Name"].ToString() + "∏¶ »πµÊ«ﬂ¥Ÿ!");
                         break;
                     case "7":
                         Character.instance.SetCharacterStat(CharacterStatType.Gold, 1000); // ¿Á»≠ »πµÊ ¿”Ω√
+                        ChangeMessage("1000" + itemList[ObjectNumber]["Name"].ToString() + "∏¶ »πµÊ«ﬂ¥Ÿ!");
                         break;
                 }
                 

@@ -71,7 +71,6 @@ public class FloatingOptionManager : MonoBehaviour
         for (int i=0; i< 3; i++)
         {
             int index = i;
-            Debug.Log("버튼" + index + "번 삭제");
             Destroy(temButton[index].gameObject);
         }
     }

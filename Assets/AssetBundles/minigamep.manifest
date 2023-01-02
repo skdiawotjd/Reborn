@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1985818530
+CRC: 3429425405
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d7e9f02d2bb811e78266ebdb5fd2da7a
+    Hash: ed8e1ce5c9ee4305bc1ccb51d0fac1f5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0c1592401f8514e70d584e01c5ce5be1
+    Hash: 0422ee9171c29aaacbfd48e0c2cace6d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -33,6 +33,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 03327f67140ed4948b33ce8dd4902910, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 41302e45b5a3c494ab6d47e061a7be85, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d8fb56cfa64bbe849962b9ec2be60c37, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 28ac21711b0ec40a0812d33a586eb7ec, type: 3}
 - Class: 114
@@ -72,6 +74,8 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: SPUM_SpriteList/StringListStruct
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.PersistentCallGroup
 - AssemblyName: UnityEngine.CoreModule
@@ -79,10 +83,11 @@ SerializeReferenceClassIdentifiers:
 Assets:
 - Assets/Resources/Public/ExploreManager.prefab
 - Assets/Resources/Public/MGQuizManager.prefab
-- Assets/Resources/Prefabs/NPC/MiniGameNPC.prefab
+- Assets/Resources/Prefabs/NPC/JustChatNPC.prefab
 - Assets/Resources/Public/MGObjectManager.prefab
 - Assets/Resources/Public/BattleManager.prefab
 - Assets/Resources/Public/MGDDRManager.prefab
 - Assets/Resources/Prefabs/NPC/MonsterNPC.prefab
 - Assets/Resources/Public/MGTimingManager.prefab
+- Assets/Resources/Prefabs/NPC/MiniGameNPC.prefab
 Dependencies: []

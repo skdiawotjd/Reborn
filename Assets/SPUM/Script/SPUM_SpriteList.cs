@@ -8,6 +8,9 @@ using static SPUM_SpriteList;
 
 public class SPUM_SpriteList : MonoBehaviour
 {
+    [SerializeField]
+    private bool imageChange;
+
     public List<SpriteRenderer> _itemList = new List<SpriteRenderer>();
     public List<SpriteRenderer> _eyeList = new List<SpriteRenderer>();
     public List<SpriteRenderer> _hairList = new List<SpriteRenderer>();
@@ -151,18 +154,23 @@ public class SPUM_SpriteList : MonoBehaviour
 
     public void ResyncData()
     {
-        /*SyncPath(_hairList,_hairListString);
-        SyncPath(_clothList,_clothListString);
-        SyncPath(_armorList,_armorListString);
-        SyncPath(_pantList,_pantListString);
-        SyncPath(_weaponList,_weaponListString);
-        SyncPath(_backList,_backListString);*/
-        SyncPath(_hairList, SpriteStringList[0].StringList);
-        SyncPath(_clothList, SpriteStringList[1].StringList);
-        SyncPath(_armorList, SpriteStringList[2].StringList);
-        SyncPath(_pantList, SpriteStringList[3].StringList);
-        SyncPath(_weaponList, SpriteStringList[4].StringList);
-        SyncPath(_backList, SpriteStringList[5].StringList);
+        if (imageChange)
+        {
+            SyncPath(_hairList, SpriteStringList[0].StringList);
+            SyncPath(_clothList, SpriteStringList[1].StringList);
+            SyncPath(_armorList, SpriteStringList[2].StringList);
+            SyncPath(_pantList, SpriteStringList[3].StringList);
+            SyncPath(_weaponList, SpriteStringList[4].StringList);
+            SyncPath(_backList, SpriteStringList[5].StringList);
+        } else
+        {
+            SyncPath(_hairList, _hairListString);
+            SyncPath(_clothList, _clothListString);
+            SyncPath(_armorList, _armorListString);
+            SyncPath(_pantList, _pantListString);
+            SyncPath(_weaponList, _weaponListString);
+            SyncPath(_backList, _backListString);
+        }
     }
 
     public void SyncPath(List<SpriteRenderer> _objList, List<string> _pathList)
@@ -194,26 +202,28 @@ public class SPUM_SpriteList : MonoBehaviour
 
     public void InitializeSprite()
     {
-        //Debug.Log("불러짐");
-        GameManager.instance.AddGameStartEvent(InitializeSprite);
-
-        SpriteListCSV = CSVReader.Read("SPUMSprite");
-
-        for (int i = 0; i < SpriteListCSV.Count; i++)
+        if(imageChange)
         {
-            //Debug.Log("SpriteList.Count = " + SpriteListCSV.Count);
-            for (int k = 1; k <= (SpriteListCSV[i].Count - 1); k++)
+            //Debug.Log("불러짐");
+            GameManager.instance.AddGameStartEvent(InitializeSprite);
+
+            SpriteListCSV = CSVReader.Read("SPUMSprite");
+
+            for (int i = 0; i < SpriteListCSV.Count; i++)
             {
-                //.Log("SpriteList[" + i + "].Count = " + SpriteListCSV[i].Count);
-                if(SpriteListCSV[i]["Element" + k].ToString() != "")
+                //Debug.Log("SpriteList.Count = " + SpriteListCSV.Count);
+                for (int k = 1; k <= (SpriteListCSV[i].Count - 1); k++)
                 {
-                    //Debug.Log("1. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + Path + SpriteListCSV[i]["Element" + k].ToString());
-                    //Debug.Log("2. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + SpriteStringList[i].StringList[k-1]);
-                    SpriteStringList[i].StringList[k-1] = Path + SpriteListCSV[i]["Element" + k].ToString();
+                    //.Log("SpriteList[" + i + "].Count = " + SpriteListCSV[i].Count);
+                    if (SpriteListCSV[i]["Element" + k].ToString() != "")
+                    {
+                        //Debug.Log("1. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + Path + SpriteListCSV[i]["Element" + k].ToString());
+                        //Debug.Log("2. " + SpriteListCSV[i]["SpriteType"].ToString() + "[Element" + k + "] = " + SpriteStringList[i].StringList[k-1]);
+                        SpriteStringList[i].StringList[k - 1] = Path + SpriteListCSV[i]["Element" + k].ToString();
+                    }
                 }
             }
         }
-
         ResyncData();
     }
 

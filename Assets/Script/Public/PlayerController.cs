@@ -368,6 +368,10 @@ public class PlayerController : MonoBehaviour
             Spum._anim.SetFloat("RunState", 0.0f);
         }
     }
+    public void PlayAttackProcess()
+    {
+        Spum._anim.SetTrigger("Attack");
+    }
     public float GetPlayerDirection()
     {
         return RotationObject.transform.localScale.x;

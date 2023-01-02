@@ -45,7 +45,7 @@ public class MGObjectManager : MiniGameManager
         {
             Generate();
         }
-        Character.instance.SetCharacterInput(true, true);
+        Character.instance.SetCharacterInput(true, true, true);
         objectGameActive = true;
     }
     public override void GameEnd(bool clear)

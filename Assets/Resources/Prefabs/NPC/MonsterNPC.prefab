@@ -1251,7 +1251,30 @@ MonoBehaviour:
   - 
   _backListString:
   - 
-  SpriteStringList: []
+  SpriteStringList:
+  - StringList:
+    - Assets/Resources/SPUM/SPUM_Sprites/Items/0_Hair/Hair_8.png
+    - 
+    - 
+    - 
+  - StringList:
+    - Assets/Resources/SPUM/SPUM_Sprites/Items/2_Cloth/Cloth_6.png
+    - Assets/Resources/SPUM/SPUM_Sprites/Items/2_Cloth/Cloth_6.png
+    - Assets/Resources/SPUM/SPUM_Sprites/Items/2_Cloth/Cloth_6.png
+  - StringList:
+    - Assets/Resources/SPUM/SPUM_Sprites/Packages/Ver300/5_Armor/New_Armor_05.png
+    - Assets/Resources/SPUM/SPUM_Sprites/Packages/Ver300/5_Armor/New_Armor_05.png
+    - Assets/Resources/SPUM/SPUM_Sprites/Packages/Ver300/5_Armor/New_Armor_05.png
+  - StringList:
+    - Assets/Resources/SPUM/SPUM_Sprites/Packages/Ver300/3_Pant/New_Pant_06.png
+    - Assets/Resources/SPUM/SPUM_Sprites/Packages/Ver300/3_Pant/New_Pant_06.png
+  - StringList:
+    - 
+    - 
+    - 
+    - 
+  - StringList:
+    - 
 --- !u!1 &3554103359033521961
 GameObject:
   m_ObjectHideFlags: 0

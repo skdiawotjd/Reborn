@@ -9,13 +9,17 @@ public class PlayerProjectile : MonoBehaviour
     private int damage;
     private float speed;
     private bool direction;
+    private Vector3 rotatePosition;
+    private float rotateSpeed;
     public delegate void Damage(int target);
     public Damage playerDamage;
 
     void Start()
     {
         PlayerProjectileAttackEvent = new UnityEvent();
-        speed = 3f;
+        rotatePosition = new Vector3(0f, 0f, 0f);
+        rotateSpeed = 16f;
+        speed = 5f;
         if (Character.instance.MyPlayerController.GetPlayerDirection() == 1)
         {
             direction = false;
@@ -30,7 +34,10 @@ public class PlayerProjectile : MonoBehaviour
     {
         if(direction)
         {
-            transform.Translate(transform.right * speed * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x + (Time.deltaTime * 8f), transform.position.y, transform.position.z);
+            //transform.Translate(transform.right * speed * Time.deltaTime);
+            rotatePosition.z += Time.deltaTime * rotateSpeed;
+            transform.Rotate(rotatePosition);
         } else
         {
             transform.Translate(transform.right * -1 * speed * Time.deltaTime);

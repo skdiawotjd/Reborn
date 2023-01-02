@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 2f;
+        speed = 4f;
         Invoke("DestroyProjectile", 3);
         direction = false;
     }

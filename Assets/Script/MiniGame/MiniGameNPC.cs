@@ -46,7 +46,7 @@ public class MiniGameNPC : BasicNpc
                     break;
             }
 
-            Character.instance.SetCharacterInput(false, false);
+            Character.instance.SetCharacterInput(false, false, false);
             miniGameManager.GameStart();
         }
         else

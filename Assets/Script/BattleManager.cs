@@ -72,6 +72,7 @@ public class BattleManager : MonoBehaviour
         temProjectile = Instantiate(projectile, pos.position, Quaternion.identity) as PlayerProjectile;
         temProjectile.SetDamage(playerAtk);
         temProjectile.playerDamage += MonsterDamaged;
+        Character.instance.MyPlayerController.PlayAttackProcess();
     }
     public void Damaged(int damage)
     {

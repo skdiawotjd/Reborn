@@ -158,7 +158,7 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.GetComponent<Portal>().ChangeSceneName("0013");
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(-8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToManufacture";
-                temObject.GetComponent<Portal>().ChangeSceneName("0104");
+                temObject.GetComponent<Portal>().ChangeSceneName("0004");
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToFoundry";
                 temObject.GetComponent<Portal>().ChangeSceneName("0003");

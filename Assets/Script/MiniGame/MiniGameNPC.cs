@@ -27,11 +27,11 @@ public class MiniGameNPC : BasicNpc
                 {
                     case "0003": // ddr
                     case "0103":
-                    case "0203":
                         miniGameManager = GameObject.Find("MGDDRManager").GetComponent<MGDDRManager>();
                         break;
                     case "0004": // 타이밍
                     case "0104":
+                    case "0204":
                         miniGameManager = GameObject.Find("MGTimingManager").GetComponent<MGTimingManager>();
                         break;
                     case "0005": // 퀴즈

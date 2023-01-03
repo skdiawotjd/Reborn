@@ -205,6 +205,6 @@ public class JustChatManager : MonoBehaviour
 
         // 14 선택한 직업에 맞는 위치로 보내주기
         JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
-        JustChatPortal.SceneName = 14;
+        JustChatPortal.SceneName = "0004";
     }
 }

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    public int SceneName;
-
+    public string SceneName;
+    private List<Dictionary<string, object>> PortalNameList;
+    private string mapName;
     // Start is called before the first frame update
     void Start()
     {
-        
+        PortalNameList = CSVReader.Read("PortalNameList");
     }
 
     // Update is called once per frame
@@ -25,20 +26,24 @@ public class Portal : MonoBehaviour
             MoveScene(SceneName);
         }
     }
-    public void ChangeSceneName(int num)
+    public void ChangeSceneName(string num)
     {
         SceneName = num;
     }
-    /// <summary>
-    /// SceneType : 0 - ddr, 1 - timing, 2 - quiz, 3 - 노예town, 4 - 노예home, 5 - 노예town, 6 - object, 7 - JustChat, 8 - 대장장이Town, 9 - 대장장이Home, 10 - 상인Town, 11 - 대상인Town, 12 - 명장Town
-    /// <para>
-    /// SceneType : 0 - ddr, 1 - timing, 2 - quiz, 3 - 노예town, 4 - 노예home, 5 - 노예town, 6 - object, 7 - JustChat, 8 - 대장장이Town, 9 - 대장장이Home, 10 - 상인Town, 11 - 대상인Town, 12 - 명장Town
-    /// </para>
-    /// </summary>
-    /// <param name="SceneType"></param>
-    public void MoveScene(int SceneType)
+    public void MoveScene(string SceneType)
     {
-        switch (SceneType)
+        Character.instance.MyPlayerController.DisableCollider();
+        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, SceneType);
+        for(int i = 0; i < PortalNameList.Count; i++)
+        {
+            if(SceneType == PortalNameList[i]["MapNumber"].ToString())
+            {
+                mapName = PortalNameList[i]["MapName"].ToString();
+            }
+        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(mapName);
+
+/*        switch (SceneType)
         {
             case 0:
                 Character.instance.MyPlayerController.DisableCollider();
@@ -126,6 +131,6 @@ public class Portal : MonoBehaviour
                 break;
             default:
                 break;
-        }
+        }*/
     }
 }

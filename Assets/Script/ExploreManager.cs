@@ -41,7 +41,9 @@ public class ExploreManager : MonoBehaviour
 
         Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.SetRunState(true);
+        Character.instance.MyPlayerController.PlayerRotation(Direction.Right);
         Character.instance.SetCharacterPosition();
+
         StartCoroutine("CountOneSecond", 0.1f);
         StartCoroutine("CountNNSecond", 3f);
     }

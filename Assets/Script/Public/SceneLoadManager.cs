@@ -101,7 +101,7 @@ public class SceneLoadManager : MonoBehaviour
         bundleP = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "public"));
         switch (Character.instance.MyMapNumber)
         {
-            case "0000": // 노예의 Home 
+           /* case "0000": // 노예의 Home 
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
                 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfSlayer"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -117,8 +117,8 @@ public class SceneLoadManager : MonoBehaviour
                 temNPC = Instantiate(bundleP.LoadAsset<GameObject>("ButlerNPC"), new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
 
                 bundle.Unload(false);
-                break;
-            case "0001": // 노예의 Town
+                break;*/
+/*            case "0001": // 노예의 Town
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "town"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("TownBackground"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -157,8 +157,8 @@ public class SceneLoadManager : MonoBehaviour
                 temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "수습상인";
 
                 bundle.Unload(false);
-                break;
-            case "0002": // Minigame Slayer의 빨래
+                break;*/
+/*            case "0002": // Minigame Slayer의 빨래
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameslayer"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
@@ -174,8 +174,8 @@ public class SceneLoadManager : MonoBehaviour
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
-                break;
-            case "0005": // Minigame Slayer의 채광
+                break;*/
+    /*        case "0005": // Minigame Slayer의 채광
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameslayer"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
@@ -191,8 +191,8 @@ public class SceneLoadManager : MonoBehaviour
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
-                break;            
-            case "0105": // MinigameSlayer의 청소
+                break;         */   
+/*            case "0105": // MinigameSlayer의 청소
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "home"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
@@ -208,9 +208,8 @@ public class SceneLoadManager : MonoBehaviour
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
-                break;
-            case "0100": // 평민 중 아랫단계의 Home
-            case "0200":
+                break;*/
+            case "0000": // 평민 Home
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "homeofcommons"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfCommons"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -223,8 +222,29 @@ public class SceneLoadManager : MonoBehaviour
 
                 bundle.Unload(false);
                 break;
-            case "0300": // 평민 중 윗단계의 Home
-            case "0400":
+            case "0100": // 준귀족 Home
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "homeofcommons"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfCommons"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToTown";
+                temObject.GetComponent<Portal>().ChangeSceneName(12);
+
+                bundle.Unload(false);
+                break;            
+            case "0200": // 귀족 Home
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "homeofcommons"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfCommons"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToTown";
+                temObject.GetComponent<Portal>().ChangeSceneName(12);
+
+                bundle.Unload(false);
+                break;            
+            case "0300": // 왕 Home
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "homeofcommons"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("HomeOfCommons"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -235,7 +255,7 @@ public class SceneLoadManager : MonoBehaviour
 
                 bundle.Unload(false);
                 break;
-            case "0003": // Minigame 대장장이 제작
+            case "0004": // Minigame 대장장이 제작
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
@@ -245,13 +265,46 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.name = "MGTimingManager";
                 temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToBase";
+                temObject.GetComponent<Portal>().ChangeSceneName(8);
+
+                bundle.Unload(false);
+                temBundle.Unload(false);
+                break;            
+            case "0001": // 대장장이 아지트
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("ForgeOfSmith"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(0, -4, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(-8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToManufacture"; 
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToFoundry";
+                temObject.GetComponent<Portal>().ChangeSceneName(8);
+
+                bundle.Unload(false);
+                temBundle.Unload(false);
+                break;            
+            case "0003": // Minigame 대장장이 주조
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("ForgeOfSmith"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGDDRManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "MGDDRManager";
+                temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(-8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToBase";
                 temObject.GetComponent<Portal>().ChangeSceneName(8);
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;
-            case "0004": // Minigame 상인 판매기술 배우기
+            case "0105": // Minigame 상인 판매기술 배우기
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameedu"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
@@ -267,7 +320,7 @@ public class SceneLoadManager : MonoBehaviour
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;
-            case "0104": // Minigame 대장장이 판매기술 배우기
+            case "0005": // Minigame 대장장이 판매기술 배우기
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameedu"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
@@ -283,23 +336,23 @@ public class SceneLoadManager : MonoBehaviour
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;
-            case "0205": // Minigame 상인 판매
-                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofbania"));
-                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+            /*            case "0205": // Minigame 상인 판매
+                            bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofbania"));
+                            temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
-                temMap = Instantiate(bundle.LoadAsset<GameObject>("ShopOfBania"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-                temMap.name = "Background";
-                temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGObjectManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-                temObject.name = "MGObjectManager";
-                temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
-                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
-                temObject.name = "DoorToTown";
-                temObject.GetComponent<Portal>().ChangeSceneName(10);
+                            temMap = Instantiate(bundle.LoadAsset<GameObject>("ShopOfBania"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                            temMap.name = "Background";
+                            temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGObjectManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                            temObject.name = "MGObjectManager";
+                            temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(-7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                            temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
+                            temObject.name = "DoorToTown";
+                            temObject.GetComponent<Portal>().ChangeSceneName(10);
 
-                bundle.Unload(false);
-                temBundle.Unload(false);
-                break;
-            case "0101": // 상인의 Town
+                            bundle.Unload(false);
+                            temBundle.Unload(false);
+                            break;*/
+            /*case "0101": // 상인의 Town
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "town"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("TownBackground"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
@@ -474,7 +527,7 @@ public class SceneLoadManager : MonoBehaviour
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
-                break;
+                break;*/
             case "4444": // 대장장이의 탐험
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));

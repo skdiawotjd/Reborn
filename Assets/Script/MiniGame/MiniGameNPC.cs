@@ -21,43 +21,33 @@ public class MiniGameNPC : BasicNpc
     {
         if(Character.instance.ActivePoint >= 10)
         {
-            switch (Character.instance.MyMapNumber) // Character.instance.MyPosition 변수를 불러온다.
+            if(miniGameManager == null)
             {
-                case "0003": // ddr
-                case "0103":
-                case "0203":
-                    if (miniGameManager == null)
-                    {
+                switch (Character.instance.MyMapNumber) // Character.instance.MyPosition 변수를 불러온다.
+                {
+                    case "0003": // ddr
+                    case "0103":
+                    case "0203":
                         miniGameManager = GameObject.Find("MGDDRManager").GetComponent<MGDDRManager>();
-                    }
-                    break;
-                case "0004": // 타이밍
-                case "0104":
-                    if (miniGameManager == null)
-                    {
+                        break;
+                    case "0004": // 타이밍
+                    case "0104":
                         miniGameManager = GameObject.Find("MGTimingManager").GetComponent<MGTimingManager>();
-                    }
-                    break;
-                case "0005": // 퀴즈
-                case "0105":
-                    if (miniGameManager == null)
-                    {
+                        break;
+                    case "0005": // 퀴즈
+                    case "0105":
                         miniGameManager = GameObject.Find("MGQuizManager").GetComponent<MGQuizManager>();
-                    }
-                    break;
-                case "0006": // 오브젝트
-                case "0106":
-                case "0206":
-                case "0306":
-                    if (miniGameManager == null)
-                    {
+                        break;
+                    case "0006": // 오브젝트
+                    case "0106":
+                    case "0206":
+                    case "0306":
                         miniGameManager = GameObject.Find("MGObjectManager").GetComponent<MGObjectManager>();
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
             }
-
             Character.instance.SetCharacterInput(false, false, false);
             miniGameManager.GameStart();
         }

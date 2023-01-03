@@ -462,7 +462,8 @@ public class Character : MonoBehaviour
                     _characterPosition.y = 5.3f;
                     MyPlayerController.PlayerRotation(Direction.Right);
                     break;
-                case "4444":
+                case "0008":
+                case "0108":
                     _characterPosition.y = -2f;
                     MyPlayerController.PlayerRotation(Direction.Right);
                     break;

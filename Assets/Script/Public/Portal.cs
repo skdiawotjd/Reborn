@@ -111,7 +111,17 @@ public class Portal : MonoBehaviour
                 break;
             case 14:
                 Character.instance.MyPlayerController.DisableCollider();
-                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0003"); // 오브젝트
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0004"); // 대장간 제작
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
+                break;
+            case 15:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0003"); // 대장간 주조
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
+                break;
+            case 16:
+                Character.instance.MyPlayerController.DisableCollider();
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0001"); // 대장간 아지트
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame");
                 break;
             default:

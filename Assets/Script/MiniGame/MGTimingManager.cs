@@ -69,7 +69,7 @@ public class MGTimingManager : MiniGameManager
         timingValue = 0f;
         timingChangeDirection = true;
         timingGameActive = true;
-        SetMainWork();
+        SetRound(5);
     }
 
     public override void GameEnd(bool clear)
@@ -86,10 +86,10 @@ public class MGTimingManager : MiniGameManager
     public override void SetRound(int num) // SetTimingRound()
     {
         timingRound = 0;
-        if (Character.instance.MyMapNumber == "0003")
+/*        if (Character.instance.MyMapNumber == "0004")
         {
             temImage = Instantiate(Anvil) as GameObject;
-        }
+        }*/
         SetMainWork();
     }
     public override void SetMainWork() // SetTimingPosition()

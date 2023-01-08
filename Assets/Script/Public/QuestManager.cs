@@ -8,17 +8,25 @@ using UnityEngine.Events;
 public class QuestManager : MonoBehaviour
 {
     private List<string> MainQuest;
-    private List<string> SubQuest;
+    public List<string> SubQuest;
+    public Dictionary<string, Quest> MyQuest;
+    private Quest temQuest;
+    private List<string> MyQuest2;
+    private List<string> MyQuestOrder;
+    public bool questChanges;
     List<Dictionary<string, object>> TodoNumberlist;
     private string TodoMapNumber;
 
     private List<Dictionary<string, object>> UniqueQuestList;
+    private List<Dictionary<string, object>> QuestNumberList;
     public string todayQuest;
     public string questDeleteNumber;
     public bool questEnd;
     public bool subQuestStart = false;
     public bool moveBG;
     private int temNumber;
+    private string itemNumberString;
+    private string itemNumberChar;
     //private QuestUIManager QUIManager;
 
     public static QuestManager instance = null;
@@ -39,7 +47,10 @@ public class QuestManager : MonoBehaviour
             }
         }
         UniqueQuestList = CSVReader.Read("UniqueQuest");
+        QuestNumberList = CSVReader.Read("QuestNumberList");
+        temQuest = new Quest("0", "0", "0");
         GiveQuest();
+        questChanges = false;
         //QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<QuestUIManager>();
         moveBG = true;
     }
@@ -48,10 +59,10 @@ public class QuestManager : MonoBehaviour
     {
         MainQuest = new List<string>();
         SubQuest = new List<string>();
-        
-
+        MyQuest = new Dictionary<string, Quest>();
         //QUIManager.questTextGenerate();
         GameManager.instance.AddDayStart(GiveQuest);
+        QuestLoad();
     }
 
     private void GiveQuest()
@@ -80,6 +91,57 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    private void QuestLoad()
+    {
+        Debug.Log("퀘스트 로드 함수 진입" + Character.instance.MyItem.Count);
+        for(int i = 0; i < Character.instance.MyItem.Count; i++)
+        {
+            itemNumberString = Character.instance.MyItem[i].Substring(0, 4);
+            itemNumberChar = itemNumberString.Substring(0,1);
+            if(int.Parse(itemNumberChar) >= 7)
+            {
+                AddQuest();
+            }
+        }
+    }
+    private int AddQuest() // 게임 시작 시 처음 로드할 때
+    {
+        for (int j = 0; j < QuestNumberList.Count; j++)
+        {
+            if (itemNumberString == QuestNumberList[j]["ItemNumber"].ToString())
+            {
+                temQuest.itemNumber = itemNumberString;
+                temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
+                temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
+                MyQuest.Add(itemNumberString, temQuest);
+                SubQuest.Add(itemNumberString);
+                //MyQuestOrder.Add(QuestNumberList[j]["Number"].ToString());
+                //MyQuest.Add(QuestNumberList[j]["QuestContents"].ToString());
+                return 1;
+            }
+        }
+        return 0;
+    }
+    public void AddQuest(string number) // 게임 진행 중 따로 추가를 할 때
+    {
+        for (int j = 0; j < QuestNumberList.Count; j++)
+        {
+            if (number == QuestNumberList[j]["ItemNumber"].ToString())
+            {
+                temQuest.itemNumber = number;
+                temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
+                temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
+                MyQuest.Add(number, temQuest);
+                SubQuest.Add(number);
+                questChanges = true;
+            }
+        }
+    }
+    public void RemoveQuest(string number) // 퀘스트 클리어 혹은 제거
+    {
+        MyQuest.Remove(number);
+        questChanges = true;
+    }
     public void QuestClear(bool clear)
     {
         // 퀘스트를 클리어하고 부를 함수
@@ -198,4 +260,15 @@ public class QuestManager : MonoBehaviour
         moveBG = move;
     }
 }
+public class Quest {
+    public string itemNumber;
+    public string questNumber;
+    public string questContents;
 
+    public Quest(string _itemNumber, string _questNumber, string _questContents)
+    {
+        this.itemNumber = _itemNumber;
+        this.questContents = _questContents;
+        this.questNumber = _questNumber;
+    }
+}

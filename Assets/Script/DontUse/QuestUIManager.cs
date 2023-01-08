@@ -7,7 +7,9 @@ using TMPro;
 public class QuestUIManager : MonoBehaviour
 {
     [SerializeField]
-    private Image QuestPanel;
+    private Image MainQuestPanel;
+    [SerializeField]
+    private Image SubQuestPanel;
     [SerializeField]
     private Object questText;
     private TextMeshProUGUI MainText;
@@ -23,7 +25,7 @@ public class QuestUIManager : MonoBehaviour
         MainText = a.GetComponent<TextMeshProUGUI>();
 
         MainText.text = QuestManager.instance.todayQuest;
-        MainText.transform.SetParent(QuestPanel.transform); 
+        //MainText.transform.SetParent(QuestPanel.transform); 
     }
 
     // Update is called once per frame

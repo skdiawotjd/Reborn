@@ -72,7 +72,7 @@ public class CharacterSelectManager : MonoBehaviour
         if (ItemContent.transform.childCount != ButtonCount)
         {
             //Debug.Log((Job)ButtonCount + "까지 생성");
-            for (int i = 0; i < ButtonCount; i++)
+            for (int i = 1; i <= ButtonCount; i++)
             {
                 GameObject NewSelectButton = Instantiate(Resources.Load("UI/SelectButton")) as GameObject;
                 NewSelectButton.transform.SetParent(ItemContent.transform, false);

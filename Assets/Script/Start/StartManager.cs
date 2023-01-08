@@ -57,6 +57,7 @@ public class StartManager : MonoBehaviour
     {
         //PopUpUIManager.SetActiveLoad();
         Job StartJob = GameManager.instance.CanPlayJob();
+        //Debug.Log("시작할 수 있는 직업" + StartJob);
         switch (StartJob)
         {
             case Job.Slayer :

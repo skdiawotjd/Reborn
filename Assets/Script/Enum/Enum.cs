@@ -21,6 +21,7 @@ public enum CharacterStatType
 {
     MySocialClass = 1, MyJob, MyAge, Reputation, Gold,//MyRound,
     MyPositon, ActivePoint, MyItem,
+    Smith, Bania,
     Knight, Scholar,
     LowNobility, MiddleNobility, HighNobility,
     King
@@ -38,8 +39,10 @@ public enum StartButtonOrder { New, Load, Exit }
 public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel }
 public enum UIInventoryOrder { Name, MySocialClass, MyJob, MyAge, TodoProgress, Item = 8 }
 public enum UIMainButtonOrder { Setting, SkipDay }
-public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, TodoProgress }
+public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, Reputation }
 //public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Resume, LoadClose, SoundClose, Back, BackOk, BackCancel }
 public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Back, Resume, LoadClose, SoundClose, BackOk, BackCancel }
 public enum UISettingPanelOrder { Pause, Save, Load, Sound, Back }
 public enum UISoundOrder { Background, Effect }
+public enum QuestState { Start, Progress, End, Stand }
+public enum QuestData { QuestNumber, QuestObjectNumber, ClearCount, QuestContent }

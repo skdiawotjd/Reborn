@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float _totalPlayTime;   // 하루의 총 시간
     
-    private bool _isdayStart;       // 하루가 시작되었는지
+    private bool _isDayStart;       // 하루가 시작되었는지
     [SerializeField]
     private int _round;             // 몇회차
     [SerializeField]
@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private DirectoryInfo SaveDataDirectory;
     [SerializeField]
     private int _saveDataCount;
+    [SerializeField]
+    public GameObject MainCanvas;
 
     public float PlayTime
     {
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            return _isdayStart;
+            return _isDayStart;
         }
     }
     public bool IsNewGenerate
@@ -127,6 +129,10 @@ public class GameManager : MonoBehaviour
     {
         SceneMoveEvent.AddListener(AddEvent);
     }
+    public void RemoveSceneMoveEvent(UnityAction AddEvent)
+    {
+        SceneMoveEvent.RemoveListener(AddEvent);
+    }
     // Character - LoadCharacter, PopUpUIManager - ActiveUIManagerList, UIMainManager - LoadUI
     // UIInventoryManager - LoadInventory, UISettingManager - SetActivePanel
     public void AddLoadEvent(UnityAction AddEvent)
@@ -151,9 +157,9 @@ public class GameManager : MonoBehaviour
 
         _playTime = 0f;
         _totalPlayTime = 600f;
-        _isdayStart = false;
+        _isDayStart = false;
         _isNewGenerate = true;
-        _days = 0;
+        _days = -1;
         _round = 0;
         _saveDataCount = 0;
         Pause = false;
@@ -191,7 +197,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                _isdayStart = false;
+                _isDayStart = false;
                 InitializeDay();
             }
         }
@@ -202,10 +208,13 @@ public class GameManager : MonoBehaviour
         if (IsNewGenerate)
         {
             _isNewGenerate = false;
+            /*_isDayStart = true;
+            Pause = true;*/
+
             // 1. 게임 초기화
             InitializeGame();
-            GenerateGameEvent.Invoke();
             Character.instance.CharacterStatSetting();
+            GenerateGameEvent.Invoke();
             GameStartEvent.Invoke();
 
             GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
@@ -425,8 +434,16 @@ public class GameManager : MonoBehaviour
 
         switch (Days)
         {
+            case 0:
+                Debug.Log("3 Or 6일이 지남");
+                Character.instance.CheckStack();
+                Character.instance.SetCharacterStat(CharacterStatType.Reputation, -Character.instance.Reputation);
+
+                GameStart();
+                break;
             case 3:
             case 6:
+                Debug.Log("3 Or 6일이 지남");
                 if (Character.instance.Reputation >= 10 / Days)
                 {
                     // 리본 모양 변경 기능
@@ -438,6 +455,7 @@ public class GameManager : MonoBehaviour
                 NewDay();
                 break;
             case 9:
+                Debug.Log("9일이 지남");
                 if (Character.instance.Reputation == 100)
                 {
                     Character.instance.CheckStack();
@@ -456,7 +474,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 하루 시작 과정
-    private void NewDay()
+    public void NewDay()
     {
         // 값 초기화
         _playTime = 0f;
@@ -482,8 +500,8 @@ public class GameManager : MonoBehaviour
             case 3:
                 break;
         }*/
-
-        _isdayStart = true;
+        _isDayStart = true;
+        Pause = false;
         //Debug.Log(Days + "일 시작");
         DayStart.Invoke();
     }
@@ -498,9 +516,8 @@ public class GameManager : MonoBehaviour
 
         SceneMoveEvent.Invoke();
 
-        
 
-        if (!IsDayStart && SceneName == "Home")
+        if (!IsDayStart && (SceneName == "Home" || SceneName == "MiniGame"))
         {
             NewDay();
         }

@@ -218,8 +218,8 @@ public class ExploreManager : MonoBehaviour
             case 2:
                 Debug.Log("도망");
                 messageManager.setMessagePanel(false);
-                Character.instance.SetCharacterInput(true, true);
-                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0201"); // 대장장이의 Town
+                Character.instance.SetCharacterInput(true, true, true);
+                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013"); // 대장장이의 Town
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
                 // 도망간다 선택지를 골랐을 시 기능
                 break;

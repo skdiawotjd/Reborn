@@ -97,9 +97,9 @@ public class UIMainManager : UIManager
                 //MainImage[(int)UIMainImageOrders.Job].sprite = "현 직업에 맞는 이미지 삽입";
                 break;
             // TodoProgress
-            case UIMainImageOrders.TodoProgress:
+            case UIMainImageOrders.Reputation:
                 //TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
-                MainImage[(int)UIMainImageOrders.TodoProgress].fillAmount = (float)Character.instance.Reputation / 100f;
+                MainImage[(int)UIMainImageOrders.Reputation].fillAmount = (float)Character.instance.Reputation / 100f;
                 break;    
         }
     }

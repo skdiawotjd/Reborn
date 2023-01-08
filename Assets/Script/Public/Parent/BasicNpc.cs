@@ -6,9 +6,12 @@ public abstract class BasicNpc : MonoBehaviour
 {
     [SerializeField]
     protected int _npcNumber;
-    protected ConversationManager ConversationManager;
     [SerializeField]
     protected int _chatType;    // 0 - 시작 대사, 1 - 확인 대사, 2 - true, 3 - false
+    [SerializeField]
+    protected string _npcName;
+
+    protected ConversationManager ConversationManager;
 
     public int NpcNumber
     {
@@ -29,6 +32,13 @@ public abstract class BasicNpc : MonoBehaviour
             return _chatType;
         }
     }
+    public string NpcName
+    {
+        get
+        {
+            return _npcName;
+        }
+    }
 
     public void SetNpcNumber(int number)
     {
@@ -37,6 +47,10 @@ public abstract class BasicNpc : MonoBehaviour
     public void SetChatType(int Type)
     {
         _chatType = Type;
+    }
+    public void SetNpcName(string Neme)
+    {
+        _npcName = Neme;
     }
 
 
@@ -51,6 +65,7 @@ public abstract class BasicNpc : MonoBehaviour
     {
         if (collision.gameObject.name == "R_Weapon")
         {
+            Debug.Log("ASdasdasd");
             FunctionStart();
         }
     }

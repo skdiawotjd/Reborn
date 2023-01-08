@@ -9,8 +9,11 @@ public class PlayerController : MonoBehaviour
     private SPUM_Prefab Spum;
     [SerializeField]
     private GameObject RotationObject;
+    [SerializeField]
     private bool _characterControllable;
+    [SerializeField]
     private bool _characterMovable;
+    [SerializeField]
     private bool UIControllable;
     public bool ConversationNext;
     private float moveSpeed;
@@ -190,7 +193,7 @@ public class PlayerController : MonoBehaviour
         transform.position = FinalPosition;
     }
     /// <summary>
-    /// 0 - аб, 1 - ©Л, 2 - ╩С, 3 - го
+    /// -1 - а╓аЖ, 0 - аб, 1 - ©Л, 2 - ╩С, 3 - го
     /// </summary>
     public void SetPlayerPosition(int k)
     {

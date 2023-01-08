@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -152,7 +150,7 @@ public class Character : MonoBehaviour
         CharacterStat = new Stat();
         CharacterStat._myItem = new List<string>();
         CharacterStat._myItemCount = new List<int>();
-        CharacterStat._myStackByJob = new int[6];
+        CharacterStat._myStackByJob = new int[8];
 
         _myPlayerController = gameObject.GetComponent<PlayerController>();
         _myItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
@@ -185,7 +183,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - Reputation, 5 - Gold, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~14 - MyStack(SocialClass / Job)
     /// <para>
-    /// 직업 별 Type : 9 - 기사, 10 - 학자, 11 - 하급귀족, 12 - 중급귀족, 13 - 상급귀족, 14 - 왕
+    /// 직업 별 Type : 9 - 대장장이, 10 - 상인, 11 - 기사, 12 - 학자, 13 - 하급귀족, 14 - 중급귀족, 15 - 상급귀족, 16 - 왕
     /// </para>
     /// </summary> 
     public void SetCharacterStat<T>(CharacterStatType Type, T value)
@@ -290,7 +288,7 @@ public class Character : MonoBehaviour
                     }
                 }
                 break;
-            case CharacterStatType InputType when (InputType >= CharacterStatType.Knight):
+            case CharacterStatType InputType when (InputType >= CharacterStatType.Smith):
                 CharacterStat._myStackByJob[(int)Type - 9] += StatType;
                 break;
         }
@@ -300,29 +298,26 @@ public class Character : MonoBehaviour
 
     public void CharacterStatSetting()
     {
-        if (GameManager.instance.Round == 1)
-        {
-            // 새로 시작
-            // 1. 이름 설정
-            CharacterStat._myName = "주인공";
-            // 2. 계급/직업 설정
-            CharacterStat._mySocialClass = SocialClass.Helot;
-            CharacterStat._myJob = Job.Slayer;
-            // 3. 나이 설정
-            CharacterStat._myAge = 10;
-            // 4. 진행도 설정
-            CharacterStat._reputation = 0;
-            // 5. 골드 설정
-            CharacterStat._gold = 0;
-            // 6. 위치 설정
-            CharacterStat._myMapNumber = "0007";
-            // 7. 활동력 설정
-            CharacterStat._activePoint = 100;
-            // 8. 스택 설정
-            InitializeStack();
-            // 9. 작업 속도 설정
-            CharacterStat.MyWorkSpeed = 1.0f;
-        }
+        // 새로 시작
+        // 1. 이름 설정
+        CharacterStat._myName = "주인공";
+        // 2. 계급/직업 설정
+        CharacterStat._mySocialClass = SocialClass.Helot;
+        CharacterStat._myJob = Job.Slayer;
+        // 3. 나이 설정
+        CharacterStat._myAge = 10;
+        // 4. 진행도 설정
+        CharacterStat._reputation = 0;
+        // 5. 골드 설정
+        CharacterStat._gold = 0;
+        // 6. 위치 설정
+        CharacterStat._myMapNumber = "0007";
+        // 7. 활동력 설정
+        CharacterStat._activePoint = 100;
+        // 8. 스택 설정
+        InitializeStack();
+        // 9. 작업 속도 설정
+        CharacterStat.MyWorkSpeed = 1.0f;
     }
 
     public void CharacterStatSetting(Job StartJob)
@@ -367,7 +362,7 @@ public class Character : MonoBehaviour
         // 5. 골드 설정
         CharacterStat._gold = 0;
         // 6. 위치 설정
-        CharacterStat._myMapNumber = "0007";
+        CharacterStat._myMapNumber = "0" + ((int)CharacterStat._myJob).ToString() + "02";
 
         // 8. 스택 설정
         InitializeStack();
@@ -378,7 +373,7 @@ public class Character : MonoBehaviour
     public void InitializeCharacter()
     {
         //InitializeMapNumber
-        CharacterStat._myMapNumber = "0" + ((int)(MySocialClass)).ToString() + "07";
+        CharacterStat._myMapNumber = "0" + ((int)CharacterStat._myJob).ToString() + "02";
         // 3. 나이 설정
         CharacterStat._myAge = 10;
         // 6. 활동력 설정
@@ -404,18 +399,22 @@ public class Character : MonoBehaviour
                 {
                     case 0:
                     case 1:
-                        CharacterStat._mySocialClass = SocialClass.SemiNoble;
+                        CharacterStat._mySocialClass = SocialClass.Commons;
                         break;
                     case 2:
                     case 3:
+                        CharacterStat._mySocialClass = SocialClass.SemiNoble;
+                        break;
                     case 4:
+                    case 5:
+                    case 6:
                         CharacterStat._mySocialClass = SocialClass.Noble;
                         break;
-                    case 5:
+                    case 7:
                         CharacterStat._mySocialClass = SocialClass.King;
                         break;
                 }
-                CharacterStat._myJob = (Job)(CheckStack + 3);
+                CharacterStat._myJob = (Job)(CheckStack + 1);
 
                 InitializeStack();
             }
@@ -441,13 +440,18 @@ public class Character : MonoBehaviour
 
     public void SetCharacterPosition()
     {
-        if(CharacterPosition.x == 0 && CharacterPosition.y == 0)
+        if (CharacterPosition == Vector2.zero)
+        //if (CharacterPosition.x == 0 && CharacterPosition.y == 0)
         {
-            switch (CharacterStat._myMapNumber)
+            /*switch (CharacterStat._myMapNumber)
             {
+                //Tutorial
+                case "0004":
+                    _characterPosition.x = 7f;
+                    _characterPosition.y = -2.7f;
+                    break;
                 // Home
                 case "0000":
-                    //CharacterVector = new Vector2(-3.8f, -3.3f);
                     _characterPosition.x = -3.8f;
                     _characterPosition.y = -3.3f;
                     MyPlayerController.PlayerRotation(Direction.Right);
@@ -468,10 +472,42 @@ public class Character : MonoBehaviour
                     MyPlayerController.PlayerRotation(Direction.Right);
                     break;
 
-            }
+            }*/
+        }
+
+        switch (CharacterStat._myMapNumber)
+        {
+            //Tutorial
+            case "0004":
+                _characterPosition.x = 7f;
+                _characterPosition.y = -2.7f;
+                break;
+            // Home
+            case "0000":
+                _characterPosition.x = -3.8f;
+                _characterPosition.y = -3.3f;
+                MyPlayerController.PlayerRotation(Direction.Right);
+                break;
+            // Town
+            case "0001":
+            case "0101":
+            case "0201":
+            case "0301":
+            case "0401":
+                _characterPosition.x = -11.8f;
+                _characterPosition.y = 5.3f;
+                MyPlayerController.PlayerRotation(Direction.Right);
+                break;
+            case "0008":
+            case "0108":
+                _characterPosition.y = -2f;
+                MyPlayerController.PlayerRotation(Direction.Right);
+                break;
+
         }
 
         transform.position = CharacterPosition;
+        //Debug.Log("Set " + transform.position);
         _characterPosition.x = 0f;
         _characterPosition.y = 0f;
     }

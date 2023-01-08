@@ -122,17 +122,17 @@ public class QuestManager : MonoBehaviour
         }
         return 0;
     }
-    public void AddQuest(string number) // 게임 진행 중 따로 추가를 할 때
+    public void AddQuest(string QuestObjectNumber) // 게임 진행 중 따로 추가를 할 때
     {
         for (int j = 0; j < QuestNumberList.Count; j++)
         {
-            if (number == QuestNumberList[j]["ItemNumber"].ToString())
+            if (QuestObjectNumber == QuestNumberList[j]["ItemNumber"].ToString())
             {
-                temQuest.itemNumber = number;
+                temQuest.itemNumber = QuestObjectNumber;
                 temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
                 temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
-                MyQuest.Add(number, temQuest);
-                SubQuest.Add(number);
+                MyQuest.Add(QuestObjectNumber, temQuest);
+                SubQuest.Add(QuestObjectNumber);
                 questChanges = true;
             }
         }

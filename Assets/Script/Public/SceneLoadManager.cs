@@ -184,11 +184,11 @@ public class SceneLoadManager : MonoBehaviour
                 temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0004");
                 temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "수습대장장이";
 
-                temNPC = Instantiate(bundle.LoadAsset<GameObject>("QuestChatNPC"), new Vector3(-15, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
-                temNPC.transform.GetComponent<DeliveryNPC>().SetNpcNumber(11);
-                temNPC.transform.GetComponent<DeliveryNPC>().SetOrderString("9999");
+                temNPC = Instantiate(bundle.LoadAsset<GameObject>("QuestNPC"), new Vector3(-15, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
+                temNPC.transform.GetComponent<QuestGiveNpc>().SetNpcNumber(11);
+                temNPC.transform.GetComponent<QuestGiveNpc>().SetOrderString("7010");
                 temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
-                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "물건전달노예";
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "퀘스트부여";
 
                 temNPC = Instantiate(bundle.LoadAsset<GameObject>("MiniGameTownNPC"), new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(13);

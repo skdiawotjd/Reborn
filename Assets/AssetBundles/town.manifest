@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3824330330
+CRC: 2284975635
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6dd4c58c4c2b1cee2eda90bda7024ec2
+    Hash: 115ef95a74ec875bfc5808bff681154d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9415eda62a907a3c65e17db95a855f4e
+    Hash: dce87f39cb3b456e4df0c7d1b63d2643
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -57,6 +57,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: eec2c2b638f63854f80d6b6f12a070d9, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: bdadc5a21ba6c134192e653b4385d366, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b3971ff2e29106e469235a344408428d, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 60eadddeab0d66d4084aca14d14cbcfc, type: 3}
 - Class: 115
@@ -112,4 +114,5 @@ Assets:
 - Assets/Resources/Prefabs/NPC/QuestChatNPC.prefab
 - Assets/Resources/Prefabs/Map/TownBackground.prefab
 - Assets/Resources/Prefabs/NPC/MiniGameTownNPC.prefab
+- Assets/Resources/Prefabs/NPC/QuestNPC.prefab
 Dependencies: []

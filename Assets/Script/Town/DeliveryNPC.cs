@@ -54,8 +54,5 @@ public class DeliveryNPC : BasicNpc
             Character.instance.MyPlayerController.EventConversation.Invoke();
             QuestStart = false;
         }
-
     }
-
-
 }

@@ -6,9 +6,12 @@ using TMPro;
 
 public abstract class MiniGameManager : MonoBehaviour
 {
+    protected int GameType;
+    protected UIFrameWorkManager FrameWorkManager;
     protected virtual void Start()
     {
         Character.instance.transform.position = new Vector3(0f, 0f, 0f);
+        FrameWorkManager = GameObject.Find("UIMinigameManager").GetComponent<UIFrameWorkManager>();
     }
     public abstract void GameStart();
     public abstract void GameEnd(bool clear);
@@ -24,6 +27,7 @@ public abstract class MiniGameManager : MonoBehaviour
     
     public virtual void Generate() { }
     public virtual void PressKey(int num) { }
+    public int GetGameType() { return GameType; }
     public virtual IEnumerator CountTime(float delayTime) { yield return new WaitForSeconds(delayTime); }
     public virtual IEnumerator ChangeTimingValue(float delayTime) { yield return new WaitForSeconds(delayTime); }
 }

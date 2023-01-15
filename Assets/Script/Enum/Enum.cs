@@ -36,7 +36,7 @@ public enum CharacterStatType
 }*/
 
 public enum StartButtonOrder { New, Load, Exit }
-public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel }
+public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel, ManufacturePanel }
 public enum UIInventoryOrder { Name, MySocialClass, MyJob, MyAge, TodoProgress, Item = 8 }
 public enum UIMainButtonOrder { Setting, SkipDay }
 public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, Reputation }

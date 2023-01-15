@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class QuestManager : MonoBehaviour
 {
     private List<string> MainQuest;
-    public List<string> SubQuest;
+    public List<string> QuestOrder;
     public Dictionary<string, Quest> MyQuest;
     private Quest temQuest;
     private List<string> MyQuest2;
@@ -48,7 +48,7 @@ public class QuestManager : MonoBehaviour
         }
         UniqueQuestList = CSVReader.Read("UniqueQuest");
         QuestNumberList = CSVReader.Read("QuestNumberList");
-        temQuest = new Quest("0", "0", "0");
+        temQuest = new Quest("0", "0", "0", "0");
         GiveQuest();
         questChanges = false;
         //QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<QuestUIManager>();
@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
     void Start()
     {
         MainQuest = new List<string>();
-        SubQuest = new List<string>();
+        QuestOrder = new List<string>();
         MyQuest = new Dictionary<string, Quest>();
         //QUIManager.questTextGenerate();
         GameManager.instance.AddDayStart(GiveQuest);
@@ -87,7 +87,7 @@ public class QuestManager : MonoBehaviour
         for (int i = 1; i <= int.Parse(string.Format("{0}", TodoNumberlist[0]["Add" + Character.instance.MyJob.ToString()])); i++)
         {
             Debug.Log("Add" + Character.instance.MyJob.ToString() + " " + TodoNumberlist[i]["Add" + Character.instance.MyJob.ToString()]);
-            SubQuest.Add(TodoNumberlist[i][Character.instance.MyJob.ToString()].ToString());
+            //SubQuest.Add(TodoNumberlist[i][Character.instance.MyJob.ToString()].ToString());
         }
     }
 
@@ -113,8 +113,9 @@ public class QuestManager : MonoBehaviour
                 temQuest.itemNumber = itemNumberString;
                 temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
                 temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
+                temQuest.job = QuestNumberList[j]["Job"].ToString();
                 MyQuest.Add(itemNumberString, temQuest);
-                SubQuest.Add(itemNumberString);
+                QuestOrder.Add(itemNumberString);
                 //MyQuestOrder.Add(QuestNumberList[j]["Number"].ToString());
                 //MyQuest.Add(QuestNumberList[j]["QuestContents"].ToString());
                 return 1;
@@ -131,8 +132,9 @@ public class QuestManager : MonoBehaviour
                 temQuest.itemNumber = QuestObjectNumber;
                 temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
                 temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
+                temQuest.job = QuestNumberList[j]["Job"].ToString();
                 MyQuest.Add(QuestObjectNumber, temQuest);
-                SubQuest.Add(QuestObjectNumber);
+                QuestOrder.Add(QuestObjectNumber);
                 questChanges = true;
             }
         }
@@ -248,11 +250,11 @@ public class QuestManager : MonoBehaviour
             if(MainQuest[i] == MapNumber)
                 return true;
         }
-        for (int i = 0; i < SubQuest.Count; i++)
+        /*for (int i = 0; i < SubQuest.Count; i++)
         {
             if (SubQuest[i] == MapNumber)
                 return true;
-        }
+        }*/
         return false;
     }
     public void ChangeMoveBG(bool move) // 탐험에서 배경이 움직일 지 안 움직일지를 판단하는 변수를 바꿔준다.
@@ -264,11 +266,13 @@ public class Quest {
     public string itemNumber;
     public string questNumber;
     public string questContents;
+    public string job;
 
-    public Quest(string _itemNumber, string _questNumber, string _questContents)
+    public Quest(string _itemNumber, string _questNumber, string _questContents, string job)
     {
         this.itemNumber = _itemNumber;
         this.questContents = _questContents;
         this.questNumber = _questNumber;
+        this.job = job;
     }
 }

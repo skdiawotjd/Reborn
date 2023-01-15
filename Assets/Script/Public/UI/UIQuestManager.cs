@@ -57,24 +57,25 @@ public class UIQuestManager : UIManager
                 Destroy(temQuestPanel[i].gameObject);
             }
         }
+        LoadQuestList();
+    }
+    public void LoadQuestList()
+    {
         for (int i = 0; i < QuestManager.instance.MyQuest.Count; i++)
         {
             temQuestPanel[i] = Instantiate(addQuestPanel, newPos, Quaternion.identity) as GameObject;
             QuestPanelText = temQuestPanel[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            QuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.SubQuest[i]].questContents;
-            temQuestPanel[i].transform.SetParent(SubQuestPanel.transform);
-        }
-    }
-    public void LoadQuestList()
-    {
-        for(int i=0; i < QuestManager.instance.MyQuest.Count; i++)
-        {
-            temQuestPanel[i] = Instantiate(addQuestPanel, newPos, Quaternion.identity) as GameObject;
-            QuestPanelText = temQuestPanel[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-
-            QuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.SubQuest[i]].questContents;
-            temQuestPanel[i].transform.SetParent(SubQuestPanel.transform);
+            QuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].questContents;
+            Debug.Log("퀘스트 직업 : " + QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].job + " 현재 직업 : " + Character.instance.MyJob.ToString());
+            if (QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].job == Character.instance.MyJob.ToString())
+            {
+                temQuestPanel[i].transform.SetParent(MainQuestPanel.transform);
+            }
+            else
+            {
+                temQuestPanel[i].transform.SetParent(SubQuestPanel.transform);
+            }
         }
     }
 

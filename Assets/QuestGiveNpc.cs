@@ -32,7 +32,8 @@ public class QuestGiveNpc : BasicNpc
             Debug.Log("Start " + QuestStart + " " + ChatType);
             ConversationManager.CurNpc = this;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-            //Character.instance.SetCharacterStat(CharacterStatType.MyItem, "70101");
+            Character.instance.SetCharacterStat(CharacterStatType.MyItem, "70101");
+            QuestManager.instance.AddQuest("7010");
         }
 
     }

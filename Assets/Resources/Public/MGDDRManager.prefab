@@ -57,3 +57,5 @@ MonoBehaviour:
   Tshirt3: {fileID: 21300000, guid: d4c31d801092179478cb419f67c042da, type: 3}
   Tshirt4: {fileID: 21300000, guid: 70e6a644df247e641bbc9d06f15cc285, type: 3}
   BookObject: {fileID: 2178657834972022333, guid: 1ef1516494e3e2d4f894fbb09b9a0fd4, type: 3}
+  recipeSelectButton: {fileID: 3155621432253720271, guid: 51859b59305d526418893f01b6fb0c7f, type: 3}
+  ingredientImage: {fileID: 631046061884002149, guid: 4f74c849164579647afeed09d9a3560d, type: 3}

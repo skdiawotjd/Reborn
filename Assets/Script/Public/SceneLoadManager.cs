@@ -221,7 +221,7 @@ public class SceneLoadManager : MonoBehaviour
                 temMap.name = "Background";
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("MGDDRManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "MGDDRManager";
-                temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(7, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temNPC = Instantiate(temBundle.LoadAsset<GameObject>("MiniGameNPC"), new Vector3(7, -2, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(-8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToBase";
                 temObject.GetComponent<Portal>().ChangeSceneName("0001");

@@ -27,22 +27,22 @@ public class MiniGameNPC : BasicNpc
                 {
                     case "0003": // ddr
                     case "0103":
-                        miniGameManager = GameObject.Find("MGDDRManager").GetComponent<MGDDRManager>();
+                        miniGameManager = GameObject.Find("MGDDRManager").GetComponent<MiniGameManager>();
                         break;
                     case "0004": // 타이밍
                     case "0104":
                     case "0204":
-                        miniGameManager = GameObject.Find("MGTimingManager").GetComponent<MGTimingManager>();
+                        miniGameManager = GameObject.Find("MGTimingManager").GetComponent<MiniGameManager>();
                         break;
                     case "0005": // 퀴즈
                     case "0105":
-                        miniGameManager = GameObject.Find("MGQuizManager").GetComponent<MGQuizManager>();
+                        miniGameManager = GameObject.Find("MGQuizManager").GetComponent<MiniGameManager>();
                         break;
                     case "0006": // 오브젝트
                     case "0106":
                     case "0206":
                     case "0306":
-                        miniGameManager = GameObject.Find("MGObjectManager").GetComponent<MGObjectManager>();
+                        miniGameManager = GameObject.Find("MGObjectManager").GetComponent<MiniGameManager>();
                         break;
                     default:
                         break;

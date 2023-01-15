@@ -21,7 +21,7 @@ public abstract class UIManager : MonoBehaviour
     {
         Panel.SetActive(Active);
     }
-
     protected abstract void StartUI();
     protected abstract void EndUI();
+    
 }

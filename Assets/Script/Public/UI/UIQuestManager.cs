@@ -50,7 +50,6 @@ public class UIQuestManager : UIManager
     }
     public void ReloadQuestList()
     {
-        Debug.Log("퀘스트 재생성 함수 진입" + QuestManager.instance.MyQuest.Count);
         for(int i = 0; i < temQuestPanel.Length; i++)
         {
             if (temQuestPanel[i] != null)
@@ -69,7 +68,6 @@ public class UIQuestManager : UIManager
     }
     public void LoadQuestList()
     {
-        Debug.Log("퀘스트 생성 함수 진입" + QuestManager.instance.MyQuest.Count);
         for(int i=0; i < QuestManager.instance.MyQuest.Count; i++)
         {
             temQuestPanel[i] = Instantiate(addQuestPanel, newPos, Quaternion.identity) as GameObject;

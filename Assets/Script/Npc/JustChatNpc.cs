@@ -15,11 +15,4 @@ public class JustChatNPC : BasicNpc
         ConversationManager.CurNpc = this;
         ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
     }
-
-    /*public override void FunctionEnd()
-    {
-        ConversationManager.CurNpc = null;
-        Character.instance.SetCharacterInput(true, true, true);
-        //Character.instance.SetCharacterStat(7, -Character.instance.ActivePoint);
-    }*/
 }

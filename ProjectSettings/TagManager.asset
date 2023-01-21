@@ -9,6 +9,7 @@ TagManager:
   - SimpleInterActionable
   - Enemy
   - PlayerAttack
+  - MinigameManager
   layers:
   - Default
   - TransparentFX

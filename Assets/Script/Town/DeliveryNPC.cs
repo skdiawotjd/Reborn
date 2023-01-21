@@ -15,7 +15,6 @@ public class DeliveryNPC : BasicNpc
     {
         OrderString = str;
     }
-
     protected override void FunctionStart()
     {
         if (QuestStart)

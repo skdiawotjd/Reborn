@@ -68,7 +68,6 @@ public class SceneLoadManager : MonoBehaviour
     public UnityEvent MapSettingEvent;
     public static SceneLoadManager instance = null;
 
-
     private void Awake()
     {
         if (instance == null)
@@ -89,13 +88,10 @@ public class SceneLoadManager : MonoBehaviour
         GameManager.instance.AddSceneMoveEvent(MapSetting);
         MapNumber = CSVReader.Read("MapNumber");
     }
-
-    // Update is called once per frame
     void Update()
     {
         
     }
-
     public void MapSetting()
     {
         bundleP = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "public"));
@@ -179,10 +175,13 @@ public class SceneLoadManager : MonoBehaviour
                 temObject.name = "DoorToHome";
                 temObject.GetComponent<Portal>().ChangeSceneName("0008");
 
-                temNPC = Instantiate(bundle.LoadAsset<GameObject>("MiniGameTownNPC"), new Vector3(13, 5.5f, transform.position.z), Quaternion.identity) as GameObject;
-                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(12);
-                temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0004");
-                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "수습대장장이";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(13, 5.5f, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToSmithAgit";
+                temObject.GetComponent<Portal>().ChangeSceneName("0001");
+
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(-18f, 0f, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToPassageToCastle";
+                temObject.GetComponent<Portal>().ChangeSceneName("0102");
 
                 temNPC = Instantiate(bundle.LoadAsset<GameObject>("QuestNPC"), new Vector3(-15, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
                 temNPC.transform.GetComponent<QuestGiveNpc>().SetNpcNumber(11);
@@ -194,6 +193,38 @@ public class SceneLoadManager : MonoBehaviour
                 temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(13);
                 temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0005");
                 temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "퀴즈NPC";
+
+                bundle.Unload(false);
+                break;
+            case "0102": // 평민의 통로
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "town"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("PassageToCastle"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temNPC = Instantiate(bundle.LoadAsset<GameObject>("PassageNPC"), new Vector3(-8.5f, -1f, transform.position.z), Quaternion.identity) as GameObject;
+                //temNPC.transform.GetComponent<QuestGiveNpc>().SetNpcNumber(11);
+                //temNPC.transform.GetComponent<QuestGiveNpc>().SetOrderString("7010");
+                //temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
+                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "경비병";
+                bundle.Unload(false);
+                break;
+            case "0113": // 준귀족의 Town
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "town"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("TownBackground"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+
+                bundle.Unload(false);
+                break;
+            case "0213": // 귀족의 Town
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "town"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("TownBackground"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(18f, 0f, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToCommonsTown";
+                temObject.GetComponent<Portal>().ChangeSceneName("0013");
 
                 bundle.Unload(false);
                 break;
@@ -278,7 +309,6 @@ public class SceneLoadManager : MonoBehaviour
                 temBattleManager.SetexploreManager(temExploreManager);
                 temExploreManager.SetBattleManager(temBattleManager);
 
-
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;            
@@ -299,14 +329,38 @@ public class SceneLoadManager : MonoBehaviour
                 temBattleManager.SetexploreManager(temExploreManager);
                 temExploreManager.SetBattleManager(temBattleManager);
 
-
                 bundle.Unload(false);
                 temBundle.Unload(false);
                 break;
+            case "0009": // 노예 모험
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
 
+                temObject = Instantiate(temBundle.LoadAsset<GameObject>("BattleManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temBattleManager = temObject.GetComponent<BattleManager>();
+                temBattleManager.name = "BattleManager";
+                temObject.gameObject.SetActive(true);
+
+                break;
+            case "0109": // 대장장이 모험
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+
+                temObject = Instantiate(temBundle.LoadAsset<GameObject>("BattleManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temBattleManager = temObject.GetComponent<BattleManager>();
+                temBattleManager.name = "BattleManager";
+                temObject.gameObject.SetActive(true);
+
+                break;
+            case "0209": // 상인 모험
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+
+                temObject = Instantiate(temBundle.LoadAsset<GameObject>("BattleManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temBattleManager = temObject.GetComponent<BattleManager>();
+                temBattleManager.name = "BattleManager";
+                temObject.gameObject.SetActive(true);
+
+                break;
             default:
                 break;
-                
         }
         bundleP.Unload(false);
         Background = GameObject.Find("Background").GetComponent<RectTransform>();

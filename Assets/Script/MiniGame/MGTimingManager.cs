@@ -19,17 +19,15 @@ public class MGTimingManager : MiniGameManager
     
     private void Awake()
     {
-
-
-
         GameType = 4;
     }
 
     protected override void Start()
     {
         base.Start();
+        panelActiveSelf = false;
 
-        
+
     }
 
     // Update is called once per frame
@@ -65,6 +63,15 @@ public class MGTimingManager : MiniGameManager
                 }
             }
         }
+        if (panelActiveSelf)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                FrameWorkManager.SetDisabledPanel();
+                Character.instance.SetCharacterInput(true, true, true);
+            }
+        }
+
     }
 
     public override void GameStart()
@@ -140,11 +147,6 @@ public class MGTimingManager : MiniGameManager
                 //timingGameActive = false;
             }
         }
-    }
-    public void CallSetRound()
-    {
-        //manufacturePanel.gameObject.SetActive(false);
-        SetRound(5);
     }
 
     public override IEnumerator CountTime(float delayTime)

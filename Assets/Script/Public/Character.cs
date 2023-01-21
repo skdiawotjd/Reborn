@@ -489,7 +489,6 @@ public class Character : MonoBehaviour
                 MyPlayerController.PlayerRotation(Direction.Right);
                 break;
             // Town
-            case "0001":
             case "0101":
             case "0201":
             case "0301":
@@ -502,6 +501,10 @@ public class Character : MonoBehaviour
             case "0108":
                 _characterPosition.y = -2f;
                 MyPlayerController.PlayerRotation(Direction.Right);
+                break;
+            case "0001":
+                _characterPosition.x = 0f;
+                _characterPosition.y = -2f;
                 break;
 
         }

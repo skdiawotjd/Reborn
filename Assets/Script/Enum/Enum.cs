@@ -36,7 +36,7 @@ public enum CharacterStatType
 }*/
 
 public enum StartButtonOrder { New, Load, Exit }
-public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel, ManufacturePanel }
+public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel, ConversationPanel }
 public enum UIInventoryOrder { Name, MySocialClass, MyJob, MyAge, TodoProgress, Item = 8 }
 public enum UIMainButtonOrder { Setting, SkipDay }
 public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, Reputation }
@@ -44,5 +44,5 @@ public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, Reputation }
 public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Back, Resume, LoadClose, SoundClose, BackOk, BackCancel }
 public enum UISettingPanelOrder { Pause, Save, Load, Sound, Back }
 public enum UISoundOrder { Background, Effect }
-public enum QuestState { Start, Progress, End, Stand }
+public enum QuestState { Start, Progress, End, Stand, Story }
 public enum QuestData { QuestNumber, QuestObjectNumber, ClearCount, QuestContent }

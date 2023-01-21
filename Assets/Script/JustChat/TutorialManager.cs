@@ -7,6 +7,8 @@ public class TutorialManager : MonoBehaviour
     private int _step;
     private int _stepDetail;
 
+    private string NextMapNumber;
+
     private int Step
     {
         set
@@ -49,7 +51,9 @@ public class TutorialManager : MonoBehaviour
         if ((int)Character.instance.MySocialClass < 1)
         {
             ///
-            _stepDetail = 13;
+            JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
+            _step = 2;
+            //_stepDetail = 1;
             ///
             GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
             GameManager.instance.AddSceneMoveEvent(CheckStep);
@@ -167,6 +171,7 @@ public class TutorialManager : MonoBehaviour
                     case 12:
                         // 12 대화/대기 Debug.Log("");
                         JustChatManager.ChangeNpcNumberChatType("0-5");
+                        //JustChatManager.ConversationManager.CurNpc = JustChatManager.JustChatNpc;
                         JustChatManager.ConversationManager.SetChatName("펜던트소녀");
                         Character.instance.MyPlayerController.EventConversation.Invoke();
                         StartCoroutine(JustChatManager.WaitChat());
@@ -175,7 +180,10 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 13:
                         // 13 선택 창 Debug.Log("");
-                        JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
+                        JustChatManager.ChangeNpcNumberChatType("0-6");
+                        JustChatManager.ConversationManager.AddSelectEvent(SelectJob);
+                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());
                         break;
@@ -190,7 +198,7 @@ public class TutorialManager : MonoBehaviour
                     case 15:
                         // 15 콜라이더 설정/오브젝트 생성/끝 Debug.Log("");
                         JustChatManager.SetCollider();
-                        JustChatManager.CreatePortal(new Vector3(6.5f, 0f, 0f), "0004");
+                        JustChatManager.CreatePortal(new Vector3(6.5f, 0f, 0f), NextMapNumber);
                         Character.instance.SetCharacterInput(true, true, false);
 
                         _step = 1;
@@ -220,5 +228,20 @@ public class TutorialManager : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         StepDetail++;
+    }
+
+    private void SelectJob(int Job)
+    {
+        switch(Job)
+        {
+            case 0:
+                Debug.Log("대장장이 선택");
+                NextMapNumber = "0001";
+                break;
+            case 1:
+                Debug.Log("상인 선택");
+                NextMapNumber = "0201";
+                break;
+        }
     }
 }

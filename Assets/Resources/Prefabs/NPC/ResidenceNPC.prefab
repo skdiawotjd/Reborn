@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 8566783211864143603}
   - component: {fileID: 7154730621510280739}
   - component: {fileID: 398086739448290637}
-  - component: {fileID: 898578913697209320}
+  - component: {fileID: 1227710089947630363}
   m_Layer: 7
   m_Name: ResidenceNPC
   m_TagString: Conversationable
@@ -360,7 +360,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &898578913697209320
+--- !u!114 &1227710089947630363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -369,17 +369,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 908358107436256746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2da95767688a734695abefee01af7b6, type: 3}
+  m_Script: {fileID: 11500000, guid: e286bdd3715d43e44ac223ebd12adace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _npcNumber: 0
   _chatType: 0
+  _npcName: 
   QusetStateText: {fileID: 7948131074566365251}
-  QuestDataList:
-  - 
-  - 
-  - 
-  _residenceqQuestState: 0
+  QuestDataList: []
+  _questNpcState: 0
 --- !u!1 &1139885075544445146
 GameObject:
   m_ObjectHideFlags: 0

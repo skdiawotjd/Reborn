@@ -21,7 +21,7 @@ public class QuestGiveNpc : BasicNpc
         if (QuestStart)
         {
             ChatType = 1;
-            Debug.Log("Start " + QuestStart + " " + ChatType);
+            //Debug.Log("Start " + QuestStart + " " + ChatType);
             ConversationManager.CurNpc = this;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
         }
@@ -29,7 +29,7 @@ public class QuestGiveNpc : BasicNpc
         {
             QuestStart = true;
             ChatType = 0;
-            Debug.Log("Start " + QuestStart + " " + ChatType);
+            //Debug.Log("Start " + QuestStart + " " + ChatType);
             ConversationManager.CurNpc = this;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
             Character.instance.SetCharacterStat(CharacterStatType.MyItem, "70101");
@@ -39,7 +39,6 @@ public class QuestGiveNpc : BasicNpc
     }
     public override void FunctionEnd()
     {
-        
         if (ChatType == 1)
         {
             for (int i = 0; i < Character.instance.MyItem.Count; i++)
@@ -47,20 +46,32 @@ public class QuestGiveNpc : BasicNpc
                 if (Character.instance.MyItem[i] == OrderString) // 주문 서류가 있다면
                 {
                     ChatType = 3;
-                    Debug.Log("End 있을 때 " + ChatType);
+                    //Debug.Log("End 있을 때 " + ChatType);
+
+                    ConversationManager.CurNpc = this;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                    QuestManager.instance.RemoveQuest("7010");
+
                     Character.instance.SetCharacterStat(CharacterStatType.MyItem, OrderString + "-1");
                     Character.instance.MyPlayerController.EventConversation.Invoke();
+
+                    QuestManager.instance.RemoveQuest("7010");
                     QuestStart = false;
                     return;
                 }
             }
             ChatType = 2;
-            Debug.Log("End 없을 때" + ChatType);
+            //Debug.Log("End 없을 때" + ChatType);
+
+            ConversationManager.CurNpc = this;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+
             Character.instance.MyPlayerController.EventConversation.Invoke();
+
             QuestStart = false;
+        }
+        else
+        {
+            base.FunctionEnd();
         }
     }
 }

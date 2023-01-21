@@ -65,11 +65,17 @@ public abstract class BasicNpc : MonoBehaviour
     {
         if (collision.gameObject.name == "R_Weapon")
         {
-            Debug.Log("ASdasdasd");
             FunctionStart();
         }
     }
 
     protected abstract void FunctionStart();
-    public abstract void FunctionEnd();
+    public virtual void FunctionEnd()
+    {
+        if(ConversationManager.CurNpc != null)
+        {
+            ConversationManager.CurNpc = null;
+        }
+        Character.instance.SetCharacterInput(true, true, true);
+    }
 }

@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 8736044756339001346}
   - component: {fileID: 7824243546877843666}
   - component: {fileID: 745821127320462268}
-  - component: {fileID: 5784908769013449414}
+  - component: {fileID: 2856227321295686862}
   m_Layer: 7
   m_Name: JustChatNPC
   m_TagString: Conversationable
@@ -169,7 +169,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5784908769013449414
+--- !u!114 &2856227321295686862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 235554389172204315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f1ae2a3f2d78f14595df03891ac0969, type: 3}
+  m_Script: {fileID: 11500000, guid: d8bfc21b9b1166945a9aae3cfd1ad8fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _npcNumber: 0

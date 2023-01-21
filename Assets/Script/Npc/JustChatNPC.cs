@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TemNPC : BasicNpc
+public class JustChatNPC : BasicNpc
 {
     protected override void Start()
     {

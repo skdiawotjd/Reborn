@@ -5,11 +5,16 @@ using UnityEngine;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField]
+    private QuestNPC QuestsNPC;
+    [SerializeField]
     private ResidenceNPC ResidenceNPC;
 
     void Awake()
     {
-        ResidenceNPC = (Instantiate(Resources.Load("Prefabs/NPC/ResidenceNPC"), new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<ResidenceNPC>();
+        QuestsNPC = (Instantiate(Resources.Load("Prefabs/NPC/QuestsNPC"), new Vector3(-3f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<QuestNPC>();
+
+        ResidenceNPC = (Instantiate(Resources.Load("Prefabs/NPC/ResidenceNPC"), new Vector3(-7f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<ResidenceNPC>();
+
     }
 
     void Start()

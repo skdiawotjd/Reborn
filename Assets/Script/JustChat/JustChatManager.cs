@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class JustChatManager : MonoBehaviour
     private bool Trigger;
 
     private BasicNpc JustChatNpc;
+    private List<BasicNpc> NpcList;
     private Portal JustChatPortal;
 
     private bool _isWorking;
@@ -36,6 +38,7 @@ public class JustChatManager : MonoBehaviour
         WaitSeconds = new WaitForSeconds(0.1f);
         Trigger = true;
         MainCanvas = GameObject.Find("Main Canvas");
+        NpcList = new List<BasicNpc>();
 
         ConversationManager = MainCanvas.transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
 
@@ -43,14 +46,8 @@ public class JustChatManager : MonoBehaviour
     }
     void Start()
     {
-        /*Character.instance.SetCharacterInput(true, true, false);
-        JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
-        JustChatPortal.SceneName = "0004";*/
-
-
-
-        SetJustChat();
         Character.instance.SetCharacterInput(false, false, false);
+        SetJustChat();
     }
 
     private void SetJustChat()
@@ -62,7 +59,8 @@ public class JustChatManager : MonoBehaviour
                 JustChatNpc.SetNpcName("Ææ´øÆ® ¼Ò³à");
                 JustChatNpc.SetChatType(8);
                 JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
-                JustChatPortal.SceneName = "0004";
+                JustChatPortal.SceneName = "0001";
+                Character.instance.SetCharacterInput(true, true, false);
                 break;
             case "0102":
                 ChangeNpcNumberChatType("1-0");
@@ -176,17 +174,22 @@ public class JustChatManager : MonoBehaviour
         ConversationManager.NpcNumberChatType = NewNpcNumberChatType;
     }
 
-    public void CreateNpc(Vector3 CharacterPos, int NpcNumber, int ChatType, string NpcName)
+    public int CreateNpc(Vector3 CharacterPos, int NpcNumber, int ChatType, string NpcName)
     {
-        JustChatNpc = (Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), CharacterPos, Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
-        JustChatNpc.SetNpcNumber(NpcNumber);
-        JustChatNpc.SetChatType(ChatType);
-        JustChatNpc.SetNpcName(NpcName);
+        NpcList.Add((Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), CharacterPos, Quaternion.identity) as GameObject).GetComponent<BasicNpc>());
+        NpcList.Last().SetNpcNumber(NpcNumber);
+        NpcList.Last().SetChatType(ChatType);
+        NpcList.Last().SetNpcName(NpcName);
+
+        return NpcList.Count;
     }
 
     public void SetCollider()
     {
-        JustChatNpc.GetComponent<Collider2D>().enabled = true;
+        for(int i = 0; i < NpcList.Count; i++)
+        {
+            NpcList[i].GetComponent<Collider2D>().enabled = true;
+        }
     }
 
     public void CreatePortal(Vector3 PortalPos, string MapNumber)

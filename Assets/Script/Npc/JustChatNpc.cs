@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JustChatNpc : BasicNpc
+public class JustChatNPC : BasicNpc
 {
     protected override void Start()
     {
@@ -16,8 +16,10 @@ public class JustChatNpc : BasicNpc
         ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
     }
 
-    public override void FunctionEnd()
+    /*public override void FunctionEnd()
     {
+        ConversationManager.CurNpc = null;
+        Character.instance.SetCharacterInput(true, true, true);
         //Character.instance.SetCharacterStat(7, -Character.instance.ActivePoint);
-    }
+    }*/
 }

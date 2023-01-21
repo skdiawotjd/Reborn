@@ -35,10 +35,10 @@ public class UIMainManager : UIManager
 
     protected override void StartUI()
     {
-        if (!Panel.activeSelf)
+        /*if (!Panel.activeSelf)
         {
             SetActivePanel(true);
-        }
+        }*/
 
         foreach (var Button in MainButton)
         {

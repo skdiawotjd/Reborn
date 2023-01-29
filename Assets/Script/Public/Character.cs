@@ -16,8 +16,10 @@ public class Character : MonoBehaviour
         public int _gold;
         public string _myMapNumber;
         public int _activePoint;
+        public int _proficiency;
         public List<string> _myItem;
         public List<int> _myItemCount;
+        public int _questItemOrder;
         public int[] _myStackByJob;
         public float MyWorkSpeed;
     }
@@ -89,6 +91,13 @@ public class Character : MonoBehaviour
             return CharacterStat._activePoint;
         }
     }
+    public int Proficiency
+    {
+        get
+        {
+            return CharacterStat._proficiency;
+        }
+    }
     public List<string> MyItem
     {
         get
@@ -101,6 +110,13 @@ public class Character : MonoBehaviour
         get
         {
             return CharacterStat._myItemCount;
+        }
+    }
+    public int QuestItemOrder
+    {
+        get
+        {
+            return CharacterStat._questItemOrder;
         }
     }
     public int[] MyStackByJob
@@ -151,6 +167,7 @@ public class Character : MonoBehaviour
         CharacterStat._myItem = new List<string>();
         CharacterStat._myItemCount = new List<int>();
         CharacterStat._myStackByJob = new int[8];
+        CharacterStat._questItemOrder = 0;
 
         _myPlayerController = gameObject.GetComponent<PlayerController>();
         _myItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
@@ -181,9 +198,9 @@ public class Character : MonoBehaviour
         //return (CharacterStatType)((int)MyJob + 9);
     }
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - Reputation, 5 - Gold, 6 - MyPositon, 7 - ActivePoint, 8 - MyItem, 9~14 - MyStack(SocialClass / Job)
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - Reputation, 5 - Gold, 6 - MyPositon, 7 - ActivePoint, 8 - Proficiency, 9 - MyItem, 10~14 - MyStack(SocialClass / Job)
     /// <para>
-    /// 직업 별 Type : 9 - 대장장이, 10 - 상인, 11 - 기사, 12 - 학자, 13 - 하급귀족, 14 - 중급귀족, 15 - 상급귀족, 16 - 왕
+    /// 직업 별 Type : 10 - 대장장이, 11 - 상인, 12 - 기사, 13 - 학자, 14 - 하급귀족, 15 - 중급귀족, 16 - 상급귀족, 17 - 왕
     /// </para>
     /// </summary> 
     public void SetCharacterStat<T>(CharacterStatType Type, T value)
@@ -239,6 +256,10 @@ public class Character : MonoBehaviour
             case CharacterStatType.ActivePoint:
                 CharacterStat._activePoint += StatType;
                 break;
+            // Proficiency
+            case CharacterStatType.Proficiency:
+                CharacterStat._proficiency += StatType;
+                break;
             // MyItem
             case CharacterStatType.MyItem:
                 string ItemNumber = StatTypeString.Substring(0, 4);
@@ -251,12 +272,30 @@ public class Character : MonoBehaviour
                     // 동일한 아이템이 없다면
                     if (!MyItemManager.IsExistItem(ItemNumber))
                     {
-                        // 실제 아이템 추가
+                        // 아이템 추가
                         //Debug.Log("아이템 추가 - " + ItemNumber);
                         CharacterStat._myItem.Insert(ItemOrder, ItemNumber);
                         // 개수 증가
                         //Debug.Log("개수 증가 - " + (int)(StatTypeString[4] - '0'));
                         CharacterStat._myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
+                        // 퀘스트아이템 위치 설정
+                        if (CharacterStat._questItemOrder != 0)
+                        {
+                            if (ItemNumber[0] - '0' < 7)
+                            {
+                                CharacterStat._questItemOrder++;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            CharacterStat._questItemOrder = ItemOrder;
+
+                            return;
+                        }
                     }
                     // 동일한 아이템이 있다면
                     else
@@ -275,10 +314,28 @@ public class Character : MonoBehaviour
                     // 가지고 있는 해당 아이템 모두 삭제
                     if (MyItemCount[ItemOrder] - (int)(StatTypeString[5] - '0') == 0)
                     {
+                        // 아이템 삭제
                         //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
                         CharacterStat._myItem.RemoveAt(ItemOrder);
+                        // 개수 삭제
                         //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
                         CharacterStat._myItemCount.RemoveAt(ItemOrder);
+                        // 퀘스트아이템 위치 설정
+                        if (CharacterStat._questItemOrder != 0)
+                        {
+                            if (CharacterStat._myItem[ItemOrder][0] - '0' < 7)
+                            {
+                                CharacterStat._questItemOrder--;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                     else
                     // 일부만 삭제
@@ -289,7 +346,7 @@ public class Character : MonoBehaviour
                 }
                 break;
             case CharacterStatType InputType when (InputType >= CharacterStatType.Smith):
-                CharacterStat._myStackByJob[(int)Type - 9] += StatType;
+                CharacterStat._myStackByJob[(int)Type - 10] += StatType;
                 break;
         }
 
@@ -336,7 +393,7 @@ public class Character : MonoBehaviour
                 CharacterStat._activePoint = 100;
                 break;
             case Job.Knight:
-            case Job.Scholar:
+            case Job.Alchemist:
                 CharacterStat._mySocialClass = SocialClass.SemiNoble;
                 CharacterStat._activePoint = 100;
                 break;

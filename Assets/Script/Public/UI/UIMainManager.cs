@@ -85,22 +85,22 @@ public class UIMainManager : UIManager
         {
             // Qurter
             case UIMainImageOrders.Qurter:
-                //ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
                 MainImage[(int)UIMainImageOrders.Qurter].fillAmount = 1f - (float)(GameManager.instance.Days - 1) / 9f;
                 break;
             // ActivePoint
             case UIMainImageOrders.ActivePoint:
-                //ActivePointImage.fillAmount = (float)Character.instance.ActivePoint / 100f;
                 MainImage[(int)UIMainImageOrders.ActivePoint].fillAmount = (float)Character.instance.ActivePoint / 100f;
                 break;
             case UIMainImageOrders.Job:
                 //MainImage[(int)UIMainImageOrders.Job].sprite = "현 직업에 맞는 이미지 삽입";
                 break;
-            // TodoProgress
+            // Reputation
             case UIMainImageOrders.Reputation:
-                //TodoProgressImage.fillAmount = (float)Character.instance.TodoProgress / 100f;
                 MainImage[(int)UIMainImageOrders.Reputation].fillAmount = (float)Character.instance.Reputation / 100f;
-                break;    
+                break;
+            /*case UIMainImageOrders.Proficiency:
+                MainImage[(int)UIMainImageOrders.Proficiency].fillAmount = (float)Character.instance.Proficiency / 100f;
+                break;*/
         }
     }
     private void SkipDay()

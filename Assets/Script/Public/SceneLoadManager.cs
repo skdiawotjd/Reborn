@@ -169,11 +169,11 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(bundle.LoadAsset<GameObject>("JustChatManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "JustChatManager";
                 temJustChatManager = temObject.GetComponent<JustChatManager>();
-                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(7.5f, 0f, 0f), Quaternion.identity) as GameObject;
-                temJustChatManager.SetJustChatPortal(temObject.GetComponent<Portal>());
-                temNPC = Instantiate(bundle.LoadAsset<GameObject>("JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject;
-                temNPC.name = "JustChatNPC";
-                temJustChatManager.SetJustChatNPC(temNPC.GetComponent<JustChatNPC>());
+                //temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(7.5f, 0f, 0f), Quaternion.identity) as GameObject;
+                temJustChatManager.SetJustChatPortal(bundleP.LoadAsset<GameObject>("Door").GetComponent<Portal>());
+                //temNPC = Instantiate(bundle.LoadAsset<GameObject>("JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject;
+                //temNPC.name = "JustChatNPC";
+                temJustChatManager.SetJustChatNPC(bundle.LoadAsset<GameObject>("JustChatNPC").GetComponent<BasicNpc>());
 
                 bundle.Unload(false);
                 break;

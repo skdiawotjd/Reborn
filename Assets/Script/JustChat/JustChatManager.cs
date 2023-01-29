@@ -49,43 +49,43 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false, false);
         SetJustChat();
     }
-    public void SetJustChatNPC(JustChatNPC npc)
+    public void SetJustChatNPC(BasicNpc npc)
     {
         JustChatNpc = npc;
-        switch (Character.instance.MyMapNumber)
+/*        switch (Character.instance.MyMapNumber)
         {
             case "0002":
                 JustChatNpc.SetNpcName("펜던트 소녀");
                 JustChatNpc.SetChatType(8);
                 break;
-        }
+        }*/
     }
     public void SetJustChatPortal(Portal portal)
     {
         JustChatPortal = portal;
-        switch (Character.instance.MyMapNumber)
+/*        switch (Character.instance.MyMapNumber)
         {
             case "0002":
                 JustChatPortal.SceneName = "0001";
                 break;
-        }
+        }*/
     }
     private void SetJustChat()
     {
         switch (Character.instance.MyMapNumber)
         {
             case "0002":
-                //JustChatNpc = (Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
+                JustChatNpc = Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity);
                 
-                //JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
+                JustChatPortal = Instantiate(JustChatPortal, new Vector3(6.5f, 0f, 0f), Quaternion.identity);
                 
                 Character.instance.SetCharacterInput(true, true, false);
                 break;
             case "0102":
-                /*ChangeNpcNumberChatType("1-0");
+                ChangeNpcNumberChatType("1-0");
                 Character.instance.MyPlayerController.EventConversation.Invoke();
                 StartCoroutine(WaitChat());
-                StartCoroutine(StartMove());*/
+                StartCoroutine(StartMove());
                 break;
             case "0202":
 
@@ -195,7 +195,8 @@ public class JustChatManager : MonoBehaviour
 
     public int CreateNpc(Vector3 CharacterPos, int NpcNumber, int ChatType, string NpcName)
     {
-        NpcList.Add((Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), CharacterPos, Quaternion.identity) as GameObject).GetComponent<BasicNpc>());
+        Debug.Log(JustChatNpc);
+        NpcList.Add(Instantiate(JustChatNpc, CharacterPos, Quaternion.identity));
         NpcList.Last().SetNpcNumber(NpcNumber);
         NpcList.Last().SetChatType(ChatType);
         NpcList.Last().SetNpcName(NpcName);
@@ -213,7 +214,7 @@ public class JustChatManager : MonoBehaviour
 
     public void CreatePortal(Vector3 PortalPos, string MapNumber)
     {
-        JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), PortalPos, Quaternion.identity) as GameObject).GetComponent<Portal>();
+        JustChatPortal = Instantiate(JustChatPortal, PortalPos, Quaternion.identity);
         JustChatPortal.SceneName = MapNumber;
     }
 
@@ -333,7 +334,7 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false, false);
 
         // 8 오브젝트 생성
-        JustChatNpc = (Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
+        //JustChatNpc = (Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
         JustChatNpc.SetChatType(8);
         
         Character.instance.MyPlayerController.SetPlayerPosition(0);
@@ -392,7 +393,7 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(true, true, false);
 
         // 14 선택한 직업에 맞는 위치로 보내주기
-        JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
+        //JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
         JustChatPortal.SceneName = "0004";
     }
 }

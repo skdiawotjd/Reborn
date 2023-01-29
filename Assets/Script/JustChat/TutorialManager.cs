@@ -53,7 +53,7 @@ public class TutorialManager : MonoBehaviour
             ///
             JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
             _step = 2;
-            //_stepDetail = 1;
+            _stepDetail = 1;
             ///
             GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
             GameManager.instance.AddSceneMoveEvent(CheckStep);

@@ -379,6 +379,10 @@ public class PlayerController : MonoBehaviour
     {
         return RotationObject.transform.localScale.x;
     }
+    public bool CanAttack()
+    {
+        return Spum._anim.GetBool("IsAttack");
+    }
 }
 
 

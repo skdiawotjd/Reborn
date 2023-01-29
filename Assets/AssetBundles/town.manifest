@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1078413035
+CRC: 1265821081
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d57cbdb24fbeea4751a7eda9b8edcfa4
+    Hash: 019a1d808f818a0f79afe5dac3f13ab7
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d799e8485a79a258f3c0041e7e605af9
+    Hash: 91ee81c652bfedb8e168d1290a933014
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -61,8 +61,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: b3971ff2e29106e469235a344408428d, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 60eadddeab0d66d4084aca14d14cbcfc, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 6b59bf9ba6783b4449dd4dc8c000deb0, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -114,8 +112,6 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
 Assets:
 - Assets/Resources/Prefabs/NPC/QuestChatNPC.prefab
-- Assets/Resources/Prefabs/Map/PassageToCastle.prefab
-- Assets/Resources/Prefabs/NPC/PassageNPC.prefab
 - Assets/Resources/Prefabs/NPC/MiniGameTownNPC.prefab
 - Assets/Resources/Prefabs/Map/TownBackground.prefab
 - Assets/Resources/Prefabs/NPC/QuestNPC.prefab

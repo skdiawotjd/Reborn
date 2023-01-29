@@ -49,24 +49,43 @@ public class JustChatManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false, false);
         SetJustChat();
     }
-
+    public void SetJustChatNPC(JustChatNPC npc)
+    {
+        JustChatNpc = npc;
+        switch (Character.instance.MyMapNumber)
+        {
+            case "0002":
+                JustChatNpc.SetNpcName("奇带飘 家赤");
+                JustChatNpc.SetChatType(8);
+                break;
+        }
+    }
+    public void SetJustChatPortal(Portal portal)
+    {
+        JustChatPortal = portal;
+        switch (Character.instance.MyMapNumber)
+        {
+            case "0002":
+                JustChatPortal.SceneName = "0001";
+                break;
+        }
+    }
     private void SetJustChat()
     {
         switch (Character.instance.MyMapNumber)
         {
             case "0002":
-                JustChatNpc = (Instantiate(Resources.Load("Prefabs/NPC/JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
-                JustChatNpc.SetNpcName("奇带飘 家赤");
-                JustChatNpc.SetChatType(8);
-                JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
-                JustChatPortal.SceneName = "0001";
+                //JustChatNpc = (Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<BasicNpc>();
+                
+                //JustChatPortal = (Instantiate(Resources.Load("Prefabs/Object/Door"), new Vector3(6.5f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<Portal>();
+                
                 Character.instance.SetCharacterInput(true, true, false);
                 break;
             case "0102":
-                ChangeNpcNumberChatType("1-0");
+                /*ChangeNpcNumberChatType("1-0");
                 Character.instance.MyPlayerController.EventConversation.Invoke();
                 StartCoroutine(WaitChat());
-                StartCoroutine(StartMove());
+                StartCoroutine(StartMove());*/
                 break;
             case "0202":
 

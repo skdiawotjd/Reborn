@@ -29,6 +29,9 @@ public class QuestManager : MonoBehaviour
     private string itemNumberChar;
     //private QuestUIManager QUIManager;
 
+    // 모험 게임의 난이도
+    private int adventureLevel;
+
     public static QuestManager instance = null;
     public UnityEvent EventCountChange;
 
@@ -260,6 +263,14 @@ public class QuestManager : MonoBehaviour
     public void ChangeMoveBG(bool move) // 탐험에서 배경이 움직일 지 안 움직일지를 판단하는 변수를 바꿔준다.
     {
         moveBG = move;
+    }
+    public void SetAdventureLevel(int level)
+    {
+        adventureLevel = level;
+    }
+    public int GetAdventureLevel()
+    {
+        return adventureLevel;
     }
 }
 public class Quest {

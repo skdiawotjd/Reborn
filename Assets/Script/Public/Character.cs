@@ -563,6 +563,10 @@ public class Character : MonoBehaviour
                 _characterPosition.x = 0f;
                 _characterPosition.y = -2f;
                 break;
+            case "0009":
+                _characterPosition.x = -7f;
+                _characterPosition.y = 0f;
+                break;
 
         }
 

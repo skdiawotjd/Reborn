@@ -1,0 +1,88 @@
+ManifestFileVersion: 0
+CRC: 4115173323
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f0eed402239e6c1217ef9bed908e0f33
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b816a5013c6e9726ef232df6ceb1c392
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 50
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 70
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 41302e45b5a3c494ab6d47e061a7be85, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9afdeaae1bb27d6418d5d8cd5165faed, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a6619d0e53b8541439bd9b61a7a7e829, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 038e66014eb3b40468b639c09f28c27e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7c562f92f3b8b435d98ac3b65547b755, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: baea2e9758e554909b2367e396d9c5a4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6625a2c215475fa44b1c76c4ae978948, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 49f63a518be42a34cbf134a008dbd08b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9de07bf80b215624a8ab6b07f9d823fe, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: eec2c2b638f63854f80d6b6f12a070d9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9f6952d8135bf4548b3998174b2e9902, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 60eadddeab0d66d4084aca14d14cbcfc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 57ca1f0e19616a8419051f34c9c600aa, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 210
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 156049354
+  Script: {instanceID: 0}
+- Class: 483693784
+  Script: {instanceID: 0}
+- Class: 1839735485
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/Resources/Prefabs/MiniGame/Spawner.prefab
+- Assets/Resources/Prefabs/MiniGame/AdventurePortal.prefab
+- Assets/Resources/Prefabs/MiniGame/PoolManager.prefab
+- Assets/Resources/Prefabs/Map/AdventureOfGrass.prefab
+- Assets/Resources/Prefabs/MiniGame/AdventureGameManager.prefab
+- Assets/Resources/Prefabs/MiniGame/MGAdventureManager.prefab
+Dependencies: []

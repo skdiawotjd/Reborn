@@ -438,6 +438,20 @@ public class PlayerController : MonoBehaviour
     {
         StartCoroutine(EndDieCourtine());
     }
+    public void PlayDieProcess(bool state)
+    {
+        if (state)
+        {
+            Spum._anim.SetTrigger("Die");
+        }
+        else
+        {
+            Spum._anim.SetTrigger("EditChk");
+            Spum._anim.SetBool("Run", state);
+            Spum._anim.SetFloat("RunState", 0.0f);
+        }
+
+    }
 }
 
 

@@ -11,8 +11,6 @@ public class QuestManager : MonoBehaviour
     public List<string> QuestOrder;
     public Dictionary<string, Quest> MyQuest;
     private Quest temQuest;
-    private List<string> MyQuest2;
-    private List<string> MyQuestOrder;
     public bool questChanges;
     List<Dictionary<string, object>> TodoNumberlist;
     private string TodoMapNumber;
@@ -27,7 +25,7 @@ public class QuestManager : MonoBehaviour
     private int temNumber;
     private string itemNumberString;
     private string itemNumberChar;
-    //private QuestUIManager QUIManager;
+    private string nextQuestString;
 
     // 모험 게임의 난이도
     private int adventureLevel;
@@ -51,10 +49,8 @@ public class QuestManager : MonoBehaviour
         }
         UniqueQuestList = CSVReader.Read("UniqueQuest");
         QuestNumberList = CSVReader.Read("QuestNumberList");
-        temQuest = new Quest("0", "0", "0", "0");
-        GiveQuest();
+        temQuest = new Quest("0", "0", "0", "0", 0, 0);
         questChanges = false;
-        //QUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<QuestUIManager>();
         moveBG = true;
     }
 
@@ -63,35 +59,8 @@ public class QuestManager : MonoBehaviour
         MainQuest = new List<string>();
         QuestOrder = new List<string>();
         MyQuest = new Dictionary<string, Quest>();
-        //QUIManager.questTextGenerate();
-        GameManager.instance.AddDayStart(GiveQuest);
+        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "71000");
         QuestLoad();
-    }
-
-    private void GiveQuest()
-    {
-        temNumber = UnityEngine.Random.Range(0, 2) * 2;
-        //Debug.Log("temNumber : " + temNumber + ", Job : " + Character.instance.MyJob.ToString());
-        //Debug.Log(UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString());
-        todayQuest = UniqueQuestList[temNumber][Character.instance.MyJob.ToString()].ToString();
-        questDeleteNumber = UniqueQuestList[temNumber + 1][Character.instance.MyJob.ToString()].ToString();
-        questEnd = false;
-        
-    }
-    public void QuestGive()
-    {
-        TodoNumberlist = CSVReader.Read("QuestNumber");
-        
-        for(int i = 1; i <= int.Parse(string.Format("{0}", TodoNumberlist[0][Character.instance.MyJob.ToString()])); i++)
-        {
-            Debug.Log(Character.instance.MyJob.ToString() + " " + TodoNumberlist[i][Character.instance.MyJob.ToString()]);
-            MainQuest.Add(TodoNumberlist[i][Character.instance.MyJob.ToString()].ToString());
-        }
-        for (int i = 1; i <= int.Parse(string.Format("{0}", TodoNumberlist[0]["Add" + Character.instance.MyJob.ToString()])); i++)
-        {
-            Debug.Log("Add" + Character.instance.MyJob.ToString() + " " + TodoNumberlist[i]["Add" + Character.instance.MyJob.ToString()]);
-            //SubQuest.Add(TodoNumberlist[i][Character.instance.MyJob.ToString()].ToString());
-        }
     }
 
     private void QuestLoad()
@@ -103,28 +72,9 @@ public class QuestManager : MonoBehaviour
             itemNumberChar = itemNumberString.Substring(0,1);
             if(int.Parse(itemNumberChar) >= 7)
             {
-                AddQuest();
+                AddQuest(itemNumberString);
             }
         }
-    }
-    private int AddQuest() // 게임 시작 시 처음 로드할 때
-    {
-        for (int j = 0; j < QuestNumberList.Count; j++)
-        {
-            if (itemNumberString == QuestNumberList[j]["ItemNumber"].ToString())
-            {
-                temQuest.itemNumber = itemNumberString;
-                temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
-                temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
-                temQuest.job = QuestNumberList[j]["Job"].ToString();
-                MyQuest.Add(itemNumberString, temQuest);
-                QuestOrder.Add(itemNumberString);
-                //MyQuestOrder.Add(QuestNumberList[j]["Number"].ToString());
-                //MyQuest.Add(QuestNumberList[j]["QuestContents"].ToString());
-                return 1;
-            }
-        }
-        return 0;
     }
     public void AddQuest(string QuestObjectNumber) // 게임 진행 중 따로 추가를 할 때
     {
@@ -136,9 +86,12 @@ public class QuestManager : MonoBehaviour
                 temQuest.questNumber = QuestNumberList[j]["QuestNumber"].ToString();
                 temQuest.questContents = QuestNumberList[j]["QuestContents"].ToString();
                 temQuest.job = QuestNumberList[j]["Job"].ToString();
+                temQuest.clearCount = int.Parse(QuestNumberList[j]["ClearCount"].ToString());
+                temQuest.proficiency = int.Parse(QuestNumberList[j]["Proficiency"].ToString());
                 MyQuest.Add(QuestObjectNumber, temQuest);
                 QuestOrder.Add(QuestObjectNumber);
                 questChanges = true;
+                return;
             }
         }
     }
@@ -147,7 +100,7 @@ public class QuestManager : MonoBehaviour
         MyQuest.Remove(number);
         questChanges = true;
     }
-    public void QuestClear(bool clear)
+    public void MinigameClear(bool clear)
     {
         // 퀘스트를 클리어하고 부를 함수
         Debug.Log("ActivePoint 10 감소하기 전, 현재 수치 : " + Character.instance.ActivePoint);
@@ -234,6 +187,30 @@ public class QuestManager : MonoBehaviour
             Debug.Log("퀘스트 실패");
         }
     }
+    public void QuestClear(string itemNumberString)
+    {
+        for(int i = 0; i < MyQuest.Count; i++)
+        {
+            if(MyQuest[QuestOrder[i]].itemNumber == itemNumberString)
+            {
+                if (itemNumberString[0].Equals("7"))
+                {
+                    // 메인 퀘스트 클리어
+                    // 메인 퀘스트 아이템 제거
+                    // 메인 퀘스트 보상 수령
+                    Character.instance.SetCharacterStat(CharacterStatType.Reputation, 20);
+                    // 다음 메인 퀘스트 아이템 획득
+                    nextQuestString = (int.Parse(itemNumberString) + 1).ToString();
+                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, nextQuestString);
+                } else
+                {
+                    // 서브 퀘스트 클리어
+                    Character.instance.SetCharacterStat(CharacterStatType.Proficiency, 1);
+                }
+
+            }
+        }
+    }
 
 
     public void BoxCount()
@@ -278,12 +255,16 @@ public class Quest {
     public string questNumber;
     public string questContents;
     public string job;
+    public int clearCount;
+    public int proficiency;
 
-    public Quest(string _itemNumber, string _questNumber, string _questContents, string job)
+    public Quest(string _itemNumber, string _questNumber, string _questContents, string _job, int _count, int _proficiency)
     {
         this.itemNumber = _itemNumber;
         this.questContents = _questContents;
         this.questNumber = _questNumber;
-        this.job = job;
+        this.job = _job;
+        this.clearCount = _count;
+        this.proficiency = _proficiency;
     }
 }

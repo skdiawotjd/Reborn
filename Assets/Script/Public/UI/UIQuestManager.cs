@@ -13,9 +13,19 @@ public class UIQuestManager : UIManager
     [SerializeField]
     private GameObject SubQuestPanel;
     [SerializeField]
-    private GameObject addQuestPanel;
+    private GameObject addSubQuestPanel;
+    [SerializeField]
+    private GameObject MainQuestContentsPanel;
+    [SerializeField]
+    private Image lockImage;
+    [SerializeField]
+    private Button questButton;
+    [SerializeField]
+    private TextMeshProUGUI questButtonText;
     private GameObject[] temQuestPanel;
-    private TextMeshProUGUI QuestPanelText;
+    private TextMeshProUGUI subQuestPanelText;
+    private TextMeshProUGUI mainQuestPanelText;
+    private int mainQuestOrder;
     private Vector3 newPos;
 
     protected override void Start()
@@ -23,6 +33,7 @@ public class UIQuestManager : UIManager
         base.Start();
         newPos = new Vector3(0f, 0f, 0f);
         temQuestPanel = new GameObject[10];
+        mainQuestPanelText = MainQuestContentsPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
 
     protected override void StartUI()
@@ -59,32 +70,63 @@ public class UIQuestManager : UIManager
         }
         LoadQuestList();
     }
+    public void QuestAccept()
+    {
+        Debug.Log("퀘스트 수락");
+        questButton.gameObject.SetActive(false);
+        Character.instance.SetCharacterStat(CharacterStatType.MyItem, QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].itemNumber + "1");
+        //Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "????");
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("JustChat");
+    }
     public void LoadQuestList()
     {
+        Debug.Log(QuestManager.instance.MyQuest.Count);
         for (int i = 0; i < QuestManager.instance.MyQuest.Count; i++)
         {
-            temQuestPanel[i] = Instantiate(addQuestPanel, newPos, Quaternion.identity) as GameObject;
-            QuestPanelText = temQuestPanel[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-
-            QuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].questContents;
+            
             Debug.Log("퀘스트 직업 : " + QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].job + " 현재 직업 : " + Character.instance.MyJob.ToString());
             if (QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].job == Character.instance.MyJob.ToString())
             {
-                temQuestPanel[i].transform.SetParent(MainQuestPanel.transform);
+                mainQuestOrder = i;
+                // 메인 퀘스트 패널 생성
+                Debug.Log("메인 퀘스트 패널 생성");
+                //temQuestPanel[index] = Instantiate(addMainQuestPanel, newPos, Quaternion.identity) as GameObject;
+                //temQuestPanel[index].transform.SetParent(MainQuestPanel.transform);
+                //temQuestPanel[index].transform.position = newPos;
+
+                MainQuestContentsPanel.SetActive(true);
+                mainQuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].questContents;
+                // 메인 퀘스트 아이템이 0개라면 수락 버튼 활성화
+                // if (메인 퀘스트 아이템이 0개라면)
+                questButton.gameObject.SetActive(true);
+                questButtonText.text = "퀘스트 수락";
+                // else if (메인 퀘스트 아이템에서 클리어 개수, 즉 QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].clearCount를 뺄 수 있다면
+                // 즉, if(Character.instance.MyItemManager.CanDeleteItem(itemNumber + clearCount)) 가 참이면
+                // questButton.gameObject.SetActive(true);
+                // questButtonText.text = "퀘스트 완료";
+                // else
+                //   questButton.gameObject.SetActive(false);
+
+
+                if (QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].proficiency > Character.instance.Proficiency)
+                {
+                    MainQuestContentsPanel.SetActive(false);
+                    lockImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    MainQuestContentsPanel.SetActive(true);
+                    lockImage.gameObject.SetActive(false);
+                }
             }
             else
             {
+                // 서브 퀘스트 패널 생성
+                temQuestPanel[i] = Instantiate(addSubQuestPanel, newPos, Quaternion.identity) as GameObject;
+                subQuestPanelText = temQuestPanel[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                subQuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].questContents;
                 temQuestPanel[i].transform.SetParent(SubQuestPanel.transform);
             }
         }
     }
-
-/*    public void questTextGenerate()
-    {
-        GameObject a = Instantiate(questText, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
-        MainText = a.GetComponent<TextMeshProUGUI>();
-
-        MainText.text = QuestManager.instance.todayQuest;
-        MainText.transform.SetParent(Panel.transform);
-    }*/
 }

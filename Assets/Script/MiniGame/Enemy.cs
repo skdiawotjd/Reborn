@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
 
     private bool isLive;
     private bool isHit = false;
+    private bool isRun;
+    private bool isAttack;
+    private float distance;
 
     private Vector2 dirVec;
     private Vector2 nextVec;
@@ -32,14 +35,34 @@ public class Enemy : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!isLive)
-            return;            
+        if (!isLive) // 살아 있는 상태가 아니면 리턴
+            return;
+        if (Vector2.Distance(target.position, rigid.position) <= distance) // 플레이어와의 거리가 본인 사거리보다 짧거나 같다면
+        {
+            if(isRun) // 플레이어와의 거리가 본인 사거리보다 짧거나 같으면서 뛰고 있다면 멈춤
+            {
+                EnemyRunning(false);
+                return;
+            } else // 플레이어와의 거리가 본인 사거리보다 짧거나 같으면서 멈춘 상태라면
+            {
+                // 공격
+                // EnemyAttackProcess();
+                return;
+            }
+        } else if(isAttack) // 플레이어와의 거리가 본인 사거리보다 길지만, 공격중인 상태라면 리턴
+        {
+            return;
+        }
+        // 살아있으면서, 플레이어와의 거리가 본인 사거리보다 길고 공격중인 상태가 아니라면 플레이어를 향해 돌진
+        if(!isRun)
+        {
+            EnemyRunning(true);
+        }
         dirVec = target.position - rigid.position;
         nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
-
-        
         rigid.velocity = Vector2.zero;
-        if (isHit)
+
+        if (isHit) // 피격 당했다면
         {
             rigid.MovePosition(rigid.position - nextVec);
             return;
@@ -67,19 +90,36 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
+    private void EnemyRunning(bool state)
+    {
+        if (state)
+        {
+            Spum._anim.SetBool("Run", state);
+            Spum._anim.SetFloat("RunState", 0.5f);
+            isRun = state;
+        } else
+        {
+            Spum._anim.SetBool("Run", state);
+            Spum._anim.SetFloat("RunState", 0f);
+            isRun = state;
+        }
+        
+        
+    }
     private void OnEnable()
     {
         target = Character.instance.GetComponent<Rigidbody2D>();
         isLive = true;
         Spum._anim.SetBool("Run", true);
         Spum._anim.SetFloat("RunState", 0.5f);
+        isRun = true;
     }
     public void Init(SpawnData data)
     {
         speed = data.speed;
         maxHealth = data.health;
         health = data.health;
+        distance = data.distance;
         if(data.damage == 0)
         {
             damage = 1;
@@ -116,6 +156,9 @@ public class Enemy : MonoBehaviour
                 Debug.Log("플레이어 피격");
                 break;
         }
+    }
+    private void EnemyAttackProcess()
+    {
 
     }
     private void CanHit()

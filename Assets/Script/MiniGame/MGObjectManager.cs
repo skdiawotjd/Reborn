@@ -51,7 +51,7 @@ public class MGObjectManager : MiniGameManager
     public override void GameEnd(bool clear)
     {
         objectGameActive = false;
-        QuestManager.instance.QuestClear(true);
+        QuestManager.instance.MinigameClear(true);
     }
     public override void Generate() // GoldBoxGenerate()
     {

@@ -35,6 +35,7 @@ public class Spawner : MonoBehaviour
             spawnDatas[i].health = int.Parse(AdventureEnemyDataList[i]["Health"].ToString());
             spawnDatas[i].speed = float.Parse(AdventureEnemyDataList[i]["Speed"].ToString());
             spawnDatas[i].damage = int.Parse(AdventureEnemyDataList[i]["EnemyNumber"].ToString());
+            spawnDatas[i].distance = int.Parse(AdventureEnemyDataList[i]["Distance"].ToString());
         }
 
     }
@@ -53,4 +54,5 @@ public class SpawnData
     public int health;
     public int damage;
     public float speed;
+    public float distance;
 }

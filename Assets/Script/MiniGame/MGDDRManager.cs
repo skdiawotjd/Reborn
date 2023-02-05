@@ -116,7 +116,7 @@ public class MGDDRManager : MiniGameManager
         Destroy(temImage);
         gameActive = false;
         Character.instance.SetCharacterInput(true, true, true);
-        QuestManager.instance.QuestClear(true);
+        QuestManager.instance.MinigameClear(true);
     }
     public override void SetRound(int nextRound)
     {

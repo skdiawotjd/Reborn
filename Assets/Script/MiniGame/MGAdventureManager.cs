@@ -113,6 +113,9 @@ public class MGAdventureManager : MiniGameManager
         AdventureGameManager.instance.battleManager.AdventureEnd();
         Character.instance.MyPlayerController.DisableCollider();
         Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013");
+        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10);
+        // ¸ðÇè º¸»ó ¼ö·É
+        Character.instance.SetCharacterStat(CharacterStatType.Gold, 3000); // 3000°ñµå È¹µæ ÇÏµåÄÚµù
         UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
     }
 

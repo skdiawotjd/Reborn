@@ -1,5 +1,5 @@
-﻿EnemyNumber,Health,Speed
-0,50,2
-1,60,2
-2,70,2
-3,80,3
+﻿EnemyNumber,Health,Speed,Distance
+0,50,2,0
+1,60,2,5
+2,70,2,0
+3,80,3,0

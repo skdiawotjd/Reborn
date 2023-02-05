@@ -29,7 +29,7 @@ public class BattleManager : MonoBehaviour
     {
         gameObject.SetActive(true);
         playerAtk = 50;
-        playerHp = 100;
+        playerHp = Character.instance.ActivePoint;
         cooltime = 3.1f;
         attackArea = Character.instance.transform.GetChild(2).GetComponent<CircleCollider2D>();
         hitArea = Character.instance.transform.GetChild(3).GetComponent<BoxCollider2D>();
@@ -117,8 +117,12 @@ public class BattleManager : MonoBehaviour
     }
     public void Damaged(int damage)
     {
-        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -damage);
-        Debug.Log("플레이어 피격. 남은 HP : " + Character.instance.ActivePoint);
+        playerHp -= damage;
+        if(playerHp < 0)
+        {
+            PlayerDead();
+        }
+        Debug.Log("플레이어 피격. 남은 HP : " + playerHp);
     }
     public void MonsterDamaged(int damage)
     {
@@ -142,5 +146,21 @@ public class BattleManager : MonoBehaviour
     public void DestroyTemMonster()
     {
         Destroy(temMonster.gameObject);
+    }
+    private void PlayerDead() // 모험 중 플레이어 사망
+    {
+        Character.instance.MyPlayerController.PlayDieProcess(true);
+        Character.instance.SetCharacterInput(false, false, false);
+        Invoke("OnDead", 3f);
+        
+    }
+    private void OnDead() // 사망 시 플레이 기능
+    {
+        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
+        Debug.Log("플레이어 사망. 게임 종료");
+        Character.instance.MyPlayerController.PlayDieProcess(false);
+        Character.instance.SetCharacterInput(true, true, true);
+        characterRigid.velocity = Vector2.zero;
+        AdventureGameManager.instance.MGManager.GameEnd(false);
     }
 }

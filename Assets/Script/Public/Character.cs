@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,7 +21,7 @@ public class Character : MonoBehaviour
         public List<string> _myItem;
         public List<int> _myItemCount;
         public int _questItemOrder;
-        public int[] _myStackByJob;
+        public int[] _myStack;
         public float MyWorkSpeed;
     }
 
@@ -28,6 +29,8 @@ public class Character : MonoBehaviour
     private Stat CharacterStat;
     [SerializeField]
     private Vector2 _characterPosition;
+
+    private int _stackOrder;
 
     private UnityEvent<CharacterStatType> EventUIChange;
     private PlayerController _myPlayerController;
@@ -37,115 +40,71 @@ public class Character : MonoBehaviour
 
     public string MyName
     {
-        get
-        {
-            return CharacterStat._myName;
-        }
+        get { return CharacterStat._myName; }
     }
     public SocialClass MySocialClass
     {
-        get
-        {
-            return CharacterStat._mySocialClass;
-        }
+        get { return CharacterStat._mySocialClass; }
     }
     public Job MyJob
     {
-        get
-        {
-            return CharacterStat._myJob;
-        }
+        get { return CharacterStat._myJob; }
     }
     public int MyAge
     {
-        get
-        {
-            return CharacterStat._myAge;
-        }
+        get { return CharacterStat._myAge; }
     }
     public int Reputation
     {
-        get
-        {
-            return CharacterStat._reputation;
-        }
+        get { return CharacterStat._reputation; }
     }
     public int Gold
     {
-        get
-        {
-            return CharacterStat._gold;
-        }
+        get { return CharacterStat._gold; }
     }
     public string MyMapNumber
     {
-        get
-        {
-            return CharacterStat._myMapNumber;
-        }
+        get { return CharacterStat._myMapNumber; }
     }
     public int ActivePoint
     {
-        get
-        {
-            return CharacterStat._activePoint;
-        }
+        get { return CharacterStat._activePoint; }
     }
     public int Proficiency
     {
-        get
-        {
-            return CharacterStat._proficiency;
-        }
+        get { return CharacterStat._proficiency; }
     }
     public List<string> MyItem
     {
-        get
-        {
-            return CharacterStat._myItem;
-        }
+        get { return CharacterStat._myItem; }
     }
     public List<int> MyItemCount
     {
-        get
-        {
-            return CharacterStat._myItemCount;
-        }
+        get { return CharacterStat._myItemCount; }
     }
     public int QuestItemOrder
     {
-        get
-        {
-            return CharacterStat._questItemOrder;
-        }
+        get { return CharacterStat._questItemOrder; }
     }
-    public int[] MyStackByJob
+    public int[] MyStack
     {
-        get
-        {
-            return CharacterStat._myStackByJob;
-        }
+        get { return CharacterStat._myStack; }
+    }
+    public int StackOrder
+    {
+        get { return _stackOrder; }
     }
     public PlayerController MyPlayerController
     {
-        get
-        {
-            return _myPlayerController;
-        }
+        get { return _myPlayerController; }
     }
     public ItemManager MyItemManager
     {
-        get
-        {
-            return _myItemManager;
-        }
+        get { return _myItemManager; }
     }
     public Vector2 CharacterPosition
     {
-        get
-        {
-            return _characterPosition;
-        }
+        get { return _characterPosition; }
     }
 
     private void Awake()
@@ -166,8 +125,10 @@ public class Character : MonoBehaviour
         CharacterStat = new Stat();
         CharacterStat._myItem = new List<string>();
         CharacterStat._myItemCount = new List<int>();
-        CharacterStat._myStackByJob = new int[8];
+
+        CharacterStat._myStack = new int[(int)Enum.GetValues(typeof(CharacterStatType)).Cast<CharacterStatType>().Last() - (int)CharacterStatType.Smith];
         CharacterStat._questItemOrder = 0;
+        _stackOrder = 0;
 
         _myPlayerController = gameObject.GetComponent<PlayerController>();
         _myItemManager = gameObject.transform.GetChild(1).GetComponent<ItemManager>();
@@ -312,7 +273,7 @@ public class Character : MonoBehaviour
                 {
                     //Debug.Log("삭제");
                     // 가지고 있는 해당 아이템 모두 삭제
-                    if (MyItemCount[ItemOrder] - (int)(StatTypeString[5] - '0') == 0)
+                    if (CharacterStat._myItemCount[ItemOrder] - (int)(StatTypeString[5] - '0') == 0)
                     {
                         // 아이템 삭제
                         //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
@@ -346,7 +307,8 @@ public class Character : MonoBehaviour
                 }
                 break;
             case CharacterStatType InputType when (InputType >= CharacterStatType.Smith):
-                CharacterStat._myStackByJob[(int)Type - 10] += StatType;
+                _stackOrder = ((int)Type - (int)CharacterStatType.Smith);
+                CharacterStat._myStack[_stackOrder] += StatType;
                 break;
         }
 
@@ -439,18 +401,18 @@ public class Character : MonoBehaviour
 
     private void InitializeStack()
     {
-        for (int i = 0; i < MyStackByJob.Length; i++)
+        for (int i = 0; i < CharacterStat._myStack.Length; i++)
         {
-            CharacterStat._myStackByJob[i] = 0;
+            CharacterStat._myStack[i] = 0;
         }
     }
 
     public void CheckStack()
     {
-        for (int CheckStack = 0; CheckStack < MyStackByJob.Length; CheckStack++)
+        for (int CheckStack = 0; CheckStack < CharacterStat._myStack.Length; CheckStack++)
         {
             //Debug.Log("MyStackBySocialClass[" + i + "] = " + MyStackBySocialClass[i]);
-            if(MyStackByJob[CheckStack] >= 50)
+            if(CharacterStat._myStack[CheckStack] >= 50)
             {
                 switch(CheckStack)
                 {
@@ -492,12 +454,12 @@ public class Character : MonoBehaviour
     public void LoadCharacter()
     {
         //Debug.Log("LoadEvent - Character CharacterPosition : " + CharacterPosition);
-        transform.position = CharacterPosition;
+        transform.position = _characterPosition;
     }
 
     public void SetCharacterPosition()
     {
-        if (CharacterPosition == Vector2.zero)
+        if (_characterPosition == Vector2.zero)
         //if (CharacterPosition.x == 0 && CharacterPosition.y == 0)
         {
             /*switch (CharacterStat._myMapNumber)
@@ -570,7 +532,7 @@ public class Character : MonoBehaviour
 
         }
 
-        transform.position = CharacterPosition;
+        transform.position = _characterPosition;
         //Debug.Log("Set " + transform.position);
         _characterPosition.x = 0f;
         _characterPosition.y = 0f;

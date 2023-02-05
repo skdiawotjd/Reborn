@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
             GenerateGameEvent.Invoke();
             GameStartEvent.Invoke();
 
-            GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+            //GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
             // 2. 시작 씬 이동
             SceneManager.LoadScene("JustChat");
         }
@@ -234,7 +234,7 @@ public class GameManager : MonoBehaviour
         {
             _isNewGenerate = false;
 
-            GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
+            //GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = false;
             // 1. 게임 초기화
             InitializeGame();
             Character.instance.CharacterStatSetting(StartJob);
@@ -260,9 +260,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(CanvasObject);*/
 
 
-        // Camera 세팅
+        /*// Camera 세팅
         GameObject MainCamera = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
-        MainCamera.name = "Main Camera";
+        MainCamera.name = "Main Camera";*/
 
         /*// Sound 세팅
         GameObject SoundManager = Instantiate(Resources.Load("Public/SoundManager")) as GameObject;
@@ -307,131 +307,6 @@ public class GameManager : MonoBehaviour
     // 분기 판단
     private void Quarter()
     {
-        if (Character.instance.Reputation == 100)
-        {
-            /*if(Days == 0)
-            {
-                //QuestManager.instance.QuestGive();
-                NewDay();
-            }
-            else if (Days == 3)
-            {
-                if (Character.instance.MyJob == Job.King)
-                {
-                    // 사망
-                    Debug.Log("사망사망사망사망사망사망사망사망사망사망");
-                }
-                else
-                {
-                    // 생존
-                    Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
-                    NewDay();
-                }
-            }
-            else if (Days == 6)
-            {
-                if (Character.instance.MyJob >= Job.Baron)
-                {
-                    // 사망
-                    Debug.Log("사망사망사망사망사망사망사망사망사망사망");
-                }
-                else
-                {
-                    // 생존
-                    Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
-                    NewDay();
-                }
-            }
-            else if (Days == 9)
-            {
-                if (Character.instance.MyJob >= Job.Knight)
-                {
-                    // 사망
-                    Debug.Log("끝인데 사망사망사망사망사망사망사망사망사망사망");
-                }
-                else
-                {
-                    // 생존
-                    Debug.Log("끝인데 생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    GameStart();
-                }
-            }*/
-        }
-        else if (Character.instance.Reputation < 100)
-        {
-            /*if (Days == 3)
-            {
-                if (Character.instance.MyJob >= Job.GrandDuke)
-                {
-                    // 사망
-                    Debug.Log("사망사망사망사망사망사망사망사망사망사망");
-                }
-                else
-                {
-                    // 생존
-                    Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
-                    NewDay();
-                }
-            }
-            else if (Days == 6)
-            {
-                if (Character.instance.MyJob >= Job.GrandDuke)
-                {
-                    // 사망
-                    Debug.Log("사망사망사망사망사망사망사망사망사망사망");
-                }
-                else if (Character.instance.MyJob >= Job.Baron)
-                {
-                    // 강등
-                    Debug.Log("강등강등강등강등강등강등강등강등강등강등");
-                    Debug.Log("강등 기능");
-                    Character.instance.CheckStack();
-                    NewDay();
-                }
-                else
-                {
-                    // 생존
-                    Debug.Log("생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
-                    NewDay();
-                }
-            }
-            else if (Days == 9)
-            {
-                if (Character.instance.MyJob >= Job.Baron)
-                {
-                    // 사망
-                    Debug.Log("끝인데 사망사망사망사망사망사망사망사망사망사망");
-                }
-                else if (Character.instance.MyJob >= Job.Knight)
-                {
-                    // 강등
-                    Debug.Log("끝인데 강등강등강등강등강등강등강등강등강등강등");
-                    Debug.Log("강등 기능");
-                    Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    GameStart();
-                }
-                else
-                {
-                    // 생존
-                    Debug.Log("끝인데 생존생존생존생존생존생존생존생존생존생존");
-                    Character.instance.CheckStack();
-                    _days = 0;
-                    _round++;
-                    // 새로운 싸이클 혹은 최종으로 넘어가기 전에 justchat에 사용할 ConversationManager.NpcNumberChatType을 셋 하고
-                    GameStart();
-                }
-            }*/
-        }
-
         switch (Days)
         {
             case 0:

@@ -61,7 +61,7 @@ public class StartManager : MonoBehaviour
         switch (StartJob)
         {
             case Job.Slayer :
-                StartAudioListener.enabled = false;
+                //StartAudioListener.enabled = false;
                 GameManager.instance.GameStart();
                 break;
             default:

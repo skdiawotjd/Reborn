@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour
     private float height;
     private float width;
 
+    private bool GameStart;
 
     void Start()
     {
@@ -36,16 +37,22 @@ public class CameraController : MonoBehaviour
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
 
+        GameStart = false;
+
         //SetCameraRange();
-        LimitCameraArea();
+        //LimitCameraArea();
 
         //GameManager.instance.SceneMove.AddListener(SceneMoveCameraPosition);
+        GameManager.instance.AddGenerateGameEvent(StartSetCameraRange);
     }
 
     void FixedUpdate()
     {
         //transform.position = player.transform.position + cameraPosition;
-        LimitCameraArea();
+        if(GameStart)
+        {
+            LimitCameraArea();
+        }
     }
 
     private void LimitCameraArea()
@@ -97,4 +104,9 @@ public class CameraController : MonoBehaviour
         transform.position = RangePosition;
         Debug.Log("최종 카메라 위치 " + transform.position);
     }*/
+
+    private void StartSetCameraRange()
+    {
+        GameStart = true;
+    }
 }

@@ -52,7 +52,7 @@ public class QuestGiveNpc : BasicNpc
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
 
                     Character.instance.SetCharacterStat(CharacterStatType.MyItem, OrderString + "-1");
-                    Character.instance.MyPlayerController.EventConversation.Invoke();
+                    Character.instance.MyPlayerController.InvokeEventConversation();
 
                     QuestManager.instance.RemoveQuest("7010");
                     QuestStart = false;
@@ -65,7 +65,7 @@ public class QuestGiveNpc : BasicNpc
             ConversationManager.CurNpc = this;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
 
-            Character.instance.MyPlayerController.EventConversation.Invoke();
+            Character.instance.MyPlayerController.InvokeEventConversation();
 
             QuestStart = false;
         }

@@ -36,7 +36,6 @@ public class QuestNPC : BasicNpc
 
         SetNpcNumber(11);
         SetChatType(0);
-        SetNpcName("Äù½ºÆ® NPC");
         SetQuestData("00010", "7010", "1");
 
         CheckQuest();
@@ -98,7 +97,7 @@ public class QuestNPC : BasicNpc
 
                     ConversationManager.CurNpc = this;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                    Character.instance.MyPlayerController.EventConversation.Invoke();
+                    Character.instance.MyPlayerController.InvokeEventConversation();
                 }
                 else
                 {

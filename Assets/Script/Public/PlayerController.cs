@@ -35,8 +35,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public UnityEvent EventConversation;
-    public UnityEvent<UIPopUpOrder> EventUIInput;
+    private UnityEvent EventConversation;
+    private UnityEvent<KeyDirection> EventSelect;
+    private UnityEvent<UIPopUpOrder> EventUIInput;
 
     [SerializeField]
     private Collider2D BodyCollider;
@@ -51,13 +52,29 @@ public class PlayerController : MonoBehaviour
     // 최종 좌표
     private Vector3 FinalPosition;
 
+    public void AddEventConversation(UnityAction AddEvent)
+    {
+        EventConversation.AddListener(AddEvent);
+    }
+    public void InvokeEventConversation()
+    {
+        EventConversation.Invoke();
+    }
+    public void AddEventSelect(UnityAction<KeyDirection> AddEvent)
+    {
+        EventSelect.AddListener(AddEvent);
+    }
+    public void DeleteEventSelect(UnityAction<KeyDirection> AddEvent)
+    {
+        EventSelect.RemoveListener(AddEvent);
+    }
+    public void AddEventUIInput(UnityAction<UIPopUpOrder> AddEvent)
+    {
+        EventUIInput.AddListener(AddEvent);
+    }
+
     private void Awake()
     {
-        /*Spum = gameObject.GetComponent<SPUM_Prefabs>();
-        RotationObject = gameObject.transform.GetChild(0).gameObject;
-        BodyCollider = gameObject.GetComponent<Collider2D>();
-        InterActionCollider = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Collider2D>();*/
-
         moveSpeed = 4.0f;
         _characterControllable = false;
         _characterMovable = false;
@@ -69,6 +86,10 @@ public class PlayerController : MonoBehaviour
 
         LimitPosition = new Vector2(8.9f, 5.4f);
         FinalPosition = new Vector3(0f, 0f, 0f);
+
+        EventConversation = new UnityEvent();
+        EventSelect = new UnityEvent<KeyDirection>();
+        EventUIInput = new UnityEvent<UIPopUpOrder>();
     }
     void Start()
     {
@@ -80,7 +101,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Debug.Log("1. CharacterControllable = " + CharacterControllable);
-        if (CharacterControllable)
+        if (_characterControllable)
         {
             // 공격
             //Debug.Log("2. Input.GetKey(KeyCode.X) = " + Input.GetKey(KeyCode.X));
@@ -97,6 +118,25 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if(ConversationNext)
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    EventSelect.Invoke(KeyDirection.Up);
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    EventSelect.Invoke(KeyDirection.Down);
+                }
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    EventSelect.Invoke(KeyDirection.Left);
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    EventSelect.Invoke(KeyDirection.Right);
+                }
+            }
             // 대사 넘기기
             if (Input.GetKeyDown(KeyCode.X))
             {
@@ -148,7 +188,7 @@ public class PlayerController : MonoBehaviour
             InputY = Input.GetAxisRaw("Vertical");
 
             Move();
-        }
+        }  
     }
 
     private void Move()
@@ -168,22 +208,18 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerRotation(Direction.Right);
                 Offset.x = 0.02f;
-                if (RotationObject.transform.localScale.x != Arrow.x)
-                {
-                    RotationObject.transform.localScale = Arrow;
-                }
-                BodyCollider.offset = Offset;
             }
             else if (InputX == -1)
             {
                 PlayerRotation(Direction.Left);
                 Offset.x = -0.02f;
-                if (RotationObject.transform.localScale.x != Arrow.x)
-                {
-                    RotationObject.transform.localScale = Arrow;
-                }
-                BodyCollider.offset = Offset;
             }
+
+            if (RotationObject.transform.localScale.x != Arrow.x)
+            {
+                RotationObject.transform.localScale = Arrow;
+            }
+            BodyCollider.offset = Offset;
         }
         
         
@@ -351,7 +387,6 @@ public class PlayerController : MonoBehaviour
         _characterMovable = false;
         UIControllable = false;
     }
-
     private void StartPlayerController()
     {
         _characterControllable = true;
@@ -382,6 +417,26 @@ public class PlayerController : MonoBehaviour
     public bool CanAttack()
     {
         return Spum._anim.GetBool("IsAttack");
+    }
+
+    public void StartDie()
+    {
+        Spum._anim.SetTrigger("Die");
+    }
+    IEnumerator EndDieCourtine()
+    {
+        Spum._anim.SetBool("EditChk", true);
+
+        while (!Spum._anim.GetCurrentAnimatorStateInfo(0).IsName("RunState"))
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        Spum._anim.SetBool("EditChk", false);
+    }
+    public void EndDie()
+    {
+        StartCoroutine(EndDieCourtine());
     }
 }
 

@@ -8,21 +8,23 @@ using UnityEngine;
 public class UIInventoryManager : UIManager
 {
     [SerializeField]
-    private GameObject InfoDataGroup;
-    private TextMeshProUGUI[] CharacterStatArray;
-
+    private TextMeshProUGUI[] InfoName;
     [SerializeField]
-    private GameObject InfoStackGroup;
+    private TextMeshProUGUI[] InfoData;
+    [SerializeField]
+    private TextMeshProUGUI[] StackName;
+    [SerializeField]
+    private TextMeshProUGUI[] StackData;
+    [SerializeField]
+    private TextMeshProUGUI ItemName;
     [SerializeField]
     private GameObject ItemContent;
 
+    private int[] StackOrder;
+
     void Awake()
     {
-        CharacterStatArray = new TextMeshProUGUI[InfoDataGroup.transform.childCount];
-        for (int i = 0; i < CharacterStatArray.Length; i++)
-        {
-            CharacterStatArray[i] = InfoDataGroup.transform.GetChild(i).GetComponent<TextMeshProUGUI>();
-        }
+        StackOrder = new int[2];
     }
 
     protected override void Start()
@@ -30,6 +32,7 @@ public class UIInventoryManager : UIManager
         base.Start();
         Character.instance.UIChangeAddListener(UpdateInventoryStat);
         GameManager.instance.AddLoadEvent(LoadInventory);
+        GameManager.instance.AddGameStartEvent(SetStack);
     }
 
     protected override void StartUI()
@@ -46,29 +49,70 @@ public class UIInventoryManager : UIManager
         //Debug.Log("UIInventory 끝날 시 해야할 일 실행");
     }
 
+    private void SetStack()
+    {
+        switch (Character.instance.MySocialClass)
+        {
+            case SocialClass.Helot:
+                StackOrder[0] = 0;
+                StackOrder[1] = 1;
+                StackName[0].text = "Smith";
+                StackName[1].text = "Bania";
+                break;
+            case SocialClass.Commons:
+                StackOrder[0] = 1;
+                StackOrder[1] = 2;
+                StackName[0].text = "Knight";
+                StackName[1].text = "Alchemist";
+                break;
+            case SocialClass.SemiNoble:
+                StackOrder[0] = 4;
+                StackOrder[1] = 2;
+                StackName[0].text = "Commons";
+                StackName[1].text = "Noble";
+                break;
+            case SocialClass.Noble:
+                StackOrder[0] = 4;
+                StackOrder[1] = 2;
+                StackName[0].text = "People";
+                StackName[1].text = "King";
+                break;
+            case SocialClass.King:
+                StackOrder[0] = 3;
+                StackOrder[1] = 4;
+                StackName[0].text = "People";
+                StackName[1].text = "Noble";
+                break;
+        }
+    }
+
     public void UpdateInventoryStat(CharacterStatType Type)
     {
         switch (Type)
         {
             // MyName
             case 0:
-                CharacterStatArray[0].text = Character.instance.MyName;
+                InfoData[0].text = Character.instance.MyName;
                 break;
             // MySocialClass
             case CharacterStatType.MySocialClass:
-                CharacterStatArray[1].text = Character.instance.MySocialClass.ToString();
+                InfoData[1].text = Character.instance.MySocialClass.ToString();
                 break;
             // MyJob
             case CharacterStatType.MyJob:
-                CharacterStatArray[2].text = Character.instance.MyJob.ToString();
+                InfoData[2].text = Character.instance.MyJob.ToString();
                 break;
             // MyAge
             case CharacterStatType.MyAge:
-                CharacterStatArray[3].text = Character.instance.MyAge.ToString();
+                InfoData[3].text = Character.instance.MyAge.ToString();
                 break;
             // Reputation
             case CharacterStatType.Reputation:
-                CharacterStatArray[4].text = Character.instance.Reputation.ToString();
+                InfoData[4].text = Character.instance.Reputation.ToString();
+                break;
+            // Reputation
+            case CharacterStatType.Proficiency:
+                InfoData[5].text = Character.instance.Proficiency.ToString();
                 break;
             case CharacterStatType.MyItem:
                 // 인벤토리에 아이템이 실제 아이템보다 적을 때
@@ -188,6 +232,21 @@ public class UIInventoryManager : UIManager
                     }
                 }
                 break;
+            case CharacterStatType InputType when (InputType >= CharacterStatType.Smith):
+                if(Character.instance.StackOrder - (int)Character.instance.MySocialClass == StackOrder[0])
+                {
+                    StackData[0].text = Character.instance.MyStack[Character.instance.StackOrder].ToString();
+                }
+                else if(Character.instance.StackOrder - (int)Character.instance.MySocialClass == StackOrder[1])
+                {
+                    StackData[0].text = Character.instance.MyStack[Character.instance.StackOrder].ToString();
+                }
+                else
+                {
+                    Debug.Log("현재 직업에 맞지 않는 스택이 들어옴");
+                }
+                break;
+
         }
     }
 
@@ -218,11 +277,4 @@ public class UIInventoryManager : UIManager
 
         //StartCoroutine(CoroutineLoadInventory());
     }
-
-    /*IEnumerator CoroutineLoadInventory()
-    {
-        yield return new WaitForEndOfFrame();
-
-        UpdateInventoryStat(8);
-    }*/
 }

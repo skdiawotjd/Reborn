@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Linq;
 
 public class ConversationManager : UIManager
 {
@@ -13,83 +14,50 @@ public class ConversationManager : UIManager
     [SerializeField]
     private TextMeshProUGUI ContentText;
     [SerializeField]
-    private GameObject SelectPanel;
+    private GridLayoutGroup SelectPanel;
     [SerializeField]
     private Button SelectButton;
 
     List<Dictionary<string, object>> ChatList;
-    //[SerializeField]
-    private BasicNpc _curNpc;
-    //[SerializeField]
-    private bool _isCanChat; // 채팅을 시작할 수 있는지
-    //[SerializeField]
-    private bool IsCatting; // 채팅이 진행 중인지
-    private Coroutine TypingCourtine;
-    private bool _conversationPanelStillOpen;
-    private int _chatCount; // CSV 상 대화가 몇번 째에 있는지
-    private int _conversationCount; // 대화가 몇번 진행 되었는지
-    private int _totalCount; // 대화가 몇번 진행 되었는지
-    public string _npcNumberChatType; // "NPC넘버-대화넘버"
+    List<Dictionary<string, object>> CharacterNameList;
+    [SerializeField]
+    private BasicNpc _curNpc;                   // 대화 할 Npc
+    [SerializeField]
+    private bool IsCanChat;                     // 채팅을 시작할 수 있는지
+    [SerializeField]
+    private bool IsCatting;                     // 채팅이 진행 중인지
+    private Coroutine TypingCourtine;           // 채팅 코루틴을 정지하기 위한 변수
+    [SerializeField]
+    private bool _conversationPanelStillOpen;    // 채팅 패널이 계속 열려 있어야 하는지
+    [SerializeField]
+    private int ChatCount;                      // CSV 상 대화가 몇번 째에 있는지
+    [SerializeField]
+    private int _conversationCount;             // 대화가 몇번 진행 되었는지
+    [SerializeField]
+    private string ChatName;                    // CSV 0번의 대사를 치는 캐릭터 이름
+    private int SelectedButton;
+    private List<Button> SelectButtonList;
+    Color SelectColor;
 
     private UnityEvent<int> SelectEvent;
 
     public BasicNpc CurNpc
     {
-        set 
-        {
-            _curNpc = value;
-            if(_curNpc != null)
-            {
-                SetChatName(_curNpc.NpcName);
-            }
-        }
-        get
-        {
-            return _curNpc;
-        }
-    }
-    public bool IsCanChat
-    {
-        get 
-        { 
-            return _isCanChat; 
-        }
+        set { _curNpc = value; }
+        get { return _curNpc; }
     }
     public bool ConversationPanelStillOpen
     {
-        set
-        {
-            _conversationPanelStillOpen = value;
-        }
-        get
-        {
-            return _conversationPanelStillOpen;
-        }
+        set { _conversationPanelStillOpen = value; }
+        get { return _conversationPanelStillOpen; }
     }
     public int ConversationCount
     {
-        get
-        {
-            return _conversationCount;
-        }
-    }
-    public int TotalCount
-    {
-        get
-        {
-            return _totalCount;
-        }
+        get { return _conversationCount; }
     }
     public string NpcNumberChatType
     {
-        set
-        {
-            SetChat(value);
-        }
-        get
-        {
-            return _npcNumberChatType;
-        }
+        set { SetChat(value); }
     }
 
     public void AddSelectEvent(UnityAction<int> AddEvent)
@@ -100,7 +68,14 @@ public class ConversationManager : UIManager
     void Awake()
     {
         ChatList = CSVReader.Read("Chatting");
+        CharacterNameList = CSVReader.Read("CharacterName");
         SelectEvent = new UnityEvent<int>();
+        SelectButtonList = new List<Button>();
+        SelectColor = new Color();
+        SelectColor.r = 0.3f;
+        SelectColor.g = 0.3f;
+        SelectColor.b = 0.3f;
+        SelectColor.a = 1f;
 
         InitializeConversationManager();
 
@@ -110,7 +85,9 @@ public class ConversationManager : UIManager
 
     protected override void Start()
     {
-        Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
+        //Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
+        Character.instance.MyPlayerController.AddEventConversation(NextConversation);
+        Character.instance.MyPlayerController.AddEventSelect(MiddleSelect);
     }
 
     protected override void StartUI()
@@ -125,41 +102,40 @@ public class ConversationManager : UIManager
 
     private void InitializeConversationManager()
     {
-        _isCanChat = false;
+        IsCanChat = false;
         IsCatting = false;
-        _chatCount = -1;
+        ChatCount = -1;
         _conversationCount = -1;
-        ConversationPanelStillOpen = false;
-        _npcNumberChatType = "0-0";
+        _conversationPanelStillOpen = false;
         SetActivePanel(false);
-        //ConversationPanel.gameObject.SetActive(false);
+        SelectedButton = -1;
     }
 
     private void InitializeNpcNumberChatType()
     {
-        NpcNumberChatType = ((int)Character.instance.MyJob).ToString() + "-0";
+        //NpcNumberChatType = ((int)Character.instance.MyJob).ToString() + "-0";
     }
 
     private void SetChat(string NNN)
     {
-        _npcNumberChatType = NNN;
         for (int i = 0; i < ChatList.Count; i++)
         {
-            if (ChatList[i]["NpcNumber"].ToString() == NNN)
+            if (NNN[0] == ChatList[i]["NpcNumber"].ToString()[0])
             {
-                _isCanChat = true;
-                _chatCount = i;
-                _totalCount = ChatList[_chatCount].Count;
-                _conversationCount = 0;
-
-                break;
+                if (ChatList[i]["NpcNumber"].ToString() == NNN)
+                {
+                    IsCanChat = true;
+                    ChatCount = i;
+                    _conversationCount = 1;
+                    ChatName = ChatList[i]["Context0"].ToString();
+                    break;
+                }
+            }
+            else
+            {
+                i += (ChatList[i]["NpcNumber"].ToString()[2] - '0');
             }
         }
-    }
-
-    public void SetChatName(string Name)
-    {
-        NameText.text = Name;
     }
 
     private void ClearSelectEvent()
@@ -169,16 +145,11 @@ public class ConversationManager : UIManager
 
     private void NextConversation()
     {
-        //StartCoroutine(ChatCoroutine());
-        if(_isCanChat)
+        if(IsCanChat)
         {
             //Debug.Log("대사 시작 3 ConversationCount가 (" + ConversationCount + " < " + (ChatList[_chatCount].Count - 1) + ") 이면");
-            if (ConversationCount < ChatList[_chatCount].Count - 1)
+            if (_conversationCount < ChatList[ChatCount].Count - 1)
             {
-                /*if (!ConversationPanel.gameObject.activeSelf)
-                {
-                    ConversationPanel.gameObject.SetActive(true);
-                }*/
                 if (!Panel.activeSelf)
                 {
                     SetActivePanel(true);
@@ -191,8 +162,9 @@ public class ConversationManager : UIManager
                 }
                 else
                 {
-                    if(ChatList[_chatCount]["Context" + ConversationCount].ToString().Length != 0)
+                    if(ChatName.Length != 0)
                     {
+                        SetChatName();
                         TypingCourtine = StartCoroutine(Typing());
                     }
                     else
@@ -204,28 +176,38 @@ public class ConversationManager : UIManager
             else
             {
                 //Debug.Log("대사 시작 5 - ConversationCount가 ChatList[NpcToChat].Count보다 크므로 대사 끝");
-                //ConversationPanel.gameObject.SetActive(ConversationPanelStillOpen);
-                SetActivePanel(ConversationPanelStillOpen);
+                SetActivePanel(_conversationPanelStillOpen);
 
-                if (ConversationCount == ChatList[_chatCount].Count - 1)
+                if (_conversationCount == ChatList[ChatCount].Count - 1)
                 {
                     _conversationCount = -1;
-                    _isCanChat = false;
+                    IsCanChat = false;
+                    _conversationPanelStillOpen = false;
+
                     //Debug.Log("대사 시작 6 - 대사 끝");
                     if (_curNpc != null)
                     {
-                        SetChatName("");
-
                         StartCoroutine(EndConversation(false, 0.2f));
                     }
                     else
                     {
                         _conversationCount = -1;
-                        _isCanChat = false;
+                        IsCanChat = false;
 
                         Character.instance.MyPlayerController.ConversationNext = false;
                     }
                 }
+            }
+        }
+    }
+
+    private void SetChatName()
+    {
+        for (int i = 0; i < CharacterNameList.Count; i++)
+        {
+            if (CharacterNameList[i]["CharacterNumber"].ToString() == ChatName[_conversationCount - 1].ToString())
+            {
+                NameText.text = CharacterNameList[i]["CharacterName"].ToString();
             }
         }
     }
@@ -240,10 +222,22 @@ public class ConversationManager : UIManager
             ContentText.text = "";
             Character.instance.MyPlayerController.ConversationNext = true;
 
-            //Debug.Log(ContentText.text + " != " + ChatList[_chatCount]["Context" + ConversationCount].ToString());
-            while (ContentText.text != ChatList[_chatCount]["Context" + ConversationCount].ToString())
+            try
             {
-                ContentText.text += ChatList[_chatCount]["Context" + ConversationCount].ToString()[WordCount];
+                if (ChatName[_conversationCount - 2] != ChatName[_conversationCount - 1])
+                {
+                    SetChatName();
+                }
+            }
+            catch
+            {
+
+            }
+
+            //Debug.Log(ContentText.text + " != " + ChatList[_chatCount]["Context" + ConversationCount].ToString());
+            while (ContentText.text != ChatList[ChatCount]["Context" + _conversationCount].ToString())
+            {
+                ContentText.text += ChatList[ChatCount]["Context" + _conversationCount].ToString()[WordCount];
                 yield return new WaitForSeconds(0.075f);
                 WordCount++;
             }
@@ -254,9 +248,9 @@ public class ConversationManager : UIManager
 
     private void EndTyping()
     {
-        if(ContentText.text != ChatList[_chatCount]["Context" + ConversationCount].ToString())
+        if(ContentText.text != ChatList[ChatCount]["Context" + _conversationCount].ToString())
         {
-            ContentText.text = ChatList[_chatCount]["Context" + ConversationCount].ToString();
+            ContentText.text = ChatList[ChatCount]["Context" + _conversationCount].ToString();
         }
 
         _conversationCount++;
@@ -273,24 +267,109 @@ public class ConversationManager : UIManager
 
     public void StartSelect()
     {
-        SelectPanel.SetActive(true);
-
-        for(int i = 0; i < ChatList[_chatCount].Count -2; i++)
+        if (!SelectPanel.gameObject.activeSelf)
         {
-            _conversationCount++;
+            SelectPanel.gameObject.SetActive(true);
 
-            Button TemButton;
-            TemButton = Instantiate(SelectButton, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button;
-            TemButton.transform.SetParent(SelectPanel.transform, false);
-            TemButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ChatList[_chatCount]["Context" + ConversationCount].ToString();
-            int TemType = i;
-            TemButton.onClick.AddListener(() => 
-            { 
-                SelectEvent.Invoke(TemType);
-                NextConversation();
-                SelectPanel.SetActive(false);
-            });
+            if(ChatList[ChatCount].Count  == 4)
+            {
+                SelectPanel.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            }
+            else
+            {
+                SelectPanel.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+            }
+
+            for (int i = 0; i < ChatList[ChatCount].Count - 2; i++)
+            {
+                if(ChatList[ChatCount]["Context" + _conversationCount].ToString().Length != 0)
+                {
+                    SelectButtonList.Add(Instantiate(SelectButton, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button);
+                    SelectButtonList.Last().transform.SetParent(SelectPanel.transform, false);
+                    SelectButtonList.Last().transform.SetParent(SelectPanel.transform, false);
+                    SelectButtonList.Last().transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ChatList[ChatCount]["Context" + _conversationCount].ToString();
+                    int TemType = i;
+                    SelectButtonList.Last().onClick.AddListener(() =>
+                    {
+                        _conversationCount++;
+                        SelectEvent.Invoke(TemType);
+                        NextConversation();
+                        SelectPanel.gameObject.SetActive(false);
+                    });
+                }
+                else
+                {
+                    SelectButtonList.Add(null);
+                }
+                _conversationCount++;
+            }
+
+            _conversationCount--;
+            Character.instance.MyPlayerController.ConversationNext = true;
         }
-        _conversationCount++;
+        else
+        {
+            Debug.Log("선택 " + SelectedButton);
+            if(SelectedButton != -1)
+            {
+                SelectButtonList[SelectedButton].onClick.Invoke();
+            }
+        }
+    }
+
+    private void MiddleSelect(KeyDirection Direction)
+    {
+        if(SelectPanel.gameObject.activeSelf)
+        {
+            if(SelectedButton == -1)
+            {
+                SelectedButton = 0;
+                SelectButtonList[0].image.color = SelectColor;
+                Debug.Log("처음 선택 SelectedButton " + SelectedButton);
+            }
+            else
+            {
+                Debug.Log("이전 SelectedButton " + SelectedButton);
+                SelectButtonList[SelectedButton].image.color = Color.white;
+                if (Direction == KeyDirection.Down)
+                {
+                    SelectOrder(2);
+                }
+                else if (Direction == KeyDirection.Up)
+                {
+                    SelectOrder(-2);
+                }
+                else if (Direction == KeyDirection.Right)
+                {
+                    SelectOrder(1);
+                }
+                else if (Direction == KeyDirection.Left)
+                {
+                    SelectOrder(-1);
+                }
+            }
+        }
+    }
+    private void SelectOrder(int AddOrder)
+    {
+        try
+        {
+            SelectButtonList[SelectedButton + AddOrder].image.color = SelectColor;
+            SelectedButton += AddOrder;
+            Debug.Log("현재 SelectedButton " + SelectedButton);
+        }
+        catch
+        {
+            try
+            {
+                SelectButtonList[SelectedButton - AddOrder].image.color = SelectColor;
+                SelectedButton -= AddOrder;
+                Debug.Log("현재 SelectedButton " + SelectedButton);
+            }
+            catch
+            {
+                SelectButtonList[SelectedButton].image.color = SelectColor;
+            }
+        }
     }
 }

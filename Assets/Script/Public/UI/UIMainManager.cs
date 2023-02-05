@@ -94,13 +94,10 @@ public class UIMainManager : UIManager
             case UIMainImageOrders.Job:
                 //MainImage[(int)UIMainImageOrders.Job].sprite = "현 직업에 맞는 이미지 삽입";
                 break;
-            // Reputation
-            case UIMainImageOrders.Reputation:
-                MainImage[(int)UIMainImageOrders.Reputation].fillAmount = (float)Character.instance.Reputation / 100f;
-                break;
-            /*case UIMainImageOrders.Proficiency:
+            // Proficiency
+            case UIMainImageOrders.Proficiency:
                 MainImage[(int)UIMainImageOrders.Proficiency].fillAmount = (float)Character.instance.Proficiency / 100f;
-                break;*/
+                break;
         }
     }
     private void SkipDay()

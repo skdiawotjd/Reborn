@@ -52,8 +52,8 @@ public class TutorialManager : MonoBehaviour
         {
             ///
             JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
-            _step = 2;
-            _stepDetail = 1;
+            _step = 0;
+            _stepDetail = 9;
             ///
             GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
             GameManager.instance.AddSceneMoveEvent(CheckStep);
@@ -95,9 +95,10 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 3:
                         // 3 대화/대기 Debug.Log("");
-                        JustChatManager.ConversationManager.SetChatName(Character.instance.MyName);
+                        //JustChatManager.ConversationManager.SetChatName(Character.instance.MyName);
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        JustChatManager.ChangeNpcNumberChatType("0-8");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());
@@ -114,8 +115,8 @@ public class TutorialManager : MonoBehaviour
                         Character.instance.MyPlayerController.SetPlayerPosition(0);
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
                         // 5 대화/대기 Debug.Log("");
-                        JustChatManager.ChangeNpcNumberChatType("0-1");
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        JustChatManager.ChangeNpcNumberChatType("0-7");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());
@@ -129,8 +130,8 @@ public class TutorialManager : MonoBehaviour
                     case 7:
                         // 7 대화/대기 Debug.Log("");
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
-                        JustChatManager.ChangeNpcNumberChatType("0-2");
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        JustChatManager.ChangeNpcNumberChatType("0-6");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());
@@ -144,15 +145,15 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 9:
                         // 9 오브젝트 생성/대기 Debug.Log("");
-                        JustChatManager.CreateNpc(new Vector3(5.5f, 0f, 0f), 0, 8, "펜던트소녀");
+                        JustChatManager.CreateNpc(new Vector3(5.5f, 0f, 0f), 0, 0, 2);
                         StartCoroutine(JustChatManager.Wait(7));
 
                         StartCoroutine(NextStepDetail());
                         break;
                     case 10:
                         // 10 대화/대기 Debug.Log("");
-                        JustChatManager.ChangeNpcNumberChatType("0-3");
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        JustChatManager.ChangeNpcNumberChatType("0-5");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
 
@@ -161,8 +162,7 @@ public class TutorialManager : MonoBehaviour
                     case 11:
                         // 11 대화/대기 Debug.Log("");
                         JustChatManager.ChangeNpcNumberChatType("0-4");
-                        JustChatManager.ConversationManager.SetChatName("???");
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
 
@@ -170,27 +170,25 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 12:
                         // 12 대화/대기 Debug.Log("");
-                        JustChatManager.ChangeNpcNumberChatType("0-5");
-                        //JustChatManager.ConversationManager.CurNpc = JustChatManager.JustChatNpc;
-                        JustChatManager.ConversationManager.SetChatName("펜던트소녀");
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        JustChatManager.ChangeNpcNumberChatType("0-3");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());
                         break;
                     case 13:
                         // 13 선택 창 Debug.Log("");
-                        JustChatManager.ChangeNpcNumberChatType("0-6");
+                        JustChatManager.ChangeNpcNumberChatType("0-2");
                         JustChatManager.ConversationManager.AddSelectEvent(SelectJob);
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());
                         break;
                     case 14:
                         // 14 대화/대기 Debug.Log("");
-                        JustChatManager.ChangeNpcNumberChatType("0-7");
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        JustChatManager.ChangeNpcNumberChatType("0-1");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
                         StartCoroutine(NextStepDetail());

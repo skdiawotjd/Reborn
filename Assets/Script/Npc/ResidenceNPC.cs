@@ -10,7 +10,6 @@ public class ResidenceNPC : QuestNPC
 
         SetNpcNumber(3);
         SetChatType(0);
-        SetNpcName("ªÛ¡÷ NPC");
         SetStory();
         SetQuestData("00010", "7010", "1");
     }

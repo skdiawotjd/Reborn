@@ -14,7 +14,7 @@ public class QuestNpc : BasicNpc
     
     protected override void FunctionStart()
     {
-        Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
+        //Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
         if (QuestStart)
         {
             // 퀘스트 확인
@@ -45,14 +45,16 @@ public class QuestNpc : BasicNpc
                     {
                         ChatType = 2;
                         ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        //Character.instance.MyPlayerController.EventConversation.Invoke();
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         return;
                     }
                 }
             }
             ChatType = 3;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-            Character.instance.MyPlayerController.EventConversation.Invoke();
+            //Character.instance.MyPlayerController.EventConversation.Invoke();
+            Character.instance.MyPlayerController.InvokeEventConversation();
         }
     }
 }

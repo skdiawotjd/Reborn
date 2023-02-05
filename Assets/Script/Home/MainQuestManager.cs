@@ -11,7 +11,7 @@ public class MainQuestManager : BasicNpc
 
     protected override void FunctionStart()
     {
-        Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
+        //Debug.Log("대사 시작 1 - 콜리전 충돌(NPC 넘버 " + ConversationManager.NpcNumberChatType + " )");
         if (QuestManager.instance.questEnd)
         {
             // 퀘스트 완료 이후
@@ -43,14 +43,14 @@ public class MainQuestManager : BasicNpc
                         ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                         Character.instance.SetCharacterStat(CharacterStatType.MyItem, (QuestManager.instance.questDeleteNumber)/*없앨 아이템 넘버와 개수*/);
                         Character.instance.SetCharacterStat(CharacterStatType.Reputation, 5); // TodoProgress 5 증가
-                        Character.instance.MyPlayerController.EventConversation.Invoke();
+                        Character.instance.MyPlayerController.InvokeEventConversation();
                         return;
                     }
                 }
             }
             ChatType = 3;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-            Character.instance.MyPlayerController.EventConversation.Invoke();
+            Character.instance.MyPlayerController.InvokeEventConversation();
         }
     }
 

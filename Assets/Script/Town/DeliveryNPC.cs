@@ -43,14 +43,16 @@ public class DeliveryNPC : BasicNpc
                     ChatType = 3;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                     Character.instance.SetCharacterStat(CharacterStatType.MyItem, OrderString + "-1");
-                    Character.instance.MyPlayerController.EventConversation.Invoke();
+                    //Character.instance.MyPlayerController.EventConversation.Invoke();
+                    Character.instance.MyPlayerController.InvokeEventConversation();
                     QuestStart = false;
                     return;
                 }
             }
             ChatType = 2;
             ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-            Character.instance.MyPlayerController.EventConversation.Invoke();
+            //Character.instance.MyPlayerController.EventConversation.Invoke();
+            Character.instance.MyPlayerController.InvokeEventConversation();
             QuestStart = false;
         }
     }

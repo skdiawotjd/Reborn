@@ -59,7 +59,7 @@ public class ButlerNPC : BasicNpc
                 {
                     ChatType = 3;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                    Character.instance.MyPlayerController.EventConversation.Invoke();
+                    Character.instance.MyPlayerController.InvokeEventConversation();
                     return;
                 }
             }
@@ -69,7 +69,7 @@ public class ButlerNPC : BasicNpc
             Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.Reputation);
             Character.instance.SetCharacterStat(CharacterStatType.Reputation, 2); // todoProgress + 2
             Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.Reputation);
-            Character.instance.MyPlayerController.EventConversation.Invoke();
+            Character.instance.MyPlayerController.InvokeEventConversation();
             QuestManager.instance.subQuestStart = false;
 
         }

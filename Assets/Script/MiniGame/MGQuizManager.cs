@@ -115,14 +115,21 @@ public class MGQuizManager : MiniGameManager
     }
     public override void GameEnd(bool clear)
     {
+        SelectedChange(false);
+        answerChoiceNumber = 0;
+        SelectedChange(true);
         timeText.gameObject.SetActive(false);
         quizPanel.gameObject.SetActive(false);
-        if (Character.instance.MyMapNumber == "0004" || Character.instance.MyMapNumber == "0104")
+        if (Character.instance.MyMapNumber == "0005" || Character.instance.MyMapNumber == "0105")
         {
             Destroy(temImage);
         }
 
         quizGameActive = false;
+
+
+        QuestManager.instance.MinigameClear(true);
+        Character.instance.SetCharacterInput(true, true, true);
     }
 
     public override void PressKey(int key)
@@ -164,10 +171,10 @@ public class MGQuizManager : MiniGameManager
         temNum = Random.Range(1, 3);
         switch (Character.instance.MyMapNumber)
         {
-            case "0004":
+            case "0005":
                 gameNumberRound = quizRound * temNum;
                 break;
-            case "0104":
+            case "0105":
                 gameNumberRound = (quizRound * temNum) + 10;
                 break;
         }
@@ -185,9 +192,7 @@ public class MGQuizManager : MiniGameManager
     }
     public override void SetMainWork(int position) // SelectedChange()
     {
-        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
-        temColor.a = 0.4f; // 임시 컬러의 알파값을 0.4f, 즉 100 정도로 만든다
-        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+        SelectedChange(false);
         switch (position)
         {
             case 0:
@@ -204,10 +209,23 @@ public class MGQuizManager : MiniGameManager
                 break;
         }
 
+        SelectedChange(true);
 
-        temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
-        temColor.a = 1f; // 임시 컬러의 알파값을 1f, 즉 255로 만든다 (불투명 - 선택됨)
-        answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+
+    }
+    private void SelectedChange(bool select)
+    {
+        if(select)
+        {
+            temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
+            temColor.a = 1f; // 임시 컬러의 알파값을 1f, 즉 255로 만든다 (불투명 - 선택됨)
+            answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+        } else
+        {
+            temColor = answerPanel[answerChoiceNumber].color; // 현재 패널의 컬러를 임시 컬러에 넣는다
+            temColor.a = 0.4f; // 임시 컬러의 알파값을 0.4f, 즉 100 정도로 만든다
+            answerPanel[answerChoiceNumber].color = temColor; // 패널의 컬러값에 임시 컬러값을 적용시킨다.
+        }
     }
     public override IEnumerator CountTime(float delayTime)
     {
@@ -224,4 +242,9 @@ public class MGQuizManager : MiniGameManager
             GameEnd(false);
         }
     }
+    IEnumerator WaitingTime(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
     }
+
+}

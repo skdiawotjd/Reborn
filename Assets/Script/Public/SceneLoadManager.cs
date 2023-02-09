@@ -154,10 +154,9 @@ public class SceneLoadManager : MonoBehaviour
                 temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
                 temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Äù½ºÆ®ºÎ¿©";
 
-                temNPC = Instantiate(bundle.LoadAsset<GameObject>("MiniGameTownNPC"), new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
-                temNPC.transform.GetComponent<TownNPC>().SetNpcNumber(13);
-                temNPC.transform.GetComponent<TownNPC>().SetquestNumber("0005");
-                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "ÄûÁîNPC";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToQuiz";
+                temObject.GetComponent<Portal>().ChangeSceneName("0005");
 
                 bundle.Unload(false);
                 break;

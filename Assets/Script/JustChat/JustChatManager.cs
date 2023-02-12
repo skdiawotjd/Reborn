@@ -181,6 +181,12 @@ public class JustChatManager : MonoBehaviour
 
     public void ChangeNpcNumberChatType(string NewNpcNumberChatType)
     {
+        if(!ConversationManager)
+        {
+            Debug.Log("ConversationManager°¡ ¾øÀ½");
+            MainCanvas = GameObject.Find("Main Canvas");
+            ConversationManager = MainCanvas.transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
+        }
         ConversationManager.NpcNumberChatType = NewNpcNumberChatType;
     }
 

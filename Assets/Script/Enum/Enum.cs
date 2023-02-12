@@ -11,7 +11,7 @@ public enum Job
 }
 public enum CharacterStatType
 {
-    MySocialClass = 1, MyJob, MyAge, Reputation, Gold,
+    MySocialClass = 1, MyJob, MyAge, Reputation,
     MyPositon, ActivePoint, Proficiency, MyItem,
     Smith, Bania,
     Knight, Alchemist,

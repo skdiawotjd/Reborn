@@ -31,6 +31,10 @@ public class CSVReader
             {
                 string value = values[j];
                 value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
+
+                value = value.Replace("<br>", "\n"); // 추가된 부분. 개행문자를 \n대신 <br>로 사용한다.
+                value = value.Replace("<c>", ",");
+
                 object finalvalue = value;
                 /*int n;
                 float f;

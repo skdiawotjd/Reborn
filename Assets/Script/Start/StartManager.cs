@@ -8,7 +8,7 @@ public class StartManager : MonoBehaviour
     [SerializeField]
     private List<Button> StartButtonList;
 
-    private AudioListener StartAudioListener;
+    //private AudioListener StartAudioListener;
     private PopUpUIManager PopUpUIManager;
 
     private CharacterSelectManager CharacterSelectManager;
@@ -26,7 +26,7 @@ public class StartManager : MonoBehaviour
 
     void Start()
     {
-        StartAudioListener = GameObject.Find("Main Camera").GetComponent<AudioListener>();
+        //StartAudioListener = GameObject.Find("Main Camera").GetComponent<AudioListener>();
         PopUpUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetComponent<PopUpUIManager>();
         CharacterSelectManager = GameObject.Find("Main Canvas").transform.GetChild(1).GetComponent<CharacterSelectManager>();
 

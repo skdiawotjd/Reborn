@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        GameManager.instance.AddDayStart(StartPlayerController);
+        //GameManager.instance.AddDayStart(StartPlayerController);
         GameManager.instance.AddDayEnd(EndPlayerController);
         SceneLoadManager.instance.MapSettingEvent.AddListener(SetPlayerPositionRange);
     }
@@ -367,8 +367,6 @@ public class PlayerController : MonoBehaviour
     {
         _characterControllable = CharacterInput;
         UIControllable = UIInput;
-
-        //Debug.Log(_characterControllable + " " + UIControllable);
     }
     public void SetInput(bool CharacterInput,bool CharacterMove, bool UIInput)
     {

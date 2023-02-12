@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6059814857321788119}
   - component: {fileID: 255367303975165382}
   - component: {fileID: 5942166077678946819}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 5636955638839417193}
   - component: {fileID: 2162909289143053131}
   - component: {fileID: 3115849035545555610}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6f057008fbbcc43a45197ab10c35af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemCount: {fileID: 284789976083820343}
+  _itemCountText: {fileID: 284789976083820343}
   Description: {fileID: 573209434162485784}
 --- !u!61 &3115849035545555610
 BoxCollider2D:
@@ -206,8 +206,8 @@ GameObject:
   - component: {fileID: 3541258761758144648}
   - component: {fileID: 4847491702085121044}
   - component: {fileID: 284789976083820343}
-  m_Layer: 0
-  m_Name: Text (TMP)
+  m_Layer: 8
+  m_Name: ItemCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99999999999
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 49cb6a8cd944a584d89985c59d228bca, type: 2}
   m_sharedMaterial: {fileID: 7182149105789109290, guid: 49cb6a8cd944a584d89985c59d228bca, type: 2}
@@ -287,8 +287,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 6844158137703202675}
   - component: {fileID: 8207167981959278843}
   - component: {fileID: 6086589238319389488}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

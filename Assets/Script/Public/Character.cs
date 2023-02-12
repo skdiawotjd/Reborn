@@ -14,7 +14,6 @@ public class Character : MonoBehaviour
         public Job _myJob;
         public int _myAge;
         public int _reputation;
-        public int _gold;
         public string _myMapNumber;
         public int _activePoint;
         public int _proficiency;
@@ -57,10 +56,6 @@ public class Character : MonoBehaviour
     public int Reputation
     {
         get { return CharacterStat._reputation; }
-    }
-    public int Gold
-    {
-        get { return CharacterStat._gold; }
     }
     public string MyMapNumber
     {
@@ -159,9 +154,9 @@ public class Character : MonoBehaviour
         //return (CharacterStatType)((int)MyJob + 9);
     }
     /// <summary>
-    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - Reputation, 5 - Gold, 6 - MyPositon, 7 - ActivePoint, 8 - Proficiency, 9 - MyItem, 10~14 - MyStack(SocialClass / Job)
+    /// Type : 1 - MySocialClass, 2 - MyJob, 3 - MyAge, 4 - Reputation, 5 - MyPositon, 6 - ActivePoint, 7 - Proficiency, 8 - MyItem, 9~17 - MyStack(SocialClass / Job)
     /// <para>
-    /// 직업 별 Type : 10 - 대장장이, 11 - 상인, 12 - 기사, 13 - 학자, 14 - 하급귀족, 15 - 중급귀족, 16 - 상급귀족, 17 - 왕
+    /// 직업 별 Type : 9 - 대장장이, 10 - 상인, 11 - 기사, 12 - 연금술사, 13 - 귀족, 14 - 왕, 15 - 평민, 16 - 백성, 17 - 귀족
     /// </para>
     /// </summary> 
     public void SetCharacterStat<T>(CharacterStatType Type, T value)
@@ -205,10 +200,6 @@ public class Character : MonoBehaviour
                     Debug.Log("Reputation가 100이 넘음");
                 }
                 break;
-            // Gold
-            case CharacterStatType.Gold:
-                CharacterStat._gold += StatType;
-                break;
             // MyPosition
             case CharacterStatType.MyPositon:
                 CharacterStat._myMapNumber = StatTypeString;
@@ -240,22 +231,13 @@ public class Character : MonoBehaviour
                         //Debug.Log("개수 증가 - " + (int)(StatTypeString[4] - '0'));
                         CharacterStat._myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
                         // 퀘스트아이템 위치 설정
-                        if (CharacterStat._questItemOrder != 0)
+                        if (ItemNumber[0] - '0' < 7)
                         {
-                            if (ItemNumber[0] - '0' < 7)
-                            {
-                                CharacterStat._questItemOrder++;
-                            }
-                            else
-                            {
-                                return;
-                            }
+                            CharacterStat._questItemOrder++;
                         }
                         else
                         {
-                            CharacterStat._questItemOrder = ItemOrder;
-
-                            return;
+                            //return;
                         }
                     }
                     // 동일한 아이템이 있다면
@@ -306,6 +288,7 @@ public class Character : MonoBehaviour
                     }
                 }
                 break;
+            // JobStack
             case CharacterStatType InputType when (InputType >= CharacterStatType.Smith):
                 _stackOrder = ((int)Type - (int)CharacterStatType.Smith);
                 CharacterStat._myStack[_stackOrder] += StatType;
@@ -327,15 +310,13 @@ public class Character : MonoBehaviour
         CharacterStat._myAge = 10;
         // 4. 진행도 설정
         CharacterStat._reputation = 0;
-        // 5. 골드 설정
-        CharacterStat._gold = 0;
-        // 6. 위치 설정
+        // 5. 위치 설정
         CharacterStat._myMapNumber = "0007";
-        // 7. 활동력 설정
+        // 6. 활동력 설정
         CharacterStat._activePoint = 100;
-        // 8. 스택 설정
+        // 7. 스택 설정
         InitializeStack();
-        // 9. 작업 속도 설정
+        // 8. 작업 속도 설정
         CharacterStat.MyWorkSpeed = 1.0f;
     }
 
@@ -378,14 +359,12 @@ public class Character : MonoBehaviour
         CharacterStat._myAge = 10;
         // 4. 진행도 설정
         CharacterStat._reputation = 0;
-        // 5. 골드 설정
-        CharacterStat._gold = 0;
-        // 6. 위치 설정
+        // 5. 위치 설정
         CharacterStat._myMapNumber = "0" + ((int)CharacterStat._myJob).ToString() + "02";
 
-        // 8. 스택 설정
+        // 7. 스택 설정
         InitializeStack();
-        // 9. 작업 속도 설정
+        // 8. 작업 속도 설정
         CharacterStat.MyWorkSpeed = 1.0f;
     }
 

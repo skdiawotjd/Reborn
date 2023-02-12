@@ -1862,12 +1862,16 @@ MonoBehaviour:
     _myJob: 0
     _myAge: 0
     _reputation: 0
-    _gold: 0
     _myMapNumber: 
     _activePoint: 0
-    _myItem: []
-    _myItemCount: 
-    _myStackByJob: 
+    _proficiency: 0
+    _myItem:
+    - 1000
+    - 1001
+    - 1002
+    _myItemCount: 050000000500000005000000
+    _questItemOrder: 0
+    _myStack: 
     MyWorkSpeed: 0
   _characterPosition: {x: 0, y: 0}
 --- !u!114 &4001189032874473893
@@ -1888,12 +1892,6 @@ MonoBehaviour:
   _characterMovable: 0
   UIControllable: 0
   ConversationNext: 0
-  EventConversation:
-    m_PersistentCalls:
-      m_Calls: []
-  EventUIInput:
-    m_PersistentCalls:
-      m_Calls: []
   BodyCollider: {fileID: 196858517466419320}
   InterActionCollider: {fileID: 1973752813266507347}
 --- !u!114 &5868554360516547802

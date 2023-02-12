@@ -254,20 +254,6 @@ public class GameManager : MonoBehaviour
 
     private void InitializeGame()
     {
-        /*/// Canvas 세팅
-        GameObject CanvasObject = Instantiate(Resources.Load("Public/Main Canvas")) as GameObject;
-        CanvasObject.name = "Main Canvas";
-        DontDestroyOnLoad(CanvasObject);*/
-
-
-        /*// Camera 세팅
-        GameObject MainCamera = Instantiate(Resources.Load("Public/Main Camera")) as GameObject;
-        MainCamera.name = "Main Camera";*/
-
-        /*// Sound 세팅
-        GameObject SoundManager = Instantiate(Resources.Load("Public/SoundManager")) as GameObject;
-        SoundManager.name = "SoundManager";*/
-
         // Character 세팅
         if(!Character.instance)
         {
@@ -275,14 +261,9 @@ public class GameManager : MonoBehaviour
             PlayerCharacter.name = "PlayerCharacter";
         }
         
-        
         // QuestManager 세팅
         GameObject QuestManager = Instantiate(Resources.Load("Public/QuestManager")) as GameObject;
         QuestManager.name = "QuestManager";
-
-        /*// SceneLoadManager 세팅
-        GameObject SceneLoadManager = Instantiate(Resources.Load("Public/SceneLoadManager")) as GameObject;
-        SceneLoadManager.name = "SceneLoadManager";*/
     }
 
     // 각 분기까지 3일이 걸림, 9일째는 회차 완료라 가정
@@ -392,9 +373,16 @@ public class GameManager : MonoBehaviour
         SceneMoveEvent.Invoke();
 
 
-        if (!IsDayStart && (SceneName == "Home" || SceneName == "MiniGame"))
+        if (!IsDayStart)
         {
-            NewDay();
+            switch (SceneName)
+            { 
+                case "Home":
+                    NewDay();
+                    break;
+                case "MiniGame":
+                    break;
+            }
         }
     }
 
@@ -439,22 +427,25 @@ public class GameManager : MonoBehaviour
             case "00": // 집
                 SceneManager.LoadScene("Home");
                 break;
-            case "01": // 타운
-                SceneManager.LoadScene("Town");
+            case "02": // JustChat
+                SceneManager.LoadScene("JustChat");
                 break;
-            case "02": // DDR
-            case "03": // 타이밍
-            case "04": // 퀴즈
-            case "05": // 오브젝트 배치
-            case "08": // 물건전달
+            case "01": // 아지트
+            case "03": // DDR
+            case "04": // 타이밍
+            case "05": // 퀴즈
+            case "06": // 오브젝트 배치
+            case "07": // 물건 전달
+            case "08": // 탐헝
+            case "09": // 모헝
+            case "10": // 학문수련
+            case "11": // 아카데미
+            case "12": // 방치형
                 SceneManager.LoadScene("MiniGame");
                 break;
-            case "06": // 미니 RPG
-                
+            case "13":
+                SceneManager.LoadScene("Town");
                 break;
-            case "07": // 대화
-                SceneManager.LoadScene("JustChat");
-                break;   
         }
 
         Invoke("NextCycle", 0.1f);

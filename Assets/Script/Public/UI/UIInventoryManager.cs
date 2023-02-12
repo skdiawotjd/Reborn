@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class UIInventoryManager : UIManager
@@ -19,6 +20,8 @@ public class UIInventoryManager : UIManager
     private TextMeshProUGUI ItemName;
     [SerializeField]
     private GameObject ItemContent;
+    [SerializeField]
+    private GameObject ItemPrefab;
 
     private int[] StackOrder;
 
@@ -116,21 +119,24 @@ public class UIInventoryManager : UIManager
                 break;
             case CharacterStatType.MyItem:
                 // 인벤토리에 아이템이 실제 아이템보다 적을 때
-                if (Character.instance.MyItem.Count > ItemContent.transform.childCount)
+                //if (Character.instance.MyItem.Count > ItemContent.transform.childCount + (Character.instance.MyItem.Count - Character.instance.QuestItemOrder))
+                if (Character.instance.QuestItemOrder > ItemContent.transform.childCount)
                 {
                     int PreOrder = 0;
                     int ProOrder = 0;
 
                     if (ItemContent.transform.childCount == 0)
                     {
-                        for (; PreOrder < Character.instance.MyItem.Count; PreOrder++)
+                        AddItem(Character.instance.MyItem[PreOrder], PreOrder);
+                        /*for (; PreOrder < Character.instance.MyItem.Count; PreOrder++)
                         {
-                            AddItemButton(Character.instance.MyItem[PreOrder], PreOrder);
-                        }
+                            AddItem(Character.instance.MyItem[PreOrder], PreOrder);
+                        }*/
                     }
                     else
                     {
-                        while (ProOrder < ItemContent.transform.childCount)
+                        //while (ProOrder < ItemContent.transform.childCount)
+                        while (ItemContent.transform.childCount < Character.instance.QuestItemOrder)
                         {
                             //Debug.Log("@@ ProOrder : " + ProOrder + " < ItemContent.transform.childCount : " + ItemContent.transform.childCount + "일 때");
                             //Debug.Log("ItemContent.transform.GetChild(ProOrder " + ProOrder + ").name : " + ItemContent.transform.GetChild(ProOrder).name
@@ -138,7 +144,7 @@ public class UIInventoryManager : UIManager
                             if (ItemContent.transform.GetChild(ProOrder).name != Character.instance.MyItem[PreOrder].ToString())
                             {
                                 //Debug.Log("다르면 PreOrder가 " + PreOrder + "인 아이템 생성");
-                                AddItemButton(Character.instance.MyItem[PreOrder], PreOrder);
+                                AddItem(Character.instance.MyItem[PreOrder], PreOrder);
                                 ProOrder++;
                                 //Debug.Log("ProOrder : " + (ProOrder - 1) + "에서 " + ProOrder + "로 증가");
                             }
@@ -162,18 +168,25 @@ public class UIInventoryManager : UIManager
                     }
                 }
                 // 인벤토리에 아이템이 실제 아이템과 같을 때
-                else if (Character.instance.MyItem.Count == ItemContent.transform.childCount)
+                //else if (Character.instance.MyItem.Count == ItemContent.transform.childCount)
+                else if (ItemContent.transform.childCount == Character.instance.QuestItemOrder)
                 {
+                    Item TemItem;
                     for (int i = 0; i < ItemContent.transform.childCount; i++)
                     {
-                        if (ItemContent.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text != (Character.instance.MyItem[i] + " " + Character.instance.MyItemCount[i].ToString()))
+                        TemItem = ItemContent.transform.GetChild(i).GetComponent<Item>();
+                        if (TemItem.ItemCount != Character.instance.MyItemCount[i])
+                        {
+                            TemItem.SetCount(Character.instance.MyItemCount[i]);
+                        }
+                        /*if (ItemContent.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text != (Character.instance.MyItem[i] + " " + Character.instance.MyItemCount[i].ToString()))
                         {
                             ItemContent.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = Character.instance.MyItem[i] + " " + Character.instance.MyItemCount[i].ToString();
-                        }
+                        }*/
                     }
                 }
                 // 인벤토리에 아이템이 실제 아이템보다 많을 때
-                else if (Character.instance.MyItem.Count < ItemContent.transform.childCount)
+                else if (Character.instance.QuestItemOrder < ItemContent.transform.childCount)
                 {
                     int DeleteCount = 0;
                     for (; DeleteCount < Character.instance.MyItem.Count; DeleteCount++)
@@ -250,18 +263,19 @@ public class UIInventoryManager : UIManager
         }
     }
 
-    private void AddItemButton(string ItemType, int InsertOrder)
+    private void AddItem(string ItemType, int InsertOrder)
     {
         // 실제 아이템을 추가
-        GameObject NewItemButton = Instantiate(Resources.Load("Public/ItemButton")) as GameObject;
+        GameObject NewItem = Instantiate(ItemPrefab);
         // 계층구조 위치 변경
-        NewItemButton.transform.SetParent(ItemContent.transform);
+        NewItem.transform.SetParent(ItemContent.transform, false);
         // 버튼이름 수정
-        NewItemButton.name = ItemType;
+        NewItem.name = ItemType;
         // 버튼 순서 변경
-        NewItemButton.transform.SetSiblingIndex(InsertOrder);
+        NewItem.transform.SetSiblingIndex(InsertOrder);
         // 버튼 하위의 text 변경
-        NewItemButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ItemType + " " + Character.instance.MyItemCount[Character.instance.MyItem.IndexOf(ItemType)].ToString();
+        NewItem.GetComponent<Item>().SetCount(Character.instance.MyItemCount[InsertOrder]);
+        //NewItemButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ItemType + " " + Character.instance.MyItemCount[Character.instance.MyItem.IndexOf(ItemType)].ToString();
         //NewItemButton.GetComponent<Button>().onClick.AddListener();
     }
 

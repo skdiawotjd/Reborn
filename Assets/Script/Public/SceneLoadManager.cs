@@ -21,6 +21,15 @@ public class SceneLoadManager : MonoBehaviour
     AssetBundle bundleP;
     AssetBundle temBundle;
 
+    [SerializeField]
+    private Character _character;
+
+
+    public Character Character
+    {
+        get { return _character; }
+    }
+
     List<Dictionary<string, object>> MapNumber;
 
 

@@ -59,7 +59,7 @@ public class QuestManager : MonoBehaviour
         MainQuest = new List<string>();
         QuestOrder = new List<string>();
         MyQuest = new Dictionary<string, Quest>();
-        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "71000");
+        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "70000");
         QuestLoad();
     }
 

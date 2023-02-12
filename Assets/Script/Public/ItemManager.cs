@@ -21,6 +21,10 @@ public class ItemManager : MonoBehaviour
         //Debug.Log("따라서 해당 아이템의 순서는 " + Order);
         return Order;
     }
+    public int CountItem(string ItemType)
+    {
+        return Character.instance.MyItemCount[OrderItem(ItemType)];
+    }
 
     public bool CanDeleteItem(string CheckItemNumber)
     {

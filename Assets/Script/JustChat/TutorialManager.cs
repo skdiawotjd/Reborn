@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField]
     private int _step;
+    [SerializeField]
     private int _stepDetail;
 
     private string NextMapNumber;
+
+    private ConversationManager ConversationManager;
+
+    private WaitForFixedUpdate WaitFixedUpdate;
 
     private int Step
     {
@@ -39,10 +46,13 @@ public class TutorialManager : MonoBehaviour
         _step = 0;
         _stepDetail = 0;
 
+        WaitFixedUpdate = new WaitForFixedUpdate();
     }
 
     void Start()
     {
+        ConversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
+
         GameManager.instance.AddSceneMoveEvent(SetTutorial);
     }
 
@@ -53,7 +63,7 @@ public class TutorialManager : MonoBehaviour
             ///
             JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
             _step = 0;
-            _stepDetail = 9;
+            _stepDetail =0;
             ///
             GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
             GameManager.instance.AddSceneMoveEvent(CheckStep);
@@ -95,7 +105,6 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 3:
                         // 3 대화/대기 Debug.Log("");
-                        //JustChatManager.ConversationManager.SetChatName(Character.instance.MyName);
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
                         JustChatManager.ChangeNpcNumberChatType("0-8");
                         Character.instance.MyPlayerController.InvokeEventConversation();
@@ -209,8 +218,88 @@ public class TutorialManager : MonoBehaviour
                 switch (StepDetail)
                 {
                     case 0:
-                        // 2 이동/공격 Debug.Log("");
-                        //StartCoroutine(JustChatManager.MoveCharacterToInterActive(-5.5f, 1, true));
+                        // 0 대화/대기 Debug.Log("");
+                        Character.instance.SetCharacterInput(false, false, false);
+                        JustChatManager.ChangeNpcNumberChatType("1-9");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
+                        StartCoroutine(JustChatManager.WaitChat());
+
+                        StartCoroutine(NextStepDetail());
+                        break;
+                    case 1:
+                        // 1 대화/대기 Debug.Log("");
+                        JustChatManager.ChangeNpcNumberChatType("1-8");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
+                        StartCoroutine(JustChatManager.WaitChat());
+
+                        StartCoroutine(NextStepDetail());
+                        break;
+                    case 2:
+                        // 2 노예 메인퀘스트 부여 Debug.Log("");
+                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99990");
+                        NextMapNumber = "0008";
+                        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
+
+                        _stepDetail++;
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                        break;
+                    case 3:
+                        _stepDetail++;
+                        break;
+                    case 4:
+                        // 4 메인퀘스트에 맞는 씬으로 이동 Debug.Log("");
+                        NextMapNumber = "0001";
+                        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
+
+                        _stepDetail++;
+                        SceneManager.LoadScene("MiniGame");
+                        break;
+                    case 5:
+                        // 5 메인퀘스트 완료, 대화/대기 Debug.Log("");
+                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99991");
+                        QuestManager.instance.AddQuest("9999");
+
+                        Character.instance.SetCharacterInput(false, false, false);
+                        JustChatManager.ChangeNpcNumberChatType("1-7");
+                        Character.instance.MyPlayerController.InvokeEventConversation();
+                        StartCoroutine(JustChatManager.WaitChat());
+
+                        StartCoroutine(NextStepDetail());
+                        break;
+                    case 6:
+                        // 6 플레이어가 직접 다음 맵으로 이동 Debug.Log("");
+                        Character.instance.SetCharacterInput(true, true, false);
+
+                        _stepDetail++;
+                        break;
+                    case 7:
+                        // 7 지정한 맵으로 이동했는지 확인 Debug.Log("");
+                        NextMapNumber = "0003";
+
+                        if (NextMapNumber == Character.instance.MyMapNumber)
+                        {
+                            _stepDetail++;
+                            StepDetail++;
+                        }
+                        else
+                        {
+                            Character.instance.SetCharacterInput(false, false, false);
+                            JustChatManager.ChangeNpcNumberChatType("1-6");
+                            Character.instance.MyPlayerController.InvokeEventConversation();
+                            StartCoroutine(JustChatManager.WaitChat());
+                            StartCoroutine(NextStepDetail());
+                        }
+                        break;
+                    case 8:
+                        // 8 잘못 이동한 경우 다시 원래 씬으로 이동 Debug.Log("");
+                        NextMapNumber = "0001";
+                        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
+
+                        _stepDetail = 6;
+                        SceneManager.LoadScene("MiniGame");
+                        break;
+                    case 9:
+                        //9  Debug.Log("");
 
                         StartCoroutine(NextStepDetail());
                         break;

@@ -11,7 +11,7 @@ public class ShopManager : MonoBehaviour
 
     void Awake()
     {
-        QuestsNPC = (Instantiate(Resources.Load("Prefabs/NPC/QuestsNPC"), new Vector3(-3f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<QuestNPC>();
+        QuestsNPC = (Instantiate(Resources.Load("Prefabs/NPC/QuestNPC"), new Vector3(-3f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<QuestNPC>();
 
         ResidenceNPC = (Instantiate(Resources.Load("Prefabs/NPC/ResidenceNPC"), new Vector3(-7f, 0f, 0f), Quaternion.identity) as GameObject).GetComponent<ResidenceNPC>();
 

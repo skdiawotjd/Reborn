@@ -6,9 +6,16 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI ItemCount;
+    private TextMeshProUGUI _itemCountText;
     [SerializeField]
     private GameObject Description;
+
+    private int _itemCount;
+
+    public int ItemCount
+    {
+        get { return _itemCount; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +31,8 @@ public class Item : MonoBehaviour
 
     public void SetCount(int Count)
     {
-        ItemCount.text = Count.ToString();
+        _itemCount = Count;
+        _itemCountText.text = _itemCount.ToString();
     }
 
     private void OnMouseEnter()

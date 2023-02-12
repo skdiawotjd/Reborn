@@ -115,7 +115,8 @@ public class MGAdventureManager : MiniGameManager
         Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013");
         Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10);
         // ¸ðÇè º¸»ó ¼ö·É
-        Character.instance.SetCharacterStat(CharacterStatType.Gold, 3000); // 3000°ñµå È¹µæ ÇÏµåÄÚµù
+        //Character.instance.SetCharacterStat(CharacterStatType.Gold, 3000); // 3000°ñµå È¹µæ ÇÏµåÄÚµù
+        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "00003000");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
     }
 

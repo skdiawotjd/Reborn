@@ -25,6 +25,8 @@ public class BattleManager : MonoBehaviour
     private Rigidbody2D characterRigid;
     public GameObject attackParticle;
     private GameObject temParticle;
+    private Boomerang boomerang;
+    public bool isAttack;
     void Start()
     {
         gameObject.SetActive(true);
@@ -57,15 +59,28 @@ public class BattleManager : MonoBehaviour
         }
         if (adventureStart)
         {
-            if (Input.GetKey(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.X))
             {
-                if (!Character.instance.MyPlayerController.CanAttack() && !attackArea.enabled)
+                if (!Character.instance.MyPlayerController.CanAttack() && !isAttack)
                 {
-                    attackArea.enabled = true;
+                    isAttack = true;
+                    /*                    attackArea.enabled = true;
+                                        Character.instance.MyPlayerController.PlayAttackProcess();
+                                        temParticle = Instantiate(attackParticle);
+                                        temParticle.transform.position = new Vector3(Character.instance.transform.position.x, Character.instance.transform.position.y + 0.5f, Character.instance.transform.position.z) ;
+                                        Invoke("DisableCollider", 0.5f);*/
+                    // 원거리 공격
                     Character.instance.MyPlayerController.PlayAttackProcess();
-                    temParticle = Instantiate(attackParticle);
-                    temParticle.transform.position = new Vector3(Character.instance.transform.position.x, Character.instance.transform.position.y + 0.5f, Character.instance.transform.position.z) ;
-                    Invoke("DisableCollider", 0.5f);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        boomerang = AdventureGameManager.instance.pool.GetFromPool<Boomerang>(1);
+                        boomerang.transform.SetParent(Character.instance.transform);
+                        boomerang.idName = "Boomerang";
+                        boomerang.name = "boomerang";
+                        boomerang.SetOrder(i);
+                    }
+                    
+                    Invoke("DisableAttack", 3f);
                 }
             }
         }
@@ -78,6 +93,7 @@ public class BattleManager : MonoBehaviour
     public void AdventureStart()
     {
         adventureStart = true;
+        playerHp = Character.instance.ActivePoint;
     }
     public void AdventureEnd()
     {
@@ -87,6 +103,11 @@ public class BattleManager : MonoBehaviour
     public void DisableCollider()
     {
         attackArea.enabled = false;
+    }
+    public void DisableAttack()
+    {
+        Debug.Log("isAttack : " + isAttack);
+        isAttack = false;
     }
     public void StartBattle()
     {
@@ -117,10 +138,12 @@ public class BattleManager : MonoBehaviour
     }
     public void Damaged(int damage)
     {
-        playerHp -= damage;
-        if(playerHp < 0)
+        if (Character.instance.ActivePoint <= damage)
         {
             PlayerDead();
+        } else
+        {
+            Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -damage);
         }
         Debug.Log("플레이어 피격. 남은 HP : " + playerHp);
     }
@@ -156,7 +179,8 @@ public class BattleManager : MonoBehaviour
     }
     private void OnDead() // 사망 시 플레이 기능
     {
-        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
+        playerHp -= (Character.instance.ActivePoint + 20);
+        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, playerHp);
         Debug.Log("플레이어 사망. 게임 종료");
         Character.instance.MyPlayerController.PlayDieProcess(false);
         Character.instance.SetCharacterInput(true, true, true);

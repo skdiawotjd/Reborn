@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -40,7 +41,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 7629008614320933368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6619d0e53b8541439bd9b61a7a7e829, type: 3}
+  m_Script: {fileID: 11500000, guid: 733f4e1ff483611408f4a8d4fc9202ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolingObjectPrefab: {fileID: 8508719836538109022, guid: 7c0c69c3926a19c4f9ca8de4b67a08cf, type: 3}
+  _pools:
+  - _name: Skeleton
+    _component: {fileID: -3435728747755000797, guid: 7c0c69c3926a19c4f9ca8de4b67a08cf, type: 3}
+    _count: 0
+    _container: {fileID: 0}
+    _nonLazy: 0
+  - _name: Boomerang
+    _component: {fileID: 6167310190226991753, guid: 927f60f18a1aeb743ba3d5dde2367720, type: 3}
+    _count: 0
+    _container: {fileID: 0}
+    _nonLazy: 0
+  - _name: EnemyAttack
+    _component: {fileID: 6989634655002285614, guid: 9f11a2f5bf2dcf74a9c8a2ee8c623017, type: 3}
+    _count: 0
+    _container: {fileID: 0}
+    _nonLazy: 0

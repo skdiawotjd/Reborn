@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 using System.IO;
+using Redcode.Pools;
 
 public class SceneLoadManager : MonoBehaviour
 {
@@ -66,8 +67,6 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToTown";
                 temObject.GetComponent<Portal>().ChangeSceneName("0013");
-                temNPC = Instantiate(bundleP.LoadAsset<GameObject>("ButlerNPC"), new Vector3(-6, -4, transform.position.z), Quaternion.identity) as GameObject;
-                temNPC.transform.GetComponent<ButlerNPC>().SetNpcNumber(10);
 
                 bundle.Unload(false);
                 break;
@@ -147,12 +146,6 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(0f, -10f, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToAdventure";
                 temObject.GetComponent<Portal>().ChangeSceneName("0009");
-
-                temNPC = Instantiate(bundle.LoadAsset<GameObject>("QuestNPC"), new Vector3(-15, -9, transform.position.z), Quaternion.Euler(0, 180.0f, 0)) as GameObject;
-                temNPC.transform.GetComponent<QuestGiveNpc>().SetNpcNumber(11);
-                temNPC.transform.GetComponent<QuestGiveNpc>().SetOrderString("7010");
-                temNPC.transform.GetChild(1).Rotate(0, 180.0f, 0);
-                temNPC.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Äù½ºÆ®ºÎ¿©";
 
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToQuiz";

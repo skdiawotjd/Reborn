@@ -41,7 +41,7 @@ public class Spawner : MonoBehaviour
     }
     public void Spawn(int number)
     {
-        Enemy enemy = AdventureGameManager.instance.pool.GetObject();
+        Enemy enemy = AdventureGameManager.instance.pool.GetFromPool<Enemy>(0);
         m_Position.x = Random.Range(-4f, 8.5f);
         m_Position.y = Random.Range(-5f, 2.7f);
         enemy.transform.position = m_Position;

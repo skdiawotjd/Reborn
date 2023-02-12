@@ -175,7 +175,7 @@ public class ExploreManager : MonoBehaviour
                         ChangeMessage(mineralGoodsList[goodsNumber]["Name"].ToString() + "∏¶ »πµÊ«ﬂ¥Ÿ!");
                         break;
                     case "7":
-                        Character.instance.SetCharacterStat(CharacterStatType.Gold, 1000); // ¿Á»≠ »πµÊ ¿”Ω√
+                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "00001000"); // ¿Á»≠ »πµÊ ¿”Ω√
                         ChangeMessage("1000" + itemList[ObjectNumber]["Name"].ToString() + "∏¶ »πµÊ«ﬂ¥Ÿ!");
                         break;
                 }
@@ -219,8 +219,15 @@ public class ExploreManager : MonoBehaviour
                 Debug.Log("µµ∏¡");
                 messageManager.setMessagePanel(false);
                 Character.instance.SetCharacterInput(true, true, true);
-                Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013"); // ¥Î¿Â¿Â¿Ã¿« Town
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                if(Character.instance.MyJob == Job.Slayer)
+                {
+                    Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0001");
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Minigame");
+                } else
+                {
+                    Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013"); // ¥Î¿Â¿Â¿Ã¿« Town
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                }
                 // µµ∏¡∞£¥Ÿ º±≈√¡ˆ∏¶ ∞Ò∂˙¿ª Ω√ ±‚¥…
                 break;
             case 3: // ∏ª ∞…æÓ∫ª¥Ÿ º±≈√¡ˆ∏¶ ∞Ò∂˙¿ª Ω√ ±‚¥…

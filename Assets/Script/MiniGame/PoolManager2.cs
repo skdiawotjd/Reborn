@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager2 : MonoBehaviour
 {
     [SerializeField]
     private GameObject poolingObjectPrefab; // Enemy ÇÁ¸®ÆÕ

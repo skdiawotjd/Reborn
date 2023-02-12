@@ -60,6 +60,7 @@ public class MGTimingManager : MiniGameManager
                 else if (timingRound == 5)
                 {
                     GameEnd(true);
+                    Debug.Log("gameEnd");
                 }
             }
         }
@@ -86,14 +87,12 @@ public class MGTimingManager : MiniGameManager
     public override void GameEnd(bool clear)
     {
         FrameWorkManager.GameEnd();
-        QuestManager.instance.MinigameClear(true);
+        
         FrameWorkManager.timingSlider.gameObject.SetActive(false);
-        if (Character.instance.MyMapNumber == "0003")
-        {
-            Destroy(temImage);
-        }
         timingGameActive = false;
         Character.instance.SetCharacterInput(true, true, true);
+        QuestManager.instance.MinigameClear(true);
+
     }
     public override void SetRound(int num) // SetTimingRound()
     {

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 460041789
+CRC: 3086213612
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 213f07d7546aac943ba853b0a279408a
+    Hash: cb9d29f7e40d45a6c6c6ae392769f438
   TypeTreeHash:
     serializedVersion: 2
-    Hash: dce87f39cb3b456e4df0c7d1b63d2643
+    Hash: 7782549568451ed404ecc005e594e90d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -100,13 +100,13 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.Events.PersistentCallGroup
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.UnityEvent
-- AssemblyName: UnityEngine.TextCoreModule
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
   ClassName: UnityEngine.TextCore.FaceInfo
-- AssemblyName: UnityEngine.TextCoreModule
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
   ClassName: UnityEngine.TextCore.Glyph
-- AssemblyName: UnityEngine.TextCoreModule
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
   ClassName: UnityEngine.TextCore.GlyphMetrics
-- AssemblyName: UnityEngine.TextCoreModule
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
   ClassName: UnityEngine.TextCore.GlyphRect
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent

@@ -121,7 +121,7 @@ public class UIFrameWorkManager : MonoBehaviour
 
                         }
                         productsImageText.text = foundryRecipeList[i]["ItemName"].ToString();
-
+                        productsNumber = foundryRecipeList[i]["ItemNumber"].ToString();
                         for (int j = 0; j < foundryRecipeList[i].Count - 6; j++)
                         {
                             index = j;
@@ -305,9 +305,14 @@ public class UIFrameWorkManager : MonoBehaviour
             case "Timing":
                 for (int i = 0; i < ingredientNumberList.Count; i++)
                 {
-                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, ingredientNumberList[i].Substring(0, 4) + "-" + ingredientNumberList[i][4]);
+                    Debug.Log(i + "번째 : " + ingredientNumberList[i].Substring(0, 4));
+                    Debug.Log(i + "번째 : " + ingredientNumberList[i][4]);
+                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, ingredientNumberList[i].Substring(0,4) + "-" + ingredientNumberList[i][4]);
                 }
                 Character.instance.SetCharacterStat(CharacterStatType.MyItem, productsNumber + "1");
+                break;
+            default:
+                Debug.Log("error");
                 break;
         }
     }

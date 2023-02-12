@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Redcode.Pools;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPoolObject
 {
     private float speed;
     private float health;
@@ -13,6 +14,8 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriter;
     [SerializeField]
     private SPUM_Prefab Spum;
+    public string idName;
+    private EnemyAttack projectile;
 
     private bool isLive;
     private bool isHit = false;
@@ -43,10 +46,12 @@ public class Enemy : MonoBehaviour
             {
                 EnemyRunning(false);
                 return;
-            } else // 플레이어와의 거리가 본인 사거리보다 짧거나 같으면서 멈춘 상태라면
+            } else if(!isAttack) // 플레이어와의 거리가 본인 사거리보다 짧거나 같으면서 멈춰 있고 공격중이 아닌 상태라면
             {
                 // 공격
-                // EnemyAttackProcess();
+                EnemyAttackProcess();
+                isAttack = true;
+                StartCoroutine("AttackTimeCoroutine", 1f);
                 return;
             }
         } else if(isAttack) // 플레이어와의 거리가 본인 사거리보다 길지만, 공격중인 상태라면 리턴
@@ -106,14 +111,6 @@ public class Enemy : MonoBehaviour
         
         
     }
-    private void OnEnable()
-    {
-        target = Character.instance.GetComponent<Rigidbody2D>();
-        isLive = true;
-        Spum._anim.SetBool("Run", true);
-        Spum._anim.SetFloat("RunState", 0.5f);
-        isRun = true;
-    }
     public void Init(SpawnData data)
     {
         speed = data.speed;
@@ -151,6 +148,21 @@ public class Enemy : MonoBehaviour
                     Dead();
                 }
                 break;
+            case "boomerang":
+                health -= playerDamage;
+                if (health > 0)
+                {
+                    // 아직 살아있는 상태, 맞는 애니메이션
+                    // 피격 시 저지 0.2초
+                    isHit = true;
+                    Invoke("CanHit", 0.35f);
+                }
+                else
+                {
+                    // 사망
+                    Dead();
+                }
+                break;
             case "HitArea":
                 AdventureGameManager.instance.battleManager.Damaged(damage);
                 Debug.Log("플레이어 피격");
@@ -159,7 +171,10 @@ public class Enemy : MonoBehaviour
     }
     private void EnemyAttackProcess()
     {
-
+        projectile = AdventureGameManager.instance.pool.GetFromPool<EnemyAttack>(2);
+        projectile.SetDamage(damage);
+        projectile.SetStartPosition(this.transform);
+        
     }
     private void CanHit()
     {
@@ -167,7 +182,30 @@ public class Enemy : MonoBehaviour
     }
     private void Dead()
     {
-        AdventureGameManager.instance.pool.ReturnObject(this);
+        AdventureGameManager.instance.pool.TakeToPool<Enemy>(this.idName, this);
+        transform.SetParent(AdventureGameManager.instance.pool.transform);
         AdventureGameManager.instance.MGManager.ChangeEnemyCount(-1);
+    }
+
+    public void OnCreatedInPool()
+    {
+        playerDamage = Character.instance.Reputation;
+        if (playerDamage < 10)
+            playerDamage = 10;
+    }
+
+    public void OnGettingFromPool()
+    {
+        target = Character.instance.GetComponent<Rigidbody2D>();
+        isLive = true;
+        Spum._anim.SetBool("Run", true);
+        Spum._anim.SetFloat("RunState", 0.5f);
+        isRun = true;
+        isAttack = false;
+    }
+    IEnumerator AttackTimeCoroutine(float delayTime)
+    {
+        yield return YieldCache.WaitForSeconds(delayTime);
+        isAttack = false;
     }
 }

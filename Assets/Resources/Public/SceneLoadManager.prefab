@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,27 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3780b5a995c9b64aa39f107ddbd2e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HomeOfSlayer: {fileID: 8608364530230368078, guid: 7831777865560e54d9422971ee3d55da, type: 3}
-  HomeOfCommons: {fileID: 2896969059559749702, guid: 9243a91d884e686428c25db2a50887ec, type: 3}
-  LaundryOfSlayer: {fileID: 2743513292946905541, guid: b0369cfb0036b224d804059ab832528f, type: 3}
-  Noble: {fileID: 7796434779723243177, guid: b86efdf0226eea24f9f854cdefccf428, type: 3}
-  Butler: {fileID: 48219150348429105, guid: b9fb96c2d718da04480eae840d57064b, type: 3}
-  TownBackground: {fileID: 4891996793103353562, guid: 07b2c43849722e04bbf23e72879fdf1f, type: 3}
-  MiniGameSlayerDDR0NPC: {fileID: 664753849849904708, guid: 130276a31bd659b48aa2664f6368877e, type: 3}
-  MiniGameSlayerObject0NPC: {fileID: 5844330563532503744, guid: 29f6224fc7125274ea007129bfde4bc5, type: 3}
-  MiniGameSlayerObject1NPC: {fileID: 6565972281163925208, guid: de81b60995969d141988581fb455d34a, type: 3}
-  QuestSlayerChat0NPC: {fileID: 1272594444480376458, guid: fec17161650ac6242a2abb53b8bd7576, type: 3}
-  Minigame1Background: {fileID: 5747751185502123206, guid: 0b998e5ada22fb0498818f51b3e865c1, type: 3}
-  MinigameMineBackground: {fileID: 9215258999236000840, guid: 138d60a548d56724485d734938545514, type: 3}
-  MiniGameNPC: {fileID: 235554389172204315, guid: 2df5dec47596e3643a36d68fb0bfed83, type: 3}
-  ForgeOfSmith: {fileID: 8707587771761289398, guid: 2d36ca229b1ad15419dae385277dfe34, type: 3}
-  ShopOfBania: {fileID: 7918198157480927220, guid: e8f626f6d2307cd4ca7b5ad61fdaabb7, type: 3}
-  EduCenter: {fileID: 4365770203539846970, guid: 8970c47a6ca2dc04a8a279117bb42b2a, type: 3}
-  MGDDRManager: {fileID: 3844565888228447841, guid: 52474c1eee88ee34bb6dbd580585dbb8, type: 3}
-  MGObjectManager: {fileID: 2845093264051269584, guid: 90f51d8b7f13a4946a14767172375e40, type: 3}
-  MGTimingManager: {fileID: 5236678627180553330, guid: caf3bf39df269c5469505dd2c06e1976, type: 3}
-  MGQuizManager: {fileID: 8434582559320500442, guid: 914aa60ae783ab14faff38308ae1bf88, type: 3}
-  TownManager: {fileID: 370759291652946399, guid: 9a2462e905e21af44aebdb3bd732f4ef, type: 3}
+  _character: {fileID: 448264223955735305, guid: 157b3007e117485468e0c558dd6637e6, type: 3}
   Background: {fileID: 0}
   MapSettingEvent:
     m_PersistentCalls:

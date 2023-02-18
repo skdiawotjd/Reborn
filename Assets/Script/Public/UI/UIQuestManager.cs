@@ -27,6 +27,7 @@ public class UIQuestManager : UIManager
     private TextMeshProUGUI mainQuestPanelText;
     private int mainQuestOrder;
     private Vector3 newPos;
+    private bool questAcceptButton = true;
 
     protected override void Start()
     {
@@ -72,11 +73,18 @@ public class UIQuestManager : UIManager
     }
     public void QuestAccept()
     {
-        Debug.Log("퀘스트 수락");
-        questButton.gameObject.SetActive(false);
-        Character.instance.SetCharacterStat(CharacterStatType.MyItem, QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].itemNumber + "1");
-        //Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "????");
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("JustChat");
+        if (questAcceptButton)
+        {
+            Debug.Log("퀘스트 수락");
+            questButton.gameObject.SetActive(false);
+            Character.instance.SetCharacterStat(CharacterStatType.MyItem, QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].itemNumber + 1);
+            //Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "????");
+            //UnityEngine.SceneManagement.SceneManager.LoadScene("JustChat");
+        }
+        else
+        {
+            QuestManager.instance.QuestClear(QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].itemNumber + QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].clearCount);
+        }
     }
     public void LoadQuestList()
     {
@@ -98,15 +106,23 @@ public class UIQuestManager : UIManager
                 mainQuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].questContents;
                 // 메인 퀘스트 아이템이 0개라면 수락 버튼 활성화
                 // if (메인 퀘스트 아이템이 0개라면)
-                questButton.gameObject.SetActive(true);
-                questButtonText.text = "퀘스트 수락";
-                // else if (메인 퀘스트 아이템에서 클리어 개수, 즉 QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].clearCount를 뺄 수 있다면
-                // 즉, if(Character.instance.MyItemManager.CanDeleteItem(itemNumber + clearCount)) 가 참이면
-                // questButton.gameObject.SetActive(true);
-                // questButtonText.text = "퀘스트 완료";
-                // else
-                //   questButton.gameObject.SetActive(false);
-
+                if(Character.instance.MyItemManager.CountItem(QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].itemNumber) == 0)
+                {
+                    questButton.gameObject.SetActive(true);
+                    questAcceptButton = true;
+                    questButtonText.text = "퀘스트 수락";
+                } else if (Character.instance.MyItemManager.CanDeleteItem(QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].itemNumber + "-" + Character.instance.MyItemManager.CountItem(QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].itemNumber)))
+                {
+                    // else if (메인 퀘스트 아이템에서 클리어 개수, 즉 QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[mainQuestOrder]].clearCount를 뺄 수 있다면
+                    // 즉, if(Character.instance.MyItemManager.CanDeleteItem(itemNumber + clearCount)) 가 참이면
+                    questButton.gameObject.SetActive(true);
+                    questAcceptButton = false;
+                    questButtonText.text = "퀘스트 완료";
+                }
+                else
+                {
+                    questButton.gameObject.SetActive(false);
+                }
 
                 if (QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].proficiency > Character.instance.Proficiency)
                 {

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 349565117
+CRC: 2125669432
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 548cb6c37286dee1fa992e00f7191630
+    Hash: c325baaf9a581cfdbaf48a9e7cad2ed6
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3ef9b33c37ed7b331da2161a9b4b8bc8
+    Hash: a50f8631062814c1c9093bdd11b35c59
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -19,44 +19,17 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
-- Class: 61
-  Script: {instanceID: 0}
 - Class: 70
   Script: {instanceID: 0}
-- Class: 74
-  Script: {instanceID: 0}
-- Class: 91
-  Script: {instanceID: 0}
-- Class: 95
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: a6668de5028fc1f4b9c5575407e81fff, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 470f931951c388b4aa87e16220d8f9fb, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 28ac21711b0ec40a0812d33a586eb7ec, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 7c562f92f3b8b435d98ac3b65547b755, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 65fcc3caadd434b67b30962c7f5fa536, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: baea2e9758e554909b2367e396d9c5a4, type: 3}
 - Class: 115
-  Script: {instanceID: 0}
-- Class: 210
   Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-- Class: 224
-  Script: {instanceID: 0}
-SerializeReferenceClassIdentifiers:
-- AssemblyName: UnityEngine.CoreModule
-  ClassName: UnityEngine.Events.PersistentCallGroup
-- AssemblyName: UnityEngine.CoreModule
-  ClassName: UnityEngine.Events.UnityEvent
+SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Resources/Prefabs/NPC/ButlerNPC.prefab
 - Assets/Resources/Prefabs/Object/Door.prefab
 Dependencies: []

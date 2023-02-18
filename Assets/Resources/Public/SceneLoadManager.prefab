@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 448264223955735305, guid: 157b3007e117485468e0c558dd6637e6, type: 3}
+  _questManager: {fileID: 4555655098877792952, guid: a966493b66fb0c046857bbdd7f8f17da, type: 3}
+  _mainCanvas: {fileID: 6515964230912954377, guid: 5d79845e7aaf246448c2ffc3c7a78e7e, type: 3}
+  _poolManager: {fileID: 7629008614320933371, guid: 8b76e31cf9d738941b2cd312122e83b1, type: 3}
   Background: {fileID: 0}
   MapSettingEvent:
     m_PersistentCalls:

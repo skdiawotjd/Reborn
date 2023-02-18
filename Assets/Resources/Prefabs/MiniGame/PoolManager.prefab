@@ -60,3 +60,8 @@ MonoBehaviour:
     _count: 0
     _container: {fileID: 0}
     _nonLazy: 0
+  - _name: PlayerProjectile
+    _component: {fileID: 6331956829547268188, guid: f962ab524feed2e4c9506bd908f976cb, type: 3}
+    _count: 0
+    _container: {fileID: 0}
+    _nonLazy: 0

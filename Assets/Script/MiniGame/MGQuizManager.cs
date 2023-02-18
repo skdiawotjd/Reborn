@@ -77,7 +77,7 @@ public class MGQuizManager : MiniGameManager
             {
                 PressKey(3);
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.X))
             {
                 quizGameActive = false;
                 good.gameObject.SetActive(true);

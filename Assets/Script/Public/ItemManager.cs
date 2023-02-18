@@ -30,7 +30,8 @@ public class ItemManager : MonoBehaviour
     {
         string ItemNumber = CheckItemNumber.Substring(0, 4);
         int ItemOrder = OrderItem(ItemNumber);
-
+        Debug.Log(Character.instance.MyItemCount[ItemOrder]);
+        Debug.Log((int)(CheckItemNumber[5] - '0'));
         if (Character.instance.MyItemCount[ItemOrder] - (int)(CheckItemNumber[5] - '0') >= 0)
         {
             return true;

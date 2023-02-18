@@ -26,6 +26,7 @@ public class QuestManager : MonoBehaviour
     private string itemNumberString;
     private string itemNumberChar;
     private string nextQuestString;
+    private string[] rewards;
 
     // 모험 게임의 난이도
     private int adventureLevel;
@@ -142,7 +143,7 @@ public class QuestManager : MonoBehaviour
                         case "0008":
                         case "0009":
                             Debug.Log("퀘스트 성공. 변경 전 TP : " + Character.instance.Reputation);
-                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 20); // todoProgress + 20
+                            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 50); // todoProgress + 20
                             Debug.Log("TodoProgress +2. 현재 TP : " + Character.instance.Reputation);
                             break;
                     }
@@ -187,20 +188,41 @@ public class QuestManager : MonoBehaviour
             Debug.Log("퀘스트 실패");
         }
     }
+    private void GetReward(string itemNumberString)
+    {
+        Debug.Log("겟 리워드 진입");
+        for (int i = 0; i < QuestNumberList.Count; i++)
+        {
+            if (itemNumberString.Substring(0,4) == QuestNumberList[i]["ItemNumber"].ToString())
+            {
+                rewards = QuestNumberList[i]["Reward"].ToString().Split(',');
+            }
+        }
+        for(int j = 0; j < rewards.Length; j++)
+        {
+            Character.instance.SetCharacterStat(CharacterStatType.MyItem, rewards[j]);
+            Debug.Log("보상 획득 : " + rewards[j].Substring(0,4) + " 아이템 " + rewards[j][4] + "개 획득");
+        }
+    }
     public void QuestClear(string itemNumberString)
     {
         for(int i = 0; i < MyQuest.Count; i++)
         {
-            if(MyQuest[QuestOrder[i]].itemNumber == itemNumberString)
+            if(MyQuest[QuestOrder[i]].itemNumber == itemNumberString.Substring(0,4))
             {
-                if (itemNumberString[0].Equals("7"))
+                Debug.Log(itemNumberString);
+                Debug.Log(itemNumberString[0]);
+                if (itemNumberString[0] == '7')
                 {
                     // 메인 퀘스트 클리어
                     // 메인 퀘스트 아이템 제거
+                    //Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring((int)ItemType.Plus, (itemNumberString.Length - (int)ItemType.Plus)));
+                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring(4, (itemNumberString.Length - 4)));
                     // 메인 퀘스트 보상 수령
                     Character.instance.SetCharacterStat(CharacterStatType.Reputation, 20);
+                    GetReward(itemNumberString);
                     // 다음 메인 퀘스트 아이템 획득
-                    nextQuestString = (int.Parse(itemNumberString) + 1).ToString();
+                    nextQuestString = (int.Parse(itemNumberString.Substring(0,4)) + 1).ToString() + "0";
                     Character.instance.SetCharacterStat(CharacterStatType.MyItem, nextQuestString);
                 } else
                 {

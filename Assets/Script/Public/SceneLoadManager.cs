@@ -23,15 +23,32 @@ public class SceneLoadManager : MonoBehaviour
 
     [SerializeField]
     private Character _character;
+    [SerializeField]
+    private QuestManager _questManager;
+    [SerializeField]
+    private Canvas _mainCanvas;
+    [SerializeField]
+    private PoolManager _poolManager;
 
 
     public Character Character
     {
         get { return _character; }
     }
+    public QuestManager QuestManager
+    {
+        get { return _questManager; }
+    }
+    public Canvas MainCanvas
+    {
+        get { return _mainCanvas; }
+    }
+    public PoolManager PoolManager
+    {
+        get { return _poolManager; }
+    }
 
     List<Dictionary<string, object>> MapNumber;
-
 
     // 씬의 크기
     public RectTransform Background;
@@ -155,6 +172,10 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(0f, -10f, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToAdventure";
                 temObject.GetComponent<Portal>().ChangeSceneName("0009");
+
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(13f, -8.4f, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToBaniaAgit";
+                temObject.GetComponent<Portal>().ChangeSceneName("0101");
 
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(14, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToQuiz";
@@ -372,6 +393,19 @@ public class SceneLoadManager : MonoBehaviour
                 temBattleManager = temObject.GetComponent<BattleManager>();
                 temBattleManager.name = "BattleManager";
                 temObject.gameObject.SetActive(true);
+
+                bundle.Unload(false);
+                temBundle.Unload(false);
+                break;
+            case "0101": // 상인 아지트
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
+                temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+
+                temMap = Instantiate(bundle.LoadAsset<GameObject>("ForgeOfSmith"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temMap.name = "Background";
+                temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(0, -4, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "DoorToTown";
+                temObject.GetComponent<Portal>().ChangeSceneName("0013");
 
                 bundle.Unload(false);
                 temBundle.Unload(false);

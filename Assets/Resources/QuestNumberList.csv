@@ -1,18 +1,20 @@
-﻿Number,QuestNumber,QuestContents,ItemNumber,ClearCount,Job,Proficiency
-0,00100,Smith MainQuest 1,7100,5,Smith,0
-1,00101,Smith MainQuest 2,7101,5,Smith,5
-2,00102,Smith MainQuest 3,7102,5,Smith,10
-3,00103,Smith MainQuest 4,7103,5,Smith,15
-4,00104,Smith MainQuest 5,7104,5,Smith,20
-5,00200,Bania MainQuest 1,7200,5,Bania,0
-6,00201,Bania MainQuest 2,7201,5,Bania,5
-7,00202,Bania MainQuest 3,7202,5,Bania,10
-8,00203,Bania MainQuest 4,7203,5,Bania,15
-9,00204,Bania MainQuest 5,7204,5,Bania,20
-10,10010,오크 잡기,8010,10,Sub,0
-11,10011,스켈레톤 잡기,8011,10,Sub,0
-12,10999,병사 잡기,8999,10,Sub,0
-13,20010,나무껍질 구해오기,9010,10,Sub,0
-14,20011,나뭇가지 구해오기,9011,5,Sub,0
-15,20999,단검 만들어오기,9999,10,Sub,0
-16,00000,Slayer MainQuest 1,7000,1,Slayer,0
+﻿Number,QuestNumber,QuestContents,ItemNumber,ClearCount,Job,Proficiency,Reward
+0,00000,Slayer MainQuest 1,7000,1,Slayer,0,"10005,10005"
+1,00001,Slayer MainQuest 2,7001,1,Slayer,0,"11002,13002,16009"
+2,00002,Slayer MainQuest 3,7002,1,Slayer,0,00001
+3,00100,Smith MainQuest 1,7100,5,Smith,0,00001
+4,00101,Smith MainQuest 2,7101,5,Smith,5,00001
+5,00102,Smith MainQuest 3,7102,5,Smith,10,00001
+6,00103,Smith MainQuest 4,7103,5,Smith,15,00001
+7,00104,Smith MainQuest 5,7104,5,Smith,20,00001
+8,00200,Bania MainQuest 1,7200,5,Bania,0,00001
+9,00201,Bania MainQuest 2,7201,5,Bania,5,00001
+10,00202,Bania MainQuest 3,7202,5,Bania,10,00001
+11,00203,Bania MainQuest 4,7203,5,Bania,15,00001
+12,00204,Bania MainQuest 5,7204,5,Bania,20,00001
+13,10010,오크 잡기,8010,10,Sub,0,00001
+14,10011,스켈레톤 잡기,8011,10,Sub,0,00001
+15,10999,병사 잡기,8999,10,Sub,0,00001
+16,20010,나무껍질 구해오기,9010,10,Sub,0,00001
+,20011,나뭇가지 구해오기,9011,5,Sub,0,00001
+,20999,단검 만들어오기,9999,10,Sub,0,00001

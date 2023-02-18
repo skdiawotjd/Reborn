@@ -13,7 +13,7 @@ public class Monster : MonoBehaviour
     public MonsterDamage monsterDamage;
     private int monsterHp;
     private int monsterAtk;
-    private bool battle;
+    public bool battle;
     private float curtime;
     private float cooltime;
     public UnityAction<int> MonsterProjectileAttackEvent2;
@@ -43,6 +43,7 @@ public class Monster : MonoBehaviour
                 battle = false;
                 Spum._anim.SetTrigger("Die");
                 // 죽는 애니메이션, 1초 대기 코루틴 추가할 것
+
                 Invoke("DestroyMonster", 3f);
                 //DestroyMonster();
             }

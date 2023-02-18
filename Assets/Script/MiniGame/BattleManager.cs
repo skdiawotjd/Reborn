@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Redcode.Pools;
 
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField]
+    private PoolManager poolManager;
     private PlayerProjectile projectile;
     private PlayerProjectile temProjectile;
     [SerializeField]
@@ -20,11 +21,8 @@ public class BattleManager : MonoBehaviour
     private bool battleStart; // 탐험 시작
     private bool adventureStart; // 모험 시작
     private string message;
-    private CircleCollider2D attackArea;
     private BoxCollider2D hitArea;
     private Rigidbody2D characterRigid;
-    public GameObject attackParticle;
-    private GameObject temParticle;
     private Boomerang boomerang;
     public bool isAttack;
     void Start()
@@ -33,25 +31,32 @@ public class BattleManager : MonoBehaviour
         playerAtk = 50;
         playerHp = Character.instance.ActivePoint;
         cooltime = 3.1f;
-        attackArea = Character.instance.transform.GetChild(2).GetComponent<CircleCollider2D>();
         hitArea = Character.instance.transform.GetChild(3).GetComponent<BoxCollider2D>();
         hitArea.enabled = true;
         characterRigid = Character.instance.GetComponent<Rigidbody2D>();
         battleStart = false;
         message = "몬스터를 물리쳤다!";
+        poolManager = Instantiate(SceneLoadManager.instance.PoolManager);
     }
 
     void Update()
     {
         if (battleStart)
         {
-            if (curtime <= 0)
+            if (!temMonster.battle)
             {
-                GenerateProjectile();
-                Debug.Log("발사명령");
-                curtime = cooltime;
+
+            } else
+            {
+                if (curtime <= 0)
+                {
+                    GenerateProjectile();
+                    Debug.Log("발사명령");
+                    curtime = cooltime;
+                }
+                curtime -= Time.deltaTime;
             }
-            curtime -= Time.deltaTime;
+            
             if (temMonster == null || playerHp <= 0)
             {
                 EndBattle();
@@ -64,12 +69,6 @@ public class BattleManager : MonoBehaviour
                 if (!Character.instance.MyPlayerController.CanAttack() && !isAttack)
                 {
                     isAttack = true;
-                    /*                    attackArea.enabled = true;
-                                        Character.instance.MyPlayerController.PlayAttackProcess();
-                                        temParticle = Instantiate(attackParticle);
-                                        temParticle.transform.position = new Vector3(Character.instance.transform.position.x, Character.instance.transform.position.y + 0.5f, Character.instance.transform.position.z) ;
-                                        Invoke("DisableCollider", 0.5f);*/
-                    // 원거리 공격
                     Character.instance.MyPlayerController.PlayAttackProcess();
                     for (int i = 0; i < 4; i++)
                     {
@@ -100,10 +99,6 @@ public class BattleManager : MonoBehaviour
         adventureStart = false;
         hitArea.enabled = false;
     }
-    public void DisableCollider()
-    {
-        attackArea.enabled = false;
-    }
     public void DisableAttack()
     {
         Debug.Log("isAttack : " + isAttack);
@@ -131,7 +126,8 @@ public class BattleManager : MonoBehaviour
     }
     private void GenerateProjectile() // 플레이어 투사체 생성
     {
-        temProjectile = Instantiate(projectile, pos.position, Quaternion.identity) as PlayerProjectile;
+        temProjectile = poolManager.GetFromPool<PlayerProjectile>(3);
+        temProjectile.transform.SetParent(Character.instance.transform);
         temProjectile.SetDamage(playerAtk);
         temProjectile.playerDamage += MonsterDamaged;
         Character.instance.MyPlayerController.PlayAttackProcess();

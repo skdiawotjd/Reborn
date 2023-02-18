@@ -64,16 +64,17 @@ public class JustChatManager : MonoBehaviour
         switch (Character.instance.MyMapNumber)
         {
             case "0002":
-                JustChatNpc = Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity);
+                /*JustChatNpc = Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity);
                 JustChatPortal = Instantiate(JustChatPortal, new Vector3(6.5f, 0f, 0f), Quaternion.identity);
                 Character.instance.SetCharacterInput(true, true, false);
-                JustChatPortal.SceneName = "0001";
+                JustChatPortal.SceneName = "0001";*/
 
                 /*Character.instance.MyPlayerController.StartDie();
                 Invoke("asd", 2f);*/
                 break;
             case "0102":
-                ChangeNpcNumberChatType("1-0");
+                Character.instance.MyPlayerController.SetPlayerPosition(-1);
+                ChangeNpcNumberChatType("2-0");
                 Character.instance.MyPlayerController.InvokeEventConversation();
                 StartCoroutine(WaitChat());
                 StartCoroutine(StartMove());
@@ -183,7 +184,7 @@ public class JustChatManager : MonoBehaviour
     {
         if(!ConversationManager)
         {
-            Debug.Log("ConversationManager가 없음");
+            //Debug.Log("ConversationManager가 없음");
             MainCanvas = GameObject.Find("Main Canvas");
             ConversationManager = MainCanvas.transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
         }

@@ -62,7 +62,7 @@ public class TutorialManager : MonoBehaviour
         {
             ///
             JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
-            _step = 3;
+            _step = 0;
             _stepDetail = 0;
             ///
             GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
@@ -236,7 +236,9 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 2:
                         // 2 노예 메인퀘스트 부여 Debug.Log("");
-                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99990");
+                        /*Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99990");
+                        QuestManager.instance.AddQuest("9999");*/
+
                         NextMapNumber = "0008";
                         Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
 
@@ -255,9 +257,9 @@ public class TutorialManager : MonoBehaviour
                         SceneManager.LoadScene("MiniGame");
                         break;
                     case 5:
-                        // 5 메인퀘스트 완료, 대화/대기 Debug.Log("");
-                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99991");
-                        QuestManager.instance.AddQuest("9999");
+                        // Debug.Log(" 5 메인퀘스트 완료, 대화/대기 ");
+                        //Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99991");
+                        Character.instance.SetCharacterStat(CharacterStatType.MyItem, "100010");
 
                         Character.instance.SetCharacterInput(false, false, false);
                         JustChatManager.ChangeNpcNumberChatType("1-7");
@@ -299,9 +301,75 @@ public class TutorialManager : MonoBehaviour
                         SceneManager.LoadScene("MiniGame");
                         break;
                     case 9:
-                        //9  Debug.Log("");
+                        //9 Debug.Log("9 지정한 일 완료, 대화/대기");
+                        if (Character.instance.MyItemManager.IsExistItem("1600"))
+                        {
+                            Character.instance.SetCharacterStat(CharacterStatType.MyItem, "16009");
+                            Character.instance.SetCharacterStat(CharacterStatType.MyItem, "13004");
+                            Character.instance.SetCharacterStat(CharacterStatType.MyItem, "30001");
 
-                        StartCoroutine(NextStepDetail());
+                            Character.instance.SetCharacterInput(false, false, false);
+                            JustChatManager.ChangeNpcNumberChatType("1-5");
+                            Character.instance.MyPlayerController.InvokeEventConversation();
+                            StartCoroutine(JustChatManager.WaitChat());
+                            StartCoroutine(NextStepDetail());
+                        }
+                        break;
+                    case 10:
+                        // Debug.Log("10 플레이어가 직접 다음 맵으로 이동");
+                        Character.instance.SetCharacterInput(true, true, false);
+
+                        _stepDetail++;
+                        break;
+                    case 11:
+                        // Debug.Log("11 지정한 맵으로 이동했는지 확인");
+                        NextMapNumber = "0004";
+
+                        if (NextMapNumber == Character.instance.MyMapNumber)
+                        {
+                            _stepDetail++;
+                            StepDetail++;
+                        }
+                        else
+                        {
+                            Character.instance.SetCharacterInput(false, false, false);
+                            JustChatManager.ChangeNpcNumberChatType("1-6");
+                            Character.instance.MyPlayerController.InvokeEventConversation();
+                            StartCoroutine(JustChatManager.WaitChat());
+                            StartCoroutine(NextStepDetail());
+                        }
+                        break;
+                    case 12:
+                        // Debug.Log("12 잘못 이동한 경우 다시 원래 씬으로 이동");
+                        NextMapNumber = "0001";
+                        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
+
+                        _stepDetail = 10;
+                        SceneManager.LoadScene("MiniGame");
+                        break;
+                    case 13:
+                        // Debug.Log("13 특정 아이템이 있다면 대사/대기");
+                        if (Character.instance.MyItemManager.IsExistItem("2000"))
+                        {
+                            Character.instance.SetCharacterInput(false, false, false);
+                            JustChatManager.ChangeNpcNumberChatType("1-4");
+                            Character.instance.MyPlayerController.InvokeEventConversation();
+                            StartCoroutine(JustChatManager.WaitChat());
+                            StartCoroutine(NextStepDetail());
+                        }
+                        break;
+                    case 14:
+                         Debug.Log("14 완료");
+                        Character.instance.SetCharacterStat(CharacterStatType.Reputation, 100);
+                        Character.instance.SetCharacterStat(CharacterStatType.Smith, 50);
+                        GameManager.instance.IsDayStart = true;
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -Character.instance.ActivePoint);
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -Character.instance.ActivePoint);
+                        Debug.Log("asdasdasdsad " + Character.instance.ActivePoint);
+                        _stepDetail++;
+                        break;
+                    case 15:
+                        Destroy(gameObject);
                         break;
                 }
                 break;
@@ -322,13 +390,21 @@ public class TutorialManager : MonoBehaviour
         switch(Job)
         {
             case 0:
-                Debug.Log("대장장이 선택");
+                //Debug.Log("대장장이 선택");
                 NextMapNumber = "0001";
                 break;
             case 1:
-                Debug.Log("상인 선택");
+                //Debug.Log("상인 선택");
                 NextMapNumber = "0201";
                 break;
+        }
+    }
+
+    private void CheckItem(string ItemNumber)
+    {
+        if(Character.instance.MyItemManager.IsExistItem(ItemNumber))
+        {
+
         }
     }
 }

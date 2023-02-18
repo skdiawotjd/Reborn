@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     private float _playTime;        // 하루에 지나간 시간
     [SerializeField]
     private float _totalPlayTime;   // 하루의 총 시간
-    
+
+    [SerializeField]
     private bool _isDayStart;       // 하루가 시작되었는지
     [SerializeField]
     private int _round;             // 몇회차
@@ -30,59 +31,36 @@ public class GameManager : MonoBehaviour
 
     public float PlayTime
     {
-        get
-        {
-            return _playTime;
-        }
+        get { return _playTime; }
     }
     public float TotalPlayTime
     {
-        get
-        {
-            return _totalPlayTime;
-        }
+        get {  return _totalPlayTime; }
     }
     public bool IsDayStart
     {
-        get
-        {
-            return _isDayStart;
-        }
+        set { _isDayStart = value; }
+        get { return _isDayStart; }
     }
     public bool IsNewGenerate
     {
-        get
-        {
-            return _isNewGenerate;
-        }
+        get { return _isNewGenerate; }
     }
     public int Round
     {
-        get
-        {
-            return _round;
-        }
+        get { return _round; }
     }
     public int Days
     {
-        get
-        {
-            return _days;
-        }
+        get { return _days; }
     }
     public string SceneName
     {
-        get
-        {
-            return SceneManager.GetActiveScene().name;
-        }
+        get { return SceneManager.GetActiveScene().name; }
     }
     public int SaveDataCount
     {
-        get
-        {
-            return _saveDataCount;
-        }
+        get { return _saveDataCount; }
     }
 
     // 게임 최초 시작 시
@@ -159,7 +137,7 @@ public class GameManager : MonoBehaviour
         _totalPlayTime = 600f;
         _isDayStart = false;
         _isNewGenerate = true;
-        _days = -1;
+        _days = 0;
         _round = 0;
         _saveDataCount = 0;
         Pause = false;
@@ -187,16 +165,18 @@ public class GameManager : MonoBehaviour
     {
         if (IsDayStart)
         {
+            Debug.Log("IsDayStart가 true");
             if (Mathf.Floor(_playTime) != TotalPlayTime && Character.instance.ActivePoint != 0)
             {
                 if(!Pause)
                 {
                     _playTime += Time.deltaTime;
                 }
-                //Debug.Log(Mathf.Floor(_playTime));
+                Debug.Log(Mathf.Floor(_playTime));
             }
             else
             {
+                Debug.Log("InitializeDay");
                 _isDayStart = false;
                 InitializeDay();
             }
@@ -291,7 +271,7 @@ public class GameManager : MonoBehaviour
         switch (Days)
         {
             case 0:
-                Debug.Log("3 Or 6일이 지남");
+                Debug.Log("0일이 지남");
                 Character.instance.CheckStack();
                 Character.instance.SetCharacterStat(CharacterStatType.Reputation, -Character.instance.Reputation);
 

@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
+    private enum ItemType { Plus = 4, Minus }
+
     [Serializable]
     public struct Stat
     {
@@ -206,7 +208,9 @@ public class Character : MonoBehaviour
                 break;
             // ActivePoint
             case CharacterStatType.ActivePoint:
+                Debug.Log("현재 ActivePoint = " + CharacterStat._activePoint);
                 CharacterStat._activePoint += StatType;
+                Debug.Log("변경된 ActivePoint = " + CharacterStat._activePoint);
                 break;
             // Proficiency
             case CharacterStatType.Proficiency:
@@ -216,10 +220,14 @@ public class Character : MonoBehaviour
             case CharacterStatType.MyItem:
                 string ItemNumber = StatTypeString.Substring(0, 4);
                 int ItemOrder = MyItemManager.OrderItem(ItemNumber);
+                int ItemCount = 0;
+
                 
                 // 추가
                 if (StatTypeString[4] != '-')
                 {
+                    ItemCount = int.Parse(StatTypeString.Substring((int)ItemType.Plus, (StatTypeString.Length - (int)ItemType.Plus)));
+
                     //Debug.Log("추가");
                     // 동일한 아이템이 없다면
                     if (!MyItemManager.IsExistItem(ItemNumber))
@@ -229,7 +237,7 @@ public class Character : MonoBehaviour
                         CharacterStat._myItem.Insert(ItemOrder, ItemNumber);
                         // 개수 증가
                         //Debug.Log("개수 증가 - " + (int)(StatTypeString[4] - '0'));
-                        CharacterStat._myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
+                        CharacterStat._myItemCount.Insert(ItemOrder, ItemCount);
                         // 퀘스트아이템 위치 설정
                         if (ItemNumber[0] - '0' < 7)
                         {
@@ -246,45 +254,64 @@ public class Character : MonoBehaviour
                         // 개수만 증가
                         //Debug.Log("해당 아이템 " + _myItemCount[ItemOrder] + "에서 " + (int)(StatTypeString[4] - '0') + "만큼 삭제");
                         //CharacterStat._myItemCount.Insert(ItemOrder, (int)(StatTypeString[4] - '0'));
-                        CharacterStat._myItemCount[ItemOrder] += (int)(StatTypeString[4] - '0');
+                        CharacterStat._myItemCount[ItemOrder] += ItemCount;
                     }
 
                 }
                 // 삭제하기 전에 
                 else
                 {
-                    //Debug.Log("삭제");
-                    // 가지고 있는 해당 아이템 모두 삭제
-                    if (CharacterStat._myItemCount[ItemOrder] - (int)(StatTypeString[5] - '0') == 0)
+                    ItemCount = int.Parse(StatTypeString.Substring((int)ItemType.Minus, (StatTypeString.Length - (int)ItemType.Minus)));
+
+                    // 해당 아이템이 있는지 확인
+                    if (CharacterStat._myItem[ItemOrder] == ItemNumber)
                     {
-                        // 아이템 삭제
-                        //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
-                        CharacterStat._myItem.RemoveAt(ItemOrder);
-                        // 개수 삭제
-                        //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
-                        CharacterStat._myItemCount.RemoveAt(ItemOrder);
-                        // 퀘스트아이템 위치 설정
-                        if (CharacterStat._questItemOrder != 0)
+                        // 일부만 삭제
+                        Debug.Log("가지고 있는 개수 " + CharacterStat._myItemCount[ItemOrder] + " 삭제할 개수 " + ItemCount);
+                        if (CharacterStat._myItemCount[ItemOrder] > ItemCount)
                         {
-                            if (CharacterStat._myItem[ItemOrder][0] - '0' < 7)
+                            //Debug.Log("해당 아이템 " + MyItemCount[ItemOrder] + "에서 " + (int)(StatTypeString[5] - '0') + "만큼 삭제");
+                            CharacterStat._myItemCount[ItemOrder] = MyItemCount[ItemOrder] - ItemCount;
+                        }
+                        // 전체 삭제
+                        else if (CharacterStat._myItemCount[ItemOrder] == ItemCount)
+                        {
+                            // 아이템 삭제
+                            //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
+                            CharacterStat._myItem.RemoveAt(ItemOrder);
+                            // 개수 삭제
+                            //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
+                            CharacterStat._myItemCount.RemoveAt(ItemOrder);
+                            // 퀘스트아이템 위치 설정
+                            if (CharacterStat._questItemOrder != 0)
                             {
-                                CharacterStat._questItemOrder--;
+                                // 일반 아이템의 경우
+                                if (CharacterStat._myItem[ItemOrder][0] - '0' < 7)
+                                {
+                                    CharacterStat._questItemOrder--;
+                                }
+                                // 퀘스트 아이템이 추가된 경우
+                                else
+                                {
+                                    //Debug.Log("_questItemOrder의 위치를 변경할 필요가 없음");
+                                    return;
+                                }
                             }
                             else
                             {
+                                //Debug.Log("_questItemOrder의 위치를 변경할 필요가 없음");
                                 return;
                             }
                         }
+                        // 초과 삭제
                         else
                         {
-                            return;
+                            Debug.Log("가지고 있는 개수보다 더 삭제하려고 함");
                         }
                     }
                     else
-                    // 일부만 삭제
                     {
-                        //Debug.Log("해당 아이템 " + MyItemCount[ItemOrder] + "에서 " + (int)(StatTypeString[5] - '0') + "만큼 삭제");
-                        CharacterStat._myItemCount[ItemOrder] = MyItemCount[ItemOrder] - (int)(StatTypeString[5] - '0');
+                        Debug.Log("없는 아이템을 삭제하려고 함");
                     }
                 }
                 break;

@@ -276,29 +276,44 @@ public class Character : MonoBehaviour
                         // 전체 삭제
                         else if (CharacterStat._myItemCount[ItemOrder] == ItemCount)
                         {
-                            // 아이템 삭제
-                            //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
-                            CharacterStat._myItem.RemoveAt(ItemOrder);
-                            // 개수 삭제
-                            //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
-                            CharacterStat._myItemCount.RemoveAt(ItemOrder);
                             // 퀘스트아이템 위치 설정
                             if (CharacterStat._questItemOrder != 0)
                             {
                                 // 일반 아이템의 경우
                                 if (CharacterStat._myItem[ItemOrder][0] - '0' < 7)
                                 {
+                                    // 아이템 삭제
+                                    //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
+                                    CharacterStat._myItem.RemoveAt(ItemOrder);
+                                    // 개수 삭제
+                                    //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
+                                    CharacterStat._myItemCount.RemoveAt(ItemOrder);
+
                                     CharacterStat._questItemOrder--;
                                 }
                                 // 퀘스트 아이템이 추가된 경우
                                 else
                                 {
+                                    // 아이템 삭제
+                                    //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
+                                    CharacterStat._myItem.RemoveAt(ItemOrder);
+                                    // 개수 삭제
+                                    //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
+                                    CharacterStat._myItemCount.RemoveAt(ItemOrder);
+
                                     //Debug.Log("_questItemOrder의 위치를 변경할 필요가 없음");
                                     return;
                                 }
                             }
                             else
                             {
+                                // 아이템 삭제
+                                //Debug.Log("해당 아이템 삭제 - " + _myItem[ItemOrder]);
+                                CharacterStat._myItem.RemoveAt(ItemOrder);
+                                // 개수 삭제
+                                //Debug.Log("해당 아이템 개수 삭제 - " + _myItemCount[ItemOrder]);
+                                CharacterStat._myItemCount.RemoveAt(ItemOrder);
+
                                 //Debug.Log("_questItemOrder의 위치를 변경할 필요가 없음");
                                 return;
                             }

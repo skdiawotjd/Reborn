@@ -99,28 +99,29 @@ public class QuestManager : MonoBehaviour
     public void RemoveQuest(string number) // 퀘스트 클리어 혹은 제거
     {
         MyQuest.Remove(number);
+        QuestOrder.Remove(number);
         questChanges = true;
     }
     public void MinigameClear(bool clear)
     {
         // 퀘스트를 클리어하고 부를 함수
-        Debug.Log("ActivePoint 10 감소하기 전, 현재 수치 : " + Character.instance.ActivePoint);
         switch(Character.instance.MyMapNumber)
         {
             // 노예
+            case "0003":
             case "0004":
             case "0008":
             case "0009":
                 Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
                 break;
             // 대장장이
-            case "0003":
+            case "0103":
             case "0104":
             case "0005":
             case "0108":
             case "0109":
             // 상인
-            case "0103":
+            case "0203":
             case "0204":
             case "0105":
             case "0208":
@@ -128,8 +129,7 @@ public class QuestManager : MonoBehaviour
                 Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10); // 활동력 -10
                 break;
         }
-        
-        Debug.Log("ActivePoint 10 감소, 현재 수치 : " + Character.instance.ActivePoint);
+        Debug.Log("ActivePoint 감소, 현재 수치 : " + Character.instance.ActivePoint);
 
         if (clear)
         {
@@ -139,6 +139,7 @@ public class QuestManager : MonoBehaviour
                 case "Slayer":
                     switch(Character.instance.MyMapNumber)
                     {
+                        case "0003":
                         case "0004":
                         case "0008":
                         case "0009":
@@ -151,7 +152,7 @@ public class QuestManager : MonoBehaviour
                 case "Smith":
                     switch (Character.instance.MyMapNumber)
                     {
-                        case "0003":
+                        case "0103":
                         case "0104":
                         case "0005":
                         case "0108":
@@ -163,7 +164,7 @@ public class QuestManager : MonoBehaviour
                 case "bania":
                     switch (Character.instance.MyMapNumber)
                     {
-                        case "0103":
+                        case "0203":
                         case "0204":
                         case "0105":
                         case "0208":
@@ -212,18 +213,24 @@ public class QuestManager : MonoBehaviour
             {
                 Debug.Log(itemNumberString);
                 Debug.Log(itemNumberString[0]);
+                Debug.Log(itemNumberString.Length);
+                Debug.Log(itemNumberString.Substring(4, (itemNumberString.Length - 4)));
                 if (itemNumberString[0] == '7')
                 {
                     // 메인 퀘스트 클리어
                     // 메인 퀘스트 아이템 제거
                     //Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring((int)ItemType.Plus, (itemNumberString.Length - (int)ItemType.Plus)));
-                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring(4, (itemNumberString.Length - 4)));
+                    //Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring(4, (itemNumberString.Length - 4)));
+                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString[4]);
+                    RemoveQuest(itemNumberString.Substring(0, 4));
                     // 메인 퀘스트 보상 수령
                     Character.instance.SetCharacterStat(CharacterStatType.Reputation, 20);
                     GetReward(itemNumberString);
                     // 다음 메인 퀘스트 아이템 획득
                     nextQuestString = (int.Parse(itemNumberString.Substring(0,4)) + 1).ToString() + "0";
+                    Debug.Log("nextQuestString : " + nextQuestString);
                     Character.instance.SetCharacterStat(CharacterStatType.MyItem, nextQuestString);
+                    AddQuest(nextQuestString.Substring(0,4));
                 } else
                 {
                     // 서브 퀘스트 클리어

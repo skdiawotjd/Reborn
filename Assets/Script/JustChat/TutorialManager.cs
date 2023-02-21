@@ -43,7 +43,7 @@ public class TutorialManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        _step = 0;
+        _step = 3;
         _stepDetail = 0;
 
         WaitFixedUpdate = new WaitForFixedUpdate();
@@ -62,7 +62,7 @@ public class TutorialManager : MonoBehaviour
         {
             ///
             JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
-            _step = 0;
+            _step = 3;
             _stepDetail = 0;
             ///
             GameManager.instance.RemoveSceneMoveEvent(SetTutorial);

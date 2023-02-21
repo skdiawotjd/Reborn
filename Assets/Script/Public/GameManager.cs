@@ -165,14 +165,14 @@ public class GameManager : MonoBehaviour
     {
         if (IsDayStart)
         {
-            Debug.Log("IsDayStart°¡ true");
+            //Debug.Log("IsDayStart°¡ true");
             if (Mathf.Floor(_playTime) != TotalPlayTime && Character.instance.ActivePoint != 0)
             {
                 if(!Pause)
                 {
                     _playTime += Time.deltaTime;
                 }
-                Debug.Log(Mathf.Floor(_playTime));
+                //Debug.Log(Mathf.Floor(_playTime));
             }
             else
             {

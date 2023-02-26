@@ -21,10 +21,7 @@ public class QuestNPC : BasicNpc
             _questNpcState = value;
             SettingQusetState();
         }
-        get
-        {
-            return _questNpcState;
-        }
+        get { return _questNpcState; }
     }
 
     protected override void Start()
@@ -33,9 +30,9 @@ public class QuestNPC : BasicNpc
 
         Processing = false;
         QuestDataList = new List<string>(new string[3]);
-
+        _questNpcState = QuestState.QuestStand;
         SetNpcNumber(11);
-        SetChatType(0);
+        SetChatType(6);
         SetQuestData("00010", "7010", "1");
 
         CheckQuest();
@@ -45,36 +42,40 @@ public class QuestNPC : BasicNpc
     {
         switch (_questNpcState)
         {
-            case QuestState.Start:
-                Debug.Log("대화 시작 - 퀘스트 받기");
-                Character.instance.SetCharacterStat(CharacterStatType.MyItem, QuestDataList[(int)QuestData.QuestObjectNumber] + QuestDataList[(int)QuestData.ClearCount]);
-                QuestManager.instance.AddQuest(QuestDataList[(int)QuestData.QuestNumber]);
-
+            case QuestState.None:
+                Debug.Log("대화 시작 - 우선 할 말이 없어 퀘스트 완료 대사");
                 _chatType = 0;
                 ConversationManager.CurNpc = this;
                 ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                 break;
-            case QuestState.Progress:
-                Debug.Log("대화 시작 - 퀘스트 중");
+            case QuestState.QuestStand:
+                Debug.Log("대화 시작 - 퀘스트 대기 대사");
+                _chatType = 6;
+                Debug.Log("AddSelectEvent");
+                ConversationManager.AddSelectEvent(SelectQuest);
+                ConversationManager.CurNpc = this;
+                ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                break;
+            case QuestState.QuestStart:
+                Debug.Log("대화 시작 - 퀘스트 받기");
+                break;
+            case QuestState.QuestProgress:
+            case QuestState.QuestEnd:
+                Debug.Log("대화 시작 - 퀘스트 중 " + !Processing);
                 Processing = !Processing;
                 if (Processing)
                 {
-                    _chatType = 1;
+                    _chatType = 2;
                     ConversationManager.CurNpc = this;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                 }
-                break;
-            case QuestState.End:
-                Debug.Log("대화 시작 - 퀘스트 완료");
-                _chatType = 3;
-                ConversationManager.CurNpc = this;
-                ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                break;
-            case QuestState.Stand:
-                Debug.Log("대화 시작 - 퀘스트 대기");
-                _chatType = 3;
-                ConversationManager.CurNpc = this;
-                ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                else
+                {
+                    Debug.Log("대화 시작 - 퀘스트 완료");
+                    _chatType = 0;
+                    ConversationManager.CurNpc = this;
+                    ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                }
                 break;
         }
     }
@@ -83,35 +84,59 @@ public class QuestNPC : BasicNpc
     {
         switch (_questNpcState)
         {
-            case QuestState.Start:
-                Debug.Log("대화 끝 - 퀘스트 중으로 이동");
-                QuestNpcState = QuestState.Progress;
+            case QuestState.None:
                 base.FunctionEnd();
                 break;
-            case QuestState.Progress:
+            case QuestState.QuestStand:
+                Debug.Log("대화 대화 끝 - 퀘스트 수주 대사");
+                _chatType = 5;
+                ConversationManager.CurNpc = this;
+                ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                Character.instance.MyPlayerController.InvokeEventConversation();
+                Debug.Log("대사 다시 시작");
+                break;
+            case QuestState.QuestStart:
+                Debug.Log("대화 끝 - AcceptQuest에서 선택된 것에 따라 퀘스트를 수주하거나 거절");
+                base.FunctionEnd();
+                QuestNpcState = QuestState.QuestStand;
+                break;
+            case QuestState.QuestProgress:
                 Debug.Log("대화 끝 - 퀘스트 확인");
                 CheckQuest();
                 if (Processing)
                 {
+                    //CheckQuest();
+                    Debug.Log("Processing가 " + Processing + "라서" + ChatType + " 대사");
+
                     Processing = !Processing;
 
+                    ConversationManager.CurNpc = this;
+                    ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                    Character.instance.MyPlayerController.InvokeEventConversation();
+                    Debug.Log("대사 다시 시작");
+                }
+                else
+                {
+                    Debug.Log("Processing가 " + Processing + "라서 FunctionEnd");
+                    base.FunctionEnd();
+                }
+                break;
+            case QuestState.QuestEnd:
+                Debug.Log("대화 끝 - 퀘스트 대기로 이동");
+                if (Processing)
+                {
+                    Processing = !Processing;
+
+                    _chatType = 0;
                     ConversationManager.CurNpc = this;
                     ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                     Character.instance.MyPlayerController.InvokeEventConversation();
                 }
                 else
                 {
+                    QuestNpcState = QuestState.None;
                     base.FunctionEnd();
                 }
-                break;
-            case QuestState.End:
-                Debug.Log("대화 끝 - 퀘스트 대기로 이동");
-                QuestNpcState = QuestState.Stand;
-                base.FunctionEnd();
-                break;
-            case QuestState.Stand:
-                Debug.Log("대화 끝 - 퀘스트 대기");
-                base.FunctionEnd();
                 break;
         }
     }
@@ -123,29 +148,28 @@ public class QuestNPC : BasicNpc
 
     private void CheckQuest()
     {
-        Debug.Log("CheckQuest");
+        //Debug.Log("CheckQuest");
         for (int i = 0; i < Character.instance.MyItem.Count; i++)
         {
             if(Character.instance.MyItem[i] == QuestDataList[(int)QuestData.QuestObjectNumber])
             {
                 
                 Debug.Log("퀘스트를 받은 적이 있음");
-                if (Character.instance.MyItemCount[i] == int.Parse(QuestDataList[(int)QuestData.ClearCount]))
+                if (Character.instance.MyItemCount[i] >= int.Parse(QuestDataList[(int)QuestData.ClearCount]))
                 {
                     Debug.Log("퀘스트오브젝트를 전부 가지고 있음");
-                    QuestNpcState = QuestState.End;
 
                     Character.instance.SetCharacterStat(CharacterStatType.MyItem, QuestDataList[(int)QuestData.QuestObjectNumber] + "-" + QuestDataList[(int)QuestData.ClearCount]);
                     QuestManager.instance.RemoveQuest(QuestDataList[(int)QuestData.QuestNumber]);
-
-                    _chatType = 3;
+                    QuestNpcState = QuestState.QuestEnd;
+                    _chatType = 0;
                     return;
                 }
                 else
                 {
                     Debug.Log("퀘스트오브젝트를 전부 가지고 있지 않음");
-                    QuestNpcState = QuestState.Progress;
-                    _chatType = 2;
+                    QuestNpcState = QuestState.QuestProgress;
+                    _chatType = 1;
                     return;
                 }
             }
@@ -157,17 +181,18 @@ public class QuestNPC : BasicNpc
     {
         switch(_questNpcState)
         {
-            case QuestState.Start:
+            case QuestState.QuestStand:
+            case QuestState.QuestStart:
                 QusetStateText.text = "?";
                 break;
-            case QuestState.Progress:
+            case QuestState.QuestProgress:
                 QusetStateText.text = "...";
                 break;
-            case QuestState.End:
+            case QuestState.QuestEnd:
                 QusetStateText.text = "!";
                 break;
-            case QuestState.Stand:
-            case QuestState.Story:
+            case QuestState.None:
+            case QuestState.Chat:
                 QusetStateText.text = "";
                 break;
         }
@@ -188,6 +213,38 @@ public class QuestNPC : BasicNpc
             QuestDataList[(int)QuestData.QuestObjectNumber] = QuestObjectNumber;
             QuestDataList[(int)QuestData.ClearCount] = ClearCount;
         }
-        
+    }
+
+    private void SelectQuest(int ButtonCount)
+    {
+        QuestNpcState = QuestState.QuestStart;
+        switch (ButtonCount)
+        {
+            case 0:
+                Debug.Log("퀘스트 수락 버튼");
+                Character.instance.SetCharacterStat(CharacterStatType.MyItem, QuestDataList[(int)QuestData.QuestObjectNumber] + "0");
+                QuestManager.instance.AddQuest(QuestDataList[(int)QuestData.QuestNumber]);
+                QuestNpcState = QuestState.QuestProgress;
+                _chatType = 4;
+                break;
+            case 2:
+                Debug.Log("퀘스트 거절 버튼");
+                _chatType = 3;
+                break;
+
+        }
+        ConversationManager.CurNpc = this;
+        ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+        Character.instance.MyPlayerController.InvokeEventConversation();
     }
 }
+/*
+ * _chatType
+ * 6,퀘스트 내용
+ * 5,퀘스트 선택지
+ * 4,퀘스트 수락 대사
+ * 3,퀘스트 거절 대사
+ * 2,퀘스트 진행 대사
+ * 1,퀘스트 진행 중 미완료 대사
+ * 0,퀘스트 진행 중 완료 대사
+ */

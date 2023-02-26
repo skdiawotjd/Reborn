@@ -220,7 +220,7 @@ public class TutorialManager : MonoBehaviour
                     case 0:
                         // 0 대화/대기 Debug.Log("");
                         Character.instance.SetCharacterInput(false, false, false);
-                        JustChatManager.ChangeNpcNumberChatType("1-9");
+                        JustChatManager.ChangeNpcNumberChatType("1-5");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
@@ -228,7 +228,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 1:
                         // 1 대화/대기 Debug.Log("");
-                        JustChatManager.ChangeNpcNumberChatType("1-8");
+                        JustChatManager.ChangeNpcNumberChatType("1-4");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
@@ -262,7 +262,7 @@ public class TutorialManager : MonoBehaviour
                         Character.instance.SetCharacterStat(CharacterStatType.MyItem, "100010");
 
                         Character.instance.SetCharacterInput(false, false, false);
-                        JustChatManager.ChangeNpcNumberChatType("1-7");
+                        JustChatManager.ChangeNpcNumberChatType("1-3");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
 
@@ -286,7 +286,7 @@ public class TutorialManager : MonoBehaviour
                         else
                         {
                             Character.instance.SetCharacterInput(false, false, false);
-                            JustChatManager.ChangeNpcNumberChatType("1-6");
+                            JustChatManager.ChangeNpcNumberChatType("1-2");
                             Character.instance.MyPlayerController.InvokeEventConversation();
                             StartCoroutine(JustChatManager.WaitChat());
                             StartCoroutine(NextStepDetail());
@@ -309,7 +309,7 @@ public class TutorialManager : MonoBehaviour
                             Character.instance.SetCharacterStat(CharacterStatType.MyItem, "30001");
 
                             Character.instance.SetCharacterInput(false, false, false);
-                            JustChatManager.ChangeNpcNumberChatType("1-5");
+                            JustChatManager.ChangeNpcNumberChatType("1-1");
                             Character.instance.MyPlayerController.InvokeEventConversation();
                             StartCoroutine(JustChatManager.WaitChat());
                             StartCoroutine(NextStepDetail());
@@ -333,7 +333,7 @@ public class TutorialManager : MonoBehaviour
                         else
                         {
                             Character.instance.SetCharacterInput(false, false, false);
-                            JustChatManager.ChangeNpcNumberChatType("1-6");
+                            JustChatManager.ChangeNpcNumberChatType("1-2");
                             Character.instance.MyPlayerController.InvokeEventConversation();
                             StartCoroutine(JustChatManager.WaitChat());
                             StartCoroutine(NextStepDetail());
@@ -352,7 +352,7 @@ public class TutorialManager : MonoBehaviour
                         if (Character.instance.MyItemManager.IsExistItem("2000"))
                         {
                             Character.instance.SetCharacterInput(false, false, false);
-                            JustChatManager.ChangeNpcNumberChatType("1-4");
+                            JustChatManager.ChangeNpcNumberChatType("1-0");
                             Character.instance.MyPlayerController.InvokeEventConversation();
                             StartCoroutine(JustChatManager.WaitChat());
                             StartCoroutine(NextStepDetail());

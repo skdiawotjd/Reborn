@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Unity.Mathematics;
 
 public class ConversationManager : UIManager
 {
@@ -42,6 +43,8 @@ public class ConversationManager : UIManager
     private int SelectedButton;
     [SerializeField]
     private List<Button> SelectButtonList;
+    private int RealSelectCount;
+    private int TotalCount;
     private Color SelectColor;
 
     private UnityEvent<int> SelectEvent;
@@ -87,6 +90,10 @@ public class ConversationManager : UIManager
         SelectButtonList.Add(null);
         SelectButtonList.Add(null);
         SelectButtonList.Add(null);
+        SelectButtonList.Add(null);
+        SelectButtonList.Add(null);
+        SelectButtonList.Add(null);
+        SelectButtonList.Add(null);
         SelectColor = new Color();
         SelectColor.r = 0.3f;
         SelectColor.g = 0.3f;
@@ -127,6 +134,8 @@ public class ConversationManager : UIManager
         SetActivePanel(false);
         ChatName = "";
         SelectedButton = -1;
+        RealSelectCount = 0;
+        TotalCount = 0;
     }
 
     private void InitializeNpcNumberChatType()
@@ -287,7 +296,7 @@ public class ConversationManager : UIManager
     public void SetSelect(int SelectCount, ref List<Dictionary<string, object>> SelectList)
     {
         _selectPanelStillOpen = true;
-
+        ChatCount = SelectCount;
         _conversationCount = 1;
         NowList = SelectList;
         IsCanChat = true;
@@ -301,43 +310,40 @@ public class ConversationManager : UIManager
 
             try
             {
-                // 새로 들어온 보기가 1열인 경우
                 if (NowList[ChatCount]["Context2"].ToString().Length == 0)
                 {
-                    if (SelectButtonList[1].GetComponent<TextMeshProUGUI>().text.Length == 0)
-                    {
-                        // 이전에도 1열 보기를 생성함
-                    }
-                    else
-                    {
-                        // 이전에는 2열 보기를 생성함
-                        SelectPanel.constraint = GridLayoutGroup.Constraint.FixedRowCount;
-                    }
-                }
-                // 새로 들어온 보기가 2열인 경우
-                else
-                {
+                    //Debug.Log("새로 들어온 보기가 1열인 경우");
                     if (SelectButtonList[1].GetComponent<TextMeshProUGUI>().text.Length != 0)
                     {
-                        // 이전에도 2열 보기를 생성함
+                        //Debug.Log("이전에는 2열 보기를 생성함");
+                        SelectPanel.constraintCount = 2;
+                        
                     }
-                    else
+                    //Debug.Log("이전에도 1열 보기를 생성함");
+                }
+                else
+                {
+                    //Debug.Log("새로 들어온 보기가 2열인 경우");
+                    if (SelectButtonList[1].GetComponent<TextMeshProUGUI>().text.Length != 0)
                     {
-                        // 이전에는 1열 보기를 생성함
-                        SelectPanel.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-
+                        //Debug.Log("이전에는 1열 보기를 생성함");
+                        SelectPanel.constraintCount = 1;
                     }
+                    //Debug.Log("이전에도 2열 보기를 생성함");
                 }
             }
             catch
             {
+                //Debug.Log("이전에 만든 보기가 없는 경우 " + NowList[ChatCount]["Context2"].ToString().Length);
                 if (NowList[ChatCount]["Context2"].ToString().Length == 0)
                 {
-                    SelectPanel.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+                    //Debug.Log("1열 보기를 생성함");
+                    SelectPanel.constraintCount = 1;
                 }
                 else
                 {
-                    SelectPanel.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                    //Debug.Log("2열 보기를 생성함");
+                    SelectPanel.constraintCount = 2;
                 }
             }
 
@@ -351,7 +357,7 @@ public class ConversationManager : UIManager
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
                     }
-                    
+
                     SelectButtonList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = NowList[ChatCount]["Context" + _conversationCount].ToString();
                     int TemType = i;
                     SelectButtonList[i].onClick.AddListener(() =>
@@ -361,18 +367,39 @@ public class ConversationManager : UIManager
                         NextConversation();
                         SelectPanel.gameObject.SetActive(false);
                     });
+                    RealSelectCount++;
+                    if (i % 2 == 0)
+                    {
+                        TotalCount += 2;
+                    }
                 }
                 else
                 {
                     if(SelectButtonList[i])
                     {
-                        Destroy(SelectButtonList[i]);
+                        Destroy(SelectButtonList[i].gameObject);
                         SelectButtonList[i] = null;
                     }
                 }
+                
                 _conversationCount++;
             }
 
+            //Debug.Log("TotalCount " + TotalCount);
+            for (int RemainButton = TotalCount; RemainButton < SelectButtonList.Count; RemainButton++)
+            {
+                if (SelectButtonList[RemainButton])
+                {
+                    //Debug.Log("SelectButtonList[" + RemainButton + "]이 널이 아니라서 지움");
+                    Destroy(SelectButtonList[RemainButton].gameObject);
+                    SelectButtonList[RemainButton] = null;
+                }
+                else
+                {
+                    //Debug.Log("SelectButtonList[" + RemainButton + "]이 널이라서 넘어감");
+                }
+
+            }
             _conversationCount--;
             Character.instance.MyPlayerController.ConversationNext = true;
         }
@@ -380,60 +407,13 @@ public class ConversationManager : UIManager
         {
             if (SelectedButton != -1)
             {
+                SelectButtonList[SelectedButton].image.color = Color.white;
                 SelectButtonList[SelectedButton].onClick.Invoke();
-            }
-        }
 
-        if (!SelectPanel.gameObject.activeSelf)
-        {
-            /*SelectPanel.gameObject.SetActive(true);
-
-            // 이전에 생성한 것과 동일한 포맷인지
-            if (ChatList[ChatCount]["Context2"].ToString().Length == 0)
-            {
-                // 기본 설정
-                SelectPanel.constraint = GridLayoutGroup.Constraint.FixedRowCount;
+                SelectedButton = -1;
+                TotalCount = 0;
+                RealSelectCount = 0;
             }
-            else
-            {
-                SelectPanel.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            }
-
-            for (int i = 0; i < ChatList[ChatCount].Count - 2; i++)
-            {
-                if(ChatList[ChatCount]["Context" + _conversationCount].ToString().Length != 0)
-                {
-                    SelectButtonList.Add(Instantiate(SelectButton, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button);
-                    SelectButtonList.Last().transform.SetParent(SelectPanel.transform, false);
-                    SelectButtonList.Last().transform.SetParent(SelectPanel.transform, false);
-                    SelectButtonList.Last().transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ChatList[ChatCount]["Context" + _conversationCount].ToString();
-                    int TemType = i;
-                    SelectButtonList.Last().onClick.AddListener(() =>
-                    {
-                        _conversationCount++;
-                        SelectEvent.Invoke(TemType);
-                        NextConversation();
-                        SelectPanel.gameObject.SetActive(false);
-                        ClearSelectEvent();
-                    });
-                }
-                else
-                {
-                    SelectButtonList.Add(null);
-                }
-                _conversationCount++;
-            }
-
-            _conversationCount--;
-            Character.instance.MyPlayerController.ConversationNext = true;*/
-        }
-        else
-        {
-            /*//Debug.Log("선택 " + SelectedButton);
-            if(SelectedButton != -1)
-            {
-                SelectButtonList[SelectedButton].onClick.Invoke();
-            }*/
         }
     }
 
@@ -453,27 +433,28 @@ public class ConversationManager : UIManager
                 SelectButtonList[SelectedButton].image.color = Color.white;
                 if (Direction == KeyDirection.Down)
                 {
-                    SelectOrder(2);
+                    SelectUpDown(2);
                 }
                 else if (Direction == KeyDirection.Up)
                 {
-                    SelectOrder(-2);
+                    SelectUpDown(-2);
                 }
                 else if (Direction == KeyDirection.Right)
                 {
-                    SelectOrder(1);
+                    SelectLeftRight(1);
                 }
                 else if (Direction == KeyDirection.Left)
                 {
-                    SelectOrder(-1);
+                    SelectLeftRight(-1);
                 }
             }
         }
     }
-    private void SelectOrder(int AddOrder)
+    private void SelectUpDown(int AddOrder)
     {
         try
         {
+            //Debug.Log(SelectedButton + " + " + AddOrder);
             SelectButtonList[SelectedButton + AddOrder].image.color = SelectColor;
             SelectedButton += AddOrder;
             Debug.Log("현재 SelectedButton " + SelectedButton);
@@ -482,8 +463,69 @@ public class ConversationManager : UIManager
         {
             try
             {
-                SelectButtonList[SelectedButton - AddOrder].image.color = SelectColor;
-                SelectedButton -= AddOrder;
+                //Debug.Log(SelectedButton + AddOrder + " ? " + RealSelectCount);
+                // 아래로 넘어감
+                if (SelectedButton + AddOrder >= RealSelectCount)
+                {
+                    //Debug.Log(SelectedButton + AddOrder + "아래로 넘어감");
+                    switch (SelectedButton % 2)
+                    {
+                        case 0:
+                            SelectButtonList[0].image.color = SelectColor;
+                            SelectedButton = 0;
+                            break;
+                        case 1:
+                            SelectButtonList[1].image.color = SelectColor;
+                            SelectedButton = 1;
+                            break;
+                    }
+                }
+                // 위로 넘어감
+                else
+                {
+                    //Debug.Log(SelectedButton + AddOrder + "위로 넘어감");
+                    int LineCount = (TotalCount / 2 + TotalCount % 2) - 1;
+                    int FinalSelect = SelectedButton + (math.abs(AddOrder) * LineCount);
+                    //Debug.Log("LineCount " + LineCount);
+                    //Debug.Log(FinalSelect);
+                    SelectButtonList[FinalSelect].image.color = SelectColor;
+                    SelectedButton = FinalSelect;
+
+                }
+                Debug.Log("현재 SelectedButton " + SelectedButton);
+            }
+            catch
+            {
+                SelectButtonList[SelectedButton].image.color = SelectColor;
+            }
+        }
+    }
+    private void SelectLeftRight(int AddOrder)
+    {
+        try
+        {
+            //Debug.Log(SelectedButton + " + " + AddOrder);
+            SelectButtonList[SelectedButton + AddOrder].image.color = SelectColor;
+            SelectedButton += AddOrder;
+            Debug.Log("현재 SelectedButton " + SelectedButton);
+        }
+        catch
+        {
+            //Debug.Log(SelectedButton + AddOrder + " ? " + TotalCount);
+            try
+            {
+                if (SelectedButton + AddOrder >= RealSelectCount)
+                {
+                    //Debug.Log(SelectedButton + AddOrder - TotalCount + "앞으로 넘어감");
+                    SelectButtonList[SelectedButton + AddOrder - TotalCount].image.color = SelectColor;
+                    SelectedButton = SelectedButton + AddOrder - TotalCount;
+                }
+                else
+                {
+                    //Debug.Log(SelectedButton + AddOrder + "뒤로 넘어감");
+                    SelectButtonList[TotalCount - 1].image.color = SelectColor;
+                    SelectedButton = TotalCount - 1;
+                }
                 Debug.Log("현재 SelectedButton " + SelectedButton);
             }
             catch

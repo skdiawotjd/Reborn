@@ -221,11 +221,11 @@ public class ExploreManager : MonoBehaviour
 
                 // 상자를 열어본다 선택지를 골랐을 시 기능
                 break;
-            case 1:
+            case 2:
                 NextExplore();
                 break;
             // 무시하고 지나간다 선택지를 골랐을 시 기능
-            case 2:
+            case 4:
                 EndExplore();
                 // 도망간다 선택지를 골랐을 시 기능
                 break;

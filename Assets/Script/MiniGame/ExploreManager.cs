@@ -168,7 +168,6 @@ public class ExploreManager : MonoBehaviour
         switch (actionNumber)
         {
             case 0:
-                Debug.Log("¿ÀÇÂ¹Ú½º");
                 switch (itemList[ObjectNumber]["Number"].ToString())
                 {
                     case "0":

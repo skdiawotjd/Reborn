@@ -440,13 +440,13 @@ public class PlayerController : MonoBehaviour
     {
         if (state)
         {
-            Spum._anim.SetTrigger("Die");
+            Debug.Log("사망모션");
+            StartDie();
         }
         else
         {
-            Spum._anim.SetTrigger("EditChk");
-            Spum._anim.SetBool("Run", state);
-            Spum._anim.SetFloat("RunState", 0.0f);
+            Debug.Log("일어나는 모션");
+            EndDie();
         }
 
     }

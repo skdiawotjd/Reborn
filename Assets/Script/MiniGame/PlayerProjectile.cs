@@ -11,12 +11,9 @@ public class PlayerProjectile : MonoBehaviour
     private bool direction;
     private Vector3 rotatePosition;
     private float rotateSpeed;
-    public delegate void Damage(int target);
-    public Damage playerDamage;
 
     void Start()
     {
-        PlayerProjectileAttackEvent = new UnityEvent();
         rotatePosition = new Vector3(0f, 0f, 0f);
         rotateSpeed = 16f;
         speed = 5f;
@@ -48,19 +45,6 @@ public class PlayerProjectile : MonoBehaviour
     {
         damage = newDamage;
     }
-    public void AddListenerPlayerProjectileAttackEvent(UnityAction NewAction)
-    {
-        Debug.Log(NewAction.GetInvocationList());
-        if (PlayerProjectileAttackEvent != null)
-        {
-            PlayerProjectileAttackEvent.AddListener(NewAction); //BattleManager에서 받아온 Damaged 함수를 Add 해놓은 MonsterAttackEvent를 MonsterProjectileAttackEvent에 Add
-        }
-        else
-        {
-            PlayerProjectileAttackEvent = new UnityEvent();
-            PlayerProjectileAttackEvent.AddListener(NewAction); //BattleManager에서 받아온 Damaged 함수를 Add 해놓은 MonsterAttackEvent를 MonsterProjectileAttackEvent에 Add
-        }
-    }
 
     private void DestroyProjectile()
     {
@@ -68,19 +52,11 @@ public class PlayerProjectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("플레이어의 공격에 충돌한 개체" + collision.gameObject.tag);
         switch (collision.gameObject.tag)
         {
             case "Enemy":
-                if(PlayerProjectileAttackEvent != null)
-                {
-                    //PlayerProjectileAttackEvent.Invoke();
-                    playerDamage(damage);
-                    DestroyProjectile();
-                } else
-                {
-
-                }
+                AdventureGameManager.instance.battleManager.MonsterDamaged(damage);
+                DestroyProjectile();
                 break;
         }
     }

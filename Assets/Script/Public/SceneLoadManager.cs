@@ -20,6 +20,7 @@ public class SceneLoadManager : MonoBehaviour
     AssetBundle bundle;
     AssetBundle bundleP;
     AssetBundle temBundle;
+    AssetBundle bundle2;
 
     [SerializeField]
     private Character _character;
@@ -298,6 +299,7 @@ public class SceneLoadManager : MonoBehaviour
             case "0008": // 대장장이의 탐험
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+                bundle2 = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "adventure"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ExploreOfCave"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
@@ -308,16 +310,25 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("ExploreManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temExploreManager = temObject.GetComponent<ExploreManager>();
                 temExploreManager.name = "ExploreManager";
+                temObject = Instantiate(bundle2.LoadAsset<GameObject>("AdventureGameManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "AdventureGameManager";
+                temAdventureGameManager = temObject.GetComponent<AdventureGameManager>();
+                temAdventureGameManager.SetBattleManager(temBattleManager);
+                temObject = Instantiate(bundle2.LoadAsset<GameObject>("PoolManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "PoolManager";
+                temAdventureGameManager.SetPoolManager(temObject.GetComponent<PoolManager>());
 
                 temBattleManager.SetexploreManager(temExploreManager);
                 temExploreManager.SetBattleManager(temBattleManager);
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
+                bundle2.Unload(false);
                 break;            
             case "0108": // 대장장이의 탐험
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+                bundle2 = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "adventure"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ExploreOfCave"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
@@ -328,12 +339,20 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(temBundle.LoadAsset<GameObject>("ExploreManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temExploreManager = temObject.GetComponent<ExploreManager>();
                 temExploreManager.name = "ExploreManager";
+                temObject = Instantiate(bundle2.LoadAsset<GameObject>("AdventureGameManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "AdventureGameManager";
+                temAdventureGameManager = temObject.GetComponent<AdventureGameManager>();
+                temAdventureGameManager.SetBattleManager(temBattleManager);
+                temObject = Instantiate(bundle2.LoadAsset<GameObject>("PoolManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "PoolManager";
+                temAdventureGameManager.SetPoolManager(temObject.GetComponent<PoolManager>());
 
                 temBattleManager.SetexploreManager(temExploreManager);
                 temExploreManager.SetBattleManager(temBattleManager);
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
+                bundle2.Unload(false);
                 break;
             case "0009": // 노예 모험
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "adventure"));

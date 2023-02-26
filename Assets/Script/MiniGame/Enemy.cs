@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     private bool isRun;
     private bool isAttack;
     private float distance;
+    private float attackTimeCount;
 
     private Vector2 dirVec;
     private Vector2 nextVec;
@@ -51,11 +52,16 @@ public class Enemy : MonoBehaviour, IPoolObject
                 // 공격
                 EnemyAttackProcess();
                 isAttack = true;
-                StartCoroutine("AttackTimeCoroutine", 1f);
+                StartCoroutine("AttackTimeCoroutine", 3f);
+                return;
+            } else // 플레이어와의 거리가 본인 사거리보다 짧거나 같으면서 멈춰있고 공격중이라면
+            {
+                rigid.velocity = Vector2.zero;
                 return;
             }
         } else if(isAttack) // 플레이어와의 거리가 본인 사거리보다 길지만, 공격중인 상태라면 리턴
         {
+            rigid.velocity = Vector2.zero;
             return;
         }
         // 살아있으면서, 플레이어와의 거리가 본인 사거리보다 길고 공격중인 상태가 아니라면 플레이어를 향해 돌진
@@ -125,6 +131,24 @@ public class Enemy : MonoBehaviour, IPoolObject
             damage = data.damage;
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        switch (collision.gameObject.name)
+        {
+            case "HitArea":
+                if(attackTimeCount > 1f)
+                {
+                    attackTimeCount = 0;
+                    AdventureGameManager.instance.battleManager.Damaged(damage);
+                    Debug.Log("플레이어 피격");
+                } else
+                {
+                    attackTimeCount += Time.deltaTime * 2;
+                    
+                }
+                break;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch(collision.gameObject.name)
@@ -157,9 +181,10 @@ public class Enemy : MonoBehaviour, IPoolObject
                     isHit = true;
                     Invoke("CanHit", 0.35f);
                 }
-                else
+                else if(isLive)
                 {
                     // 사망
+                    isLive = false;
                     Dead();
                 }
                 break;
@@ -173,7 +198,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     {
         projectile = AdventureGameManager.instance.pool.GetFromPool<EnemyAttack>(2);
         projectile.SetDamage(damage);
-        projectile.SetStartPosition(this.transform);
+        projectile.SetStartPosition(rigid.transform);
         
     }
     private void CanHit()
@@ -182,6 +207,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     }
     private void Dead()
     {
+        Debug.Log("몬스터 사망");
         AdventureGameManager.instance.pool.TakeToPool<Enemy>(this.idName, this);
         transform.SetParent(AdventureGameManager.instance.pool.transform);
         AdventureGameManager.instance.MGManager.ChangeEnemyCount(-1);

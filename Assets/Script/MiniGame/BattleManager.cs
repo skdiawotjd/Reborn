@@ -6,7 +6,6 @@ using Redcode.Pools;
 
 public class BattleManager : MonoBehaviour
 {
-    private PoolManager poolManager;
     private PlayerProjectile projectile;
     private PlayerProjectile temProjectile;
     [SerializeField]
@@ -24,6 +23,7 @@ public class BattleManager : MonoBehaviour
     private BoxCollider2D hitArea;
     private Rigidbody2D characterRigid;
     private Boomerang boomerang;
+    private bool characterIsLive;
     public bool isAttack;
     void Start()
     {
@@ -36,7 +36,6 @@ public class BattleManager : MonoBehaviour
         characterRigid = Character.instance.GetComponent<Rigidbody2D>();
         battleStart = false;
         message = "몬스터를 물리쳤다!";
-        poolManager = Instantiate(SceneLoadManager.instance.PoolManager);
     }
 
     void Update()
@@ -51,7 +50,6 @@ public class BattleManager : MonoBehaviour
                 if (curtime <= 0)
                 {
                     GenerateProjectile();
-                    Debug.Log("발사명령");
                     curtime = cooltime;
                 }
                 curtime -= Time.deltaTime;
@@ -86,13 +84,14 @@ public class BattleManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(adventureStart)
+        if (adventureStart)
             characterRigid.velocity = Vector2.zero;
     }
     public void AdventureStart()
     {
         adventureStart = true;
         playerHp = Character.instance.ActivePoint;
+        characterIsLive = true;
     }
     public void AdventureEnd()
     {
@@ -122,14 +121,12 @@ public class BattleManager : MonoBehaviour
         temMonster = Instantiate(monster, new Vector3(5, -2, 0f), Quaternion.identity) as Monster;
         temMonster.transform.GetChild(0).transform.localScale = new Vector3(-1f, 1f, 1f);
         temMonster.monsterDamage += Damaged;
-        temMonster.AddListenerMonsterAttackToPlayerEvent(Damaged); // Damaged 함수를 UnityAction 형태로 monster의 MonsterAttackEvent에 보내준다.
     }
     private void GenerateProjectile() // 플레이어 투사체 생성
     {
-        temProjectile = poolManager.GetFromPool<PlayerProjectile>(3);
+        temProjectile = AdventureGameManager.instance.pool.GetFromPool<PlayerProjectile>(3);
         temProjectile.transform.SetParent(Character.instance.transform);
         temProjectile.SetDamage(playerAtk);
-        temProjectile.playerDamage += MonsterDamaged;
         Character.instance.MyPlayerController.PlayAttackProcess();
     }
     public void Damaged(int damage)
@@ -137,11 +134,11 @@ public class BattleManager : MonoBehaviour
         if (Character.instance.ActivePoint <= damage)
         {
             PlayerDead();
-        } else
+        } else if (characterIsLive)
         {
             Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -damage);
+            Debug.Log("플레이어 피격. 남은 HP : " + playerHp);
         }
-        Debug.Log("플레이어 피격. 남은 HP : " + playerHp);
     }
     public void MonsterDamaged(int damage)
     {
@@ -168,8 +165,9 @@ public class BattleManager : MonoBehaviour
     }
     private void PlayerDead() // 모험 중 플레이어 사망
     {
-        Character.instance.MyPlayerController.PlayDieProcess(true);
+        characterIsLive = false;
         Character.instance.SetCharacterInput(false, false, false);
+        Character.instance.MyPlayerController.PlayDieProcess(true);
         Invoke("OnDead", 3f);
         
     }

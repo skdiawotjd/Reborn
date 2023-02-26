@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Projectile : MonoBehaviour
 {
-    public int damage;
+    private int damage;
     private float speed;
     private bool direction;
     public UnityAction<int> MonsterProjectileAttackEvent;
@@ -45,6 +45,10 @@ public class Projectile : MonoBehaviour
 
 
     }
+    public void SetDamage(int monsterDamage)
+    {
+        damage = monsterDamage;
+    }
     private void DestroyProjectile()
     {
         Destroy(gameObject);
@@ -52,12 +56,10 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("몬스터의 공격에 충돌한 개체" + collision.gameObject.tag);
         switch (collision.gameObject.tag)
         {
             case "Player":
-                //MonsterProjectileAttackEvent.Invoke(damage); //BattleManager에서 받아온 Damaged 함수를 Add 해놓은 MonsterAttackEvent를 Add한 MonsterProjectileAttackEvent를 실행
-                MonsterProjectileAttackEvent(damage);
+                AdventureGameManager.instance.battleManager.Damaged(damage);
                 DestroyProjectile();
                 break;
         }

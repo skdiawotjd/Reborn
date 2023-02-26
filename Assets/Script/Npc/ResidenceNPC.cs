@@ -19,14 +19,6 @@ public class ResidenceNPC : QuestNPC
     {
         switch (QuestNpcState)
         {
-            /*case QuestState.Chat:
-                ConversationManager.CurNpc = this;
-                ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
-                break;*/
-        }
-
-        switch (QuestNpcState)
-        {
             case QuestState.None:
                 QuestNpcState = QuestState.SelectResidence;
                 _chatType = 3;
@@ -54,31 +46,6 @@ public class ResidenceNPC : QuestNPC
 
     public override void FunctionEnd()
     {
-        switch (QuestNpcState)
-        {
-            /*case QuestState.QuestStand:
-                Debug.Log("asd");
-                //SetStory();
-
-                base.BaseFunctionEnd();
-                break;
-            case QuestState.QuestStart:
-
-                break;
-            case QuestState.QuestProgress:
-
-                break;
-            case QuestState.QuestEnd:
-
-                break;
-            case QuestState.Chat:
-                SetNpcNumber(11);
-                QuestNpcState = QuestState.QuestStart;
-
-                base.BaseFunctionEnd();
-                break;*/
-        }
-
         //base.FunctionEnd();
 
         switch (QuestNpcState)

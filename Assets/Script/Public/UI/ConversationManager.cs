@@ -39,7 +39,7 @@ public class ConversationManager : UIManager
     private int _conversationCount;             // 대화가 몇번 진행 되었는지
     [SerializeField]
     private string ChatName;                    // CSV 0번의 대사를 치는 캐릭터 이름
-    private bool _selectGame;                   // 외부에서 선택을 사용하는 경우
+    private bool OutsideSelect;                 // 외부에서 선택을 사용하는 경우
     private int SelectedButton;
     [SerializeField]
     private List<Button> SelectButtonList;
@@ -76,7 +76,7 @@ public class ConversationManager : UIManager
     public void AddSelectEvent(UnityAction<int> AddEvent)
     {
         SelectEvent.RemoveAllListeners();
-
+        OutsideSelect = false;
         SelectEvent.AddListener(AddEvent);
     }
 
@@ -199,14 +199,10 @@ public class ConversationManager : UIManager
             {
                 //Debug.Log("대사 시작 5 - ConversationCount가 ChatList[NpcToChat].Count보다 크므로 대사 끝");
                 SetActivePanel(_conversationPanelStillOpen);
+                _conversationPanelStillOpen = false;
 
                 if (_conversationCount == NowList[ChatCount].Count - 1)
                 {
-                    _conversationCount = -1;
-                    IsCanChat = false;
-                    _conversationPanelStillOpen = false;
-                    ChatName = "";
-
                     //Debug.Log("대사 시작 6 - 대사 끝");
                     if (_curNpc != null)
                     {
@@ -214,8 +210,15 @@ public class ConversationManager : UIManager
                     }
                     else
                     {
-                        _conversationCount = -1;
-                        IsCanChat = false;
+                        if(OutsideSelect)
+                        {
+                            _conversationCount = 1;
+                        }
+                        else
+                        {
+                            _conversationCount = -1;
+                            IsCanChat = false;
+                        }
 
                         Character.instance.MyPlayerController.ConversationNext = false;
                     }
@@ -289,16 +292,23 @@ public class ConversationManager : UIManager
     {
         yield return new WaitForSeconds(WaitTime);
 
+        ChatName = "";
         Character.instance.MyPlayerController.ConversationNext = Next;
         _curNpc.FunctionEnd();
     }
 
-    public void SetSelect(int SelectCount, ref List<Dictionary<string, object>> SelectList)
+    public void SetSelect(ref int ConversationCount, ref List<Dictionary<string, object>> SelectList)
     {
-        _selectPanelStillOpen = true;
-        ChatCount = SelectCount;
-        _conversationCount = 1;
+        // 최초로 외부 선택을 이용하는 것인지 확인
+        OutsideSelect = true;
+        //_selectPanelStillOpen = true;
+
+        // 외부 데이터 가져오기
+        ChatCount = ConversationCount;
         NowList = SelectList;
+
+        // 내부 데이터 셋
+        _conversationCount = 1;
         IsCanChat = true;
     }
 
@@ -351,14 +361,20 @@ public class ConversationManager : UIManager
             {
                 if (NowList[ChatCount]["Context" + _conversationCount].ToString().Length != 0)
                 {
-                    if (!SelectButtonList[i])
+                    // 널이 아니면
+                    if(SelectButtonList[i])
+                    {
+                        SelectButtonList[i].onClick.RemoveAllListeners();
+                    }
+                    // 널이면
+                    else
                     {
                         SelectButtonList[i] = Instantiate(SelectButton, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button;
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
+                        SelectButtonList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = NowList[ChatCount]["Context" + _conversationCount].ToString();
                     }
 
-                    SelectButtonList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = NowList[ChatCount]["Context" + _conversationCount].ToString();
                     int TemType = i;
                     SelectButtonList[i].onClick.AddListener(() =>
                     {

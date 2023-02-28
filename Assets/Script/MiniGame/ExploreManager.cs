@@ -28,6 +28,9 @@ public class ExploreManager : MonoBehaviour
     List<Dictionary<string, object>> mineralGoodsList;
     List<Dictionary<string, object>> exploreSelectFloatingMessage;
     private GameObject temObject;
+
+    private int ExploreConversationCount;
+
     void Start()
     {
         messageManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(5).GetComponent<MessageManager>();
@@ -41,10 +44,11 @@ public class ExploreManager : MonoBehaviour
         m_Message = "¶Ñ¹÷... ¶Ñ¹÷...";
         m_Message2 = "¹«¾ð°¥ ¹ß°ßÇß´Ù!";
         m_Message3 = "¸ó½ºÅÍ¸¦ ¸¶ÁÖÃÆ´Ù!";
+        ExploreConversationCount = 0;
 
         conversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
         conversationManager.AddSelectEvent(ExploreAction);
-        conversationManager.SetSelect(0, ref exploreSelectFloatingMessage);
+        conversationManager.SetSelect(ref ExploreConversationCount, ref exploreSelectFloatingMessage);
 
         Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.SetRunState(true);
@@ -81,9 +85,11 @@ public class ExploreManager : MonoBehaviour
         randomObjectNumber = Random.Range(0.001f, 1.000f);
         if (WhatIsFoundThings(randomObjectNumber, 0) == "monster")
         {
+            ExploreConversationCount = 1;
             battleManager.GenerateMonster();
         } else
         {
+            ExploreConversationCount = 0;
             temObject = Instantiate(randomObject, new Vector3(5, -2, transform.position.z), Quaternion.identity) as GameObject;
             temObject.name = WhatIsFoundThings(randomObjectNumber, 0);
         }

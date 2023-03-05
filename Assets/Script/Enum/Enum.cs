@@ -11,7 +11,7 @@ public enum Job
 }
 public enum CharacterStatType
 {
-    MySocialClass = 1, MyJob, MyAge, Reputation,
+    MySocialClass = 1, MyJob, /*MyAge,*/ Reputation,
     MyPositon, ActivePoint, Proficiency, MyItem,
     Smith, Bania,
     Knight, Alchemist,
@@ -22,9 +22,10 @@ public enum CharacterStatType
 
 public enum StartButtonOrder { New, Load, Exit }
 public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel, ConversationPanel }
-public enum UIInventoryOrder { Name, MySocialClass, MyJob, MyAge, TodoProgress, Item = 8 }
+public enum UIInventoryOrder { Name, MySocialClass, MyJob, /*MyAge,*/ ActivePoint, Reputation, Proficiency, MyItem = 8 }
 public enum UIMainButtonOrder { Setting, SkipDay }
-public enum UIMainImageOrders { Day, Qurter, ActivePoint, Job, Proficiency }
+public enum UIMainImageOrder { Time, ActivePoint, /*Qurter,*/ Job, Proficiency }
+public enum UIMainTextOrder { Days }
 //public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Resume, LoadClose, SoundClose, Back, BackOk, BackCancel }
 public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Back, Resume, LoadClose, SoundClose, BackOk, BackCancel }
 public enum UISettingPanelOrder { Pause, Save, Load, Sound, Back }

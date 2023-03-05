@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,10 @@ public class UIMainManager : UIManager
     private List<Button> MainButton;
     [SerializeField]
     private List<Image> MainImage;
+    [SerializeField]
+    private TextMeshProUGUI[] MainName;
+    [SerializeField]
+    private TextMeshProUGUI[] MainData;
 
     protected override void Start()
     {
@@ -35,11 +40,6 @@ public class UIMainManager : UIManager
 
     protected override void StartUI()
     {
-        /*if (!Panel.activeSelf)
-        {
-            SetActivePanel(true);
-        }*/
-
         foreach (var Button in MainButton)
         {
             Button.interactable = true;
@@ -65,7 +65,7 @@ public class UIMainManager : UIManager
         while (GameManager.instance.IsDayStart)
         {
             //DayImage.fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
-            MainImage[(int)UIMainImageOrders.Day].fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
+            MainImage[(int)UIMainImageOrder.Time].fillAmount = 1 - (GameManager.instance.PlayTime / GameManager.instance.TotalPlayTime);
 
             yield return Time.deltaTime;
         }
@@ -73,30 +73,36 @@ public class UIMainManager : UIManager
 
     public void ChangeMainUIType(CharacterStatType Type)
     {
-        if(Enum.TryParse(Type.ToString(), out UIMainImageOrders TemEnum))
+        if(Enum.TryParse(Type.ToString(), out UIMainImageOrder TemEnum))
         {
             ChangeMainUI(TemEnum);
         }
     }
 
-    private void ChangeMainUI(UIMainImageOrders Type)
+    //private void ChangeMainUI(UIMainImageOrder Type)
+    private void ChangeMainUI<T>(T Type)
     {
         switch (Type)
         {
-            // Qurter
+            // ActivePoint
+            case UIMainImageOrder.ActivePoint:
+                MainImage[(int)UIMainImageOrder.ActivePoint].fillAmount = (float)Character.instance.ActivePoint / 100f;
+                break;
+            /*// Qurter
             case UIMainImageOrders.Qurter:
                 MainImage[(int)UIMainImageOrders.Qurter].fillAmount = 1f - (float)(GameManager.instance.Days - 1) / 9f;
+                break;*/
+            // Days
+            case UIMainTextOrder.Days:
+                MainData[(int)UIMainTextOrder.Days].text = GameManager.instance.Days.ToString();
                 break;
-            // ActivePoint
-            case UIMainImageOrders.ActivePoint:
-                MainImage[(int)UIMainImageOrders.ActivePoint].fillAmount = (float)Character.instance.ActivePoint / 100f;
-                break;
-            case UIMainImageOrders.Job:
+            // Job
+            case UIMainImageOrder.Job:
                 //MainImage[(int)UIMainImageOrders.Job].sprite = "현 직업에 맞는 이미지 삽입";
                 break;
             // Proficiency
-            case UIMainImageOrders.Proficiency:
-                MainImage[(int)UIMainImageOrders.Proficiency].fillAmount = (float)Character.instance.Proficiency / 100f;
+            case UIMainImageOrder.Proficiency:
+                MainImage[(int)UIMainImageOrder.Proficiency].fillAmount = (float)Character.instance.Proficiency / 100f;
                 break;
         }
     }
@@ -113,12 +119,15 @@ public class UIMainManager : UIManager
 
     private void InitializeMainUI()
     {
-        foreach (int Order in Enum.GetValues(typeof(UIMainImageOrders)))
+        foreach (int Order in Enum.GetValues(typeof(UIMainImageOrder)))
         {
-            ChangeMainUI((UIMainImageOrders)Order);
+            ChangeMainUI((UIMainImageOrder)Order);
+        }
+        foreach (int Order in Enum.GetValues(typeof(UIMainTextOrder)))
+        {
+            ChangeMainUI((UIMainTextOrder)Order);
         }
 
-        //DayImage.fillAmount = 1f;
-        MainImage[(int)UIMainImageOrders.Day].fillAmount = 1f;
+        MainImage[(int)UIMainImageOrder.Time].fillAmount = 1f;
     }
 }

@@ -14,26 +14,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool _characterMovable;
     [SerializeField]
-    private bool UIControllable;
-    public bool ConversationNext;
+    private bool _uIControllable;
+    public bool _conversationNext;
     private float moveSpeed;
     private float InputX;
     private float InputY;
 
     public bool CharacterControllable
     {
-        get
-        {
-            return _characterControllable;
-        }
+        get { return _characterControllable; }
     }
     public bool CharacterMovable
     {
-        get
-        {
-            return _characterMovable;
-        }
+        get { return _characterMovable; }
     }
+    public bool UIControllable
+    {
+        get { return _uIControllable; }
+    }
+    public bool ConversationNext
+    {
+        set { _conversationNext = value; }
+        get { return _conversationNext; }
+    }
+
 
     private UnityEvent EventConversation;
     private UnityEvent<KeyDirection> EventSelect;
@@ -78,7 +82,7 @@ public class PlayerController : MonoBehaviour
         moveSpeed = 4.0f;
         _characterControllable = false;
         _characterMovable = false;
-        UIControllable = false;
+        _uIControllable = false;
         ConversationNext = false;
 
         Arrow = new Vector3(1.0f, 1.0f, 1.0f);
@@ -366,13 +370,13 @@ public class PlayerController : MonoBehaviour
     public void SetInput(bool CharacterInput, bool UIInput)
     {
         _characterControllable = CharacterInput;
-        UIControllable = UIInput;
+        _uIControllable = UIInput;
     }
     public void SetInput(bool CharacterInput,bool CharacterMove, bool UIInput)
     {
         _characterControllable = CharacterInput;
         _characterMovable = CharacterMove;
-        UIControllable = UIInput;
+        _uIControllable = UIInput;
     }
 
     private void EndPlayerController()
@@ -383,13 +387,13 @@ public class PlayerController : MonoBehaviour
         ConversationNext = false;
         _characterControllable = false;
         _characterMovable = false;
-        UIControllable = false;
+        _uIControllable = false;
     }
     private void StartPlayerController()
     {
         _characterControllable = true;
         _characterMovable = true;
-        UIControllable = true;;
+        _uIControllable = true;;
     }    
     public void SetRunState(bool state)
     {

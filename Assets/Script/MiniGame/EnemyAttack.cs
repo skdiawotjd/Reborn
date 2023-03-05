@@ -7,16 +7,11 @@ public class EnemyAttack : MonoBehaviour, IPoolObject
 {
     private Transform startPosition;
     private Vector3 endPosition;
-    private Rigidbody2D t_Rigidbody;
-    private Vector3 direction;
-    private Vector3 lookDirection;
-    private Quaternion lookRotation;
-    private Vector3 myPos;
-    private Vector3 targetPos;
-    private Vector3 quaternionToTarget;
-    private Quaternion targetRotation;
     private int damage;
     private string idName;
+    private Vector2 direction;
+    private Quaternion angleAxis;
+    private Quaternion rotation;
 
     private float lerpTime = 0.5f;
     private float currentTime = 0;
@@ -38,8 +33,6 @@ public class EnemyAttack : MonoBehaviour, IPoolObject
     }
     public void OnCreatedInPool()
     {
-        t_Rigidbody = Character.instance.GetComponent<Rigidbody2D>();
-        direction = Vector3.one;
         idName = "EnemyAttack";
     }
     public void OnGettingFromPool()
@@ -52,14 +45,11 @@ public class EnemyAttack : MonoBehaviour, IPoolObject
     }
     private void SetProjectileRotation()
     {
-        Debug.Log("투사체 위치 : " + this.transform.position.ToString());
-        Debug.Log("캐릭터 위치 : " + endPosition.ToString());
-        Vector2 direction2 = new Vector2(this.transform.position.x - endPosition.x, this.transform.position.y - endPosition.y);
-        float angle = Mathf.Atan2(direction2.y, direction2.x) * Mathf.Rad2Deg;
-        Debug.Log("두 오브젝트 사이의 각도 : " + angle);
-        Quaternion angleAxis = Quaternion.AngleAxis(angle + 90f, Vector3.forward);
-        Quaternion rotation = Quaternion.Slerp(this.transform.rotation, angleAxis, 5000);
-        Debug.Log("rotation 값 : " + angleAxis.ToString());
+        direction.x = this.transform.position.x - endPosition.x;
+        direction.y = this.transform.position.y - endPosition.y;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        angleAxis = Quaternion.AngleAxis(angle + 90f, Vector3.forward);
+        rotation = Quaternion.Slerp(this.transform.rotation, angleAxis, 5000);
         this.transform.rotation = rotation;
     }
     public void SetStartPosition(Transform start)

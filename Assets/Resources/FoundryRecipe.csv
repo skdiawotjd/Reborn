@@ -1,6 +1,7 @@
 ﻿Number,RecipeNumber,ItemNumber,ItemName,SourceImage,Percentage,Ingredient0,Ingredient1,Ingredient2,Ingredient3,Ingredient4
-0,3100,1600,ironingot,ironingot,100,10005
-1,3101,1601,bronzeingot,bronzeingot,100,10015
-2,3102,1602,silveringot,silveringot,100,10025
-3,3103,1603,goldingot,goldingot,100,10035
-4,3104,1604,platinumingot,platinumingot,100,10045
+0,3100,1600,ironingot,ironingot,100,10005,,,,
+1,3101,1601,bronzeingot,bronzeingot,100,10015,,,,
+2,3102,1602,silveringot,silveringot,100,10025,,,,
+3,3103,1603,goldingot,goldingot,100,10035,,,,
+4,3104,1604,platinumingot,platinumingot,100,10045,,,,
+5,3105,1605,mercuryingot,mercuryingot,100,10055,,,,

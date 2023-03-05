@@ -8,7 +8,7 @@ public class ExploreManager : MonoBehaviour
     private string m_Message;
     private string m_Message2;
     private string m_Message3;
-    private float m_Speed = 0.2f;
+    private float m_Speed = 0.05f;
     private int exploreCount = 0;
     private int maxExplore = 60;
 
@@ -254,7 +254,7 @@ public class ExploreManager : MonoBehaviour
             QuestManager.instance.ChangeMoveBG(true);
             StopCoroutine("Typing");
             StartCoroutine("CountOneSecond", 0.1f);
-            StartCoroutine("CountNNSecond", 10f);
+            StartCoroutine("CountNNSecond", 3f);
         }
         else
         {

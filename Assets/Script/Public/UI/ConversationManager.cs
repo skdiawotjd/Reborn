@@ -103,12 +103,10 @@ public class ConversationManager : UIManager
         InitializeConversationManager();
 
         GameManager.instance.AddGameStartEvent(InitializeNpcNumberChatType);
-        //GameManager.instance.AddSceneMoveEvent(ClearSelectEvent);
     }
 
     protected override void Start()
     {
-        //Character.instance.MyPlayerController.EventConversation.AddListener(() => { NextConversation(); });
         Character.instance.MyPlayerController.AddEventConversation(NextConversation);
         Character.instance.MyPlayerController.AddEventSelect(MiddleSelect);
     }
@@ -171,12 +169,12 @@ public class ConversationManager : UIManager
 
     private void NextConversation()
     {
-        if(IsCanChat)
+        if (IsCanChat)
         {
-            //Debug.Log("대사 시작 3 ConversationCount가 (" + ConversationCount + " < " + (ChatList[_chatCount].Count - 1) + ") 이면");
+            //Debug.Log("대사 시작 3 ConversationCount가 (" + ConversationCount + " < " + (ChatList[ChatCount].Count - 1) + ") 이면");
             if (_conversationCount < NowList[ChatCount].Count - 1)
             {
-                //Debug.Log("대사 시작 4 - " + "ChatList[" + _chatCount + "][Context" + ConversationCount + "] 출력");
+                //Debug.Log("대사 시작 4 - " + "ChatList[" + ChatCount + "][Context" + ConversationCount + "] 출력");
                 if (IsCatting)
                 {
                     StopCoroutine(TypingCourtine);
@@ -184,7 +182,7 @@ public class ConversationManager : UIManager
                 }
                 else
                 {
-                    if(ChatName.Length != 0)
+                    if (ChatName.Length != 0)
                     {
                         SetChatName();
                         TypingCourtine = StartCoroutine(Typing());
@@ -201,16 +199,17 @@ public class ConversationManager : UIManager
                 SetActivePanel(_conversationPanelStillOpen);
                 _conversationPanelStillOpen = false;
 
+                //Debug.Log("대사 시작 6 - 대사 끝");
                 if (_conversationCount == NowList[ChatCount].Count - 1)
                 {
                     //Debug.Log("대사 시작 6 - 대사 끝");
                     if (_curNpc != null)
                     {
-                        StartCoroutine(EndConversation(false, 0.2f));
+                        StartCoroutine(EndConversation(false, 0.15f));
                     }
                     else
                     {
-                        if(OutsideSelect)
+                        if (OutsideSelect)
                         {
                             _conversationCount = 1;
                         }
@@ -229,13 +228,22 @@ public class ConversationManager : UIManager
 
     private void SetChatName()
     {
-        for (int i = 0; i < CharacterNameList.Count; i++)
+        /*for (int i = 0; i < CharacterNameList.Count; i++)
         {
             if (CharacterNameList[i]["CharacterNumber"].ToString() == ChatName[_conversationCount - 1].ToString())
             {
                 NameText.text = CharacterNameList[i]["CharacterName"].ToString();
             }
+        }*/
+        try
+        {
+            NameText.text = CharacterNameList[ChatName[_conversationCount - 1] - '0']["CharacterName"].ToString();
         }
+        catch
+        {
+            NameText.text = CharacterNameList[1]["CharacterName"].ToString();
+        }
+        
     }
 
     IEnumerator Typing()
@@ -252,7 +260,7 @@ public class ConversationManager : UIManager
             int WordCount = 0;
             ContentText.text = "";
             Character.instance.MyPlayerController.ConversationNext = true;
-
+            //Debug.Log("Typing - " + Character.instance.MyPlayerController.ConversationNext);
             try
             {
                 if (ChatName[_conversationCount - 2] != ChatName[_conversationCount - 1])
@@ -264,8 +272,9 @@ public class ConversationManager : UIManager
             {
 
             }
+            
 
-            //Debug.Log(ContentText.text + " != " + ChatList[_chatCount]["Context" + ConversationCount].ToString());
+            //Debug.Log(ContentText.text + " != " + ChatList[ChatCount]["Context" + ConversationCount].ToString());
             while (ContentText.text != NowList[ChatCount]["Context" + _conversationCount].ToString())
             {
                 ContentText.text += NowList[ChatCount]["Context" + _conversationCount].ToString()[WordCount];
@@ -279,21 +288,25 @@ public class ConversationManager : UIManager
 
     private void EndTyping()
     {
-        if(ContentText.text != NowList[ChatCount]["Context" + _conversationCount].ToString())
+        if (ContentText.text != NowList[ChatCount]["Context" + _conversationCount].ToString())
         {
             ContentText.text = NowList[ChatCount]["Context" + _conversationCount].ToString();
         }
 
-        _conversationCount++;
         IsCatting = false;
+        _conversationCount++;
     }
 
     IEnumerator EndConversation(bool Next, float WaitTime)
     {
+        _conversationCount = -1;
+        IsCanChat = false;
         yield return new WaitForSeconds(WaitTime);
 
+        
         ChatName = "";
         Character.instance.MyPlayerController.ConversationNext = Next;
+        //Debug.Log("EndConversation - " + Character.instance.MyPlayerController.ConversationNext);
         _curNpc.FunctionEnd();
     }
 
@@ -309,6 +322,7 @@ public class ConversationManager : UIManager
 
         // 내부 데이터 셋
         _conversationCount = 1;
+        ChatName = "";
         IsCanChat = true;
     }
 
@@ -372,8 +386,8 @@ public class ConversationManager : UIManager
                         SelectButtonList[i] = Instantiate(SelectButton, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button;
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
-                        SelectButtonList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = NowList[ChatCount]["Context" + _conversationCount].ToString();
                     }
+                    SelectButtonList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = NowList[ChatCount]["Context" + _conversationCount].ToString();
 
                     int TemType = i;
                     SelectButtonList[i].onClick.AddListener(() =>

@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class ResidenceNPC : QuestNPC
 {
+    void Awake()
+    {
+        QuestNpcState = QuestState.None;
+        SetNpcNumber(3);
+        SetQuestNpcNumber(11);
+        SetChatType(3);
+        SetQuestData("00010", "7020", "1");
+    }
     protected override void Start()
     {
         base.Start();
-
-        SetNpcNumber(3);
-        SetChatType(3);
-        QuestNpcState = QuestState.None;
-        //SetStory();
-        SetQuestData("00010", "7010", "1");
     }
 
     protected override void FunctionStart()
@@ -21,12 +24,18 @@ public class ResidenceNPC : QuestNPC
         {
             case QuestState.None:
                 QuestNpcState = QuestState.SelectResidence;
-                _chatType = 3;
+                SetNpcNumber(3);
+                SetChatType(3);
                 ConversationManager.CurNpc = this;
                 ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                 break;
             case QuestState.Chat:
 
+                break;
+            case QuestState.QuestProgress:
+            case QuestState.QuestEnd:
+                //SetNpcNumber(11);
+                base.FunctionStart();
                 break;
             /*case QuestState.QuestStand:
             case QuestState.QuestStart:
@@ -54,7 +63,7 @@ public class ResidenceNPC : QuestNPC
                 base.BaseFunctionEnd();
                 break;
             case QuestState.SelectResidence:
-                _chatType = 2;
+                SetChatType(2);
                 ConversationManager.AddSelectEvent(SelectResidence);
                 ConversationManager.CurNpc = this;
                 ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
@@ -62,8 +71,6 @@ public class ResidenceNPC : QuestNPC
                 break;
             case QuestState.QuestStart:
                 QuestNpcState = QuestState.None;
-                _npcNumber = 3;
-                _chatType = 3;
                 base.BaseFunctionEnd();
                 break;
             case QuestState.QuestStand:
@@ -72,8 +79,15 @@ public class ResidenceNPC : QuestNPC
                 base.FunctionEnd();
                 break;
             case QuestState.Chat:
-                _chatType = 1;
+                SetChatType(1);
                 ConversationManager.AddSelectEvent(SelectResidence);
+                ConversationManager.CurNpc = this;
+                ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
+                Character.instance.MyPlayerController.InvokeEventConversation();
+                QuestNpcState = QuestState.None;
+                break;
+            case QuestState.Help:
+                SetChatType(0);
                 ConversationManager.CurNpc = this;
                 ConversationManager.NpcNumberChatType = NpcNumber.ToString() + "-" + ChatType.ToString();
                 Character.instance.MyPlayerController.InvokeEventConversation();
@@ -82,11 +96,10 @@ public class ResidenceNPC : QuestNPC
         }
     }
 
-    private void SetStory()
+    private void SetQuest()
     {
-        SetNpcNumber(3);
-        SetChatType(0);
-        QuestNpcState = QuestState.Chat;
+        SetNpcNumber(11);
+        SetChatType(6);
     }
 
     private void SelectResidence (int ButtonCount)
@@ -99,13 +112,13 @@ public class ResidenceNPC : QuestNPC
                 break;
             case 2:
                 Debug.Log("퀘스트 수주 선택");
-                SetNpcNumber(11);
-                SetChatType(6);
+                SetQuest();
                 QuestNpcState = QuestState.QuestStand;
                 base.FunctionStart();
                 break;
             case 4:
                 Debug.Log("도움말 선택");
+                QuestNpcState = QuestState.Help;
                 break;
             case 6:
                 Debug.Log("닫기 선택");

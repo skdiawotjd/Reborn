@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
         public string _myName;
         public SocialClass _mySocialClass;
         public Job _myJob;
-        public int _myAge;
+        //public int _myAge;
         public int _reputation;
         public string _myMapNumber;
         public int _activePoint;
@@ -51,10 +51,10 @@ public class Character : MonoBehaviour
     {
         get { return CharacterStat._myJob; }
     }
-    public int MyAge
+    /*public int MyAge
     {
         get { return CharacterStat._myAge; }
-    }
+    }*/
     public int Reputation
     {
         get { return CharacterStat._reputation; }
@@ -186,10 +186,10 @@ public class Character : MonoBehaviour
             case CharacterStatType.MyJob:
                 CharacterStat._myJob = (Job)StatType;
                 break;
-            // MyAge
+            /*// MyAge
             case CharacterStatType.MyAge:
                 CharacterStat._myAge = StatType;
-                break;
+                break;*/
             // Reputation
             case CharacterStatType.Reputation:
                 if(CharacterStat._reputation + StatType <= 100)
@@ -348,24 +348,27 @@ public class Character : MonoBehaviour
         // 2. 계급/직업 설정
         CharacterStat._mySocialClass = SocialClass.Helot;
         CharacterStat._myJob = Job.Slayer;
-        // 3. 나이 설정
-        CharacterStat._myAge = 10;
-        // 4. 진행도 설정
+        /*// 3. 나이 설정
+        CharacterStat._myAge = 10;*/
+        // 4. 평판 설정
         CharacterStat._reputation = 0;
         // 5. 위치 설정
         CharacterStat._myMapNumber = "0007";
         // 6. 활동력 설정
         CharacterStat._activePoint = 100;
-        // 7. 스택 설정
+        // 7. 숙련도 설정
+        CharacterStat._proficiency = 0;
+        // 8. 스택 설정
         InitializeStack();
-        // 8. 작업 속도 설정
+        // 9. 작업 속도 설정
         CharacterStat.MyWorkSpeed = 1.0f;
     }
 
     public void CharacterStatSetting(Job StartJob)
     {
         CharacterStat._myJob = StartJob;
-
+        // 2. 계급/직업 설정
+        // 6. 활동력 설정
         switch (StartJob)
         {
             case Job.Slayer:
@@ -396,17 +399,17 @@ public class Character : MonoBehaviour
 
         // 1. 이름 설정
         CharacterStat._myName = "주인공";
-
-        // 3. 나이 설정
-        CharacterStat._myAge = 10;
-        // 4. 진행도 설정
+        /*// 3. 나이 설정
+        CharacterStat._myAge = 10;*/
+        // 4. 평판 설정
         CharacterStat._reputation = 0;
         // 5. 위치 설정
         CharacterStat._myMapNumber = "0" + ((int)CharacterStat._myJob).ToString() + "02";
-
-        // 7. 스택 설정
+        // 7. 숙련도 설정
+        CharacterStat._proficiency = 0;
+        // 8. 스택 설정
         InitializeStack();
-        // 8. 작업 속도 설정
+        // 9. 작업 속도 설정
         CharacterStat.MyWorkSpeed = 1.0f;
     }
 
@@ -414,8 +417,8 @@ public class Character : MonoBehaviour
     {
         //InitializeMapNumber
         CharacterStat._myMapNumber = "0" + ((int)CharacterStat._myJob).ToString() + "02";
-        // 3. 나이 설정
-        CharacterStat._myAge = 10;
+        /*// 3. 나이 설정
+        CharacterStat._myAge = 10;*/
         // 6. 활동력 설정
         CharacterStat._activePoint = 100;
     }
@@ -464,7 +467,7 @@ public class Character : MonoBehaviour
     private void EndCharacter()
     {
         CharacterStat._activePoint = 100;
-        CharacterStat._myAge += 1;
+        /*CharacterStat._myAge += 1;*/
     }
     public void SaveCharacter()
     {

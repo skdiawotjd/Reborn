@@ -41,10 +41,24 @@ public class UIInventoryManager : UIManager
     protected override void StartUI()
     {
         // UI 데이터 초기화
-        foreach (int Order in Enum.GetValues(typeof(UIInventoryOrder)))
+        foreach (UIInventoryOrder Order in Enum.GetValues(typeof(UIInventoryOrder)))
         {
-            UpdateInventoryStat((CharacterStatType)Order);
+            try
+            {
+                /*foreach (int Order in Enum.GetValues(typeof(UIInventoryOrder)))
+                {
+                    UpdateInventoryStat((CharacterStatType)Order);
+                }*/
+                UpdateInventoryStat((CharacterStatType)Enum.Parse(typeof(CharacterStatType), Order.ToString()));
+                //Debug.Log((CharacterStatType)Enum.Parse(typeof(CharacterStatType), Order.ToString()));
+            }
+            catch
+            {
+                UpdateInventoryStat((CharacterStatType)Order);
+                //Debug.Log((CharacterStatType)Order);
+            }
         }
+
     }
 
     protected override void EndUI()
@@ -91,6 +105,7 @@ public class UIInventoryManager : UIManager
 
     public void UpdateInventoryStat(CharacterStatType Type)
     {
+        //Debug.Log(Type);
         switch (Type)
         {
             // MyName
@@ -105,15 +120,19 @@ public class UIInventoryManager : UIManager
             case CharacterStatType.MyJob:
                 InfoData[2].text = Character.instance.MyJob.ToString();
                 break;
-            // MyAge
+            /*// MyAge
             case CharacterStatType.MyAge:
                 InfoData[3].text = Character.instance.MyAge.ToString();
+                break;*/
+            // MyAge
+            case CharacterStatType.ActivePoint:
+                InfoData[3].text = Character.instance.ActivePoint.ToString();
                 break;
             // Reputation
             case CharacterStatType.Reputation:
                 InfoData[4].text = Character.instance.Reputation.ToString();
                 break;
-            // Reputation
+            // Proficiency
             case CharacterStatType.Proficiency:
                 InfoData[5].text = Character.instance.Proficiency.ToString();
                 break;

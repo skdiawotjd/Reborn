@@ -436,7 +436,7 @@ public class GameManager : MonoBehaviour
         string path = SaveDataDirectory.ToString() + "SaveDataList.csv";
         string str = "\n" + _saveDataCount.ToString() + "," + 
             ((int)Character.instance.MyJob).ToString() + "," + 
-            Character.instance.MyAge.ToString() + "," + 
+            /*Character.instance.MyAge.ToString() + "," + */
             PlayTime + "," + 
             Character.instance.MyMapNumber.ToString() + "," + 
             Round.ToString();

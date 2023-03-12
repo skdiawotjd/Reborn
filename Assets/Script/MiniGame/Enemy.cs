@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour, IPoolObject
     private int damage;
     public float playerDamage;
     private Rigidbody2D target;
-    private SpriteRenderer spriter;
     [SerializeField]
     private SPUM_Prefab Spum;
     public string idName;
@@ -33,7 +32,6 @@ public class Enemy : MonoBehaviour, IPoolObject
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        spriter = GetComponent<SpriteRenderer>();
         direction = new Vector3(2f, 2f, 1f);
 
     }

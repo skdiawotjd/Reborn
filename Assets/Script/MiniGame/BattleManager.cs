@@ -98,11 +98,6 @@ public class BattleManager : MonoBehaviour
         adventureStart = false;
         hitArea.enabled = false;
     }
-    public void DisableAttack()
-    {
-        Debug.Log("isAttack : " + isAttack);
-        isAttack = false;
-    }
     public void StartBattle()
     {
         battleStart = true;
@@ -120,7 +115,6 @@ public class BattleManager : MonoBehaviour
     {
         temMonster = Instantiate(monster, new Vector3(5, -2, 0f), Quaternion.identity) as Monster;
         temMonster.transform.GetChild(0).transform.localScale = new Vector3(-1f, 1f, 1f);
-        temMonster.monsterDamage += Damaged;
     }
     private void GenerateProjectile() // 플레이어 투사체 생성
     {
@@ -169,7 +163,6 @@ public class BattleManager : MonoBehaviour
         Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.PlayDieProcess(true);
         Invoke("OnDead", 3f);
-        
     }
     private void OnDead() // 사망 시 플레이 기능
     {

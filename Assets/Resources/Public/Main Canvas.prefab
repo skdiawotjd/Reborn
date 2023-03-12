@@ -9770,12 +9770,12 @@ MonoBehaviour:
   SelectPanel: {fileID: 4566708724276818142}
   SelectButton: {fileID: 5741394207413209634, guid: 14adc45b4eb74894f9b7018d25e8e029, type: 3}
   _curNpc: {fileID: 0}
-  IsCanChat: 0
+  IsCanChat: 1
   IsCatting: 0
   _conversationPanelStillOpen: 0
   _selectPanelStillOpen: 0
   ChatCount: 0
-  _conversationCount: 0
+  _conversationCount: 1
   ChatName: 
   SelectButtonList: []
 --- !u!1 &6515964230565217480
@@ -15226,7 +15226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Context
+  m_text: "\uBB34\uC5B8\uAC08 \uBC1C\uACAC\uD588\uB2E4!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 49cb6a8cd944a584d89985c59d228bca, type: 2}
   m_sharedMaterial: {fileID: 7182149105789109290, guid: 49cb6a8cd944a584d89985c59d228bca, type: 2}

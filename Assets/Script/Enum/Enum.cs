@@ -19,7 +19,7 @@ public enum CharacterStatType
     King,
     Commons, People, Noble
 }
-
+public enum ItemType { Plus = 4, Minus }
 public enum StartButtonOrder { New, Load, Exit }
 public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel, ConversationPanel }
 public enum UIInventoryOrder { Name, MySocialClass, MyJob, /*MyAge,*/ ActivePoint, Reputation, Proficiency, MyItem = 8 }

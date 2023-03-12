@@ -13,9 +13,6 @@ public class MGTimingManager : MiniGameManager
     private float randomNumber;
     private int temNumber;
     private int timingRound;
-    [SerializeField]
-    private GameObject Anvil;
-    private GameObject temImage;
     
     private void Awake()
     {
@@ -26,8 +23,6 @@ public class MGTimingManager : MiniGameManager
     {
         base.Start();
         panelActiveSelf = false;
-
-
     }
 
     // Update is called once per frame
@@ -100,10 +95,6 @@ public class MGTimingManager : MiniGameManager
         timingChangeDirection = true;
         timingGameActive = true;
         timingRound = 0;
-/*        if (Character.instance.MyMapNumber == "0004")
-        {
-            temImage = Instantiate(Anvil) as GameObject;
-        }*/
         SetMainWork();
     }
     public override void SetMainWork() // SetTimingPosition()

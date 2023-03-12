@@ -20,25 +20,6 @@ public class MGDDRManager : MiniGameManager
     private TextMeshProUGUI timeText;
     Arrow[] arrowArray;
     private Slider timeSlider;
-    private GameObject temImage;
-    private SpriteRenderer temSprite;
-    [SerializeField]
-    private GameObject MinigameClothImage;
-    [SerializeField]
-    private Sprite MinigameCloth2;
-    [SerializeField]
-    private Sprite MinigameCloth3;
-    [SerializeField]
-    private Sprite Tshirt1;
-    [SerializeField]
-    private Sprite Tshirt2;
-    [SerializeField]
-    private Sprite Tshirt3;
-    [SerializeField]
-    private Sprite Tshirt4;
-    [SerializeField]
-    private GameObject BookObject;
-    [SerializeField]
 
     private void Awake()
     {
@@ -113,7 +94,6 @@ public class MGDDRManager : MiniGameManager
         StopCoroutine("CountTime");
         timeSlider.gameObject.SetActive(false);
         timeText.gameObject.SetActive(false);
-        Destroy(temImage);
         gameActive = false;
         Character.instance.SetCharacterInput(true, true, true);
         QuestManager.instance.MinigameClear(true);
@@ -133,15 +113,6 @@ public class MGDDRManager : MiniGameManager
     {
         playTime = 60.0f; // 플레이 타임을 정한다
         timeSlider.maxValue = playTime; // 플레이 타임에 맞게 시간 프로그레스 바의 최대값을 정해준다
-        if (Character.instance.MyMapNumber == "0002")
-        {
-            temImage = Instantiate(MinigameClothImage) as GameObject;
-            temSprite = temImage.GetComponent<SpriteRenderer>();
-        }
-        else
-        {
-            //temImage = Instantiate(BookObject) as GameObject;
-        }
         StartCoroutine("CountTime", 0.1);
     }
     public override void SetMainWork(int key) // setKey()
@@ -163,31 +134,7 @@ public class MGDDRManager : MiniGameManager
         {
             arrowArray[i] = Instantiate(arrow, new Vector3(transform.position.x + 2f * i, transform.position.y, transform.position.z), Quaternion.identity) as Arrow;
             // 부모 오브젝트 설정. 부모의 transform을 받기 위함
-            switch(Character.instance.MyMapNumber)
-            {
-                case "0002":
-                    if(RandomKey[i] == 0)
-                    {
-                        arrowArray[i].GetComponent<SpriteRenderer>().sprite = Tshirt1;
-                    }
-                    else if(RandomKey[i] == 1)
-                    {
-                        arrowArray[i].GetComponent<SpriteRenderer>().sprite = Tshirt2;
-                    }
-                    else if(RandomKey[i] == 2)
-                    {
-                        arrowArray[i].GetComponent<SpriteRenderer>().sprite = Tshirt3;
-                    }
-                    else if (RandomKey[i] == 3)
-                    {
-                        arrowArray[i].GetComponent<SpriteRenderer>().sprite = Tshirt4;
-                    }
-                    arrowArray[i].transform.localScale = Vector3.one;
-                    break;
-                default:
-                    arrowArray[i].transform.Rotate(0, 0, 90 * RandomKey[i]);
-                    break;
-            }
+            arrowArray[i].transform.Rotate(0, 0, 90 * RandomKey[i]);
         }
     }
     public override void PressKey(int key)
@@ -207,17 +154,6 @@ public class MGDDRManager : MiniGameManager
                             keyCount = 0;
                             if (round++ != maxRound)
                             {
-                                if (Character.instance.MyMapNumber == "0002")
-                                {
-                                    if (round == maxRound)
-                                    {
-                                        temSprite.sprite = MinigameCloth3;
-                                    }
-                                    else
-                                    {
-                                        temSprite.sprite = MinigameCloth2;
-                                    }
-                                }
                                 SetRound(round);
                             }
                             else

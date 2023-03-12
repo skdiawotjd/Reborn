@@ -96,11 +96,6 @@ public class UIQuestManager : UIManager
             if (QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].job == Character.instance.MyJob.ToString())
             {
                 mainQuestOrder = i;
-                // 메인 퀘스트 패널 생성
-                Debug.Log("메인 퀘스트 패널 생성");
-                //temQuestPanel[index] = Instantiate(addMainQuestPanel, newPos, Quaternion.identity) as GameObject;
-                //temQuestPanel[index].transform.SetParent(MainQuestPanel.transform);
-                //temQuestPanel[index].transform.position = newPos;
 
                 MainQuestContentsPanel.SetActive(true);
                 mainQuestPanelText.text = QuestManager.instance.MyQuest[QuestManager.instance.QuestOrder[i]].questContents;

@@ -9,14 +9,11 @@ public class Monster : MonoBehaviour
     private SPUM_Prefab Spum;
     public Projectile projectile;
     private Projectile temProjectile;
-    public delegate void MonsterDamage(int target);
-    public MonsterDamage monsterDamage;
     private int monsterHp;
     private int monsterAtk;
     public bool battle;
     private float curtime;
     private float cooltime;
-    public UnityAction<int> MonsterProjectileAttackEvent2;
     // Start is called before the first frame update
     void Start()
     {

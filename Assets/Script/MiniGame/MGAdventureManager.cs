@@ -45,15 +45,6 @@ public class MGAdventureManager : MiniGameManager
 
         GameStart();
     }
-/*    private void InitObjectList()
-    {
-        for(int i = 0; i < maxRound; i++)
-        {
-            temRound = i;
-            adventureEnemyLevel[temRound] = new List<int>();
-            adventureEnemyCount[temRound] = new List<int>();
-        }
-    }*/
     public void SetAdventurePortal(AdventurePortal adventurePortal)
     {
         portal = adventurePortal;
@@ -66,10 +57,6 @@ public class MGAdventureManager : MiniGameManager
             adventureEnemyLevel.Add(int.Parse(AdventureEnemyList[adventureLevel]["EnemyLevel" + i].ToString()));
             adventureEnemyCount.Add(int.Parse(AdventureEnemyList[adventureLevel]["EnemyCount" + i].ToString()));
         }
-    }
-    private void Update()
-    {
-        
     }
     public void ChangeEnemyCount(int count)
     {
@@ -118,7 +105,6 @@ public class MGAdventureManager : MiniGameManager
         Character.instance.SetCharacterStat(CharacterStatType.MyItem, "00003000");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
     }
-
     public override void SetRound(int round)
     {
         portal.gameObject.SetActive(false);

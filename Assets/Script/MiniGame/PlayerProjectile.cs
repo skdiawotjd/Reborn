@@ -32,7 +32,6 @@ public class PlayerProjectile : MonoBehaviour
         if(direction)
         {
             transform.position = new Vector3(transform.position.x + (Time.deltaTime * 8f), transform.position.y, transform.position.z);
-            //transform.Translate(transform.right * speed * Time.deltaTime);
             rotatePosition.z += Time.deltaTime * rotateSpeed;
             transform.Rotate(rotatePosition);
         } else

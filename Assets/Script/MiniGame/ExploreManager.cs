@@ -10,7 +10,7 @@ public class ExploreManager : MonoBehaviour
     private string m_Message3;
     private float m_Speed = 0.05f;
     private int exploreCount = 0;
-    private int maxExplore = 60;
+    private int maxExplore = 300;
 
     private ConversationManager conversationManager;
     private bool waitActive;
@@ -57,12 +57,6 @@ public class ExploreManager : MonoBehaviour
 
         StartCoroutine("CountOneSecond", 0.1f);
         StartCoroutine("CountNNSecond", 3f);
-    }
-
-
-    void Update()
-    {
-
     }
 
     public void ChangeMessage(string message) // 메세지창의 메세지를 바꿔준다
@@ -150,23 +144,6 @@ public class ExploreManager : MonoBehaviour
 
     private void FloatingChoiceMessage() // 발견한 무언가에 대해 행동 선택지를 띄워준다.
     {
-        /*        switch (itemList[ObjectNumber]["Number"].ToString())
-                {
-                    case "0":
-                    case "1":
-                    case "2":
-                    case "3":
-                    case "4":
-                    case "5":
-                    case "7":
-                        floatingOptionManager.GenerateOptionButton(true, ExploreAction);
-                        break;
-                    case "6":
-                        floatingOptionManager.GenerateOptionButton(false, ExploreAction);
-                        break;
-                }
-                floatingOptionManager.optionPanel.gameObject.SetActive(true);*/
-
         Character.instance.MyPlayerController.InvokeEventConversation();
     }
     public void ExploreAction(int actionNumber)
@@ -276,93 +253,6 @@ public class ExploreManager : MonoBehaviour
             Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013"); // 대장장이의 Town
             UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
         }
-    }
-   
-    public void ExploreAction2(int actionNumber)
-        {
-        /*        switch(actionNumber)
-                {
-                    case 0:
-                        Debug.Log("오픈박스");
-
-                        switch (itemList[ObjectNumber]["Number"].ToString())
-                        {
-                            case "0":
-                            case "1":
-                            case "2":
-                                Character.instance.SetCharacterStat(CharacterStatType.MyItem, WhatIsFoundThings(randomObjectNumber, 1) + ProbabilityOfHowMany());
-                                ChangeMessage(boxGoodsList[goodsNumber]["Name"].ToString() + "를 획득했다!");
-                                break;
-                            case "3":
-                            case "4":
-                            case "5":
-                                Character.instance.SetCharacterStat(CharacterStatType.MyItem, WhatIsFoundThings(randomObjectNumber, 2) + ProbabilityOfHowMany());
-                                ChangeMessage(mineralGoodsList[goodsNumber]["Name"].ToString() + "를 획득했다!");
-                                break;
-                            case "7":
-                                Character.instance.SetCharacterStat(CharacterStatType.MyItem, "00001000"); // 재화 획득 임시
-                                ChangeMessage("1000" + itemList[ObjectNumber]["Name"].ToString() + "를 획득했다!");
-                                break;
-                        }
-
-                        // 획득한 재화 품에 넣는 기능
-                        exploreCount++;
-                        if(exploreCount != maxExplore)
-                        {
-                            StartCoroutine(CountGoToNext(5f));
-                        } else
-                        {
-                            ExploreAction(2);
-                        }
-
-                        // 상자를 열어본다 선택지를 골랐을 시 기능
-                        break;
-                    case 1:
-                        Debug.Log("무시");
-                        exploreCount++;
-                        if (exploreCount != maxExplore)
-                        {
-                            if(temObject != null)
-                            {
-                                Destroy(temObject);
-                            } else if(battleManager.GetExistTemMonster())
-                            {
-                                battleManager.DestroyTemMonster();
-                            }
-                            Character.instance.MyPlayerController.SetRunState(true);
-                            QuestManager.instance.ChangeMoveBG(true);
-                            StopCoroutine("Typing");
-                            StartCoroutine("CountOneSecond", 0.1f);
-                            StartCoroutine("CountNNSecond", 10f);
-                        } else
-                        {
-                            ExploreAction(2);
-                        }
-                        break;
-                    // 무시하고 지나간다 선택지를 골랐을 시 기능
-                    case 2:
-                        Debug.Log("도망");
-                        messageManager.setMessagePanel(false);
-                        Character.instance.SetCharacterInput(true, true, true);
-                        if(Character.instance.MyJob == Job.Slayer)
-                        {
-                            Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0001");
-                            UnityEngine.SceneManagement.SceneManager.LoadScene("Minigame");
-                        } else
-                        {
-                            Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013"); // 대장장이의 Town
-                            UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
-                        }
-                        // 도망간다 선택지를 골랐을 시 기능
-                        break;
-                    case 3: // 말 걸어본다 선택지를 골랐을 시 기능
-                        battleManager.StartBattle();
-                        StopCoroutine("Typing");
-                        ChangeMessage(m_Message3);
-                        // 전투
-                        break;
-                }
-                floatingOptionManager.optionPanel.gameObject.SetActive(false);*/
     }
     private string ProbabilityOfHowMany() // 나온 아이템이 몇 개일 확률
     {

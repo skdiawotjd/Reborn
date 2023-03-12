@@ -7,13 +7,10 @@ using UnityEngine.Events;
 
 public class QuestManager : MonoBehaviour
 {
-    private List<string> MainQuest;
     public List<string> QuestOrder;
     public Dictionary<string, Quest> MyQuest;
     private Quest temQuest;
     public bool questChanges;
-    List<Dictionary<string, object>> TodoNumberlist;
-    private string TodoMapNumber;
 
     private List<Dictionary<string, object>> UniqueQuestList;
     private List<Dictionary<string, object>> QuestNumberList;
@@ -22,7 +19,6 @@ public class QuestManager : MonoBehaviour
     public bool questEnd;
     public bool subQuestStart = false;
     public bool moveBG;
-    private int temNumber;
     private string itemNumberString;
     private string itemNumberChar;
     private string nextQuestString;
@@ -57,7 +53,6 @@ public class QuestManager : MonoBehaviour
 
     void Start()
     {
-        MainQuest = new List<string>();
         QuestOrder = new List<string>();
         MyQuest = new Dictionary<string, Quest>();
         Character.instance.SetCharacterStat(CharacterStatType.MyItem, "70000");
@@ -114,19 +109,27 @@ public class QuestManager : MonoBehaviour
             case "0009":
                 Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
                 break;
-            // 대장장이
-            case "0103":
-            case "0104":
-            case "0005":
-            case "0108":
-            case "0109":
-            // 상인
-            case "0203":
-            case "0204":
-            case "0105":
-            case "0208":
-            case "0209":
-                Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10); // 활동력 -10
+        }
+        switch(Character.instance.MySocialClass)
+        {
+            case SocialClass.Commons: // 내 계급이 평민이라면
+                switch(Character.instance.MyMapNumber.Substring(2,2))
+                {
+                    case "03": // DDR일 때 ex) 주조
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
+                        break;
+                    case "04": // 타이밍일 때 ex) 제작
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
+                        break;
+                    case "05": // 퀴즈일 때
+                        break;
+                    case "08": // 탐험일 때
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
+                        break;
+                    case "09": // 모험일 때
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
+                        break;
+                }
                 break;
         }
         Debug.Log("ActivePoint 감소, 현재 수치 : " + Character.instance.ActivePoint);
@@ -204,6 +207,16 @@ public class QuestManager : MonoBehaviour
             Character.instance.SetCharacterStat(CharacterStatType.MyItem, rewards[j]);
             Debug.Log("보상 획득 : " + rewards[j].Substring(0,4) + " 아이템 " + rewards[j][4] + "개 획득");
         }
+        if(Character.instance.Reputation >= 100) // 평판이 100이거나 100을 넘었다면
+        {
+            // 스택 증가
+            Character.instance.SetCharacterStat(CharacterStatType.Knight, 10);
+        }
+        else // 평판이 100 이하라면
+        {
+            // 평판 증가
+            Character.instance.SetCharacterStat(CharacterStatType.Reputation, 13);
+        }
     }
     public void QuestClear(string itemNumberString)
     {
@@ -219,9 +232,9 @@ public class QuestManager : MonoBehaviour
                 {
                     // 메인 퀘스트 클리어
                     // 메인 퀘스트 아이템 제거
-                    //Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring((int)ItemType.Plus, (itemNumberString.Length - (int)ItemType.Plus)));
+                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring((int)ItemType.Plus, (itemNumberString.Length - (int)ItemType.Plus)));
                     //Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString.Substring(4, (itemNumberString.Length - 4)));
-                    Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString[4]);
+                    //Character.instance.SetCharacterStat(CharacterStatType.MyItem, itemNumberString.Substring(0, 4) + "-" + itemNumberString[4]);
                     RemoveQuest(itemNumberString.Substring(0, 4));
                     // 메인 퀘스트 보상 수령
                     Character.instance.SetCharacterStat(CharacterStatType.Reputation, 20);
@@ -245,26 +258,6 @@ public class QuestManager : MonoBehaviour
     public void BoxCount()
     {
         EventCountChange.Invoke();
-    }
-
-    public void SetPreMapNumber(string PreMapNumber)
-    {
-        TodoMapNumber = PreMapNumber;
-    }
-
-    public bool CompareMapNumber(string MapNumber)
-    {
-        for(int i = 0; i < MainQuest.Count; i++)
-        {
-            if(MainQuest[i] == MapNumber)
-                return true;
-        }
-        /*for (int i = 0; i < SubQuest.Count; i++)
-        {
-            if (SubQuest[i] == MapNumber)
-                return true;
-        }*/
-        return false;
     }
     public void ChangeMoveBG(bool move) // 탐험에서 배경이 움직일 지 안 움직일지를 판단하는 변수를 바꿔준다.
     {

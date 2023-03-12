@@ -23,14 +23,6 @@ public class EnemyAttack : MonoBehaviour, IPoolObject
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private void LateUpdate()
-    {
-
-    }
     public void OnCreatedInPool()
     {
         idName = "EnemyAttack";

@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
-    private enum ItemType { Plus = 4, Minus }
-
     [Serializable]
     public struct Stat
     {

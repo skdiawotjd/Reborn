@@ -39,6 +39,7 @@ public class ConversationManager : UIManager
     private int _conversationCount;             // 대화가 몇번 진행 되었는지
     [SerializeField]
     private string ChatName;                    // CSV 0번의 대사를 치는 캐릭터 이름
+    [SerializeField]
     private bool OutsideSelect;                 // 외부에서 선택을 사용하는 경우
     private int SelectedButton;
     [SerializeField]
@@ -195,6 +196,7 @@ public class ConversationManager : UIManager
             }
             else
             {
+                Debug.Log("1");
                 //Debug.Log("대사 시작 5 - ConversationCount가 ChatList[NpcToChat].Count보다 크므로 대사 끝");
                 SetActivePanel(_conversationPanelStillOpen);
                 _conversationPanelStillOpen = false;
@@ -202,19 +204,24 @@ public class ConversationManager : UIManager
                 //Debug.Log("대사 시작 6 - 대사 끝");
                 if (_conversationCount == NowList[ChatCount].Count - 1)
                 {
+                    Debug.Log("2");
                     //Debug.Log("대사 시작 6 - 대사 끝");
                     if (_curNpc != null)
                     {
+                        Debug.Log("3");
                         StartCoroutine(EndConversation(false, 0.15f));
                     }
                     else
                     {
+                        Debug.Log("4");
                         if (OutsideSelect)
                         {
+                            Debug.Log("5");
                             _conversationCount = 1;
                         }
                         else
                         {
+                            Debug.Log("6");
                             _conversationCount = -1;
                             IsCanChat = false;
                         }

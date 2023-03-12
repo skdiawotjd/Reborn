@@ -376,7 +376,7 @@ public class Character : MonoBehaviour
                 CharacterStat._activePoint = 100;
                 break;
             case Job.Smith:
-            case Job.Bania:
+            case Job.Adventurer:
                 CharacterStat._mySocialClass = SocialClass.Commons;
                 CharacterStat._activePoint = 100;
                 break;

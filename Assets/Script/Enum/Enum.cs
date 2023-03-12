@@ -4,7 +4,7 @@ public enum SocialClass { Helot, Commons, SemiNoble, Noble, King }
 public enum Job
 {
     Slayer,
-    Smith, Bania,
+    Smith, Adventurer,
     Knight, Alchemist,
     LowNobility, MiddleNobility, HighNobility,
     King

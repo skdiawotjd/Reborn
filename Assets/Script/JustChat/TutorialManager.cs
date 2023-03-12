@@ -43,7 +43,7 @@ public class TutorialManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        _step = 3;
+        _step = 0;
         _stepDetail = 0;
 
         WaitFixedUpdate = new WaitForFixedUpdate();
@@ -257,7 +257,7 @@ public class TutorialManager : MonoBehaviour
                         SceneManager.LoadScene("MiniGame");
                         break;
                     case 5:
-                        // Debug.Log(" 5 메인퀘스트 완료, 대화/대기 ");
+                         Debug.Log(" 5 메인퀘스트 완료, 대화/대기 ");
                         //Character.instance.SetCharacterStat(CharacterStatType.MyItem, "99991");
                         Character.instance.SetCharacterStat(CharacterStatType.MyItem, "100010");
 
@@ -269,13 +269,13 @@ public class TutorialManager : MonoBehaviour
                         StartCoroutine(NextStepDetail());
                         break;
                     case 6:
-                        // 6 플레이어가 직접 다음 맵으로 이동 Debug.Log("");
+                          Debug.Log("6 플레이어가 직접 다음 맵으로 이동");
                         Character.instance.SetCharacterInput(true, true, false);
 
                         _stepDetail++;
                         break;
                     case 7:
-                        // 7 지정한 맵으로 이동했는지 확인 Debug.Log("");
+                          Debug.Log("7 지정한 맵으로 이동했는지 확인");
                         NextMapNumber = "0003";
 
                         if (NextMapNumber == Character.instance.MyMapNumber)
@@ -293,7 +293,7 @@ public class TutorialManager : MonoBehaviour
                         }
                         break;
                     case 8:
-                        // 8 잘못 이동한 경우 다시 원래 씬으로 이동 Debug.Log("");
+                          Debug.Log("8 잘못 이동한 경우 다시 원래 씬으로 이동");
                         NextMapNumber = "0001";
                         Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
 
@@ -301,7 +301,7 @@ public class TutorialManager : MonoBehaviour
                         SceneManager.LoadScene("MiniGame");
                         break;
                     case 9:
-                        //9 Debug.Log("9 지정한 일 완료, 대화/대기");
+                         Debug.Log("9 지정한 일 완료, 대화/대기");
                         if (Character.instance.MyItemManager.IsExistItem("1600"))
                         {
                             Character.instance.SetCharacterStat(CharacterStatType.MyItem, "16009");
@@ -316,13 +316,13 @@ public class TutorialManager : MonoBehaviour
                         }
                         break;
                     case 10:
-                        // Debug.Log("10 플레이어가 직접 다음 맵으로 이동");
+                         Debug.Log("10 플레이어가 직접 다음 맵으로 이동");
                         Character.instance.SetCharacterInput(true, true, false);
 
                         _stepDetail++;
                         break;
                     case 11:
-                        // Debug.Log("11 지정한 맵으로 이동했는지 확인");
+                         Debug.Log("11 지정한 맵으로 이동했는지 확인");
                         NextMapNumber = "0004";
 
                         if (NextMapNumber == Character.instance.MyMapNumber)
@@ -340,7 +340,7 @@ public class TutorialManager : MonoBehaviour
                         }
                         break;
                     case 12:
-                        // Debug.Log("12 잘못 이동한 경우 다시 원래 씬으로 이동");
+                         Debug.Log("12 잘못 이동한 경우 다시 원래 씬으로 이동");
                         NextMapNumber = "0001";
                         Character.instance.SetCharacterStat(CharacterStatType.MyPositon, NextMapNumber);
 
@@ -348,7 +348,7 @@ public class TutorialManager : MonoBehaviour
                         SceneManager.LoadScene("MiniGame");
                         break;
                     case 13:
-                        // Debug.Log("13 특정 아이템이 있다면 대사/대기");
+                         Debug.Log("13 특정 아이템이 있다면 대사/대기");
                         if (Character.instance.MyItemManager.IsExistItem("2000"))
                         {
                             Character.instance.SetCharacterInput(false, false, false);

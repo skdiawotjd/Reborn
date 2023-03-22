@@ -172,6 +172,7 @@ public class UISettingManager : UIManager
 
     private void MoveToStartScene()
     {
+        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "");
         SceneManager.LoadScene("Start");
 
         SetActivePanel(UISettingPanelOrder.Back);

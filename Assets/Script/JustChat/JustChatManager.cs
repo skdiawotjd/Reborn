@@ -16,6 +16,7 @@ public class JustChatManager : MonoBehaviour
     private List<BasicNpc> NpcList;
     private Portal JustChatPortal;
 
+    [SerializeField]
     private bool _isWorking;
 
 
@@ -30,7 +31,6 @@ public class JustChatManager : MonoBehaviour
             return _isWorking;
         }
     }
-
     void Awake()
     {
         WaitFixedUpdate = YieldCache.WaitForFixedUpdate;
@@ -40,7 +40,7 @@ public class JustChatManager : MonoBehaviour
 
         ConversationManager = MainCanvas.transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
 
-        _isWorking = false;
+        IsWorking = false;
     }
     void Start()
     {
@@ -109,17 +109,20 @@ public class JustChatManager : MonoBehaviour
 
     public IEnumerator MoveCharacterToInterActive(float XPosition, int XDirection, bool InterActive)
     {
-        while(_isWorking)
+        //Debug.Log("MoveCharacterToInterActive 1");
+        while(IsWorking)
         {
+            //Debug.Log("MoveCharacterToInterActive 2");
             yield return YieldCache.WaitForFixedUpdate;
         }
-
-        _isWorking = true;
+        //Debug.Log("MoveCharacterToInterActive 3");
+        IsWorking = true;
         switch (XDirection)
         {
             case 0:
                 while (Character.instance.transform.position.x <= XPosition)
                 {
+                    //Debug.Log("MoveCharacterToInterActive 4");
                     Character.instance.MyPlayerController.SetPlayerPosition(XDirection);
 
                     yield return WaitFixedUpdate;
@@ -128,13 +131,15 @@ public class JustChatManager : MonoBehaviour
             case 1:
                 while (Character.instance.transform.position.x >= XPosition)
                 {
+                    //Debug.Log("MoveCharacterToInterActive 5");
                     Character.instance.MyPlayerController.SetPlayerPosition(XDirection);
 
                     yield return WaitFixedUpdate;
                 }
                 break;
         }
-        Character.instance.SetCharacterInput(false, false, false);
+        //Debug.Log("MoveCharacterToInterActive 6");
+        //Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.SetPlayerPosition(-1);
 
         if (InterActive)
@@ -142,42 +147,48 @@ public class JustChatManager : MonoBehaviour
             Character.instance.MyPlayerController.SetInputX();
             while (Character.instance.MyPlayerController.CharacterControllable != true)
             {
+                //Debug.Log("MoveCharacterToInterActive 7");
                 yield return WaitFixedUpdate;
             }
             Character.instance.SetCharacterInput(false, false, false);
         }
-        _isWorking = false;
+        //Debug.Log("MoveCharacterToInterActive 8");
+        IsWorking = false;
     }
 
     public IEnumerator WaitChat()
     {
-        while (_isWorking)
+        //Debug.Log("WaitChat 1 " + IsWorking);
+        while (IsWorking)
         {
+            //Debug.Log("WaitChat 2 " + IsWorking);
             yield return WaitFixedUpdate;
         }
-
-        _isWorking = true;
+        //Debug.Log("WaitChat 3 " + IsWorking);
+        IsWorking = true;
         while (ConversationManager.ConversationCount != -1f)
         {
+            //Debug.Log("WaitChat 4 " + IsWorking);
             yield return WaitFixedUpdate;
         }
+        //Debug.Log("WaitChat 5 " + IsWorking);
         Character.instance.SetCharacterInput(false, false, false);
-        _isWorking = false;
+        IsWorking = false;
     }
 
     public IEnumerator Wait(int Count)
     {
-        while (_isWorking)
+        while (IsWorking)
         {
             yield return WaitFixedUpdate;
         }
 
-        _isWorking = true;
+        IsWorking = true;
         for (int i = 0; i < Count; i++)
         {
             yield return WaitSeconds;
         }
-        _isWorking = false;
+        IsWorking = false;
     }
 
     public void ChangeNpcNumberChatType(string NewNpcNumberChatType)
@@ -217,11 +228,13 @@ public class JustChatManager : MonoBehaviour
 
     public IEnumerator StartMove()
     {
-        while (_isWorking)
+        //Debug.Log("StartMove 1");
+        while (IsWorking)
         {
+            //Debug.Log("StartMove 2");
             yield return WaitFixedUpdate;
         }
-
+        //Debug.Log("StartMove 3");
         Character.instance.SetCharacterInput(true, true, false);
     }
 }

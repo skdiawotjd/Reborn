@@ -71,6 +71,8 @@ public class SceneLoadManager : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+
+        
     }
     void Start()
     {
@@ -83,7 +85,12 @@ public class SceneLoadManager : MonoBehaviour
     }
     public void MapSetting()
     {
+        Resources.UnloadUnusedAssets();
+        //bundleP.Unload(true);
+        //Debug.Log("MapSetting");
+        //Debug.Log("+++++++++++++" + Character.instance.MyMapNumber + "++++++++");
         bundleP = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "public"));
+        //Debug.Log("--------------------");
         switch (Character.instance.MyMapNumber)
         {
             case "0000": // Æò¹Î Home
@@ -200,14 +207,20 @@ public class SceneLoadManager : MonoBehaviour
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("PassageToCastle"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
-                temObject = Instantiate(bundle.LoadAsset<GameObject>("JustChatManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                TutorialManager asd = GameObject.Find("TutorialManager").GetComponent<TutorialManager>();
+                asd.ObjjustChatManager = bundle.LoadAsset<GameObject>("JustChatManager");
+                /*temObject = Instantiate(bundle.LoadAsset<GameObject>("JustChatManager"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "JustChatManager";
-                temJustChatManager = temObject.GetComponent<JustChatManager>();
+                temJustChatManager = temObject.GetComponent<JustChatManager>();*/
+
                 //temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(7.5f, 0f, 0f), Quaternion.identity) as GameObject;
-                temJustChatManager.SetJustChatPortal(bundleP.LoadAsset<GameObject>("Door").GetComponent<Portal>());
+                asd.JustChatManager.SetJustChatPortal(bundleP.LoadAsset<GameObject>("Door").GetComponent<Portal>());
+                //temJustChatManager.SetJustChatPortal(bundleP.LoadAsset<GameObject>("Door").GetComponent<Portal>());
+
                 //temNPC = Instantiate(bundle.LoadAsset<GameObject>("JustChatNPC"), new Vector3(5.5f, 0f, 0f), Quaternion.identity) as GameObject;
                 //temNPC.name = "JustChatNPC";
-                temJustChatManager.SetJustChatNPC(bundle.LoadAsset<GameObject>("JustChatNPC").GetComponent<BasicNpc>());
+                asd.JustChatManager.SetJustChatNPC(bundle.LoadAsset<GameObject>("JustChatNPC").GetComponent<BasicNpc>());
+                //temJustChatManager.SetJustChatNPC(bundle.LoadAsset<GameObject>("JustChatNPC").GetComponent<BasicNpc>());
 
                 bundle.Unload(false);
                 break;
@@ -432,7 +445,6 @@ public class SceneLoadManager : MonoBehaviour
         }
         bundleP.Unload(false);
         Background = GameObject.Find("Background").GetComponent<RectTransform>();
-
         MapSettingEvent.Invoke();
     }
 

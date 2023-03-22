@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -11,10 +12,6 @@ public class TutorialManager : MonoBehaviour
     private int _stepDetail;
 
     private string NextMapNumber;
-
-    private ConversationManager ConversationManager;
-
-    private WaitForFixedUpdate WaitFixedUpdate;
 
     private int Step
     {
@@ -37,22 +34,34 @@ public class TutorialManager : MonoBehaviour
     }
 
     [SerializeField]
-    private JustChatManager JustChatManager;
+    private GameObject _objjustChatManager;
+    private JustChatManager _justChatManager;
+
+    public GameObject ObjjustChatManager
+    {
+        set
+        {
+            _objjustChatManager = Instantiate(value, Vector3.zero, Quaternion.identity) as GameObject;
+            _objjustChatManager.name = "JustChatManager";
+            _justChatManager = _objjustChatManager.GetComponent<JustChatManager>();
+        }
+    }
+
+    public JustChatManager JustChatManager
+    {
+        get { return _justChatManager; }
+    }
 
     void Awake()
     {
         DontDestroyOnLoad(this);
 
-        _step = 0;
+        _step = 3;
         _stepDetail = 0;
-
-        WaitFixedUpdate = new WaitForFixedUpdate();
     }
 
     void Start()
     {
-        ConversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
-
         GameManager.instance.AddSceneMoveEvent(SetTutorial);
     }
 
@@ -61,24 +70,23 @@ public class TutorialManager : MonoBehaviour
         if ((int)Character.instance.MySocialClass < 1)
         {
             ///
-            JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
-            _step = 3;
-            _stepDetail = 0;
+            //JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
+            //_step = 0;
+            //_stepDetail = 0;
             ///
-            GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
-            GameManager.instance.AddSceneMoveEvent(CheckStep);
+            //GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
+            //GameManager.instance.AddSceneMoveEvent(CheckStep);
             CheckStep();
         }
         else
         {
+            GameManager.instance.RemoveSceneMoveEvent(SetTutorial);
             Destroy(this.gameObject);
         }
     }
 
     private void CheckStep()
     {
-        /*Debug.Log("Step - " + Step);
-        Debug.Log("StepDetail - " + StepDetail);*/
         switch (Step)
         {
             case 0:
@@ -86,25 +94,36 @@ public class TutorialManager : MonoBehaviour
                 switch (StepDetail)
                 {
                     case 0:
-                        JustChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
+                        //_justChatManager = GameObject.Find("JustChatManager").GetComponent<JustChatManager>();
                         StepDetail++;
                         break;
                     case 1:
                         // 1 오브젝트 생성/이동/공격 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         Instantiate(Resources.Load("Prefabs/Trash"), new Vector3(-4f, 0.5f, 0f), Quaternion.identity);
                         Instantiate(Resources.Load("Prefabs/Trash"), new Vector3(-7f, 0.5f, 0f), Quaternion.identity);
-                        StartCoroutine(JustChatManager.MoveCharacterToInterActive(-3f, 1, true));
+                        if(JustChatManager)
+                        {
+                            StartCoroutine(JustChatManager.MoveCharacterToInterActive(-3f, 1, true));
 
-                        StartCoroutine(NextStepDetail());
+                            StartCoroutine(NextStepDetail());
+                        }
+                        else
+                        {
+                            StartCoroutine(WaitSceneMoveEvent());
+                        }
                         break;
                     case 2:
                         // 2 이동/공격 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         StartCoroutine(JustChatManager.MoveCharacterToInterActive(-6f, 1, true));
 
                         StartCoroutine(NextStepDetail());
                         break;
                     case 3:
                         // 3 대화/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
                         JustChatManager.ChangeNpcNumberChatType("0-8");
                         Character.instance.MyPlayerController.InvokeEventConversation();
@@ -114,6 +133,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 4:
                         // 4 오브젝트 생성/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         Instantiate(Resources.Load("Prefabs/Trash"), new Vector3(4.5f, 0.5f, 0f), Quaternion.identity);
                         StartCoroutine(JustChatManager.Wait(7));
 
@@ -121,6 +141,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 5:
                         // 5 캐릭터 방향 변경 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         Character.instance.MyPlayerController.SetPlayerPosition(0);
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
                         // 5 대화/대기 Debug.Log("");
@@ -132,12 +153,14 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 6:
                         // 6 이동/공격 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         StartCoroutine(JustChatManager.MoveCharacterToInterActive(3f, 0, false));
 
                         StartCoroutine(NextStepDetail());
                         break;
                     case 7:
                         // 7 대화/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         Character.instance.MyPlayerController.SetPlayerPosition(-1);
                         JustChatManager.ChangeNpcNumberChatType("0-6");
                         Character.instance.MyPlayerController.InvokeEventConversation();
@@ -147,6 +170,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 8:
                         // 8 이동x/공격 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         Character.instance.SetCharacterInput(false, false, false);
                         StartCoroutine(JustChatManager.MoveCharacterToInterActive(Character.instance.transform.position.x, 0, true));
 
@@ -154,6 +178,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 9:
                         // 9 오브젝트 생성/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.CreateNpc(new Vector3(5.5f, 0f, 0f), 0, 0, 2);
                         StartCoroutine(JustChatManager.Wait(7));
 
@@ -161,6 +186,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 10:
                         // 10 대화/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.ChangeNpcNumberChatType("0-5");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
@@ -170,6 +196,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 11:
                         // 11 대화/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.ChangeNpcNumberChatType("0-4");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
@@ -179,6 +206,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 12:
                         // 12 대화/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.ChangeNpcNumberChatType("0-3");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
@@ -187,6 +215,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 13:
                         // 13 선택 창 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.ChangeNpcNumberChatType("0-2");
                         JustChatManager.ConversationManager.AddSelectEvent(SelectJob);
                         Character.instance.MyPlayerController.InvokeEventConversation();
@@ -196,6 +225,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 14:
                         // 14 대화/대기 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.ChangeNpcNumberChatType("0-1");
                         Character.instance.MyPlayerController.InvokeEventConversation();
                         StartCoroutine(JustChatManager.WaitChat());
@@ -204,6 +234,7 @@ public class TutorialManager : MonoBehaviour
                         break;
                     case 15:
                         // 15 콜라이더 설정/오브젝트 생성/끝 Debug.Log("");
+                        //Debug.Log("CheckStep - " + Step + "/" + StepDetail);
                         JustChatManager.SetCollider();
                         JustChatManager.CreatePortal(new Vector3(6.5f, 0f, 0f), NextMapNumber);
                         Character.instance.SetCharacterInput(true, true, false);
@@ -378,10 +409,13 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator NextStepDetail()
     {
+        //Debug.Log("NextStepDetail 1 - " + StepDetail);
         while (JustChatManager.IsWorking)
         {
+            //Debug.Log("NextStepDetail 2 - " + StepDetail);
             yield return new WaitForSeconds(0.05f);
         }
+        //Debug.Log("NextStepDetail 3 - " + (_stepDetail + 1));
         StepDetail++;
     }
 
@@ -400,11 +434,15 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void CheckItem(string ItemNumber)
+    IEnumerator WaitSceneMoveEvent()
     {
-        if(Character.instance.MyItemManager.IsExistItem(ItemNumber))
+        //Debug.Log("WaitSceneMoveEvent 1");
+        while (!JustChatManager)
         {
-
+            //Debug.Log("WaitSceneMoveEvent 2");
+            yield return new WaitForSeconds(0.016f);
         }
+        //Debug.Log("WaitSceneMoveEvent 3");
+        CheckStep();
     }
 }

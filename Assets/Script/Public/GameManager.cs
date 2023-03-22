@@ -105,6 +105,12 @@ public class GameManager : MonoBehaviour
     // SceneLoadManager - MapSetting, SoundManager - SetBackgroundSource, PopUpUIManager - SceneMovePopUI
     public void AddSceneMoveEvent(UnityAction AddEvent)
     {
+        /*if(SceneMoveEvent == null)
+        {
+            //Debug.Log("SceneMoveEvent가 널이라 new함");
+            SceneMoveEvent = new UnityEvent();
+        }*/
+        //Debug.Log(AddEvent.ToString());
         SceneMoveEvent.AddListener(AddEvent);
     }
     public void RemoveSceneMoveEvent(UnityAction AddEvent)
@@ -348,9 +354,19 @@ public class GameManager : MonoBehaviour
         {
             Character.instance.SetCharacterPosition();
         }
-        
 
         SceneMoveEvent.Invoke();
+        /*try
+        {
+            Debug.Log("SceneMoveEvent Start " + SceneMoveEvent.ToString());
+            SceneMoveEvent.Invoke();
+            Debug.Log("SceneMoveEvent End");
+        }
+        catch
+        {
+            Debug.Log(Application.dataPath + " SceneMoveEvent is null");
+        }*/
+        
 
 
         if (!IsDayStart)

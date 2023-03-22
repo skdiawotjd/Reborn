@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 4242495725
+CRC: 788584246
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6757d26d0eb27ba70d1d90123484b9a9
+    Hash: 57998682c38c3ab2f76f4da32bff8645
   TypeTreeHash:
     serializedVersion: 2
-    Hash: e3e9348a1a54d82a918635186721d1d4
+    Hash: c30bcadf2aab5a124371642bec77b77d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -56,4 +56,4 @@ Assets:
 - Assets/Resources/Prefabs/Map/ExploreOfCave.prefab
 - Assets/Resources/Prefabs/Map/ForgeOfSmith.prefab
 Dependencies:
-- C:/UnityR/Reborn/Assets/AssetBundles/minigameslayer
+- C:/UnityP/ReBorn/Assets/AssetBundles/minigameslayer

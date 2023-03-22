@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using Unity.Mathematics;
+using System.Linq;
 
 public class ConversationManager : UIManager
 {
@@ -168,6 +169,24 @@ public class ConversationManager : UIManager
         }
     }
 
+
+
+    public void SetSelect(ref int ConversationCount, ref List<Dictionary<string, object>> SelectList)
+    {
+        // 최초로 외부 선택을 이용하는 것인지 확인
+        OutsideSelect = true;
+        //_selectPanelStillOpen = true;
+
+        // 외부 데이터 가져오기
+        ChatCount = ConversationCount;
+        NowList = SelectList;
+
+        // 내부 데이터 셋
+        _conversationCount = 1;
+        ChatName = "";
+        IsCanChat = true;
+    }
+
     private void NextConversation()
     {
         if (IsCanChat)
@@ -196,7 +215,7 @@ public class ConversationManager : UIManager
             }
             else
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 //Debug.Log("대사 시작 5 - ConversationCount가 ChatList[NpcToChat].Count보다 크므로 대사 끝");
                 SetActivePanel(_conversationPanelStillOpen);
                 _conversationPanelStillOpen = false;
@@ -204,24 +223,24 @@ public class ConversationManager : UIManager
                 //Debug.Log("대사 시작 6 - 대사 끝");
                 if (_conversationCount == NowList[ChatCount].Count - 1)
                 {
-                    Debug.Log("2");
+                    //Debug.Log("2");
                     //Debug.Log("대사 시작 6 - 대사 끝");
                     if (_curNpc != null)
                     {
-                        Debug.Log("3");
+                        //Debug.Log("3");
                         StartCoroutine(EndConversation(false, 0.15f));
                     }
                     else
                     {
-                        Debug.Log("4");
+                        //Debug.Log("4");
                         if (OutsideSelect)
                         {
-                            Debug.Log("5");
+                            //Debug.Log("5");
                             _conversationCount = 1;
                         }
                         else
                         {
-                            Debug.Log("6");
+                            //Debug.Log("6");
                             _conversationCount = -1;
                             IsCanChat = false;
                         }
@@ -317,22 +336,6 @@ public class ConversationManager : UIManager
         _curNpc.FunctionEnd();
     }
 
-    public void SetSelect(ref int ConversationCount, ref List<Dictionary<string, object>> SelectList)
-    {
-        // 최초로 외부 선택을 이용하는 것인지 확인
-        OutsideSelect = true;
-        //_selectPanelStillOpen = true;
-
-        // 외부 데이터 가져오기
-        ChatCount = ConversationCount;
-        NowList = SelectList;
-
-        // 내부 데이터 셋
-        _conversationCount = 1;
-        ChatName = "";
-        IsCanChat = true;
-    }
-
     public void StartSelect()
     {
         if (!SelectPanel.gameObject.activeSelf)
@@ -377,7 +380,7 @@ public class ConversationManager : UIManager
                     SelectPanel.constraintCount = 2;
                 }
             }
-
+            
             for (int i = 0; i < NowList[ChatCount].Count - 2; i++)
             {
                 if (NowList[ChatCount]["Context" + _conversationCount].ToString().Length != 0)
@@ -421,6 +424,8 @@ public class ConversationManager : UIManager
                 
                 _conversationCount++;
             }
+
+            SelectButtonList[NowList[ChatCount].Count - 3].onClick.AddListener(() => { OutsideSelect = false; });
 
             //Debug.Log("TotalCount " + TotalCount);
             for (int RemainButton = TotalCount; RemainButton < SelectButtonList.Count; RemainButton++)

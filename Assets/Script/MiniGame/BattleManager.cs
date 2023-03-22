@@ -82,6 +82,10 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
+    private void DisableAttack()
+    {
+        isAttack = false;
+    }
     private void FixedUpdate()
     {
         if (adventureStart)

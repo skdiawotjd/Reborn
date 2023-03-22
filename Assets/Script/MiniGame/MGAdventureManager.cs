@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MGAdventureManager : MiniGameManager
 {
@@ -16,15 +17,20 @@ public class MGAdventureManager : MiniGameManager
     private Canvas adventureCanvas;
     private TextMeshProUGUI enemyCountText;
     private TextMeshProUGUI gameRoundText;
+    private Image endGamePanel;
     private AdventurePortal portal;
     private int enemyNumber;
     private float spriteNumber;
     private string enemyNumberString;
+    private float randomObjectNumber;
+    private int goodsNumber;
+    private bool isClear;
 
     public int currentEnemyCount = 0;
 
     private List<Dictionary<string, object>> AdventureEnemyList;
     private List<Dictionary<string, object>> AdventureEnemyLevelList;
+    private List<Dictionary<string, object>> AdventureReward;
 
     protected override void Start()
     {
@@ -33,9 +39,11 @@ public class MGAdventureManager : MiniGameManager
         //portal = GameObject.Find("AdventurePortal").GetComponent<AdventurePortal>();
         enemyCountText = adventureCanvas.transform.GetChild(9).GetComponent<TextMeshProUGUI>();
         gameRoundText = adventureCanvas.transform.GetChild(10).GetComponent<TextMeshProUGUI>();
+        endGamePanel = adventureCanvas.transform.GetChild(11).GetComponent<Image>();
         // 모험의 난이도별 각 라운드의 몬스터 레벨, 몬스터 개체 수 등을 가진 CSVRead
         AdventureEnemyList = CSVReader.Read("AdventureEnemyList");
         AdventureEnemyLevelList = CSVReader.Read("AdventureEnemyLevelList");
+        AdventureReward = CSVReader.Read("AdventureReward");
         adventureEnemyLevel = new List<int>();
         adventureEnemyCount = new List<int>();
         maxRound = 5;
@@ -94,16 +102,35 @@ public class MGAdventureManager : MiniGameManager
     }
     public override void GameEnd(bool clear)
     {
+        isClear = clear;
         Debug.Log("GameEnd");
         enemyCountText.gameObject.SetActive(false);
         gameRoundText.gameObject.SetActive(false);
+        endGamePanel.gameObject.SetActive(true);
         AdventureGameManager.instance.battleManager.AdventureEnd();
         Character.instance.MyPlayerController.DisableCollider();
-        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013");
-        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -10);
         // 모험 보상 수령
         Character.instance.SetCharacterStat(CharacterStatType.MyItem, "00003000");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+        Character.instance.SetCharacterStat(CharacterStatType.MyItem, RandomReward() + "3");
+
+        Invoke("EndAndClear", 5f);
+    }
+    private void EndAndClear()
+    {
+        QuestManager.instance.MinigameClear(isClear);
+    }
+    private string RandomReward()
+    {
+        randomObjectNumber = Random.Range(0.001f, 1.000f);
+        for (int i = 0; i < AdventureReward.Count; i++)
+        {
+            if (randomObjectNumber <= float.Parse(AdventureReward[i]["Rate"].ToString()))
+            {
+                goodsNumber = i;
+                return AdventureReward[goodsNumber]["ItemNumber"].ToString();
+            }
+        }
+        return null;
     }
     public override void SetRound(int round)
     {

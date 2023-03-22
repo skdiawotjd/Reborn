@@ -1,0 +1,11 @@
+﻿Number,KorName,Name,Rate,ItemNumber,Percentage
+0,낡은가죽,oldleather,0.13,1100,13
+1,가죽,leather,0.2,1101,7
+2,낡은뼈,oldbone,0.33,1200,13
+3,뼈,bone,0.4,1201,7
+4,나뭇가지,branch,0.53,1300,13
+5,단단한나무,solidwood,0.6,1301,7
+6,낡은실,oldthread,0.73,1400,13
+7,실,thread,0.8,1401,7
+8,짚,straw,0.93,1500,13
+9,짚더미,strawbale,1,1501,7

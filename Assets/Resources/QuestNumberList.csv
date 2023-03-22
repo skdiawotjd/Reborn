@@ -1,5 +1,5 @@
 ﻿Number,QuestNumber,QuestContents,ItemNumber,ClearCount,Job,Proficiency,Reward
-0,00000,Slayer MainQuest 1,7000,1,Slayer,0,"10005,10005"
+0,00000,Slayer MainQuest 1,7000,1,Slayer,2,"10005,10005"
 1,00001,Slayer MainQuest 2,7001,1,Slayer,0,"11002,13002,16009"
 2,00002,Slayer MainQuest 3,7002,1,Slayer,0,00001
 3,00100,Smith MainQuest 1,7100,5,Smith,0,00001

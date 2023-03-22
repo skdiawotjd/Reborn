@@ -99,48 +99,13 @@ public class QuestManager : MonoBehaviour
     }
     public void MinigameClear(bool clear)
     {
-        // 퀘스트를 클리어하고 부를 함수
-        switch(Character.instance.MyMapNumber)
-        {
-            // 노예
-            case "0003":
-            case "0004":
-            case "0008":
-            case "0009":
-                Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
-                break;
-        }
-        switch(Character.instance.MySocialClass)
-        {
-            case SocialClass.Commons: // 내 계급이 평민이라면
-                switch(Character.instance.MyMapNumber.Substring(2,2))
-                {
-                    case "03": // DDR일 때 ex) 주조
-                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
-                        break;
-                    case "04": // 타이밍일 때 ex) 제작
-                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
-                        break;
-                    case "05": // 퀴즈일 때
-                        break;
-                    case "08": // 탐험일 때
-                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
-                        break;
-                    case "09": // 모험일 때
-                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
-                        break;
-                }
-                break;
-        }
-        Debug.Log("ActivePoint 감소, 현재 수치 : " + Character.instance.ActivePoint);
-
         if (clear)
         {
             Debug.Log("퀘스트 성공");
-            switch(Character.instance.MyJob.ToString())
+            switch (Character.instance.MyJob.ToString())
             {
                 case "Slayer":
-                    switch(Character.instance.MyMapNumber)
+                    switch (Character.instance.MyMapNumber)
                     {
                         case "0003":
                         case "0004":
@@ -191,6 +156,44 @@ public class QuestManager : MonoBehaviour
         {
             Debug.Log("퀘스트 실패");
         }
+        // 퀘스트를 클리어하고 부를 함수
+        switch (Character.instance.MyMapNumber)
+        {
+            // 노예
+            case "0003":
+            case "0004":
+            case "0008":
+            case "0009":
+                Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
+                break;
+        }
+        switch(Character.instance.MySocialClass)
+        {
+            case SocialClass.Commons: // 내 계급이 평민이라면
+                switch(Character.instance.MyMapNumber.Substring(2,2))
+                {
+                    case "03": // DDR일 때 ex) 주조
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
+                        break;
+                    case "04": // 타이밍일 때 ex) 제작
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
+                        break;
+                    case "05": // 퀴즈일 때
+                        break;
+                    case "08": // 탐험일 때
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
+                        break;
+                    case "09": // 모험일 때
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
+                        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013");
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                        break;
+                }
+                break;
+        }
+        Debug.Log("ActivePoint 감소, 현재 수치 : " + Character.instance.ActivePoint);
+
+        
     }
     private void GetReward(string itemNumberString)
     {
@@ -210,7 +213,22 @@ public class QuestManager : MonoBehaviour
         if(Character.instance.Reputation >= 100) // 평판이 100이거나 100을 넘었다면
         {
             // 스택 증가
-            Character.instance.SetCharacterStat(CharacterStatType.Knight, 10);
+            switch(Character.instance.MySocialClass)
+            {
+                case SocialClass.Commons:
+                    Character.instance.SetCharacterStat(CharacterStatType.Knight, 10);
+                    break;
+                case SocialClass.SemiNoble:
+                    Character.instance.SetCharacterStat(CharacterStatType.Noble, 10);
+                    break;
+                case SocialClass.Noble:
+                    Character.instance.SetCharacterStat(CharacterStatType.King, 10);
+                    break;
+                case SocialClass.King:
+                    Character.instance.SetCharacterStat(CharacterStatType.King, 10);
+                    break;
+            }
+            
         }
         else // 평판이 100 이하라면
         {

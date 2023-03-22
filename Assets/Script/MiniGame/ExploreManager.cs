@@ -15,7 +15,6 @@ public class ExploreManager : MonoBehaviour
     private ConversationManager conversationManager;
     private bool waitActive;
     public MessageManager messageManager;
-    public FloatingOptionManager floatingOptionManager;
     private BattleManager battleManager;
     [SerializeField]
     private GameObject randomObject;
@@ -34,7 +33,6 @@ public class ExploreManager : MonoBehaviour
     void Start()
     {
         messageManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(5).GetComponent<MessageManager>();
-        floatingOptionManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(6).GetComponent<FloatingOptionManager>();
         itemList = CSVReader.Read("FoundThings");
         boxGoodsList = CSVReader.Read("TreasureBoxGoods");
         mineralGoodsList = CSVReader.Read("MineralGoods");

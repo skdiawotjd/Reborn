@@ -34,12 +34,21 @@ public class ConversationManager : UIManager
     private bool _conversationPanelStillOpen;   // 채팅 패널이 계속 열려 있어야 하는지
     [SerializeField]
     private bool _selectPanelStillOpen;         // 선택 패널이 계속 열려 있어야 하는지
+    /// <summary>
+    /// CSV에서 몇번 째 줄인지
+    /// </summary> 
     [SerializeField]
-    private int ChatCount;                      // CSV 상 대화가 몇번 째에 있는지
+    private int ChatCount;
+    /// <summary>
+    /// 대화가 몇번 진행 되었는지
+    /// </summary> 
     [SerializeField]
-    private int _conversationCount;             // 대화가 몇번 진행 되었는지
+    private int _conversationCount;
+    /// <summary>
+    /// CSV에서 Content0에 있는 대사 이름 스트링
+    /// </summary> 
     [SerializeField]
-    private string ChatName;                    // CSV 0번의 대사를 치는 캐릭터 이름
+    private string ChatName;
     [SerializeField]
     private bool OutsideSelect;                 // 외부에서 선택을 사용하는 경우
     private int SelectedButton;
@@ -171,20 +180,30 @@ public class ConversationManager : UIManager
 
 
 
-    public void SetSelect(ref int ConversationCount, ref List<Dictionary<string, object>> SelectList)
+    //public void SetSelect(ref int ConversationCount, ref List<Dictionary<string, object>> SelectList)
+    public void SetSelect(ref List<Dictionary<string, object>> SelectList)
     {
         // 최초로 외부 선택을 이용하는 것인지 확인
         OutsideSelect = true;
         //_selectPanelStillOpen = true;
 
         // 외부 데이터 가져오기
-        ChatCount = ConversationCount;
+        //ChatCount = ConversationCount;
+        //ChatCount = 0;
         NowList = SelectList;
 
         // 내부 데이터 셋
         _conversationCount = 1;
-        ChatName = "";
+        SetConversationCount(0);
+        //ChatName = NowList[ChatCount]["Context0"].ToString();
         IsCanChat = true;
+    }
+
+    public void SetConversationCount(int ConversationCount)
+    {
+        ChatCount = ConversationCount;
+        ChatName = NowList[ChatCount]["Context0"].ToString();
+        
     }
 
     private void NextConversation()
@@ -254,13 +273,6 @@ public class ConversationManager : UIManager
 
     private void SetChatName()
     {
-        /*for (int i = 0; i < CharacterNameList.Count; i++)
-        {
-            if (CharacterNameList[i]["CharacterNumber"].ToString() == ChatName[_conversationCount - 1].ToString())
-            {
-                NameText.text = CharacterNameList[i]["CharacterName"].ToString();
-            }
-        }*/
         try
         {
             NameText.text = CharacterNameList[ChatName[_conversationCount - 1] - '0']["CharacterName"].ToString();
@@ -340,8 +352,9 @@ public class ConversationManager : UIManager
     {
         if (!SelectPanel.gameObject.activeSelf)
         {
+            _conversationCount = 1;
             SelectPanel.gameObject.SetActive(true);
-
+            
             try
             {
                 if (NowList[ChatCount]["Context2"].ToString().Length == 0)

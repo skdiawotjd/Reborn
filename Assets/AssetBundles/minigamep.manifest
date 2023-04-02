@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3505125775
+CRC: 1404698010
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2620a0bac4b01f00159f792b8bf4683a
+    Hash: 58779f64fcfef9e6968a00f8baa66d0d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: f036624b4172b47050bdb62b1700c7c3
+    Hash: 19539bde3e8a856cc1d972a3ba826bb3
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -52,10 +52,6 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 90e5bcf6073ad28418a418c30be4a872, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: cba787c401807cb49a8425295335c840, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: aa7184577f797874cb56979fca5731bc, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 09f48edbab7d8954cb0daa767982aded, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: df531604e2f6bab4f9766a2ea58e73d3, type: 3}
@@ -66,6 +62,8 @@ ClassTypes:
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
+  Script: {instanceID: 0}
+- Class: 222
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
@@ -79,7 +77,6 @@ SerializeReferenceClassIdentifiers:
 Assets:
 - Assets/Resources/Public/ExploreManager.prefab
 - Assets/Resources/Public/MGQuizManager.prefab
-- Assets/Resources/Public/MGObjectManager.prefab
 - Assets/Resources/Prefabs/MiniGame/BattleManager.prefab
 - Assets/Resources/Public/MGDDRManager.prefab
 - Assets/Resources/Prefabs/NPC/MonsterNPC.prefab

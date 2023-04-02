@@ -1,0 +1,17 @@
+﻿Number,ItemNumber,ItemNameKor,ItemNameEng,RequiredNumber
+0,1000,철광석,ironore,3
+1,1001,동광석,bronzeore,3
+2,1002,은광석,silverore,4
+3,1003,금광석,goldore,4
+4,1004,백금광석,platinumore,5
+5,1005,티타늄광석,titaniumore,5
+6,1100,낡은가죽,oldleather,3
+7,1101,가죽,leather,4
+8,1200,낡은뼈,oldbone,3
+9,1201,뼈,bone,4
+10,1300,나뭇가지,branch,3
+11,1301,단단한나무,solidwood,4
+12,1400,낡은실,oldthread,3
+13,1401,실,thread,4
+14,1500,짚,straw,3
+15,1501,짚더미,strawbale,4

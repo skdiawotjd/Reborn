@@ -101,6 +101,8 @@ public class BattleManager : MonoBehaviour
     {
         adventureStart = false;
         hitArea.enabled = false;
+        playerHp -= Character.instance.ActivePoint;
+        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, playerHp);
     }
     public void StartBattle()
     {
@@ -129,6 +131,8 @@ public class BattleManager : MonoBehaviour
     }
     public void Damaged(int damage)
     {
+        if (!characterIsLive)
+            return;
         if (Character.instance.ActivePoint <= damage)
         {
             PlayerDead();
@@ -166,12 +170,12 @@ public class BattleManager : MonoBehaviour
         characterIsLive = false;
         Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.PlayDieProcess(true);
+        AdventureGameManager.instance.MGManager.EnemyAttacksClear();
+        AdventureGameManager.instance.spawner.EnemyStop();
         Invoke("OnDead", 3f);
     }
     private void OnDead() // 사망 시 플레이 기능
     {
-        playerHp -= (Character.instance.ActivePoint + 20);
-        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, playerHp);
         Debug.Log("플레이어 사망. 게임 종료");
         Character.instance.MyPlayerController.PlayDieProcess(false);
         Character.instance.SetCharacterInput(true, true, true);

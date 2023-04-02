@@ -194,10 +194,10 @@ public class Enemy : MonoBehaviour, IPoolObject
     }
     private void EnemyAttackProcess()
     {
-        projectile = AdventureGameManager.instance.pool.GetFromPool<EnemyAttack>(2);
-        projectile.SetDamage(damage);
-        projectile.SetStartPosition(rigid.transform);
-        
+        //projectile = AdventureGameManager.instance.pool.GetFromPool<EnemyAttack>(2);
+        //projectile.SetDamage(damage);
+        //projectile.SetStartPosition(rigid.transform);W
+        AdventureGameManager.instance.MGManager.GenerateEnemyAttack(damage, rigid.transform);
     }
     private void CanHit()
     {
@@ -210,7 +210,12 @@ public class Enemy : MonoBehaviour, IPoolObject
         transform.SetParent(AdventureGameManager.instance.pool.transform);
         AdventureGameManager.instance.MGManager.ChangeEnemyCount(-1);
     }
-
+    public void GameStop()
+    {
+        isLive = false;
+        Spum._anim.SetBool("Run", false);
+        Spum._anim.SetFloat("RunState", 0f);
+    }
     public void OnCreatedInPool()
     {
         playerDamage = Character.instance.Reputation;

@@ -25,6 +25,9 @@ public class MGAdventureManager : MiniGameManager
     private float randomObjectNumber;
     private int goodsNumber;
     private bool isClear;
+    private List<EnemyAttack> enemyAttacks;
+    private EnemyAttack temProjectile;
+    private bool adventureGame;
 
     public int currentEnemyCount = 0;
 
@@ -46,6 +49,7 @@ public class MGAdventureManager : MiniGameManager
         AdventureReward = CSVReader.Read("AdventureReward");
         adventureEnemyLevel = new List<int>();
         adventureEnemyCount = new List<int>();
+        enemyAttacks = new List<EnemyAttack>();
         maxRound = 5;
         adventureLevel = QuestManager.instance.GetAdventureLevel();
 
@@ -68,6 +72,9 @@ public class MGAdventureManager : MiniGameManager
     }
     public void ChangeEnemyCount(int count)
     {
+        if (adventureGame == false)
+            return;
+
         if(count > 0)
         {
             currentEnemyCount++;
@@ -98,10 +105,12 @@ public class MGAdventureManager : MiniGameManager
         Debug.Log("게임 시작");
         // GameStart 텍스트 활성화
         gameRoundText.gameObject.SetActive(true);
+        adventureGame = true;
         Invoke("SetGame", 3f); // 3초 뒤에 SetGame
     }
     public override void GameEnd(bool clear)
     {
+        adventureGame = false;
         isClear = clear;
         Debug.Log("GameEnd");
         enemyCountText.gameObject.SetActive(false);
@@ -145,8 +154,13 @@ public class MGAdventureManager : MiniGameManager
     }
     public void NextRound()
     {
+        EnemyAttacksClear();
         currentRound++;
         SetRound(currentRound);
+    }
+    public void EnemyAttacksClear()
+    {
+        enemyAttacks.Clear();
     }
     private void SetEnemyLevel()
     {
@@ -171,6 +185,14 @@ public class MGAdventureManager : MiniGameManager
             enemyNumber = int.Parse(enemyNumberString);
             return enemyNumber;
         }
+    }
+
+    public void GenerateEnemyAttack(int damage, Transform startPosition)
+    {
+        temProjectile = AdventureGameManager.instance.pool.GetFromPool<EnemyAttack>(2);
+        temProjectile.SetDamage(damage);
+        temProjectile.SetStartPosition(startPosition);
+        enemyAttacks.Add(temProjectile);
     }
     public override void SetGame()
     {

@@ -157,18 +157,29 @@ public class QuestManager : MonoBehaviour
             Debug.Log("퀘스트 실패");
         }
         // 퀘스트를 클리어하고 부를 함수
-        switch (Character.instance.MyMapNumber)
-        {
-            // 노예
-            case "0003":
-            case "0004":
-            case "0008":
-            case "0009":
-                Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -20);
-                break;
-        }
         switch(Character.instance.MySocialClass)
         {
+            case SocialClass.Helot:
+                switch (Character.instance.MyMapNumber.Substring(2, 2))
+                {
+                    case "03": // DDR일 때 ex) 주조
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
+                        break;
+                    case "04": // 타이밍일 때 ex) 제작
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
+                        break;
+                    case "05": // 퀴즈일 때
+                        break;
+                    case "08": // 탐험일 때
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -2); // 활동력 -2
+                        break;
+                    case "09": // 모험일 때
+                        Character.instance.SetCharacterStat(CharacterStatType.ActivePoint, -3); // 활동력 -3
+                        Character.instance.SetCharacterStat(CharacterStatType.MyPositon, "0013");
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+                        break;
+                }
+                break;
             case SocialClass.Commons: // 내 계급이 평민이라면
                 switch(Character.instance.MyMapNumber.Substring(2,2))
                 {

@@ -28,7 +28,8 @@ public class ExploreManager : MonoBehaviour
     List<Dictionary<string, object>> exploreSelectFloatingMessage;
     private GameObject temObject;
 
-    private int ExploreConversationCount;
+    /*[SerializeField]
+    private int ExploreConversationCount;*/
 
     void Start()
     {
@@ -42,17 +43,19 @@ public class ExploreManager : MonoBehaviour
         m_Message = "¶Ñ¹÷... ¶Ñ¹÷...";
         m_Message2 = "¹«¾ð°¥ ¹ß°ßÇß´Ù!";
         m_Message3 = "¸ó½ºÅÍ¸¦ ¸¶ÁÖÃÆ´Ù!";
-        ExploreConversationCount = 0;
+        //ExploreConversationCount = 1;
 
         conversationManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetChild(4).GetComponent<ConversationManager>();
         conversationManager.AddSelectEvent(ExploreAction);
-        conversationManager.SetSelect(ref ExploreConversationCount, ref exploreSelectFloatingMessage);
+        //conversationManager.SetSelect(ref ExploreConversationCount, ref exploreSelectFloatingMessage);
+        conversationManager.SetSelect(ref exploreSelectFloatingMessage);
 
         Character.instance.SetCharacterInput(false, false, false);
         Character.instance.MyPlayerController.SetRunState(true);
         Character.instance.MyPlayerController.PlayerRotation(Direction.Right);
         Character.instance.SetCharacterPosition();
 
+        Character.instance.MyPlayerController.InvokeEventConversation();
         StartCoroutine("CountOneSecond", 0.1f);
         StartCoroutine("CountNNSecond", 3f);
     }
@@ -77,11 +80,19 @@ public class ExploreManager : MonoBehaviour
         randomObjectNumber = Random.Range(0.001f, 1.000f);
         if (WhatIsFoundThings(randomObjectNumber, 0) == "monster")
         {
-            ExploreConversationCount = 1;
+            //conversationManager.SetConversationCount(0, 2);
+            //Character.instance.MyPlayerController.InvokeEventConversation();
+
+            //ExploreConversationCount = 2;
+            conversationManager.SetConversationCount(2);
             battleManager.GenerateMonster();
         } else
         {
-            ExploreConversationCount = 0;
+            //conversationManager.SetConversationCount(0, 1);
+            //Character.instance.MyPlayerController.InvokeEventConversation();
+
+            //ExploreConversationCount = 1;
+            conversationManager.SetConversationCount(1);
             temObject = Instantiate(randomObject, new Vector3(5, -2, transform.position.z), Quaternion.identity) as GameObject;
             temObject.name = WhatIsFoundThings(randomObjectNumber, 0);
         }
@@ -274,7 +285,7 @@ public class ExploreManager : MonoBehaviour
     IEnumerator Typing(TextMeshProUGUI typingText, string message, float speed)
     {
         for (int i = 0; i < message.Length; i++)
-        {
+        {   
             typingText.text = message.Substring(0, i + 1);
             yield return new WaitForSeconds(speed);
         }

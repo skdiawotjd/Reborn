@@ -140,6 +140,7 @@ public class SceneLoadManager : MonoBehaviour
             case "0001": // 대장장이 길드 아지트
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));
                 temBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigamep"));
+                bundle2 = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameagit"));
 
                 temMap = Instantiate(bundle.LoadAsset<GameObject>("ForgeOfSmith"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
                 temMap.name = "Background";
@@ -152,9 +153,12 @@ public class SceneLoadManager : MonoBehaviour
                 temObject = Instantiate(bundleP.LoadAsset<GameObject>("Door"), new Vector3(8, -2, transform.position.z), Quaternion.identity) as GameObject;
                 temObject.name = "DoorToFoundry";
                 temObject.GetComponent<Portal>().ChangeSceneName("0003");
+                temObject = Instantiate(bundle2.LoadAsset<GameObject>("ResidenceNPC"), new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+                temObject.name = "ResidenceNPC";
 
                 bundle.Unload(false);
                 temBundle.Unload(false);
+                bundle2.Unload(false);
                 break;
             case "0101": // 모험가 길드 아지트
                 bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath + "/AssetBundles", "minigameofsmith"));

@@ -180,14 +180,15 @@ public class UIFrameWorkManager : MonoBehaviour
                             temImagePrefab.Add(Instantiate(ingredientImage));
                             temImagePrefab[index].transform.SetParent(ingredientPanel.transform);
                             //temImagePrefab.GetComponent<Image>().sprite = "재료 1번 이미지";
-                            if (ManufactureRecipeList[i]["Ingredient"+ index].ToString().Substring(0,4) == "1100")
+                            temImagePrefab[index].GetComponent<Image>().sprite = ImageManager.instance.GetImage(ManufactureRecipeList[i]["Ingredient" + index].ToString().Substring(0, 4));
+                            /*if (ManufactureRecipeList[i]["Ingredient"+ index].ToString().Substring(0,4) == "1100")
                             {
                                 temImagePrefab[index].GetComponent<Image>().sprite = ImageManager.instance.GetImage("1100");
                             }
                             if (ManufactureRecipeList[i]["Ingredient" + index].ToString().Substring(0, 4) == "1101")
                             {
                                 temImagePrefab[index].GetComponent<Image>().sprite = ImageManager.instance.GetImage("1101");
-                            }
+                            }*/
                             ingredientNumberList.Add(ManufactureRecipeList[i]["Ingredient" + index].ToString());
                             temImagePrefab[index].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ingredientNumberList[j].Substring(0, 4) + " " + ingredientNumberList[j][4] + "개";
                             if (canManufacture)

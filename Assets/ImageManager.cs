@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ImageManager : MonoBehaviour
 {
+    private List<Dictionary<string, object>> ItemList;
     private Dictionary<string, Sprite> imageDictionary = new Dictionary<string, Sprite>();
     private Sprite temSprite;
     public static ImageManager instance = null;
@@ -21,8 +22,10 @@ public class ImageManager : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+
+        ItemList = CSVReader.Read("CSV/ItemList");
     }
-        void Start()
+    void Start()
     {
         temSprite = Resources.Load<Sprite>("Image/Manufacture/1100");
         imageDictionary.Add(temSprite.name, temSprite);
@@ -32,11 +35,32 @@ public class ImageManager : MonoBehaviour
 
     public Sprite GetImage(string itemNumber)
     {
-        return imageDictionary[itemNumber];
+        return Resources.Load<Sprite>("Image/Manufacture/" + itemNumber);
+        //return imageDictionary[itemNumber];
     }
 
-    void Update()
+    public string GetImage(string itemNumber, int Type)
     {
-        
+        int Order = 0;
+        for( ; Order < ItemList.Count; Order++)
+        {
+            if(ItemList[Order]["ItemNumber"].ToString() == itemNumber)
+            {
+                break;
+            }
+        }
+
+        switch(Type)
+        {
+            case 0:
+                return ItemList[Order]["ItemNameKor"].ToString();
+            case 1:
+                return ItemList[Order]["ItemNameEng"].ToString();
+            case 2:
+                //return Resources.Load<Sprite>(ItemList[Order]["Path"].ToString());
+                return ItemList[Order]["Path"].ToString();
+        }
+
+        return "";
     }
 }

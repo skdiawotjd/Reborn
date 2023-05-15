@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class TradeManager : MonoBehaviour
 {
     [SerializeField]
+    private Button ExitButton;
+    [SerializeField]
     private Sprite[] change_img;
     [SerializeField]
     private Image tradeListPanel;
@@ -21,6 +23,12 @@ public class TradeManager : MonoBehaviour
     private int currentPanelOrder;
 
     private List<Dictionary<string, object>> TradeItemList;
+
+    void Awake()
+    {
+        ExitButton.onClick.AddListener(Exit);
+    }
+
     void Start()
     {
 
@@ -55,7 +63,12 @@ public class TradeManager : MonoBehaviour
             typePanel[selectPanelOrder].sprite = change_img[1];
             currentPanelOrder = selectPanelOrder;
         }
+    }
 
+    public void Exit()
+    {
+        gameObject.SetActive(false);
 
+        Character.instance.SetCharacterInput(true, true, true);
     }
 }

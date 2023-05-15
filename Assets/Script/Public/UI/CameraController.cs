@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour
         //SetCameraRange();
         //LimitCameraArea();
 
-        //GameManager.instance.SceneMove.AddListener(SceneMoveCameraPosition);
+        //GameManager.instance.AddSceneMoveEvent(SceneMoveCameraPosition);
         GameManager.instance.AddGenerateGameEvent(StartSetCameraRange);
     }
 

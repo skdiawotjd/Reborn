@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
+    [SerializeField]
+    private Image ItemImage;
     [SerializeField]
     private TextMeshProUGUI _itemCountText;
     [SerializeField]
@@ -27,6 +30,11 @@ public class Item : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetImage(Sprite NowItemImage)
+    {
+        ItemImage.sprite = NowItemImage;
     }
 
     public void SetCount(int Count)

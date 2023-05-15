@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        //GameManager.instance.AddDayStart(StartPlayerController);
+        GameManager.instance.AddDayStart(StartPlayerController);
         GameManager.instance.AddDayEnd(EndPlayerController);
         SceneLoadManager.instance.MapSettingEvent.AddListener(SetPlayerPositionRange);
     }

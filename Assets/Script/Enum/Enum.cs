@@ -20,7 +20,7 @@ public enum CharacterStatType
     Commons, People, Noble
 }
 public enum ItemType { Plus = 4, Minus }
-public enum StartButtonOrder { New, Load, Exit }
+public enum StartButtonOrder { New, Load, Option, Exit }
 public enum UIPopUpOrder { MainUI, InvenPanel, SettingPanel, QuestPanel, ConversationPanel }
 public enum UIInventoryOrder { Name, MySocialClass, MyJob, /*MyAge,*/ ActivePoint, Reputation, Proficiency, MyItem = 8 }
 public enum UIMainButtonOrder { Setting, SkipDay }
@@ -31,5 +31,5 @@ public enum UISettingButtonOrder { SettingClose, Pause, Save, Load, Sound, Back,
 public enum UISettingPanelOrder { Pause, Save, Load, Sound, Back }
 public enum UISoundOrder { Background, Effect }
 public enum KeyDirection { Up, Down, Left, Right }
-public enum QuestState { None, SelectResidence, Chat, QuestStand, QuestStart, QuestProgress, QuestEnd, Help }
+public enum QuestState { None, SelectResidence, Chat, QuestStand, QuestStart, QuestProgress, QuestEnd, Help, Exchange }
 public enum QuestData { QuestNumber, QuestObjectNumber, ClearCount, QuestContent }

@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1313372959
+CRC: 1391415688
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -35,4 +35,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_10:
       Name: minigameedu
+      Dependencies: {}
+    Info_11:
+      Name: minigameagit
       Dependencies: {}

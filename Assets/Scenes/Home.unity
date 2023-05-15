@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 7
-  Val: 00028
+  Val: 11018
 --- !u!61 &68673461
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 7
-  Val: 00046
+  Val: 16016
 --- !u!61 &164149108
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 7
-  Val: 00037
+  Val: 16007
 --- !u!61 &506753491
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 7
-  Val: 00014
+  Val: 11004
 --- !u!61 &896066138
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 7
-  Val: 00014
+  Val: 16024
 --- !u!61 &916175203
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -393,19 +393,23 @@ public class ConversationManager : UIManager
                     SelectPanel.constraintCount = 2;
                 }
             }
-            
+
+            //Debug.Log((NowList[ChatCount].Count - 2) + "만큼 for문 반복");
             for (int i = 0; i < NowList[ChatCount].Count - 2; i++)
             {
                 if (NowList[ChatCount]["Context" + _conversationCount].ToString().Length != 0)
                 {
+                    //Debug.Log(i + "번 1-1 csv의" + i + "번에 버튼 내용이 있음");
                     // 널이 아니면
-                    if(SelectButtonList[i])
+                    if (SelectButtonList[i])
                     {
+                        //Debug.Log(i + "번 2-1 SelectButtonList[" + i + "] 가 널이 아니어서 버튼 생성하지 않음");
                         SelectButtonList[i].onClick.RemoveAllListeners();
                     }
                     // 널이면
                     else
                     {
+                        //Debug.Log(i + "번 2-2 SelectButtonList[" + i + "] 가 널이어서 버튼 생성");
                         SelectButtonList[i] = Instantiate(SelectButton, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as Button;
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
                         SelectButtonList[i].transform.SetParent(SelectPanel.transform, false);
@@ -428,8 +432,10 @@ public class ConversationManager : UIManager
                 }
                 else
                 {
-                    if(SelectButtonList[i])
+                    //Debug.Log(i + "번 1-2 csv의" + i + "번에 버튼 내용이 없음");
+                    if (SelectButtonList[i])
                     {
+                        //Debug.Log(i + "번 2-3 SelectButtonList[" + i + "] 에" + SelectButtonList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text + "가 있는 버튼 지움");
                         Destroy(SelectButtonList[i].gameObject);
                         SelectButtonList[i] = null;
                     }
@@ -438,14 +444,19 @@ public class ConversationManager : UIManager
                 _conversationCount++;
             }
 
-            SelectButtonList[NowList[ChatCount].Count - 3].onClick.AddListener(() => { OutsideSelect = false; });
+            /*Debug.Log(NowList[ChatCount].Count - 3);
+            SelectButtonList[NowList[ChatCount].Count - 3].onClick.AddListener(() => { OutsideSelect = false; });*/
+            //Debug.Log(NowList[ChatCount].Count - 4);
+            SelectButtonList[NowList[ChatCount].Count - 4].onClick.AddListener(() => { OutsideSelect = false; });
 
-            //Debug.Log("TotalCount " + TotalCount);
+            //Debug.Log("TotalCount " + TotalCount + " SelectButtonList.Count" + SelectButtonList.Count);
             for (int RemainButton = TotalCount; RemainButton < SelectButtonList.Count; RemainButton++)
             {
                 if (SelectButtonList[RemainButton])
                 {
                     //Debug.Log("SelectButtonList[" + RemainButton + "]이 널이 아니라서 지움");
+                    //Debug.Log(SelectButtonList[RemainButton].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
+                    
                     Destroy(SelectButtonList[RemainButton].gameObject);
                     SelectButtonList[RemainButton] = null;
                 }

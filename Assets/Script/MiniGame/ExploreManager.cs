@@ -55,7 +55,7 @@ public class ExploreManager : MonoBehaviour
         Character.instance.MyPlayerController.PlayerRotation(Direction.Right);
         Character.instance.SetCharacterPosition();
 
-        Character.instance.MyPlayerController.InvokeEventConversation();
+        //Character.instance.MyPlayerController.InvokeEventConversation();
         StartCoroutine("CountOneSecond", 0.1f);
         StartCoroutine("CountNNSecond", 3f);
     }

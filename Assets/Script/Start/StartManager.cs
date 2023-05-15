@@ -21,14 +21,17 @@ public class StartManager : MonoBehaviour
 
         StartButtonList[(int)StartButtonOrder.New].onClick.AddListener(ClickNewGame);
         StartButtonList[(int)StartButtonOrder.Load].onClick.AddListener(ClickLoadGame);
+        StartButtonList[(int)StartButtonOrder.Option].onClick.AddListener(ClickOption);
         StartButtonList[(int)StartButtonOrder.Exit].onClick.AddListener(ClickExitGame);
     }
 
     void Start()
     {
         //StartAudioListener = GameObject.Find("Main Camera").GetComponent<AudioListener>();
-        PopUpUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetComponent<PopUpUIManager>();
-        CharacterSelectManager = GameObject.Find("Main Canvas").transform.GetChild(1).GetComponent<CharacterSelectManager>();
+        //PopUpUIManager = GameObject.Find("Main Canvas").transform.GetChild(0).GetComponent<PopUpUIManager>();
+        PopUpUIManager = GameObject.Find("Main Canvas").GetComponentInChildren<PopUpUIManager>();
+        //CharacterSelectManager = GameObject.Find("Main Canvas").transform.GetChild(1).GetComponent<CharacterSelectManager>();
+        CharacterSelectManager = GameObject.Find("Main Canvas").GetComponentInChildren<CharacterSelectManager>();
 
         CanLoad();
     }
@@ -97,6 +100,12 @@ public class StartManager : MonoBehaviour
         PopUpUIManager.SetActiveLoadPanel();
         SetActiveLoad = PopUpUIManager.UIManagerList[(int)UIPopUpOrder.SettingPanel].gameObject.activeSelf;
     }
+
+    private void ClickOption()
+    {
+        Debug.Log("ClickOption - 아직 내용이 없음");
+    }
+
 
     private void ClickExitGame()
     {

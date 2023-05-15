@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using TMPro;
 //using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
@@ -294,6 +295,7 @@ public class UIInventoryManager : UIManager
         NewItem.transform.SetSiblingIndex(InsertOrder);
         // 버튼 하위의 text 변경
         NewItem.GetComponent<Item>().SetCount(Character.instance.MyItemCount[InsertOrder]);
+        NewItem.GetComponent<Item>().SetImage(ImageManager.instance.GetImage(ItemType));
         //NewItemButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ItemType + " " + Character.instance.MyItemCount[Character.instance.MyItem.IndexOf(ItemType)].ToString();
         //NewItemButton.GetComponent<Button>().onClick.AddListener();
     }

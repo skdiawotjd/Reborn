@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ResidenceNPC : QuestNPC
 {
+    private GameObject TradePanel;
+
     void Awake()
     {
         QuestNpcState = QuestState.None;
@@ -15,6 +17,8 @@ public class ResidenceNPC : QuestNPC
     protected override void Start()
     {
         base.Start();
+
+        TradePanel = GameObject.Find("Canvas").transform.GetChild(8).GetChild(1).gameObject;
     }
 
     protected override void FunctionStart()
@@ -92,6 +96,10 @@ public class ResidenceNPC : QuestNPC
                 Character.instance.MyPlayerController.InvokeEventConversation();
                 QuestNpcState = QuestState.None;
                 break;
+            case QuestState.Exchange:
+                TradePanel.SetActive(true);
+                QuestNpcState = QuestState.None;
+                break;
         }
     }
 
@@ -109,17 +117,21 @@ public class ResidenceNPC : QuestNPC
                 Debug.Log("대화 선택");
                 QuestNpcState = QuestState.Chat;
                 break;
-            case 2:
+            case 1:
                 Debug.Log("퀘스트 수주 선택");
                 SetQuest();
                 QuestNpcState = QuestState.QuestStand;
                 base.FunctionStart();
                 break;
-            case 4:
+            case 2:
                 Debug.Log("도움말 선택");
                 QuestNpcState = QuestState.Help;
                 break;
-            case 6:
+            case 3:
+                Debug.Log("교환 선택");
+                QuestNpcState = QuestState.Exchange;
+                break;
+            case 4:
                 Debug.Log("닫기 선택");
                 QuestNpcState = QuestState.None;
                 break;

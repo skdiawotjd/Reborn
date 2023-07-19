@@ -64,10 +64,10 @@ public class JustChatManager : MonoBehaviour
         switch (Character.instance.MyMapNumber)
         {
             case "0002":
-                JustChatNpc = Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity);
+                /*JustChatNpc = Instantiate(JustChatNpc, new Vector3(5.5f, 0f, 0f), Quaternion.identity);
                 JustChatPortal = Instantiate(JustChatPortal, new Vector3(6.5f, 0f, 0f), Quaternion.identity);
                 Character.instance.SetCharacterInput(true, true, true);
-                JustChatPortal.SceneName = "0001";
+                JustChatPortal.SceneName = "0001";*/
 
                 /*Character.instance.MyPlayerController.StartDie();
                 Invoke("asd", 2f);*/

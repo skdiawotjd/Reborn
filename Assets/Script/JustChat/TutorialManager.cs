@@ -56,7 +56,7 @@ public class TutorialManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        _step = 3;
+        _step = 0;
         _stepDetail = 0;
     }
 

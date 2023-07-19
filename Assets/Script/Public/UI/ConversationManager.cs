@@ -316,7 +316,7 @@ public class ConversationManager : UIManager
             while (ContentText.text != NowList[ChatCount]["Context" + _conversationCount].ToString())
             {
                 ContentText.text += NowList[ChatCount]["Context" + _conversationCount].ToString()[WordCount];
-                yield return new WaitForSeconds(0.075f);
+                yield return YieldCache.WaitForSeconds(0.075f);
                 WordCount++;
             }
 

@@ -23,5 +23,5 @@ public abstract class UIManager : MonoBehaviour
     }
     protected abstract void StartUI();
     protected abstract void EndUI();
-    
+   
 }
